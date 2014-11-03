@@ -24,6 +24,22 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="UsrCompId" id="303">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="7">
@@ -319,6 +335,7 @@ if(params["newRPT"].value=="")
 	" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
 	" where sc.source_id='100001' and"+
 	"  t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"' "+
+	" and sc.company_id='"+params["UsrCompId"].value+"'"+
 	" group by sourcename, timeperiod,V.N_COST,CAST(dt_date AS DATE),un.unitshort"+
     " order by  dtdate,TIMEPERIOD";
 
@@ -1097,7 +1114,10 @@ hoursL24  = "0" + hoursL24
             	document.getElementById('mychart').style.display = "block";
          	
 				document.onload=populate();
-
+if(parent.compid === undefined)
+	{
+		parent.compid = 1;
+	}
 function populate()
 {
 				for(i=0;i<parent.sourcename_arr.length;i++)
@@ -1218,7 +1238,7 @@ function CostTrend()
 					" and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where v.source_id='"+sourceId+"' and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"' ";
+					" where v.source_id='"+sourceId+"' and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"' and sc.company_id='"+parent.compid+"' ";
 						
 				}
 				
@@ -1244,7 +1264,7 @@ function CostTrend()
 					" and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where v.source_id='"+sourceId+"' and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"' ";
+					" where v.source_id='"+sourceId+"' and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"' and sc.company_id='"+parent.compid+"' ";
 						
 		
 	}
@@ -1263,7 +1283,7 @@ function CostTrend()
 					" and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where v.source_id='"+sourceId+"' and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"' ";
+					" where v.source_id='"+sourceId+"' and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"' and sc.company_id='"+parent.compid+"' ";
 						
 		
 	}

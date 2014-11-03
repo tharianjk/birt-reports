@@ -40,6 +40,22 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="UsrCompId" id="486">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="7">
@@ -303,6 +319,7 @@ if(params["newRPT"].value=="")
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
 					" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"'" +
+					" and sup.company_id='"+params["UsrCompId"].value+"'"+
 					" group by sup.sourcename, V.N_COST,un.unitshort";
 
 }
@@ -1194,6 +1211,14 @@ if(parent.AssetTree.selectedtype === undefined)
 	{
 		parent.AssetTree.selectedtype = 0;
 	}
+	
+	if(parent.compid === undefined)
+	{
+		parent.compid = 1;
+	}
+	
+	
+	
 document.getElementById('mytable').style.display = "none";
 document.onload=populate();
 document.getElementById('mytable').style.display = "none";
@@ -1321,12 +1346,13 @@ function costdis()
 				var Cto=document.getElementById("todate").value;
 				newa1=",' Cost distribution from "+Cfrom+" to " +Cto+" ' as C4 from vw_billtime_source v"+ 
 				" inner join fwk_section s on v.source_id=s.source_id"+
+				" inner join ems_source sup on v.source_id = sup.source_id"+
 				" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 				" inner join ems_time_dim t on su.time_id=t.time_id"+
 				" and t.hr_id=v.hr_id "+
 				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and v.source_id='"+sourceId+"'";
+				" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
 			}		
 		}
 		if(document.getElementById("s1").selectedIndex==0)
@@ -1342,12 +1368,13 @@ function costdis()
 				LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
 				newa1=",'24H' as C4 from vw_billtime_source v"+ 
 				" inner join fwk_section s on v.source_id=s.source_id"+
+				" inner join ems_source sup on v.source_id = sup.source_id"+
 				" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 				" inner join ems_time_dim t on su.time_id=t.time_id"+
 				" and t.hr_id=v.hr_id "+
 				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and v.source_id='"+sourceId+"'";
+				" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
 				console.log("am 24");
 			}
 			if(document.getElementById("s1").selectedIndex==2)
@@ -1356,12 +1383,13 @@ function costdis()
 				LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
 				newa1=",'7D' as C4 from vw_billtime_source v"+ 
 				" inner join fwk_section s on v.source_id=s.source_id"+
+				" inner join ems_source sup on v.source_id = sup.source_id"+
 				" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 				" inner join ems_time_dim t on su.time_id=t.time_id"+
 				" and t.hr_id=v.hr_id "+
 				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and v.source_id='"+sourceId+"'";
+				" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
 				console.log("am 7d");
 			}
 			if(document.getElementById("s1").selectedIndex==3)
@@ -1370,12 +1398,13 @@ function costdis()
 				LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 				newa1=",'30D' as C4 from vw_billtime_source v"+ 
 				" inner join fwk_section s on v.source_id=s.source_id"+
+				" inner join ems_source sup on v.source_id = sup.source_id"+
 				" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 				" inner join ems_time_dim t on su.time_id=t.time_id"+
 				" and t.hr_id=v.hr_id "+
 				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and v.source_id='"+sourceId+"'";
+				" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
 				console.log("am 30d");
 			}
 			if(document.getElementById("s1").selectedIndex==4)
@@ -1385,12 +1414,13 @@ function costdis()
 				
 				newa1=",'365D' as C4 from vw_billtime_source v"+ 
 				" inner join fwk_section s on v.source_id=s.source_id"+
+				" inner join ems_source sup on v.source_id = sup.source_id"+
 				" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 				" inner join ems_time_dim t on su.time_id=t.time_id"+
 				" and t.hr_id=v.hr_id "+
 				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and v.source_id='"+sourceId+"'";
+				" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
 				console.log("am 36dd");
 			}
 			document.getElementById('mytable').style.display = "none";
@@ -1450,7 +1480,7 @@ function costdis()
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"'";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and sup.company_id='"+parent.compid+"' ";
 			}		
 		}
 		if(document.getElementById("s1").selectedIndex==0)
@@ -1471,7 +1501,7 @@ function costdis()
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"'";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and sup.company_id='"+parent.compid+"' ";
 			}
 			if(document.getElementById("s1").selectedIndex==2)
 			{
@@ -1484,7 +1514,7 @@ function costdis()
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"'";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and sup.company_id='"+parent.compid+"' ";
 			}
 			if(document.getElementById("s1").selectedIndex==3)
 			{
@@ -1497,7 +1527,7 @@ function costdis()
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"'";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and sup.company_id='"+parent.compid+"' ";
 			}
 			if(document.getElementById("s1").selectedIndex==4)
 			{
@@ -1510,7 +1540,7 @@ function costdis()
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"'";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and sup.company_id='"+parent.compid+"' ";
 			}
 			
 			var cl2 = new String(location.href);
