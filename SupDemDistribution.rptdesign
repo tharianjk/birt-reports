@@ -1,0 +1,2472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
+    <text-property name="title">Supply/Demand distribution</text-property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[function afterDataSetFilled(series, dataSet, icsc)
+{
+
+	importPackage( Packages.java.io );
+	importPackage( Packages.org.eclipse.birt.chart.model.type.impl );
+	importPackage( Packages.org.eclipse.birt.chart.util);
+	importPackage( Packages.java.util );
+	ps = PluginSettings.instance( );
+	
+	if( series.getClass() == PieSeriesImpl ){
+	
+		dsp = ps.getDataSetProcessor( series.getClass() );
+		//dataset max
+		var mmax1 = dsp.getMaximum( dataSet );	
+		icsc.getExternalContext().getScriptable().setGlobalVariable("MaxSliceValue1", mmax1);
+		
+	}
+	else
+	{
+		
+	}
+	
+			icsc.getChartInstance().getBlock().getBounds().setWidth(400);
+ 			icsc.getChartInstance().getBlock().getBounds().setHeight(300);
+	
+
+}
+
+]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="newRPT" id="101">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="UsrCompId" id="141">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">1</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="8">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">org.hsqldb.jdbcDriver</property>
+            <property name="odaURL">jdbc:hsqldb:hsql://localhost</property>
+            <property name="odaUser">sa</property>
+            <property name="OdaConnProfileName">IrevealDS</property>
+            <property name="OdaConnProfileStorePath">IrevealDsource</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="DemandDistribution" id="9">
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">rowc</property>
+                    <property name="dataType">integer</property>
+                    <property name="aggregateFunction">RUNNINGCOUNT</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value">row["TYP"]</expression>
+                        </structure>
+                    </list-property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints"/>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">TYP</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">UNITSHORT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">QTY</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">DISPLAYNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">C5</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">rowc</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <method name="beforeOpen"><![CDATA[var currentTime = new Date()
+
+var month = currentTime.getMonth() + 1
+var day = currentTime.getDate()
+var year = currentTime.getFullYear()
+var currentTime = new Date()
+var hours = currentTime.getHours()
+var minutes = currentTime.getMinutes()
+var seconds=currentTime.getSeconds()
+//Last 7 days
+var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
+var month7 = Lastweek.getMonth() + 1
+var day7 = Lastweek.getDate()
+var year7 = Lastweek.getFullYear()
+var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
+var hours7 = Lastweek.getHours()
+var minutes7 = Lastweek.getMinutes()
+var seconds7=Lastweek.getSeconds()
+//Last 30days
+var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
+
+var month30 = LastMonth.getMonth() + 1
+var day30= LastMonth.getDate()
+var year30= LastMonth.getFullYear()
+
+var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
+var hours30 = LastMonth.getHours()
+var minutes30 = LastMonth.getMinutes()
+var seconds30=LastMonth.getSeconds()
+//last 365 days
+var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
+
+var month365 = LastYear.getMonth() + 1
+var day365= LastYear.getDate()
+var year365= LastYear.getFullYear()
+
+var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
+var hours365 = LastYear.getHours()
+var minutes365 = LastYear.getMinutes()
+var seconds365=LastYear.getSeconds()
+
+
+//last hour
+
+
+var today = new Date()
+var hourago = new Date(today.getTime() - (1000*60*60));
+var monthL = hourago.getMonth() + 1
+var dayL= hourago.getDate()
+var yearL= hourago.getFullYear()
+
+
+var today = new Date()
+var hourago = new Date(today.getTime() - (1000*60*60));
+var hoursL = hourago.getHours()
+var minutesL = hourago.getMinutes()
+var secondsL=hourago.getSeconds()
+//last 24 hour
+var today = new Date()
+var hourago = new Date(today.getTime() - (1000*60*60*24));
+var monthL24 = hourago.getMonth() + 1
+var dayL24= hourago.getDate()
+var yearL24= hourago.getFullYear()
+
+
+var today = new Date()
+var hourago = new Date(today.getTime() - (1000*60*60*24));
+var hoursL24 = hourago.getHours()
+var minutesL24 = hourago.getMinutes()
+var secondsL24=hourago.getSeconds()
+
+/////////Today
+if (minutes < 10){
+minutes = "0" + minutes
+}
+if (seconds < 10){
+seconds= "0" + seconds
+}
+
+if (month  < 10){
+month  = "0" + month 
+}
+if (day  < 10){
+day  = "0" + day 
+}
+if (hours  < 10){
+hours  = "0" + hours 
+}
+
+///Last 365
+if (minutes365 < 10){
+minutes365 = "0" + minutes365
+}
+if (seconds365 < 10){
+seconds365= "0" + seconds365
+}
+
+if (month365  < 10){
+month365  = "0" + month365 
+}
+if (day365  < 10){
+day365  = "0" + day365 
+}
+if (hours365  < 10){
+hours365  = "0" + hours365 
+}
+
+
+///Last 7 days
+if (minutes7 < 10){
+minutes7 = "0" + minutes7
+}
+if (seconds7 < 10){
+seconds7= "0" + seconds7
+}
+
+if (month7  < 10){
+month7  = "0" + month7 
+}
+if (day7  < 10){
+day7  = "0" + day7 
+}
+if (hours7  < 10){
+hours7  = "0" + hours7 
+}
+//last 30days
+if (minutes30 < 10){
+minutes30 = "0" + minutes30
+}
+if (seconds30 < 10){
+seconds30= "0" + seconds30
+}
+
+if (month30  < 10){
+month30  = "0" + month30 
+}
+if (day30  < 10){
+day30  = "0" + day30 
+}
+if (hours30  < 10){
+hours30  = "0" + hours30 
+}
+
+//last hour
+if (minutesL < 10){
+minutesL = "0" + minutesL
+}
+if (secondsL < 10){
+secondsL= "0" + secondsL
+}
+
+if (monthL  < 10){
+monthL  = "0" + monthL 
+}
+if (dayL  < 10){
+dayL  = "0" + dayL
+}
+if (hoursL  < 10){
+hoursL  = "0" + hoursL
+}
+//last 24 hour
+
+if (minutesL24 < 10){
+minutesL24 = "0" + minutesL24
+}
+if (secondsL24 < 10){
+secondsL24= "0" + secondsL24
+}
+
+if (monthL24  < 10){
+monthL24  = "0" + monthL24 
+}
+if (dayL24  < 10){
+dayL24  = "0" + dayL24
+}
+if (hoursL24  < 10){
+hoursL24  = "0" + hoursL24
+}
+curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
+LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
+
+
+if(params["newRPT"].value=="")
+{
+
+
+
+
+
+
+	this.queryText = this.queryText +",'30D' as C5"+
+	" from VW_SUPPLYDEMAND v"+ 
+	" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
+	" where v.company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+//"+params["UsrCompId"].value+"
+	" group by unitshort, v.displayname"+ 
+	" union"+
+	" select 'Demand' typ,unitshort,sum(demandqty) qty,displayname"+
+	",'30D' as C5"+
+	" from VW_SUPPLYDEMAND v"+ 
+	" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
+	" where v.company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+	" group by unitshort, v.displayname"+ 
+	" union"+
+	" select 'Waste' typ,unitshort,sum(supplyqty)-sum(demandqty) qty,displayname"+
+	",'30D' as C5"+
+	" from VW_SUPPLYDEMAND v"+ 
+	" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
+	" where v.company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+	" group by unitshort, v.displayname";
+	//v.company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+	
+	
+}
+else
+{
+	this.queryText = this.queryText+params["newRPT"].value+" group by unitshort, v.displayname";
+	
+}]]></method>
+            <property name="dataSource">IrevealDS</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">TYP</property>
+                    <property name="nativeName">TYP</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">UNITSHORT</property>
+                    <property name="nativeName">UNITSHORT</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">QTY</property>
+                    <property name="nativeName">QTY</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">DISPLAYNAME</property>
+                    <property name="nativeName">DISPLAYNAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">C5</property>
+                    <property name="nativeName">C5</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select 'Supply' typ,unitshort,sum(supplyqty) qty,displayname]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>UNITSHORT</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>8</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>UNITSHORT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>UNITSHORT</design:label>
+            <design:formattingHints>
+              <design:displaySize>8</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>SUPPLY_QTY</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>3</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>SUPPLY_QTY</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>SUPPLY_QTY</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DEMAND_QTY</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>3</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>DEMAND_QTY</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DEMAND_QTY</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>WASTE_QTY</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>3</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>WASTE_QTY</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>WASTE_QTY</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <cubes>
+        <tabular-cube name="Data Cube" id="28">
+            <property name="dimensions">
+                <tabular-dimension name="Group" id="29">
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy" id="30">
+                            <property name="levels">
+                                <tabular-level name="TYP" id="31">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">TYP</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Group1" id="40">
+                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="41">
+                            <property name="levels">
+                                <tabular-level name="UNITSHORT" id="42">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">UNITSHORT</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Group2" id="104">
+                    <property name="defaultHierarchy">NewTabularHierarchy2</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy2" id="105">
+                            <property name="levels">
+                                <tabular-level name="DISPLAYNAME" id="106">
+                                    <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
+                                    <property name="columnName">DISPLAYNAME</property>
+                                    <expression name="displayColumnName" type="javascript">if(dataSetRow["DISPLAYNAME"]==null || dataSetRow["DISPLAYNAME"]=='null')&#13;
+{&#13;
+	dataSetRow["DISPLAYNAME"]=' ';&#13;
+}&#13;
+else&#13;
+{&#13;
+	dataSetRow["DISPLAYNAME"]=dataSetRow["DISPLAYNAME"];&#13;
+}</expression>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="Summary Field" id="36">
+                    <property name="measures">
+                        <tabular-measure name="QTY" id="37">
+                            <expression name="measureExpression" type="javascript">dataSetRow["QTY"]</expression>
+                            <property name="dataType">decimal</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+            <property name="dataSet">DemandDistribution</property>
+        </tabular-cube>
+    </cubes>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab-detail" id="63">
+            <property name="backgroundColor">#F0F3FD</property>
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">9px</property>
+            <property name="color">#000000</property>
+        </style>
+        <style name="crosstab-header" id="64">
+            <property name="backgroundColor">#AEC0B1</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">10px</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#000000</property>
+        </style>
+        <style name="crosstab-cell1" id="65">
+            <property name="borderBottomColor">#FFFFFF</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftColor">#FFFFFF</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightColor">#FFFFFF</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopColor">#FFFFFF</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+        </style>
+        <style name="crosstab-detail1" id="66">
+            <property name="backgroundColor">#F0F3FD</property>
+            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
+            <property name="fontSize">10px</property>
+            <property name="color">#000000</property>
+            <property name="borderBottomColor">#01450F</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderLeftColor">#01450F</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderRightColor">#01450F</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1px</property>
+            <property name="borderTopColor">#01450F</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+            <property name="paddingTop">0.2em</property>
+            <property name="paddingLeft">0.2em</property>
+            <property name="paddingBottom">0.2em</property>
+            <property name="paddingRight">0.2em</property>
+            <property name="textAlign">left</property>
+        </style>
+        <style name="crosstab-header1" id="67">
+            <property name="backgroundColor">#AEC0B1</property>
+            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
+            <property name="fontSize">12px</property>
+            <property name="fontWeight">bold</property>
+            <property name="fontStyle">italic</property>
+            <property name="color">#000000</property>
+            <property name="borderBottomColor">#01450F</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderLeftColor">#01450F</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderRightColor">#01450F</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1px</property>
+            <property name="borderTopColor">#01450F</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+            <property name="marginTop">1em</property>
+            <property name="marginLeft">1em</property>
+            <property name="marginBottom">1em</property>
+            <property name="marginRight">1em</property>
+            <property name="paddingTop">0.2em</property>
+            <property name="paddingLeft">0.2em</property>
+            <property name="paddingBottom">0.2em</property>
+            <property name="paddingRight">0.2em</property>
+            <property name="textAlign">left</property>
+            <property name="width">100%</property>
+        </style>
+        <style name="crosstab-cell2" id="68">
+            <property name="backgroundColor">#E5F1F4</property>
+            <property name="fontSize">10px</property>
+            <property name="color">#FFFFFF</property>
+            <property name="borderBottomColor">#01450F</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderLeftColor">#01450F</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderRightColor">#01450F</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1px</property>
+            <property name="borderTopColor">#01450F</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+            <property name="paddingTop">0.2em</property>
+            <property name="paddingLeft">0.2em</property>
+            <property name="paddingBottom">0.2em</property>
+            <property name="paddingRight">0.2em</property>
+            <property name="textAlign">left</property>
+            <property name="height">6px</property>
+        </style>
+        <style name="crosstab-footer" id="69">
+            <property name="backgroundColor">#AEC0B1</property>
+            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
+            <property name="fontSize">12px</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#000000</property>
+            <property name="borderBottomColor">#FFFFFF</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderLeftColor">#FFFFFF</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderRightColor">#FFFFFF</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1px</property>
+            <property name="borderTopColor">#FFFFFF</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+            <property name="marginTop">1em</property>
+            <property name="marginLeft">1em</property>
+            <property name="marginBottom">1em</property>
+            <property name="marginRight">1em</property>
+            <property name="paddingTop">0.2em</property>
+            <property name="paddingLeft">0.2em</property>
+            <property name="paddingBottom">0.2em</property>
+            <property name="paddingRight">0.2em</property>
+            <property name="textAlign">left</property>
+            <property name="width">100%</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <text id="100">
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">doc</property>
+                    <expression name="valueExpr" type="javascript">true</expression>
+                </structure>
+                <structure>
+                    <property name="format">docx</property>
+                    <expression name="valueExpr" type="javascript">true</expression>
+                </structure>
+                <structure>
+                    <property name="format">xlsx</property>
+                    <expression name="valueExpr" type="javascript">true</expression>
+                </structure>
+                <structure>
+                    <property name="format">xls</property>
+                    <expression name="valueExpr" type="javascript">true</expression>
+                </structure>
+                <structure>
+                    <property name="format">pdf</property>
+                    <expression name="valueExpr" type="javascript">true</expression>
+                </structure>
+            </list-property>
+            <property name="allowExport">false</property>
+            <property name="contentType">html</property>
+            <text-property name="content"><![CDATA[
+<script>
+var currentTime = new Date()
+
+var month = currentTime.getMonth() + 1
+var day = currentTime.getDate()
+var year = currentTime.getFullYear()
+var currentTime = new Date()
+var hours = currentTime.getHours()
+var minutes = currentTime.getMinutes()
+var seconds=currentTime.getSeconds()
+//Last 7 days
+var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
+var month7 = Lastweek.getMonth() + 1
+var day7 = Lastweek.getDate()
+var year7 = Lastweek.getFullYear()
+var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
+var hours7 = Lastweek.getHours()
+var minutes7 = Lastweek.getMinutes()
+var seconds7=Lastweek.getSeconds()
+//Last 30days
+var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
+
+var month30 = LastMonth.getMonth() + 1
+var day30= LastMonth.getDate()
+var year30= LastMonth.getFullYear()
+
+var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
+var hours30 = LastMonth.getHours()
+var minutes30 = LastMonth.getMinutes()
+var seconds30=LastMonth.getSeconds()
+//last 365 days
+var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
+
+var month365 = LastYear.getMonth() + 1
+var day365= LastYear.getDate()
+var year365= LastYear.getFullYear()
+
+var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
+var hours365 = LastYear.getHours()
+var minutes365 = LastYear.getMinutes()
+var seconds365=LastYear.getSeconds()
+
+
+//last hour
+
+
+var today = new Date()
+var hourago = new Date(today.getTime() - (1000*60*60));
+var monthL = hourago.getMonth() + 1
+var dayL= hourago.getDate()
+var yearL= hourago.getFullYear()
+
+
+var today = new Date()
+var hourago = new Date(today.getTime() - (1000*60*60));
+var hoursL = hourago.getHours()
+var minutesL = hourago.getMinutes()
+var secondsL=hourago.getSeconds()
+//last 24 hour
+var today = new Date()
+var hourago = new Date(today.getTime() - (1000*60*60*24));
+var monthL24 = hourago.getMonth() + 1
+var dayL24= hourago.getDate()
+var yearL24= hourago.getFullYear()
+
+
+var today = new Date()
+var hourago = new Date(today.getTime() - (1000*60*60*24));
+var hoursL24 = hourago.getHours()
+var minutesL24 = hourago.getMinutes()
+var secondsL24=hourago.getSeconds()
+
+/////////Today
+if (minutes < 10){
+minutes = "0" + minutes
+}
+if (seconds < 10){
+seconds= "0" + seconds
+}
+
+if (month  < 10){
+month  = "0" + month 
+}
+if (day  < 10){
+day  = "0" + day 
+}
+if (hours  < 10){
+hours  = "0" + hours 
+}
+
+///Last 365
+if (minutes365 < 10){
+minutes365 = "0" + minutes365
+}
+if (seconds365 < 10){
+seconds365= "0" + seconds365
+}
+
+if (month365  < 10){
+month365  = "0" + month365 
+}
+if (day365  < 10){
+day365  = "0" + day365 
+}
+if (hours365  < 10){
+hours365  = "0" + hours365 
+}
+
+
+///Last 7 days
+if (minutes7 < 10){
+minutes7 = "0" + minutes7
+}
+if (seconds7 < 10){
+seconds7= "0" + seconds7
+}
+
+if (month7  < 10){
+month7  = "0" + month7 
+}
+if (day7  < 10){
+day7  = "0" + day7 
+}
+if (hours7  < 10){
+hours7  = "0" + hours7 
+}
+//last 30days
+if (minutes30 < 10){
+minutes30 = "0" + minutes30
+}
+if (seconds30 < 10){
+seconds30= "0" + seconds30
+}
+
+if (month30  < 10){
+month30  = "0" + month30 
+}
+if (day30  < 10){
+day30  = "0" + day30 
+}
+if (hours30  < 10){
+hours30  = "0" + hours30 
+}
+
+//last hour
+if (minutesL < 10){
+minutesL = "0" + minutesL
+}
+if (secondsL < 10){
+secondsL= "0" + secondsL
+}
+
+if (monthL  < 10){
+monthL  = "0" + monthL 
+}
+if (dayL  < 10){
+dayL  = "0" + dayL
+}
+if (hoursL  < 10){
+hoursL  = "0" + hoursL
+}
+//last 24 hour
+
+if (minutesL24 < 10){
+minutesL24 = "0" + minutesL24
+}
+if (secondsL24 < 10){
+secondsL24= "0" + secondsL24
+}
+
+if (monthL24  < 10){
+monthL24  = "0" + monthL24 
+}
+if (dayL24  < 10){
+dayL24  = "0" + dayL24
+}
+if (hoursL24  < 10){
+hoursL24  = "0" + hoursL24
+}
+if (parent.AssetTree.selectedsection === undefined)
+	{
+		parent.AssetTree.selectedsection = 0;
+	}
+if(parent.AssetTree.selectedtype === undefined)
+	{
+		parent.AssetTree.selectedtype = 0;
+	}
+document.getElementById('mytable').style.display = "none";
+document.onload=populate();
+document.getElementById('mytable').style.display = "none";
+
+function populate()
+
+{	//Function which sets the previously selected parameters for the report.
+	document.getElementById('mytable').style.display = "none";
+	if(parent.selected_period_ndx==null || parent.selected_period_ndx==0)
+	{
+		parent.selected_period_ndx=2;
+	}
+	if(parent.compid==null || parent.compid==0)
+	{
+		parent.compid=1;
+	}
+	
+	document.getElementById("s1").selectedIndex=parent.selected_period_ndx;	
+	if(document.getElementById("s1").selectedIndex==4)
+	{
+		if (document.getElementById("s1").selectedIndex==4)
+		{
+	
+			document.getElementById("fromdate").disabled=false;
+			document.getElementById("todate").disabled=false;
+				
+			document.getElementById("fromdate").value=parent.selected_fdate;
+			document.getElementById("todate").value=parent.selected_tdate;
+				
+				
+		}
+		else
+		{
+			document.getElementById("fromdate").value='';
+			document.getElementById("todate").value='';
+			document.getElementById("fromdate").disabled=true;
+			document.getElementById("todate").disabled=true;
+				
+		}
+			
+	}
+	
+}	
+
+
+
+
+document.getElementById('mytable').style.display = "none";
+
+function CheckDate()
+{
+	if (document.getElementById("s1").selectedIndex==4)
+	{
+	
+				document.getElementById("fromdate").disabled=false;
+				document.getElementById("todate").disabled=false;
+				
+				
+	}
+	else
+	{
+				document.getElementById("fromdate").value='';
+				document.getElementById("todate").value='';
+				document.getElementById("fromdate").disabled=true;
+				document.getElementById("todate").disabled=true;
+				
+	}
+
+}
+
+
+
+function DemandDistribution()
+{
+	parent.selected_period_ndx=document.getElementById("s1").selectedIndex;
+	parent.selected_fdate=document.getElementById("fromdate").value;
+	parent.selected_tdate=document.getElementById("todate").value;
+	if(parent.AssetTree.selectedtype == 5)
+	{
+		alert ("Select Section/Asset/Location!");
+			return;
+	}
+	
+	if ((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("fromdate").value==''))
+	{
+		alert ("Enter a valid time period!");
+		return;
+	}
+	else if ((document.getElementById("s1").selectedIndex==4)&amp;&amp; (document.getElementById("todate").value==''))
+	{
+		alert ("Enter a valid time period!");
+		return;
+	}
+	
+	
+	else
+	{
+		var d1 = Date.parse(document.getElementById("todate").value);
+		var d2 = Date.parse(document.getElementById("fromdate").value);
+		if (d1 < d2) 
+		{
+			alert ("To Date cannot be Greater than From Date!");
+			return;
+		}
+		else
+		{
+			curT=document.getElementById("todate").value+" 00:00:00";
+			LHour=document.getElementById("fromdate").value+" 00:00:00";
+			var Cfrom=document.getElementById("fromdate").value;
+			var Cto=document.getElementById("todate").value;
+			newa=",' Supply/Demand distribution from "+Cfrom+" to " +Cto+" ' as C5"+
+			" from VW_SUPPLYDEMAND v"+ 
+			" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
+			" where v.company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+			" group by unitshort, v.displayname"+ 
+			" union"+
+			" select 'Demand' typ,unitshort,sum(demandqty) qty,displayname"+
+			",' Supply/Demand distribution from "+Cfrom+" to " +Cto+" ' as C5"+
+			" from VW_SUPPLYDEMAND v"+ 
+			" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
+			" where v.company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+			" group by unitshort, v.displayname"+ 
+			" union"+
+			" select 'Waste' typ,unitshort,sum(supplyqty)-sum(demandqty) qty,displayname"+
+			",' Supply/Demand distribution from "+Cfrom+" to " +Cto+" ' as C5"+
+			" from VW_SUPPLYDEMAND v"+ 
+			" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
+			" where v.company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
+
+			
+		}		
+	}
+	
+
+
+
+	if(document.getElementById("s1").selectedIndex==0)
+	{
+		alert("Select Duration!");
+	}
+	else
+	{
+		
+	
+	if(document.getElementById("s1").selectedIndex==1)
+	{
+		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
+		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
+		newa=",'7D' as C5"+
+			" from VW_SUPPLYDEMAND v"+ 
+			" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
+			" where v.company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+			" group by unitshort, v.displayname"+ 
+			" union"+
+			" select 'Demand' typ,unitshort,sum(demandqty) qty,displayname"+
+			",'7D' as C5"+
+			" from VW_SUPPLYDEMAND v"+ 
+			" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
+			" where v.company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+			" group by unitshort, v.displayname"+ 
+			" union"+
+			" select 'Waste' typ,unitshort,sum(supplyqty)-sum(demandqty) qty,displayname"+
+			",'7D' as C5"+
+			" from VW_SUPPLYDEMAND v"+ 
+			" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
+			" where v.company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
+	}
+	if(document.getElementById("s1").selectedIndex==2)
+	{
+	
+		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
+		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
+		newa=",'30D' as C5"+
+			" from VW_SUPPLYDEMAND v"+ 
+			" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
+			" where v.company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+			" group by unitshort, v.displayname"+ 
+			" union"+
+			" select 'Demand' typ,unitshort,sum(demandqty) qty,displayname"+
+			",'30D' as C5"+
+			" from VW_SUPPLYDEMAND v"+ 
+			" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
+			" where v.company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+			" group by unitshort, v.displayname"+ 
+			" union"+
+			" select 'Waste' typ,unitshort,sum(supplyqty)-sum(demandqty) qty,displayname"+
+			",'30D' as C5"+
+			" from VW_SUPPLYDEMAND v"+ 
+			" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
+			" where v.company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
+	}
+	if(document.getElementById("s1").selectedIndex==3)
+	{
+		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
+		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
+		newa=",'365D' as C5"+
+			" from VW_SUPPLYDEMAND v"+ 
+			" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
+			" where v.company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+			" group by unitshort, v.displayname"+ 
+			" union"+
+			" select 'Demand' typ,unitshort,sum(demandqty) qty,displayname"+
+			",'365D' as C5"+
+			" from VW_SUPPLYDEMAND v"+ 
+			" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
+			" where v.company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+			" group by unitshort, v.displayname"+ 
+			" union"+
+			" select 'Waste' typ,unitshort,sum(supplyqty)-sum(demandqty) qty,displayname"+
+			",'365D' as C5"+
+			" from VW_SUPPLYDEMAND v"+ 
+			" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
+			" where v.company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
+			
+		
+	}
+	
+	
+	
+	
+	document.getElementById('mytable').style.display = "none";
+	
+	var cl1 = new String(location.href);
+	var targetURL1 = new String();
+	var tst1 = cl1.indexOf("&amp;newRPT");
+	if(  tst1 == -1 )
+	{
+		cl1 = cl1 + "&amp;newRPT=" + newa;
+	}
+	else
+	{
+		var ch1 = cl1.indexOf("&amp;newRPT=");
+		cl1 = cl1.substring(0, ch1) + "&amp;newRPT=" + newa;
+    }
+	window.location = cl1;
+	
+	}
+
+}
+document.getElementById('mytable').style.display = "none";
+
+ 
+
+
+function showhidetab()
+{
+    
+    if(document.getElementById("s2").selectedIndex==0)
+	{
+	
+            document.getElementById('mytable').style.display = "none";
+			document.getElementById('myChart').style.display = "block";
+	}
+	if(document.getElementById("s2").selectedIndex==1)
+	{
+	document.getElementById('mytable').style.display = "block";
+            document.getElementById('myChart').style.display = "none";
+	}		
+
+   
+}
+
+
+
+
+</script>
+
+
+
+
+<body>
+<head>
+
+</head>
+
+
+<table  border=1 style="width:300px" bgcolor="black">
+
+<tr>
+  
+  
+  
+  <td>
+  <select id=s2 title="Select report format" width=10 size=1 name=Characters2 onChange="showhidetab()";>
+	
+	<option value=K>Chart</option> 
+	<option value=L>Table</option> 
+	</select>
+</td>
+  
+  <td>
+  <select id=s1 size=1 title="Select Duration" name=Characters onChange="CheckDate()">
+<option value=F>--Duration--</option>
+<option value=E>Last 7 Days</option>
+<option value=F>Last 30 Days</option>
+<option value=F>Last 365 Days</option>
+<option value=G>Specific Duration</option>
+</select>
+  </td>	
+  <td>
+   <b><font color="white">From:</font></b>
+  </td>
+  <td>
+  <input type="date" title="Select From Date" id="fromdate" disabled>
+  </input>
+  </td>
+  <td>
+    <b><font color="white">To:</font></b>
+  </td>
+  <td>
+  <input type="date" title="Select To Date" id="todate" disabled>
+  </td>
+  <td>
+  <button type="button" title="Click to view report" onClick="DemandDistribution()">Go</button>
+  </button>
+  </td>
+  
+  
+  
+  
+  
+
+</tr>
+
+</table>
+
+</body>
+
+
+
+
+
+ 
+
+
+
+]]></text-property>
+        </text>
+        <grid id="142">
+            <column id="143"/>
+            <row id="144">
+                <cell id="145">
+                    <text-data id="146">
+                        <property name="fontWeight">bold</property>
+                        <property name="dataSet">DemandDistribution</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">C5</property>
+                                <text-property name="displayName">C5</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["C5"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <expression name="valueExpr">if(row["C5"]=='7D')&#13;
+{&#13;
+	row["C5"]='Supply/Demand Distribution for the last 7 days';&#13;
+}&#13;
+else if(row["C5"]=='30D')&#13;
+{&#13;
+	row["C5"]='Supply/Demand Distribution for the last 30 days ';&#13;
+}&#13;
+else if(row["C5"]=='365D')&#13;
+{&#13;
+	row["C5"]='Supply/Demand Distribution the last 365 days';&#13;
+}&#13;
+else&#13;
+{&#13;
+	&#13;
+	if(row["C5"]==null || row["C5"]=='')&#13;
+	{&#13;
+		row["C5"]="No Data to display";&#13;
+	}&#13;
+	else&#13;
+	{&#13;
+		row["C5"]=row["C5"];&#13;
+	}&#13;
+}</expression>
+                        <property name="contentType">html</property>
+                    </text-data>
+                </cell>
+            </row>
+        </grid>
+        <extended-item extensionName="Chart" id="26">
+            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithoutAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+  <Version>2.6.1</Version>
+  <Type>Pie Chart</Type>
+  <SubType>Standard</SubType>
+  <Block>
+    <Children xsi:type="layout:TitleBlock">
+      <Bounds>
+        <Left>0.0</Left>
+        <Top>0.0</Top>
+        <Width>0.0</Width>
+        <Height>0.0</Height>
+      </Bounds>
+      <Insets>
+        <Top>3.0</Top>
+        <Left>3.0</Left>
+        <Bottom>3.0</Bottom>
+        <Right>3.0</Right>
+      </Insets>
+      <Row>-1</Row>
+      <Column>-1</Column>
+      <Rowspan>-1</Rowspan>
+      <Columnspan>-1</Columnspan>
+      <Outline>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Color>
+        <Visible>false</Visible>
+      </Outline>
+      <Visible>false</Visible>
+      <Label>
+        <Caption>
+          <Value>Chart Title</Value>
+          <Font>
+            <Size>16.0</Size>
+            <Bold>true</Bold>
+            <Alignment>
+              <horizontalAlignment>Center</horizontalAlignment>
+              <verticalAlignment>Center</verticalAlignment>
+            </Alignment>
+          </Font>
+        </Caption>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>2.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>3.0</Right>
+        </Insets>
+        <Visible>true</Visible>
+      </Label>
+    </Children>
+    <Children xsi:type="layout:Plot">
+      <Bounds>
+        <Left>0.0</Left>
+        <Top>0.0</Top>
+        <Width>0.0</Width>
+        <Height>0.0</Height>
+      </Bounds>
+      <Insets>
+        <Top>3.0</Top>
+        <Left>3.0</Left>
+        <Bottom>3.0</Bottom>
+        <Right>3.0</Right>
+      </Insets>
+      <Row>-1</Row>
+      <Column>-1</Column>
+      <Rowspan>-1</Rowspan>
+      <Columnspan>-1</Columnspan>
+      <Outline>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Color>
+        <Visible>false</Visible>
+      </Outline>
+      <Visible>true</Visible>
+      <HorizontalSpacing>5</HorizontalSpacing>
+      <VerticalSpacing>5</VerticalSpacing>
+      <ClientArea>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>0</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>0.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>0.0</Right>
+        </Insets>
+      </ClientArea>
+    </Children>
+    <Children xsi:type="layout:Legend">
+      <Bounds>
+        <Left>0.0</Left>
+        <Top>0.0</Top>
+        <Width>0.0</Width>
+        <Height>0.0</Height>
+      </Bounds>
+      <Insets>
+        <Top>3.0</Top>
+        <Left>3.0</Left>
+        <Bottom>3.0</Bottom>
+        <Right>3.0</Right>
+      </Insets>
+      <Row>-1</Row>
+      <Column>-1</Column>
+      <Rowspan>-1</Rowspan>
+      <Columnspan>-1</Columnspan>
+      <Outline>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Color>
+        <Visible>false</Visible>
+      </Outline>
+      <Visible>true</Visible>
+      <Cursor>
+        <Type>Auto</Type>
+      </Cursor>
+      <ClientArea>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>0</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </Outline>
+        <Insets>
+          <Top>2.0</Top>
+          <Left>2.0</Left>
+          <Bottom>2.0</Bottom>
+          <Right>2.0</Right>
+        </Insets>
+      </ClientArea>
+      <Text>
+        <Value></Value>
+        <Font>
+          <Alignment/>
+        </Font>
+      </Text>
+      <Orientation>Vertical</Orientation>
+      <Direction>Top_Bottom</Direction>
+      <Separator>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Color>
+        <Visible>true</Visible>
+      </Separator>
+      <Position>Right</Position>
+      <ItemType>Categories</ItemType>
+      <Title>
+        <Caption>
+          <Value>   Unit : KWH</Value>
+          <Font>
+            <Alignment/>
+          </Font>
+        </Caption>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+          <Visible>true</Visible>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>2.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>3.0</Right>
+        </Insets>
+        <Visible>true</Visible>
+      </Title>
+      <TitlePosition>Below</TitlePosition>
+    </Children>
+    <Bounds>
+      <Left>0.0</Left>
+      <Top>0.0</Top>
+      <Width>212.0</Width>
+      <Height>130.0</Height>
+    </Bounds>
+    <Insets>
+      <Top>3.0</Top>
+      <Left>3.0</Left>
+      <Bottom>3.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Row>-1</Row>
+    <Column>-1</Column>
+    <Rowspan>-1</Rowspan>
+    <Columnspan>-1</Columnspan>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+      <Visible>true</Visible>
+    </Outline>
+    <Visible>true</Visible>
+  </Block>
+  <Dimension>Two_Dimensional_With_Depth</Dimension>
+  <Script>function afterDataSetFilled(series, dataSet, icsc)&#xD;
+{&#xD;
+&#xD;
+	importPackage( Packages.java.io );&#xD;
+	importPackage( Packages.org.eclipse.birt.chart.model.type.impl );&#xD;
+	importPackage( Packages.org.eclipse.birt.chart.util);&#xD;
+	importPackage( Packages.java.util );&#xD;
+	ps = PluginSettings.instance( );&#xD;
+	&#xD;
+	if( series.getClass() == PieSeriesImpl ){&#xD;
+	&#xD;
+		dsp = ps.getDataSetProcessor( series.getClass() );&#xD;
+		//dataset max&#xD;
+		var mmax1 = dsp.getMaximum( dataSet );	&#xD;
+		icsc.getExternalContext().getScriptable().setGlobalVariable(&quot;MaxSliceValue1&quot;, mmax1);&#xD;
+		&#xD;
+	}&#xD;
+	icsc.getChartInstance().getBlock().getBounds().setWidth(400);&#xD;
+ 	icsc.getChartInstance().getBlock().getBounds().setHeight(300);&#xD;
+	&#xD;
+}&#xD;
+&#xD;
+</Script>
+  <Units>Points</Units>
+  <SeriesThickness>10.0</SeriesThickness>
+  <GridColumnCount>0</GridColumnCount>
+  <ExtendedProperties>
+    <Name>enable.area.alt</Name>
+    <Value>false</Value>
+  </ExtendedProperties>
+  <SampleData>
+    <BaseSampleData>
+      <DataSetRepresentation>'A','B','C','D','E'</DataSetRepresentation>
+    </BaseSampleData>
+    <OrthogonalSampleData>
+      <DataSetRepresentation>6,4,12,8,10</DataSetRepresentation>
+      <SeriesDefinitionIndex>0</SeriesDefinitionIndex>
+    </OrthogonalSampleData>
+  </SampleData>
+  <Interactivity>
+    <LegendBehavior>HighlightSerie</LegendBehavior>
+  </Interactivity>
+  <EmptyMessage>
+    <Caption>
+      <Value>This chart contains no data.</Value>
+      <Font>
+        <Alignment>
+          <horizontalAlignment>Center</horizontalAlignment>
+          <verticalAlignment>Center</verticalAlignment>
+        </Alignment>
+      </Font>
+    </Caption>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>64</Transparency>
+      <Red>127</Red>
+      <Green>127</Green>
+      <Blue>127</Blue>
+    </Background>
+    <Outline>
+      <Color>
+        <Transparency>128</Transparency>
+        <Red>127</Red>
+        <Green>127</Green>
+        <Blue>127</Blue>
+      </Color>
+      <Visible>true</Visible>
+    </Outline>
+    <Insets>
+      <Top>10.0</Top>
+      <Left>10.0</Left>
+      <Bottom>10.0</Bottom>
+      <Right>10.0</Right>
+    </Insets>
+    <Visible>false</Visible>
+  </EmptyMessage>
+  <SeriesDefinitions>
+    <Query>
+      <Definition></Definition>
+    </Query>
+    <SeriesPalette>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>154</Red>
+        <Green>204</Green>
+        <Blue>0</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>153</Red>
+        <Green>204</Green>
+        <Blue>255</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>154</Red>
+        <Green>50</Green>
+        <Blue>0</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>154</Red>
+        <Green>204</Green>
+        <Blue>0</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>64</Red>
+        <Green>128</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>128</Green>
+        <Blue>192</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>170</Red>
+        <Green>85</Green>
+        <Blue>85</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>128</Green>
+        <Blue>0</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>192</Red>
+        <Green>192</Green>
+        <Blue>192</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>255</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>192</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>7</Red>
+        <Green>146</Green>
+        <Blue>94</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>128</Green>
+        <Blue>255</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>128</Green>
+        <Blue>192</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>255</Green>
+        <Blue>255</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>128</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>128</Green>
+        <Blue>192</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>0</Green>
+        <Blue>255</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>64</Green>
+        <Blue>64</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>128</Green>
+        <Blue>64</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>80</Red>
+        <Green>240</Green>
+        <Blue>120</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>64</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>0</Green>
+        <Blue>64</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>0</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>128</Green>
+        <Blue>64</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>128</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>128</Green>
+        <Blue>255</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>64</Green>
+        <Blue>0</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>255</Green>
+        <Blue>255</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>128</Green>
+        <Blue>0</Blue>
+      </Entries>
+    </SeriesPalette>
+    <SeriesDefinitions>
+      <Query>
+        <Definition></Definition>
+      </Query>
+      <SeriesPalette>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>154</Red>
+          <Green>204</Green>
+          <Blue>0</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>153</Red>
+          <Green>204</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>154</Red>
+          <Green>50</Green>
+          <Blue>0</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>154</Red>
+          <Green>204</Green>
+          <Blue>0</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>64</Red>
+          <Green>128</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>170</Red>
+          <Green>85</Green>
+          <Blue>85</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>0</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>192</Red>
+          <Green>192</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>192</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>7</Red>
+          <Green>146</Green>
+          <Blue>94</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>128</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>128</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>0</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>64</Green>
+          <Blue>64</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>64</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>80</Red>
+          <Green>240</Green>
+          <Blue>120</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>64</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>0</Green>
+          <Blue>64</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>0</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>64</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>64</Green>
+          <Blue>0</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>0</Blue>
+        </Entries>
+      </SeriesPalette>
+      <Series xsi:type="type:PieSeries">
+        <Visible>true</Visible>
+        <Label>
+          <Caption>
+            <Value></Value>
+            <Font>
+              <Alignment/>
+            </Font>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>false</Visible>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>true</Visible>
+        </Label>
+        <DataDefinition>
+          <Definition>row[&quot;QTY&quot;]</Definition>
+          <Grouping>
+            <GroupType>Text</GroupType>
+            <AggregateExpression>Sum</AggregateExpression>
+          </Grouping>
+        </DataDefinition>
+        <DataPoint>
+          <Components>
+            <Type>Orthogonal_Value</Type>
+          </Components>
+          <Separator>, </Separator>
+        </DataPoint>
+        <LabelPosition>Outside</LabelPosition>
+        <Stacked>false</Stacked>
+        <Triggers>
+          <Condition>onmousemove</Condition>
+          <Action>
+            <Type>Highlight</Type>
+            <Value xsi:type="attribute:SeriesValue">
+              <Name></Name>
+            </Value>
+          </Action>
+        </Triggers>
+        <Triggers>
+          <Condition>onmouseover</Condition>
+          <Action>
+            <Type>Show_Tooltip</Type>
+            <Value xsi:type="attribute:TooltipValue">
+              <Text></Text>
+              <Delay>200</Delay>
+            </Value>
+          </Action>
+        </Triggers>
+        <Translucent>false</Translucent>
+        <Explosion>20</Explosion>
+        <ExplosionExpression>valueData == this.getGlobalVariable(&quot;MaxSliceValue1&quot; )</ExplosionExpression>
+        <Title>
+          <Caption>
+            <Value></Value>
+            <Font>
+              <Size>16.0</Size>
+              <Bold>true</Bold>
+              <Alignment/>
+            </Font>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>true</Visible>
+        </Title>
+        <TitlePosition>Below</TitlePosition>
+        <LeaderLineAttributes>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Visible>true</Visible>
+        </LeaderLineAttributes>
+        <LeaderLineLength>10.0</LeaderLineLength>
+        <Ratio>1.2</Ratio>
+        <Rotation>0.0</Rotation>
+        <InnerRadius>0.0</InnerRadius>
+      </Series>
+      <Grouping>
+        <GroupType>Text</GroupType>
+        <AggregateExpression>Sum</AggregateExpression>
+      </Grouping>
+    </SeriesDefinitions>
+    <Series>
+      <Visible>true</Visible>
+      <Label>
+        <Caption>
+          <Value></Value>
+          <Font>
+            <Alignment/>
+          </Font>
+        </Caption>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>2.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>3.0</Right>
+        </Insets>
+        <Visible>false</Visible>
+      </Label>
+      <DataDefinition>
+        <Definition>row[&quot;TYP&quot;]</Definition>
+      </DataDefinition>
+      <SeriesIdentifier></SeriesIdentifier>
+      <DataPoint>
+        <Components>
+          <Type>Orthogonal_Value</Type>
+        </Components>
+        <Separator>, </Separator>
+      </DataPoint>
+      <LabelPosition>Outside</LabelPosition>
+      <Stacked>false</Stacked>
+    </Series>
+    <Grouping>
+      <Enabled>true</Enabled>
+      <GroupType>Text</GroupType>
+      <AggregateExpression>Sum</AggregateExpression>
+    </Grouping>
+  </SeriesDefinitions>
+</model:ChartWithoutAxes>
+]]></xml-property>
+            <property name="outputFormat">SVG</property>
+            <property name="inheritColumns">true</property>
+            <property name="canShrink">true</property>
+            <property name="height">3.521in</property>
+            <property name="width">3.615in</property>
+            <expression name="bookmark" type="javascript">"myChart"</expression>
+            <property name="dataSet">DemandDistribution</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">TYP</property>
+                    <expression name="expression" type="javascript">dataSetRow["TYP"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">UNITSHORT</property>
+                    <expression name="expression" type="javascript">dataSetRow["UNITSHORT"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">QTY</property>
+                    <expression name="expression" type="javascript">dataSetRow["QTY"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">DISPLAYNAME</property>
+                    <expression name="expression" type="javascript">dataSetRow["DISPLAYNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">C5</property>
+                    <expression name="expression" type="javascript">dataSetRow["C5"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">rowc</property>
+                    <expression name="expression" type="javascript">dataSetRow["rowc"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+        </extended-item>
+        <grid id="70">
+            <expression name="bookmark" type="javascript">"mytable"</expression>
+            <column id="71"/>
+            <row id="72">
+                <cell id="73">
+                    <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="102">
+                        <property name="cube">Data Cube</property>
+                        <property name="measures">
+                            <extended-item extensionName="MeasureView" id="130">
+                                <property name="measure">QTY</property>
+                                <property name="detail">
+                                    <extended-item extensionName="AggregationCell" id="131">
+                                        <property name="aggregationOnRow">Group2/DISPLAYNAME</property>
+                                        <property name="aggregationOnColumn">Group/TYP</property>
+                                        <property name="content">
+                                            <data id="132">
+                                                <property name="style">crosstab-detail1</property>
+                                                <property name="fontSize">11px</property>
+                                                <property name="textAlign">center</property>
+                                                <property name="resultSetColumn">QTY_Group2/DISPLAYNAME_Group/TYP</property>
+                                            </data>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                                <property name="aggregations">
+                                    <extended-item extensionName="AggregationCell" id="138">
+                                        <property name="aggregationOnColumn">Group/TYP</property>
+                                        <property name="content">
+                                            <data id="139">
+                                                <property name="style">crosstab-detail1</property>
+                                                <property name="backgroundColor">#F2F1F3</property>
+                                                <property name="fontSize">13px</property>
+                                                <property name="fontWeight">bold</property>
+                                                <property name="textAlign">center</property>
+                                                <property name="resultSetColumn">QTY_Group/TYP</property>
+                                            </data>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                                <property name="header">
+                                    <extended-item extensionName="CrosstabCell" id="133">
+                                        <property name="content">
+                                            <label id="134">
+                                                <property name="fontSize">13px</property>
+                                                <text-property name="text"></text-property>
+                                            </label>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                            </extended-item>
+                        </property>
+                        <property name="rows">
+                            <extended-item extensionName="CrosstabView" id="125">
+                                <property name="grandTotal">
+                                    <extended-item extensionName="CrosstabCell" id="137">
+                                        <property name="content">
+                                            <label id="140">
+                                                <property name="backgroundColor">#B1C5B7</property>
+                                                <property name="fontSize">13px</property>
+                                                <property name="textAlign">center</property>
+                                                <text-property name="text">Grand Total</text-property>
+                                            </label>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                                <property name="views">
+                                    <extended-item extensionName="DimensionView" id="126">
+                                        <property name="dimension">Group2</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View2" id="127">
+                                                <property name="level">Group2/DISPLAYNAME</property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="128">
+                                                        <property name="content">
+                                                            <data name="DISPLAYNAME" id="129">
+                                                                <property name="style">crosstab-detail1</property>
+                                                                <property name="fontSize">11px</property>
+                                                                <property name="fontWeight">normal</property>
+                                                                <property name="textAlign">center</property>
+                                                                <property name="resultSetColumn">DISPLAYNAME</property>
+                                                            </data>
+                                                        </property>
+                                                    </extended-item>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                                <property name="grandTotalLocation">after</property>
+                            </extended-item>
+                        </property>
+                        <property name="columns">
+                            <extended-item extensionName="CrosstabView" id="107">
+                                <property name="views">
+                                    <extended-item extensionName="DimensionView" id="119">
+                                        <property name="dimension">Group1</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View1" id="120">
+                                                <property name="level">Group1/UNITSHORT</property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="121">
+                                                        <property name="content">
+                                                            <data name="UNITSHORT" id="123">
+                                                                <property name="style">crosstab-detail1</property>
+                                                                <property name="fontSize">11px</property>
+                                                                <property name="fontWeight">normal</property>
+                                                                <property name="textAlign">center</property>
+                                                                <property name="resultSetColumn">UNITSHORT</property>
+                                                            </data>
+                                                        </property>
+                                                    </extended-item>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                    <extended-item extensionName="DimensionView" id="108">
+                                        <property name="dimension">Group</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View" id="109">
+                                                <property name="level">Group/TYP</property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="110">
+                                                        <property name="content">
+                                                            <data name="TYP" id="111">
+                                                                <property name="fontSize">13px</property>
+                                                                <property name="fontWeight">bold</property>
+                                                                <property name="textAlign">center</property>
+                                                                <property name="resultSetColumn">TYP</property>
+                                                            </data>
+                                                        </property>
+                                                    </extended-item>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                                <property name="grandTotalLocation">after</property>
+                            </extended-item>
+                        </property>
+                        <property name="header">
+                            <extended-item extensionName="CrosstabCell" id="122">
+                                <property name="content">
+                                    <label id="124">
+                                        <property name="fontSize">12px</property>
+                                        <property name="fontWeight">bold</property>
+                                        <property name="textAlign">center</property>
+                                        <text-property name="text">UNIT</text-property>
+                                    </label>
+                                </property>
+                            </extended-item>
+                            <extended-item extensionName="CrosstabCell" id="135">
+                                <property name="content">
+                                    <label id="136">
+                                        <property name="fontSize">13px</property>
+                                        <property name="textAlign">center</property>
+                                        <text-property name="text"></text-property>
+                                    </label>
+                                </property>
+                            </extended-item>
+                            <extended-item extensionName="CrosstabCell" id="103">
+                                <property name="content">
+                                    <label id="112">
+                                        <property name="fontSize">13px</property>
+                                        <property name="textAlign">center</property>
+                                        <text-property name="text">SECTION</text-property>
+                                    </label>
+                                </property>
+                            </extended-item>
+                        </property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">TYP</property>
+                                <expression name="expression">dimension["Group"]["TYP"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">UNITSHORT</property>
+                                <expression name="expression">dimension["Group1"]["UNITSHORT"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">DISPLAYNAME</property>
+                                <expression name="expression">dimension["Group2"]["DISPLAYNAME"]["DisplayName"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">QTY_Group2/DISPLAYNAME_Group/TYP</property>
+                                <expression name="expression">measure["QTY"]</expression>
+                                <property name="dataType">decimal</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>Group2/DISPLAYNAME</value>
+                                    <value>Group/TYP</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                            </structure>
+                            <structure>
+                                <property name="name">QTY_Group/TYP</property>
+                                <expression name="expression">measure["QTY"]</expression>
+                                <property name="dataType">float</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>Group/TYP</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                            </structure>
+                        </list-property>
+                        <property name="style">crosstab-cell1</property>
+                    </extended-item>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>

@@ -1,0 +1,1412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="newRPT" id="89">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="7">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">org.hsqldb.jdbcDriver</property>
+            <property name="odaURL">jdbc:hsqldb:hsql://localhost/irevdb</property>
+            <property name="odaUser">sa</property>
+            <property name="OdaConnProfileName">IrevealDS</property>
+            <property name="OdaConnProfileStorePath">IrevealDsource</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ConsolidatedDataSet" id="8">
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">nodata</property>
+                    <property name="dataType">integer</property>
+                    <property name="aggregateFunction">RUNNINGCOUNT</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value">row["C3"]</expression>
+                        </structure>
+                    </list-property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints"/>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">TYP</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">UNITSHORT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">C3</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">DT_DATE</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">C5</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">nodata</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <method name="beforeOpen"><![CDATA[var currentTime = new Date()
+
+var month = currentTime.getMonth() + 1
+var day = currentTime.getDate()
+var year = currentTime.getFullYear()
+var currentTime = new Date()
+var hours = currentTime.getHours()
+var minutes = currentTime.getMinutes()
+var seconds=currentTime.getSeconds()
+//Last 7 days
+var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
+var month7 = Lastweek.getMonth() + 1
+var day7 = Lastweek.getDate()
+var year7 = Lastweek.getFullYear()
+var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
+var hours7 = Lastweek.getHours()
+var minutes7 = Lastweek.getMinutes()
+var seconds7=Lastweek.getSeconds()
+//Last 30days
+var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
+
+var month30 = LastMonth.getMonth() + 1
+var day30= LastMonth.getDate()
+var year30= LastMonth.getFullYear()
+
+var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
+var hours30 = LastMonth.getHours()
+var minutes30 = LastMonth.getMinutes()
+var seconds30=LastMonth.getSeconds()
+//last 365 days
+var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
+
+var month365 = LastYear.getMonth() + 1
+var day365= LastYear.getDate()
+var year365= LastYear.getFullYear()
+
+var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
+var hours365 = LastYear.getHours()
+var minutes365 = LastYear.getMinutes()
+var seconds365=LastYear.getSeconds()
+
+
+//last hour
+
+
+var today = new Date()
+var hourago = new Date(today.getTime() - (1000*60*60));
+var monthL = hourago.getMonth() + 1
+var dayL= hourago.getDate()
+var yearL= hourago.getFullYear()
+
+
+var today = new Date()
+var hourago = new Date(today.getTime() - (1000*60*60));
+var hoursL = hourago.getHours()
+var minutesL = hourago.getMinutes()
+var secondsL=hourago.getSeconds()
+//last 24 hour
+var today = new Date()
+var hourago = new Date(today.getTime() - (1000*60*60*24));
+var monthL24 = hourago.getMonth() + 1
+var dayL24= hourago.getDate()
+var yearL24= hourago.getFullYear()
+
+
+var today = new Date()
+var hourago = new Date(today.getTime() - (1000*60*60*24));
+var hoursL24 = hourago.getHours()
+var minutesL24 = hourago.getMinutes()
+var secondsL24=hourago.getSeconds()
+
+/////////Today
+if (minutes < 10){
+minutes = "0" + minutes
+}
+if (seconds < 10){
+seconds= "0" + seconds
+}
+
+if (month  < 10){
+month  = "0" + month 
+}
+if (day  < 10){
+day  = "0" + day 
+}
+if (hours  < 10){
+hours  = "0" + hours 
+}
+
+///Last 365
+if (minutes365 < 10){
+minutes365 = "0" + minutes365
+}
+if (seconds365 < 10){
+seconds365= "0" + seconds365
+}
+
+if (month365  < 10){
+month365  = "0" + month365 
+}
+if (day365  < 10){
+day365  = "0" + day365 
+}
+if (hours365  < 10){
+hours365  = "0" + hours365 
+}
+
+
+///Last 7 days
+if (minutes7 < 10){
+minutes7 = "0" + minutes7
+}
+if (seconds7 < 10){
+seconds7= "0" + seconds7
+}
+
+if (month7  < 10){
+month7  = "0" + month7 
+}
+if (day7  < 10){
+day7  = "0" + day7 
+}
+if (hours7  < 10){
+hours7  = "0" + hours7 
+}
+//last 30days
+if (minutes30 < 10){
+minutes30 = "0" + minutes30
+}
+if (seconds30 < 10){
+seconds30= "0" + seconds30
+}
+
+if (month30  < 10){
+month30  = "0" + month30 
+}
+if (day30  < 10){
+day30  = "0" + day30 
+}
+if (hours30  < 10){
+hours30  = "0" + hours30 
+}
+
+//last hour
+if (minutesL < 10){
+minutesL = "0" + minutesL
+}
+if (secondsL < 10){
+secondsL= "0" + secondsL
+}
+
+if (monthL  < 10){
+monthL  = "0" + monthL 
+}
+if (dayL  < 10){
+dayL  = "0" + dayL
+}
+if (hoursL  < 10){
+hoursL  = "0" + hoursL
+}
+//last 24 hour
+
+if (minutesL24 < 10){
+minutesL24 = "0" + minutesL24
+}
+if (secondsL24 < 10){
+secondsL24= "0" + secondsL24
+}
+
+if (monthL24  < 10){
+monthL24  = "0" + monthL24 
+}
+if (dayL24  < 10){
+dayL24  = "0" + dayL24
+}
+if (hoursL24  < 10){
+hoursL24  = "0" + hoursL24
+}
+
+curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
+LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
+
+
+
+
+if(params["newRPT"].value=="")
+{
+	this.queryText = this.queryText +",'7D' from vw_supplydemand SD inner join"+
+	" ems_time_dim TD on td.day_id=sd.day_id where TD.dt_date >'"+curT+"'"+
+	" and td.dt_date<'"+LHour+"' order by td.dt_Date asc";
+}
+else
+{
+	this.queryText = this.queryText+params["newRPT"].value+" order by td.dt_Date asc";
+}]]></method>
+            <property name="dataSource">IrevealDS</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">TYP</property>
+                    <property name="nativeName">TYP</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">UNITSHORT</property>
+                    <property name="nativeName">UNITSHORT</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">C3</property>
+                    <property name="nativeName">C3</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">DT_DATE</property>
+                    <property name="nativeName">DT_DATE</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">C5</property>
+                    <property name="nativeName">C5</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select typ,unitshort,c3 as cons,td.dt_date]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>TYP</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>TYP</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>TYP</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>UNITSHORT</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>8</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>UNITSHORT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>UNITSHORT</design:label>
+            <design:formattingHints>
+              <design:displaySize>8</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>C3</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>3</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CONS</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CONS</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DT_DATE</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>26</design:precision>
+            <design:scale>6</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>DT_DATE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DT_DATE</design:label>
+            <design:formattingHints>
+              <design:displaySize>26</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <cubes>
+        <tabular-cube name="ConsolidatedDC" id="9">
+            <property name="dimensions">
+                <tabular-dimension name="Group" id="10">
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy" id="11">
+                            <property name="levels">
+                                <tabular-level name="TYP" id="12">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">TYP</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Group1" id="13">
+                    <property name="isTimeType">false</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy2</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy2" id="14">
+                            <property name="levels">
+                                <tabular-level name="DT_DATE" id="15">
+                                    <property name="dataType">date-time</property>
+                                    <property name="columnName">DT_DATE</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Group4" id="19">
+                    <property name="defaultHierarchy">NewTabularHierarchy4</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy4" id="20">
+                            <property name="levels">
+                                <tabular-level name="UNITSHORT" id="21">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">UNITSHORT</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="Summary Field" id="22">
+                    <property name="measures">
+                        <tabular-measure name="CONS" id="23">
+                            <expression name="measureExpression" type="javascript">dataSetRow["C3"]</expression>
+                            <property name="dataType">decimal</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+            <property name="dataSet">ConsolidatedDataSet</property>
+        </tabular-cube>
+    </cubes>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab-detail" id="51">
+            <property name="backgroundColor">#F0F3FD</property>
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">9px</property>
+            <property name="color">#000000</property>
+        </style>
+        <style name="crosstab-header" id="52">
+            <property name="backgroundColor">#AEC0B1</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">10px</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#000000</property>
+        </style>
+        <style name="crosstab-cell1" id="53">
+            <property name="borderBottomColor">#FFFFFF</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftColor">#FFFFFF</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightColor">#FFFFFF</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopColor">#FFFFFF</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+        </style>
+        <style name="crosstab-detail1" id="54">
+            <property name="backgroundColor">#F0F3FD</property>
+            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
+            <property name="fontSize">10px</property>
+            <property name="color">#000000</property>
+            <property name="borderBottomColor">#01450F</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderLeftColor">#01450F</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderRightColor">#01450F</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1px</property>
+            <property name="borderTopColor">#01450F</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+            <property name="paddingTop">0.2em</property>
+            <property name="paddingLeft">0.2em</property>
+            <property name="paddingBottom">0.2em</property>
+            <property name="paddingRight">0.2em</property>
+            <property name="textAlign">left</property>
+        </style>
+        <style name="crosstab-header1" id="55">
+            <property name="backgroundColor">#AEC0B1</property>
+            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
+            <property name="fontSize">12px</property>
+            <property name="fontWeight">bold</property>
+            <property name="fontStyle">italic</property>
+            <property name="color">#000000</property>
+            <property name="borderBottomColor">#01450F</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderLeftColor">#01450F</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderRightColor">#01450F</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1px</property>
+            <property name="borderTopColor">#01450F</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+            <property name="marginTop">1em</property>
+            <property name="marginLeft">1em</property>
+            <property name="marginBottom">1em</property>
+            <property name="marginRight">1em</property>
+            <property name="paddingTop">0.2em</property>
+            <property name="paddingLeft">0.2em</property>
+            <property name="paddingBottom">0.2em</property>
+            <property name="paddingRight">0.2em</property>
+            <property name="textAlign">left</property>
+            <property name="width">100%</property>
+        </style>
+        <style name="crosstab-cell2" id="56">
+            <property name="backgroundColor">#E5F1F4</property>
+            <property name="fontSize">10px</property>
+            <property name="color">#FFFFFF</property>
+            <property name="borderBottomColor">#01450F</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderLeftColor">#01450F</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderRightColor">#01450F</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1px</property>
+            <property name="borderTopColor">#01450F</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+            <property name="paddingTop">0.2em</property>
+            <property name="paddingLeft">0.2em</property>
+            <property name="paddingBottom">0.2em</property>
+            <property name="paddingRight">0.2em</property>
+            <property name="textAlign">left</property>
+            <property name="height">6px</property>
+        </style>
+        <style name="crosstab-footer" id="57">
+            <property name="backgroundColor">#AEC0B1</property>
+            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
+            <property name="fontSize">12px</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#000000</property>
+            <property name="borderBottomColor">#FFFFFF</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderLeftColor">#FFFFFF</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderRightColor">#FFFFFF</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1px</property>
+            <property name="borderTopColor">#FFFFFF</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+            <property name="marginTop">1em</property>
+            <property name="marginLeft">1em</property>
+            <property name="marginBottom">1em</property>
+            <property name="marginRight">1em</property>
+            <property name="paddingTop">0.2em</property>
+            <property name="paddingLeft">0.2em</property>
+            <property name="paddingBottom">0.2em</property>
+            <property name="paddingRight">0.2em</property>
+            <property name="textAlign">left</property>
+            <property name="width">100%</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <text id="90">
+            <property name="contentType">html</property>
+            <text-property name="content"><![CDATA[<script>
+var currentTime = new Date()
+
+var month = currentTime.getMonth() + 1
+var day = currentTime.getDate()
+var year = currentTime.getFullYear()
+var currentTime = new Date()
+var hours = currentTime.getHours()
+var minutes = currentTime.getMinutes()
+var seconds=currentTime.getSeconds()
+//Last 7 days
+var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
+var month7 = Lastweek.getMonth() + 1
+var day7 = Lastweek.getDate()
+var year7 = Lastweek.getFullYear()
+var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
+var hours7 = Lastweek.getHours()
+var minutes7 = Lastweek.getMinutes()
+var seconds7=Lastweek.getSeconds()
+//Last 30days
+var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
+
+var month30 = LastMonth.getMonth() + 1
+var day30= LastMonth.getDate()
+var year30= LastMonth.getFullYear()
+
+var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
+var hours30 = LastMonth.getHours()
+var minutes30 = LastMonth.getMinutes()
+var seconds30=LastMonth.getSeconds()
+//last 365 days
+var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
+
+var month365 = LastYear.getMonth() + 1
+var day365= LastYear.getDate()
+var year365= LastYear.getFullYear()
+
+var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
+var hours365 = LastYear.getHours()
+var minutes365 = LastYear.getMinutes()
+var seconds365=LastYear.getSeconds()
+
+
+//last hour
+
+
+var today = new Date()
+var hourago = new Date(today.getTime() - (1000*60*60));
+var monthL = hourago.getMonth() + 1
+var dayL= hourago.getDate()
+var yearL= hourago.getFullYear()
+
+
+var today = new Date()
+var hourago = new Date(today.getTime() - (1000*60*60));
+var hoursL = hourago.getHours()
+var minutesL = hourago.getMinutes()
+var secondsL=hourago.getSeconds()
+//last 24 hour
+var today = new Date()
+var hourago = new Date(today.getTime() - (1000*60*60*24));
+var monthL24 = hourago.getMonth() + 1
+var dayL24= hourago.getDate()
+var yearL24= hourago.getFullYear()
+
+
+var today = new Date()
+var hourago = new Date(today.getTime() - (1000*60*60*24));
+var hoursL24 = hourago.getHours()
+var minutesL24 = hourago.getMinutes()
+var secondsL24=hourago.getSeconds()
+
+/////////Today
+if (minutes < 10){
+minutes = "0" + minutes
+}
+if (seconds < 10){
+seconds= "0" + seconds
+}
+
+if (month  < 10){
+month  = "0" + month 
+}
+if (day  < 10){
+day  = "0" + day 
+}
+if (hours  < 10){
+hours  = "0" + hours 
+}
+
+///Last 365
+if (minutes365 < 10){
+minutes365 = "0" + minutes365
+}
+if (seconds365 < 10){
+seconds365= "0" + seconds365
+}
+
+if (month365  < 10){
+month365  = "0" + month365 
+}
+if (day365  < 10){
+day365  = "0" + day365 
+}
+if (hours365  < 10){
+hours365  = "0" + hours365 
+}
+
+
+///Last 7 days
+if (minutes7 < 10){
+minutes7 = "0" + minutes7
+}
+if (seconds7 < 10){
+seconds7= "0" + seconds7
+}
+
+if (month7  < 10){
+month7  = "0" + month7 
+}
+if (day7  < 10){
+day7  = "0" + day7 
+}
+if (hours7  < 10){
+hours7  = "0" + hours7 
+}
+//last 30days
+if (minutes30 < 10){
+minutes30 = "0" + minutes30
+}
+if (seconds30 < 10){
+seconds30= "0" + seconds30
+}
+
+if (month30  < 10){
+month30  = "0" + month30 
+}
+if (day30  < 10){
+day30  = "0" + day30 
+}
+if (hours30  < 10){
+hours30  = "0" + hours30 
+}
+
+//last hour
+if (minutesL < 10){
+minutesL = "0" + minutesL
+}
+if (secondsL < 10){
+secondsL= "0" + secondsL
+}
+
+if (monthL  < 10){
+monthL  = "0" + monthL 
+}
+if (dayL  < 10){
+dayL  = "0" + dayL
+}
+if (hoursL  < 10){
+hoursL  = "0" + hoursL
+}
+//last 24 hour
+
+if (minutesL24 < 10){
+minutesL24 = "0" + minutesL24
+}
+if (secondsL24 < 10){
+secondsL24= "0" + secondsL24
+}
+
+if (monthL24  < 10){
+monthL24  = "0" + monthL24 
+}
+if (dayL24  < 10){
+dayL24  = "0" + dayL24
+}
+if (hoursL24  < 10){
+hoursL24  = "0" + hoursL24
+}
+	
+	document.onload=populate();
+
+function populate()
+{	//Function which sets the previously selected parameters for the report.
+	if(parent.selected_period_ndx==null || parent.selected_period_ndx==0)
+	{
+		parent.selected_period_ndx=0;
+	}
+	document.getElementById("s1").selectedIndex=parent.selected_period_ndx;	
+	if(document.getElementById("s1").selectedIndex==4)
+	{
+		if (document.getElementById("s1").selectedIndex==4)
+		{
+	
+			document.getElementById("fromdate").disabled=false;
+			document.getElementById("todate").disabled=false;
+				
+			document.getElementById("fromdate").value=parent.selected_fdate;
+			document.getElementById("todate").value=parent.selected_tdate;
+				
+				
+		}
+		else
+		{
+			document.getElementById("fromdate").value='';
+			document.getElementById("todate").value='';
+			document.getElementById("fromdate").disabled=true;
+			document.getElementById("todate").disabled=true;
+				
+		}
+			
+	}
+	
+}	
+	
+	
+	
+function CheckDate()
+{
+	if (document.getElementById("s1").selectedIndex==4)
+	{
+	
+				document.getElementById("fromdate").disabled=false;
+				document.getElementById("todate").disabled=false;
+				
+				
+	}
+	else
+	{
+				document.getElementById("fromdate").value='';
+				document.getElementById("todate").value='';
+				document.getElementById("fromdate").disabled=true;
+				document.getElementById("todate").disabled=true;
+				
+	}
+
+}
+
+
+
+function Consolidated()
+
+{
+	parent.selected_period_ndx=document.getElementById("s1").selectedIndex;
+	parent.selected_fdate=document.getElementById("fromdate").value;
+	parent.selected_tdate=document.getElementById("todate").value;
+	if(parent.AssetTree.selectedtype == 5)
+	{
+		alert ("Select Section/Asset/Location!");
+			return;
+	}
+
+	if ((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("fromdate").value==''))
+	{
+		alert ("Enter a valid time period!");
+		return;
+	}
+	else if ((document.getElementById("s1").selectedIndex==4)&amp;&amp; (document.getElementById("todate").value==''))
+	{
+		alert ("Enter a valid time period!");
+		return;
+	}
+	
+	
+	else
+	{
+		var d1 = Date.parse(document.getElementById("todate").value);
+		var d2 = Date.parse(document.getElementById("fromdate").value);
+		if (d1 < d2) 
+		{
+			alert ("To Date cannot be Greater than From Date!");
+			return;
+		}
+		else
+		{
+			curT=document.getElementById("todate").value+" 00:00:00";
+			LHour=document.getElementById("fromdate").value+" 00:00:00";
+			var Cfrom=document.getElementById("fromdate").value;
+			var Cto=document.getElementById("todate").value;
+			newa=",' Consolidated report from "+Cfrom+" to " +Cto+"' from vw_supplydemand SD inner join"+
+				" ems_time_dim TD on td.day_id=sd.day_id where TD.dt_date>'"+LHour+"'"+
+				" and td.dt_date <'"+curT+"'";
+		
+		}
+			
+	}
+	
+	
+
+
+	if(document.getElementById("s1").selectedIndex==0)
+	{
+		alert("Select Duration!");
+	}
+	else
+	{
+		
+	if(document.getElementById("s1").selectedIndex==1)
+	{
+		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
+		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
+		newa=",'7D' from vw_supplydemand SD inner join"+
+				" ems_time_dim TD on td.day_id=sd.day_id where TD.dt_date>'"+LHour+"'"+
+				" and td.dt_date <'"+curT+"'";
+	}
+	if(document.getElementById("s1").selectedIndex==2)
+	{
+	
+		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
+		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
+		newa=",'30D' from vw_supplydemand SD inner join"+
+				" ems_time_dim TD on td.day_id=sd.day_id where TD.dt_date>'"+LHour+"'"+
+				" and td.dt_date <'"+curT+"'";
+	}
+	if(document.getElementById("s1").selectedIndex==3)
+	{
+		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
+		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
+		newa=",'365D' from vw_supplydemand SD inner join"+
+				" ems_time_dim TD on td.day_id=sd.day_id where TD.dt_date>'"+LHour+"'"+
+				" and td.dt_date <'"+curT+"'";
+	}
+	
+	
+	
+	
+	
+	
+	var cl1 = new String(location.href);
+	var targetURL1 = new String();
+	var tst1 = cl1.indexOf("&amp;newRPT");
+	if(  tst1 == -1 )
+	{
+		cl1 = cl1 + "&amp;newRPT=" + newa;
+	}
+	else
+	{
+		var ch1 = cl1.indexOf("&amp;newRPT=");
+		cl1 = cl1.substring(0, ch1) + "&amp;newRPT=" + newa;
+    }
+	window.location = cl1;
+	
+	}
+
+}
+
+
+</script>
+
+<body>
+<head>
+
+</head>
+
+
+<table  border=1 style="width:300px" bgcolor="black">
+
+<tr>
+  
+  <td>
+  <select id=s1 size=1 title="Select Duration" name=Characters onChange="CheckDate()">
+<option value=F>--Duration--</option>
+<option value=E>Last 7 Days</option>
+<option value=F>Last 30 Days</option>
+<option value=F>Last 365 Days</option>
+<option value=G>Specific Duration</option>
+</select>
+  </td>	
+  <td>
+   <b><font color="white">From:</font></b>
+  </td>
+  <td>
+  <input type="date" title="Select From Date" id="fromdate" disabled>
+  </input>
+  </td>
+  <td>
+    <b><font color="white">To:</font></b>
+  </td>
+  <td>
+  <input type="date" title="Select To Date" id="todate" disabled>
+  </td>
+  <td>
+  <button type="button" title="Click to view report" onClick="Consolidated()">Go</button>
+  </button>
+  </td>
+  
+  
+  
+  
+  
+
+</tr>
+
+</table>
+
+</body>
+
+
+
+
+
+ 
+
+
+
+]]></text-property>
+        </text>
+        <grid id="84">
+            <property name="dataSet">ConsolidatedDataSet</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">(row["nodatato"]>0)</expression>
+                </structure>
+            </list-property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">nodatato</property>
+                    <expression name="expression" type="javascript">dataSetRow["nodata"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">false</property>
+                </structure>
+            </list-property>
+            <column id="85"/>
+            <row id="86">
+                <cell id="87">
+                    <label id="88">
+                        <property name="backgroundColor">#C0C0C0</property>
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <text-property name="text">No data to display</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+        <grid id="64">
+            <property name="backgroundColor">#FFFFFF</property>
+            <property name="dataSet">ConsolidatedDataSet</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">(row["7D"]!='7D')</expression>
+                </structure>
+            </list-property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">7D</property>
+                    <expression name="expression" type="javascript">dataSetRow["C5"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">false</property>
+                </structure>
+            </list-property>
+            <column id="65"/>
+            <row id="66">
+                <cell id="67">
+                    <label id="68">
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <text-property name="text">Consolidated report for the last 7 Days</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+        <grid id="69">
+            <property name="dataSet">ConsolidatedDataSet</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">(row["30D"]!='30D')</expression>
+                </structure>
+            </list-property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">30D</property>
+                    <expression name="expression" type="javascript">dataSetRow["C5"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">false</property>
+                </structure>
+            </list-property>
+            <column id="70"/>
+            <row id="71">
+                <cell id="72">
+                    <label id="73">
+                        <property name="backgroundColor">#FFFFFF</property>
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <text-property name="text">Consolidated report for the last 30 Days</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+        <grid id="74">
+            <property name="dataSet">ConsolidatedDataSet</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">(row["365D"]!='365D')</expression>
+                </structure>
+            </list-property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">365D</property>
+                    <expression name="expression" type="javascript">dataSetRow["C5"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">false</property>
+                </structure>
+            </list-property>
+            <column id="75"/>
+            <row id="76">
+                <cell id="77">
+                    <label id="78">
+                        <property name="backgroundColor">#FFFFFF</property>
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <text-property name="text">Consolidated report for the last 365 Days</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+        <grid id="79">
+            <property name="dataSet">ConsolidatedDataSet</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">((row["specific"]=='7D')||(row["specific"]=='30D')||(row["specific"]=='365D')||(row["specific"]==null))</expression>
+                </structure>
+            </list-property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">specific</property>
+                    <expression name="expression" type="javascript">dataSetRow["C5"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">false</property>
+                </structure>
+            </list-property>
+            <column id="80"/>
+            <row id="81">
+                <cell id="82">
+                    <data id="83">
+                        <property name="backgroundColor">#FFFFFF</property>
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">ConsolidatedDataSet</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">C5</property>
+                                <text-property name="displayName">C5</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["C5"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">C5</property>
+                    </data>
+                </cell>
+            </row>
+        </grid>
+        <grid id="91">
+            <property name="dataSet">ConsolidatedDataSet</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">(row["hidetable"]&lt;1)</expression>
+                </structure>
+            </list-property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">hidetable</property>
+                    <expression name="expression" type="javascript">dataSetRow["nodata"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">false</property>
+                </structure>
+            </list-property>
+            <column id="92"/>
+            <row id="93">
+                <cell id="94">
+                    <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="24">
+                        <property name="cube">ConsolidatedDC</property>
+                        <property name="measures">
+                            <extended-item extensionName="MeasureView" id="43">
+                                <property name="measure">CONS</property>
+                                <property name="detail">
+                                    <extended-item extensionName="AggregationCell" id="44">
+                                        <property name="aggregationOnRow">Group/TYP</property>
+                                        <property name="aggregationOnColumn">Group4/UNITSHORT</property>
+                                        <property name="content">
+                                            <data id="45">
+                                                <property name="style">crosstab-detail1</property>
+                                                <property name="fontSize">12px</property>
+                                                <property name="textAlign">center</property>
+                                                <property name="resultSetColumn">CONS_Group/TYP_Group4/UNITSHORT</property>
+                                            </data>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                                <property name="header">
+                                    <extended-item extensionName="CrosstabCell" id="46">
+                                        <property name="content">
+                                            <label id="47">
+                                                <property name="fontSize">12px</property>
+                                                <property name="textAlign">center</property>
+                                                <text-property name="text">Consumption</text-property>
+                                            </label>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                            </extended-item>
+                        </property>
+                        <property name="rows">
+                            <extended-item extensionName="CrosstabView" id="26">
+                                <property name="views">
+                                    <extended-item extensionName="DimensionView" id="32">
+                                        <property name="dimension">Group1</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View1" id="33">
+                                                <property name="level">Group1/DT_DATE</property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="34">
+                                                        <property name="content">
+                                                            <data name="DT_DATE" id="36">
+                                                                <property name="style">crosstab-detail1</property>
+                                                                <property name="fontSize">12px</property>
+                                                                <property name="fontWeight">normal</property>
+                                                                <property name="textAlign">center</property>
+                                                                <property name="whiteSpace">pre</property>
+                                                                <property name="resultSetColumn">DT_DATE</property>
+                                                            </data>
+                                                        </property>
+                                                        <property name="style">crosstab-detail1</property>
+                                                    </extended-item>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                    <extended-item extensionName="DimensionView" id="27">
+                                        <property name="dimension">Group</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View" id="28">
+                                                <property name="level">Group/TYP</property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="29">
+                                                        <property name="content">
+                                                            <data name="TYP" id="30">
+                                                                <property name="style">crosstab-detail1</property>
+                                                                <property name="fontSize">12px</property>
+                                                                <property name="fontWeight">normal</property>
+                                                                <property name="textAlign">center</property>
+                                                                <property name="resultSetColumn">TYP</property>
+                                                            </data>
+                                                        </property>
+                                                    </extended-item>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                            </extended-item>
+                        </property>
+                        <property name="columns">
+                            <extended-item extensionName="CrosstabView" id="38">
+                                <property name="views">
+                                    <extended-item extensionName="DimensionView" id="39">
+                                        <property name="dimension">Group4</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View2" id="40">
+                                                <property name="level">Group4/UNITSHORT</property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="41">
+                                                        <property name="content">
+                                                            <data name="UNITSHORT" id="42">
+                                                                <property name="style">crosstab-detail1</property>
+                                                                <property name="fontSize">12px</property>
+                                                                <property name="fontWeight">normal</property>
+                                                                <property name="textAlign">center</property>
+                                                                <property name="resultSetColumn">UNITSHORT</property>
+                                                            </data>
+                                                        </property>
+                                                    </extended-item>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                            </extended-item>
+                        </property>
+                        <property name="header">
+                            <extended-item extensionName="CrosstabCell" id="48"/>
+                            <extended-item extensionName="CrosstabCell" id="49">
+                                <property name="content">
+                                    <label id="50">
+                                        <property name="fontSize">12px</property>
+                                        <property name="textAlign">center</property>
+                                        <text-property name="text">Unit</text-property>
+                                    </label>
+                                </property>
+                            </extended-item>
+                            <extended-item extensionName="CrosstabCell" id="35">
+                                <property name="content">
+                                    <label id="37">
+                                        <property name="fontSize">12px</property>
+                                        <property name="textAlign">center</property>
+                                        <text-property name="text">Date</text-property>
+                                    </label>
+                                </property>
+                            </extended-item>
+                            <extended-item extensionName="CrosstabCell" id="25">
+                                <property name="content">
+                                    <label id="31">
+                                        <property name="fontSize">12px</property>
+                                        <property name="textAlign">center</property>
+                                        <text-property name="text">Section</text-property>
+                                    </label>
+                                </property>
+                            </extended-item>
+                        </property>
+                        <property name="canShrink">false</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">TYP</property>
+                                <expression name="expression">dimension["Group"]["TYP"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">DT_DATE</property>
+                                <expression name="expression">dimension["Group1"]["DT_DATE"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                            <structure>
+                                <property name="name">UNITSHORT</property>
+                                <expression name="expression">dimension["Group4"]["UNITSHORT"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONS_Group/TYP_Group4/UNITSHORT</property>
+                                <expression name="expression">measure["CONS"]</expression>
+                                <property name="dataType">decimal</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>Group/TYP</value>
+                                    <value>Group4/UNITSHORT</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                            </structure>
+                        </list-property>
+                    </extended-item>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>
