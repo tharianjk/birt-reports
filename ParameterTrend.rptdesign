@@ -55,6 +55,13 @@ mychart.setHeight("5");]]></method>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="DataSetForTrendChart" id="9">
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">Uni</property>
+                    <expression name="expression">row["METERNAME"]+" - "+row["ATTRIBUTE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
             <structure name="cachedMetaData">
@@ -94,6 +101,11 @@ mychart.setHeight("5");]]></method>
                         <property name="name">UNITSHORT</property>
                         <property name="dataType">string</property>
                     </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">Uni</property>
+                        <property name="dataType">string</property>
+                    </structure>
                 </list-property>
             </structure>
             <method name="beforeOpen"><![CDATA[if(params["newRPT"].value=="")
@@ -114,7 +126,7 @@ this.queryText = this.queryText +params["newRPT"]+
 " order by EML.dt_logdate Asc";
  
 }]]></method>
-            <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("units", row["UNITSHORT"]);
+            <method name="onFetch"><![CDATA[//reportContext.setPersistentGlobalVariable("units", dataSetRow["Attribute"]);
 /* if(row["C5"]=='7D')
 {
 reportContext.setPersistentGlobalVariable("Demographic", row["ATTRIBUTE"]+' for the Last 7 Days');
@@ -1110,10 +1122,7 @@ EAT.Attribute]]></xml-property>
         <simple-master-page name="Simple MasterPage" id="2">
             <property name="rightMargin">0in</property>
             <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
+                
             </page-footer>
         </simple-master-page>
     </page-setup>
@@ -1332,6 +1341,11 @@ if(parent.AssetTree.selectedtype === undefined)
 	{
 		parent.AssetTree.selectedtype = 0;
 	}
+	
+	if(parent.attrarr === undefined)
+	{
+		parent.attrarr = "0";
+	}
 document.onload=populate();
 
 function populate()
@@ -1433,10 +1447,10 @@ function logTrend()
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
 					newa=",' Attribute Trend from "+Cfrom+" to " +Cto+"' as C5,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
-		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-			"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
-		"EML.dt_logdate>'"+LHour+"'"+
-		" and EML.dt_logdate<'"+curT+"' and EML.tag_id='"+parent.AssetTree.selectedsection+"'"; 
+					" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
+					"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
+					"EML.dt_logdate>'"+LHour+"'"+
+					" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+parent.attrarr+")"; 
 					 
 				}
 				
@@ -1450,52 +1464,52 @@ function logTrend()
 	{
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=yearL+ "-" + monthL + "-" + dayL+" "+hoursL+":"+minutesL+":"+secondsL;
-newa=",'LH' as C5,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+		newa=",'LH' as C5,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-			"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
+		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
-		" and EML.dt_logdate<'"+curT+"' and EML.tag_id='"+parent.AssetTree.selectedsection+"'"; 
+		" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+parent.attrarr+")"; 
 	}
 	if(document.getElementById("s1").selectedIndex==2)
 	{
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
-newa=",'24H' as C5,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+		newa=",'24H' as C5,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-			"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
+		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
-		" and EML.dt_logdate<'"+curT+"' and EML.tag_id='"+parent.AssetTree.selectedsection+"'"; 
+		" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+parent.attrarr+")"; 
 	}
 	if(document.getElementById("s1").selectedIndex==3)
 	{
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-newa=",'7D' as C5,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+		newa=",'7D' as C5,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-			"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
+		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
-		" and EML.dt_logdate<'"+curT+"' and EML.tag_id='"+parent.AssetTree.selectedsection+"'"; 
+		" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+parent.attrarr+")"; 
 	}
 	if(document.getElementById("s1").selectedIndex==4)
 	{
 	
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-newa=",'30D' as C5,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+		newa=",'30D' as C5,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-			"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
+		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
-		" and EML.dt_logdate<'"+curT+"' and EML.tag_id='"+parent.AssetTree.selectedsection+"'"; 
+		" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+parent.attrarr+")"; 
 	}
 	if(document.getElementById("s1").selectedIndex==5)
 	{
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
-newa=",'365D' as C5,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+		newa=",'365D' as C5,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-			"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
+		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
-		" and EML.dt_logdate<'"+curT+"' and EML.tag_id='"+parent.AssetTree.selectedsection+"'"; 
+		" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+parent.attrarr+")"; 
 	}
 	var cl1 = new String(location.href);
 	var targetURL1 = new String();
@@ -1598,7 +1612,6 @@ function showhidetab()
 </table>
 
 </body>
-
 
 
 
@@ -1921,7 +1934,7 @@ else&#13;
         <Green>0</Green>
         <Blue>0</Blue>
       </Color>
-      <Visible>false</Visible>
+      <Visible>true</Visible>
     </Outline>
     <Background xsi:type="attribute:ColorDefinition">
       <Transparency>255</Transparency>
@@ -1946,7 +1959,7 @@ else&#13;
   </Block>
   <Dimension>Two_Dimensional</Dimension>
   <Script>&#xD;
-function beforeDrawAxisTitle( axis, label, icsc )&#xD;
+/*function beforeDrawAxisTitle( axis, label, icsc )&#xD;
 {&#xD;
 //for y axis unit &#xD;
 importPackage(Packages.org.eclipse.birt.chart.model.attribute);&#xD;
@@ -1955,7 +1968,7 @@ importPackage(Packages.org.eclipse.birt.chart.model.attribute);&#xD;
    title=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;units&quot;);&#xD;
         label.getCaption().setValue(title);&#xD;
    }&#xD;
-}&#xD;
+}*/&#xD;
 &#xD;
 function beforeGeneration( chart, icsc ) &#xD;
 { &#xD;
@@ -2008,17 +2021,17 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
 		if( dataSet.getValues().length > 30 &amp;&amp; dataSet.getValues().length&lt;50)&#xD;
 		{&#xD;
  			icsc.getChartInstance().getBlock().getBounds().setWidth(3800);&#xD;
- 			icsc.getChartInstance().getBlock().getBounds().setHeight(275);&#xD;
+ 			icsc.getChartInstance().getBlock().getBounds().setHeight(325);&#xD;
 		}&#xD;
 		else if(dataSet.getValues().length > 50)&#xD;
 		{&#xD;
  			icsc.getChartInstance().getBlock().getBounds().setWidth(5800);&#xD;
- 			icsc.getChartInstance().getBlock().getBounds().setHeight(275);&#xD;
+ 			icsc.getChartInstance().getBlock().getBounds().setHeight(325);&#xD;
 		}&#xD;
 		else&#xD;
 		{&#xD;
 			icsc.getChartInstance().getBlock().getBounds().setWidth(900);&#xD;
- 			icsc.getChartInstance().getBlock().getBounds().setHeight(275);&#xD;
+ 			icsc.getChartInstance().getBlock().getBounds().setHeight(325);&#xD;
 		}&#xD;
 	}&#xD;
 	if( series.getSeriesIdentifier() == &quot;Series 1&quot;)&#xD;
@@ -2178,9 +2191,9 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
         <Visible>true</Visible>
       </Title>
       <TitlePosition>Left</TitlePosition>
-      <SeriesDefinitions>
+      <SeriesDefinitions ZOrder="10">
         <Query>
-          <Definition>row[&quot;ATTRIBUTE&quot;]</Definition>
+          <Definition>row[&quot;Uni&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -2439,6 +2452,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
               </Value>
             </Action>
           </Triggers>
+          <Translucent>false</Translucent>
           <Markers>
             <Type>Circle</Type>
             <Size>2</Size>
@@ -2453,7 +2467,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
             <Color>
               <Transparency>255</Transparency>
               <Red>0</Red>
-              <Green>128</Green>
+              <Green>0</Green>
               <Blue>0</Blue>
             </Color>
             <Visible>true</Visible>
@@ -2584,6 +2598,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
       </Origin>
       <PrimaryAxis>true</PrimaryAxis>
       <Percent>false</Percent>
+      <Aligned>false</Aligned>
       <Cursor>
         <Type>Auto</Type>
       </Cursor>
@@ -3225,14 +3240,25 @@ Formatter.format(row[&quot;C3&quot;],'dd/MM/yyyy hh:mm:ss a')&#xD;
         <Stacked>false</Stacked>
       </Series>
       <Grouping>
-        <Enabled>false</Enabled>
+        <Enabled>true</Enabled>
         <GroupingUnit>Minutes</GroupingUnit>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;C3&quot;]</Definition>
+        <Definition>if(row[&quot;C5&quot;]=='LH')&#xD;
+{&#xD;
+Formatter.format(row[&quot;C3&quot;],'hh:mm:ss a')&#xD;
+}&#xD;
+else if(row[&quot;C5&quot;]=='24H')&#xD;
+{&#xD;
+Formatter.format(row[&quot;C3&quot;],'hh:mm:ss a')&#xD;
+}&#xD;
+else &#xD;
+{&#xD;
+Formatter.format(row[&quot;C3&quot;],'dd/MM/yyyy hh:mm:ss a')&#xD;
+}</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
@@ -3387,6 +3413,21 @@ Formatter.format(row[&quot;C3&quot;],'dd/MM/yyyy hh:mm:ss a')&#xD;
                 <structure>
                     <property name="name">C5</property>
                     <expression name="expression" type="javascript">dataSetRow["C5"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">METERNAME</property>
+                    <expression name="expression" type="javascript">dataSetRow["METERNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">UNITSHORT</property>
+                    <expression name="expression" type="javascript">dataSetRow["UNITSHORT"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Uni</property>
+                    <expression name="expression" type="javascript">dataSetRow["Uni"]</expression>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
