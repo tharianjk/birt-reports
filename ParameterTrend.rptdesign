@@ -5,7 +5,8 @@
     <property name="units">in</property>
     <method name="beforeFactory"><![CDATA[var mychart = this.getReportElement( "mychart" );
 mychart.setWidth("5");
-mychart.setHeight("5");]]></method>
+mychart.setHeight("5");
+]]></method>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
@@ -64,54 +65,11 @@ mychart.setHeight("5");]]></method>
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">TAG_ID</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">N_READING</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">C3</property>
-                        <property name="dataType">date-time</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">ATTRIBUTE</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">C5</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">METERNAME</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">UNITSHORT</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">Uni</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                </list-property>
-            </structure>
+            <structure name="cachedMetaData"/>
             <method name="beforeOpen"><![CDATA[if(params["newRPT"].value=="")
 {
 	this.queryText = this.queryText +
- 	",'30D' as C5,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+ 	",'30D' as C5,'single' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 	" inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id "+
 	" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
 	" inner join ems_unit un on un.unit_id=eat.unit_id"+
@@ -125,8 +83,18 @@ else
 this.queryText = this.queryText +params["newRPT"]+
 " order by EML.dt_logdate Asc";
  
-}]]></method>
-            <method name="onFetch"><![CDATA[//reportContext.setPersistentGlobalVariable("units", dataSetRow["Attribute"]);
+}
+]]></method>
+            <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("units", dataSetRow["UNITSHORT"]);
+reportContext.setPersistentGlobalVariable("s",dataSetRow["C6"]);
+//reportContext.setPersistentGlobalVariable("s",dataSetRow["vb"]);
+//reportContext.setPersistentGlobalVariable("s", row["vb"]);
+//reportContext.setParameterDisplayText("s",dataSetRow["vb"]);
+//console.write(3);
+//var n = dataSetRow["vb"].toString();
+//reportContext.setGlobalVariable("s",row["cnt"]);
+//reportContext.setParameterDisplayText("s",dataSetRow["cnt"])
+//reportContext.s
 /* if(row["C5"]=='7D')
 {
 reportContext.setPersistentGlobalVariable("Demographic", row["ATTRIBUTE"]+' for the Last 7 Days');
@@ -155,50 +123,7 @@ else
 }
  */]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">TAG_ID</property>
-                    <property name="nativeName">TAG_ID</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">N_READING</property>
-                    <property name="nativeName">N_READING</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">C3</property>
-                    <property name="nativeName">C3</property>
-                    <property name="dataType">date-time</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">ATTRIBUTE</property>
-                    <property name="nativeName">ATTRIBUTE</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">C5</property>
-                    <property name="nativeName">C5</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
-                    <property name="name">METERNAME</property>
-                    <property name="nativeName">METERNAME</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">7</property>
-                    <property name="name">UNITSHORT</property>
-                    <property name="nativeName">UNITSHORT</property>
-                    <property name="dataType">string</property>
-                </structure>
-            </list-property>
+            <list-property name="resultSet"/>
             <xml-property name="queryText"><![CDATA[select   EML.tag_id,EML.N_reading,cast(EML.dt_logdate as datetime) as C3,
 EAT.Attribute]]></xml-property>
         </oda-data-set>
@@ -1122,7 +1047,7 @@ EAT.Attribute]]></xml-property>
         <simple-master-page name="Simple MasterPage" id="2">
             <property name="rightMargin">0in</property>
             <page-footer>
-                
+               
             </page-footer>
         </simple-master-page>
     </page-setup>
@@ -1346,6 +1271,11 @@ if(parent.AssetTree.selectedtype === undefined)
 	{
 		parent.attrarr = "0";
 	}
+	if(parent.attrcnt === undefined)
+	{
+		parent.attrcnt = "single";
+	}
+	
 document.onload=populate();
 
 function populate()
@@ -1446,7 +1376,7 @@ function logTrend()
 					LHour=document.getElementById("fromdate").value+" 00:00:00";
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
-					newa=",' Attribute Trend from "+Cfrom+" to " +Cto+"' as C5,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+					newa=",' Attribute Trend from "+Cfrom+" to " +Cto+"' as C5,'"+parent.attrcnt+"' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 					" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
 					"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
 					"EML.dt_logdate>'"+LHour+"'"+
@@ -1464,7 +1394,7 @@ function logTrend()
 	{
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=yearL+ "-" + monthL + "-" + dayL+" "+hoursL+":"+minutesL+":"+secondsL;
-		newa=",'LH' as C5,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+		newa=",'LH' as C5,'"+parent.attrcnt+"' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
 		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
@@ -1474,7 +1404,7 @@ function logTrend()
 	{
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
-		newa=",'24H' as C5,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+		newa=",'24H' as C5,'"+parent.attrcnt+"' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
 		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
@@ -1484,7 +1414,7 @@ function logTrend()
 	{
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-		newa=",'7D' as C5,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+		newa=",'7D' as C5,'"+parent.attrcnt+"' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
 		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
@@ -1495,7 +1425,7 @@ function logTrend()
 	
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-		newa=",'30D' as C5,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+		newa=",'30D' as C5,'"+parent.attrcnt+"' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
 		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
@@ -1505,7 +1435,7 @@ function logTrend()
 	{
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
-		newa=",'365D' as C5,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+		newa=",'365D' as C5,'"+parent.attrcnt+"' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
 		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
@@ -1959,59 +1889,65 @@ else&#13;
   </Block>
   <Dimension>Two_Dimensional</Dimension>
   <Script>&#xD;
-/*function beforeDrawAxisTitle( axis, label, icsc )&#xD;
+		&#xD;
+function beforeDrawAxisTitle( axis, label, icsc )&#xD;
 {&#xD;
+var localcount1;&#xD;
+localcount1=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;s&quot;);&#xD;
 //for y axis unit &#xD;
 importPackage(Packages.org.eclipse.birt.chart.model.attribute);&#xD;
+if(localcount1==&quot;single&quot;)&#xD;
+		{&#xD;
    if(axis.getType() == AxisType.LINEAR_LITERAL)&#xD;
    {&#xD;
    title=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;units&quot;);&#xD;
         label.getCaption().setValue(title);&#xD;
-   }&#xD;
-}*/&#xD;
+   }}&#xD;
+}&#xD;
 &#xD;
-function beforeGeneration( chart, icsc ) &#xD;
-{ &#xD;
-	importPackage(Packages.org.eclipse.birt.chart.model.component.impl);&#xD;
-	importPackage(Packages.org.eclipse.birt.chart.model.data.impl);&#xD;
-	importPackage(Packages.org.eclipse.birt.chart.model.attribute);&#xD;
-	importPackage(Packages.org.eclipse.birt.chart.model.attribute.impl);&#xD;
-&#xD;
-	var chart = icsc.getChartInstance();&#xD;
-	var yAxis = chart.getAxes().get(0).getAssociatedAxes().get(0);&#xD;
-	var min_value = icsc.getExternalContext().getScriptable().getGlobalVariable(&quot;minimum&quot;);&#xD;
-	var avg_value = icsc.getExternalContext().getScriptable().getGlobalVariable(&quot;average&quot;);&#xD;
-	var max_value = icsc.getExternalContext().getScriptable().getGlobalVariable(&quot;maximum&quot;);&#xD;
-if(min_value!=null ||avg_value!=null ||max_value!=null)&#xD;
-{&#xD;
-	min_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(min_value));&#xD;
-	min_ml.getLabel().getCaption().setValue(&quot;Min &quot; + parseInt(min_value));             // parseInt&#xD;
-	min_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
-	min_ml.getLabel().getCaption().getFont().setSize(12);&#xD;
-	min_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(51,153,255));&#xD;
-	min_ml.getLineAttributes().getColor().set(173,210,252);&#xD;
-	min_ml.getLineAttributes().setThickness(1);&#xD;
-&#xD;
-	avg_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(avg_value));&#xD;
-	avg_ml.getLabel().getCaption().setValue(&quot;Avg &quot; + parseFloat(avg_value).toFixed(2));&#xD;
-	avg_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
-	avg_ml.getLabel().getCaption().getFont().setSize(12);&#xD;
-	avg_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(12,245,51));&#xD;
-	avg_ml.getLineAttributes().getColor().set(173,210,252);&#xD;
-	avg_ml.getLineAttributes().setThickness(1);&#xD;
-&#xD;
-	max_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(max_value));&#xD;
-	max_ml.getLabel().getCaption().setValue(&quot;Max &quot; + parseInt(max_value));            // parseInt&#xD;
-	max_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
-	max_ml.getLabel().getCaption().getFont().setSize(12);&#xD;
-	max_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(245,12,12));&#xD;
-	max_ml.getLineAttributes().getColor().set(173,210,252);&#xD;
-	max_ml.getLineAttributes().setThickness(1);&#xD;
-	}&#xD;
-&#xD;
-	//title = &quot;Parameter Trend for &quot; &#xD;
-	//+ icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;Demographic&quot;) &#xD;
-	//+ &quot;&quot;; chart.getTitle().getLabel().getCaption().setValue(title); &#xD;
+	function beforeGeneration( chart, icsc ) &#xD;
+	{ &#xD;
+		importPackage(Packages.org.eclipse.birt.chart.model.component.impl);&#xD;
+		importPackage(Packages.org.eclipse.birt.chart.model.data.impl);&#xD;
+		importPackage(Packages.org.eclipse.birt.chart.model.attribute);&#xD;
+		importPackage(Packages.org.eclipse.birt.chart.model.attribute.impl);&#xD;
+		var localcount2;&#xD;
+		localcount2=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;s&quot;);&#xD;
+		&#xD;
+		if(localcount2==&quot;single&quot;)&#xD;
+		{&#xD;
+		var chart = icsc.getChartInstance();&#xD;
+		var yAxis = chart.getAxes().get(0).getAssociatedAxes().get(0);&#xD;
+		var min_value = icsc.getExternalContext().getScriptable().getGlobalVariable(&quot;minimum&quot;);&#xD;
+		var avg_value = icsc.getExternalContext().getScriptable().getGlobalVariable(&quot;average&quot;);&#xD;
+		var max_value = icsc.getExternalContext().getScriptable().getGlobalVariable(&quot;maximum&quot;);&#xD;
+		if(min_value!=null ||avg_value!=null ||max_value!=null)&#xD;
+		{&#xD;
+			min_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(min_value));&#xD;
+			min_ml.getLabel().getCaption().setValue(&quot;      Min: &quot; + parseInt(min_value));             // parseInt&#xD;
+			min_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
+			min_ml.getLabel().getCaption().getFont().setSize(14);&#xD;
+			min_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(63,59,185));&#xD;
+			min_ml.getLineAttributes().getColor().set(185,95,59);   //173,210,252&#xD;
+			min_ml.getLineAttributes().setThickness(1);&#xD;
+			avg_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(avg_value));&#xD;
+			avg_ml.getLabel().getCaption().setValue(&quot;      Avg: &quot; + parseFloat(avg_value).toFixed(2));&#xD;
+			avg_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
+			avg_ml.getLabel().getCaption().getFont().setSize(14);&#xD;
+			avg_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(59,185,95));&#xD;
+			avg_ml.getLineAttributes().getColor().set(185,95,59);&#xD;
+			avg_ml.getLineAttributes().setThickness(1);&#xD;
+			&#xD;
+			max_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(max_value));&#xD;
+			max_ml.getLabel().getCaption().setValue(&quot;      Max: &quot; + parseInt(max_value));            // parseInt&#xD;
+			max_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
+			max_ml.getLabel().getCaption().getFont().setSize(14);&#xD;
+			max_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(245,12,12));&#xD;
+			max_ml.getLineAttributes().getColor().set(185,95,59);&#xD;
+			max_ml.getLineAttributes().setThickness(1);&#xD;
+		&#xD;
+	}}&#xD;
+	&#xD;
 &#xD;
 } &#xD;
 function afterDataSetFilled( series, dataSet, icsc )&#xD;
@@ -2020,23 +1956,26 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
 	{&#xD;
 		if( dataSet.getValues().length > 30 &amp;&amp; dataSet.getValues().length&lt;50)&#xD;
 		{&#xD;
+		&#xD;
  			icsc.getChartInstance().getBlock().getBounds().setWidth(3800);&#xD;
- 			icsc.getChartInstance().getBlock().getBounds().setHeight(325);&#xD;
+ 			icsc.getChartInstance().getBlock().getBounds().setHeight(275);&#xD;
 		}&#xD;
 		else if(dataSet.getValues().length > 50)&#xD;
 		{&#xD;
  			icsc.getChartInstance().getBlock().getBounds().setWidth(5800);&#xD;
- 			icsc.getChartInstance().getBlock().getBounds().setHeight(325);&#xD;
+ 			icsc.getChartInstance().getBlock().getBounds().setHeight(275);&#xD;
 		}&#xD;
 		else&#xD;
 		{&#xD;
 			icsc.getChartInstance().getBlock().getBounds().setWidth(900);&#xD;
- 			icsc.getChartInstance().getBlock().getBounds().setHeight(325);&#xD;
+ 			icsc.getChartInstance().getBlock().getBounds().setHeight(275);&#xD;
 		}&#xD;
 	}&#xD;
+	&#xD;
 	if( series.getSeriesIdentifier() == &quot;Series 1&quot;)&#xD;
 	{&#xD;
     &#xD;
+  	&#xD;
     	var list = dataSet.getValues();&#xD;
     	var total=new Number();&#xD;
     	var theMin=new Number();&#xD;
@@ -2055,7 +1994,8 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
     icsc.getExternalContext().getScriptable().setGlobalVariable(&quot;minimum&quot;,theMin);&#xD;
     icsc.getExternalContext().getScriptable().setGlobalVariable(&quot;average&quot;,(total/items));&#xD;
     icsc.getExternalContext().getScriptable().setGlobalVariable(&quot;maximum&quot;,theMax);&#xD;
-    }}&#xD;
+    }&#xD;
+    }&#xD;
     &#xD;
     &#xD;
 }</Script>
@@ -3413,6 +3353,11 @@ Formatter.format(row[&quot;C3&quot;],'dd/MM/yyyy hh:mm:ss a')&#xD;
                 <structure>
                     <property name="name">C5</property>
                     <expression name="expression" type="javascript">dataSetRow["C5"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">C6</property>
+                    <expression name="expression" type="javascript">dataSetRow["C6"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
