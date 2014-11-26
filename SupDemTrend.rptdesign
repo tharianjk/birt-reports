@@ -1581,6 +1581,7 @@ function showhidetab()
 else if(row["C6"]=='24H')&#13;
 {&#13;
 	row["C6"]='Supply/Demand Trend for the last 24 Hour in :'+row["unit"];&#13;
+	&#13;
 }&#13;
 else if(row["C6"]=='7H')&#13;
 {&#13;

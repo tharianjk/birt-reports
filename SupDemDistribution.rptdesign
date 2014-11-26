@@ -165,6 +165,7 @@ var hours7 = Lastweek.getHours()
 var minutes7 = Lastweek.getMinutes()
 var seconds7=Lastweek.getSeconds()
 //Last 30days
+
 var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
 
 var month30 = LastMonth.getMonth() + 1
