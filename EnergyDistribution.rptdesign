@@ -114,6 +114,17 @@ false);*/]]></method>
                         </structure>
                     </list-property>
                 </structure>
+                <structure>
+                    <property name="name">total</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value">row["UTILITY_QTY"]</expression>
+                        </structure>
+                    </list-property>
+                </structure>
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
@@ -143,6 +154,11 @@ false);*/]]></method>
                         <property name="position">5</property>
                         <property name="name">rcount</property>
                         <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">total</property>
+                        <property name="dataType">float</property>
                     </structure>
                 </list-property>
             </structure>
@@ -368,8 +384,6 @@ else
 	" S.c_coretype='C'"+
 	" group by a.displayname,un.unitshort";
 }]]></method>
-            <method name="onFetch"><![CDATA[
- ]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet">
                 <structure>
@@ -1396,6 +1410,54 @@ else&#13;
                 </cell>
             </row>
         </grid>
+        <grid id="401">
+            <property name="backgroundColor">white</property>
+            <property name="canShrink">true</property>
+            <property name="dataSet">distribution</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">row["rcount"]&lt;1</expression>
+                </structure>
+            </list-property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">rcount</property>
+                    <text-property name="displayName">rcount</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["rcount"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+            <column id="402"/>
+            <column id="403"/>
+            <row id="404">
+                <cell id="405">
+                    <label id="407">
+                        <property name="backgroundColor">white</property>
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">right</property>
+                        <text-property name="text">Total Distibution:</text-property>
+                    </label>
+                </cell>
+                <cell id="406">
+                    <data id="408">
+                        <property name="backgroundColor">white</property>
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">left</property>
+                        <property name="dataSet">distribution</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">total</property>
+                                <text-property name="displayName">total</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["total"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">total</property>
+                    </data>
+                </cell>
+            </row>
+        </grid>
         <extended-item extensionName="Chart" id="9">
             <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithoutAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
@@ -1433,9 +1495,8 @@ else&#13;
       <Visible>false</Visible>
       <Label>
         <Caption>
-          <Value>Chart Title</Value>
           <Font>
-            <Size>16.0</Size>
+            <Size>10.0</Size>
             <Bold>true</Bold>
             <Alignment>
               <horizontalAlignment>Center</horizontalAlignment>
@@ -1661,7 +1722,10 @@ else&#13;
     </Cursor>
   </Block>
   <Dimension>Two_Dimensional_With_Depth</Dimension>
-  <Script>function afterDataSetFilled(series, dataSet, icsc)&#xD;
+  <Script>&#xD;
+&#xD;
+&#xD;
+function afterDataSetFilled(series, dataSet, icsc)&#xD;
 {&#xD;
 &#xD;
 	importPackage( Packages.java.io );&#xD;
@@ -2350,6 +2414,21 @@ else&#13;
                     <property name="name">UNITSHORT</property>
                     <expression name="expression" type="javascript">dataSetRow["UNITSHORT"]</expression>
                     <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">C4</property>
+                    <expression name="expression" type="javascript">dataSetRow["C4"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">rcount</property>
+                    <expression name="expression" type="javascript">dataSetRow["rcount"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">total</property>
+                    <expression name="expression" type="javascript">dataSetRow["total"]</expression>
+                    <property name="dataType">float</property>
                 </structure>
             </list-property>
             <property name="allowExport">false</property>
