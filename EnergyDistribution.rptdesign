@@ -1436,7 +1436,7 @@ else&#13;
                         <property name="backgroundColor">white</property>
                         <property name="fontWeight">bold</property>
                         <property name="textAlign">right</property>
-                        <text-property name="text">Total Distibution:</text-property>
+                        <text-property name="text">Total Distribution:</text-property>
                     </label>
                 </cell>
                 <cell id="406">
