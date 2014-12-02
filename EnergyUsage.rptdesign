@@ -2023,7 +2023,7 @@ else&#13;
   <Script>
 function afterDataSetFilled( series, dataSet, icsc )
 {
-if( series.getSeriesIdentifier() == &quot;Series 1&quot; )
+if( series.getSeriesIdentifier() == &quot;Quantity Consumed&quot; )
 	{
 		if( dataSet.getValues().length > 30 &amp;&amp; dataSet.getValues().length&lt;50)
 		{
@@ -2173,7 +2173,7 @@ if( series.getSeriesIdentifier() == &quot;Series 1&quot; )
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>row[&quot;DISPLAYNAME&quot;]</Definition>
+          <Definition></Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -2407,7 +2407,7 @@ if( series.getSeriesIdentifier() == &quot;Series 1&quot; )
               <AggregateExpression>Sum</AggregateExpression>
             </Grouping>
           </DataDefinition>
-          <SeriesIdentifier>Series 1</SeriesIdentifier>
+          <SeriesIdentifier>Quantity Consumed</SeriesIdentifier>
           <DataPoint>
             <Components>
               <Type>Orthogonal_Value</Type>

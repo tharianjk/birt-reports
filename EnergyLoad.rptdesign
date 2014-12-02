@@ -57,44 +57,16 @@ mychart.setHeight("5");]]></method>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="EnergyLoad" id="9">
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">C1</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">SECTIONNAME</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">SECTION_ID</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">DT_LOGDATE</property>
-                        <property name="dataType">date-time</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">C5</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                </list-property>
-            </structure>
+            <structure name="cachedMetaData"/>
             <method name="beforeOpen"><![CDATA[if(params["newRPT"].value=="")
 {
 	this.queryText = this.queryText +
- 	" KWHQTY/(pfval) as C1,sectionname ,section_id,dt_logdate,'365D' as C5 from ("+
-	" select sum(KWHQTY) KWHQTY,avg(n_pf) pfval,s.sectionname ,s.section_id,dt_logdate"+
-	" from vw_LOADLOG V inner join fwk_section s on v.section_id=s.section_id"+
-	" where s.section_id=100000"+
-	" group by s.sectionname ,s.section_id,dt_logdate order by dt_logdate asc) tab"+
-	" where pfval<>0";
+    " KWHQTY/(pfval) as C1,sectionname ,section_id,dt_logdate,'365D' as C5 "+
+	" from (select sum(KWHQTY) KWHQTY,avg(n_pf) pfval,s.displayname sectionname,s.assettree_id section_id,dt_logdate"+
+	" from vw_LOADLOG V inner join fwk_assettree s on v.section_id=s.assettree_id"+
+	" where v.section_id=10000001"+
+	" group by s.displayname ,s.assettree_id,dt_logdate order by dt_logdate asc) tab"+
+ 	" where pfval<>0";
  
 }
 else
@@ -102,8 +74,8 @@ else
 
 
 this.queryText = this.queryText +params["newRPT"]+
-" group by s.sectionname ,s.section_id,dt_logdate order by dt_logdate asc) tab"+
-" where pfval<>0";
+" group by s.displayname ,s.assettree_id,dt_logdate order by dt_logdate asc) tab"+
+ " where pfval<>0";
  
  
 }]]></method>
@@ -136,39 +108,8 @@ else
 }
  */]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">C1</property>
-                    <property name="nativeName">C1</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">SECTIONNAME</property>
-                    <property name="nativeName">SECTIONNAME</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">SECTION_ID</property>
-                    <property name="nativeName">SECTION_ID</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">DT_LOGDATE</property>
-                    <property name="nativeName">DT_LOGDATE</property>
-                    <property name="dataType">date-time</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">C5</property>
-                    <property name="nativeName">C5</property>
-                    <property name="dataType">string</property>
-                </structure>
-            </list-property>
-            <xml-property name="queryText"><![CDATA[select]]></xml-property>
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[ select ]]></xml-property>
         </oda-data-set>
     </data-sets>
     <cubes>
@@ -1064,12 +1005,6 @@ else
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <property name="rightMargin">0in</property>
-            <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
-            </page-footer>
         </simple-master-page>
     </page-setup>
     <body>
@@ -1427,11 +1362,11 @@ function EnergyLoad()
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
 					newa=" KWHQTY/(pfval*"+parent.gl_sampling_duration+") as C1,sectionname ,section_id,dt_logdate,'Attribute Trend from "+Cfrom+" to " +Cto+"' as C5 from ("+
-					" select sum(KWHQTY) KWHQTY,avg(n_pf) pfval,s.sectionname ,s.section_id,dt_logdate"+
-					" from vw_LOADLOG V inner join fwk_section s on v.section_id=s.section_id"+
+					" select sum(KWHQTY) KWHQTY,avg(n_pf) pfval,s.displayname sectionname ,s.assettree_id section_id,dt_logdate"+
+					" from vw_LOADLOG V inner join fwk_assettree s on v.section_id=s.assettree_id"+
 					" where dt_logdate>='"+LHour+"'"+
 					" and dt_logdate<='"+curT+"'"+
-					" and s.section_id='"+parent.AssetTree.selectedsection+"'"; 	 
+					" and v.section_id='"+parent.AssetTree.selectedsection+"'"; 
 				}
 			}	
 		}
@@ -1441,33 +1376,33 @@ function EnergyLoad()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=yearL+ "-" + monthL + "-" + dayL+" "+hoursL+":"+minutesL+":"+secondsL;
 		newa=" KWHQTY/(pfval*"+parent.gl_sampling_duration+") as C1,sectionname ,section_id,dt_logdate,'LH' as C5 from ("+
-			 " select sum(KWHQTY) KWHQTY,avg(n_pf) pfval,s.sectionname ,s.section_id,dt_logdate"+
-			 " from vw_LOADLOG V inner join fwk_section s on v.section_id=s.section_id"+
+			 " select sum(KWHQTY) KWHQTY,avg(n_pf) pfval,s.displayname sectionname ,s.assettree_id section_id,dt_logdate"+
+			 " from vw_LOADLOG V inner join fwk_assettree s on v.section_id=s.assettree_id"+
 			 " where dt_logdate>='"+LHour+"'"+
 			 " and dt_logdate<='"+curT+"'"+
-			 " and s.section_id='"+parent.AssetTree.selectedsection+"'"; 
+			 " and v.section_id='"+parent.AssetTree.selectedsection+"'"; 
 	}
 	if(document.getElementById("s1").selectedIndex==2)
 	{
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
 		newa=" KWHQTY/(pfval*"+parent.gl_sampling_duration+") as C1,sectionname ,section_id,dt_logdate,'24H' as C5 from ("+
-			 " select sum(KWHQTY) KWHQTY,avg(n_pf) pfval,s.sectionname ,s.section_id,dt_logdate"+
-			 " from vw_LOADLOG V inner join fwk_section s on v.section_id=s.section_id"+
+			 " select sum(KWHQTY) KWHQTY,avg(n_pf) pfval,s.displayname sectionname ,s.assettree_id section_id,dt_logdate"+
+			 " from vw_LOADLOG V inner join fwk_assettree s on v.section_id=s.assettree_id"+
 			 " where dt_logdate>='"+LHour+"'"+
 			 " and dt_logdate<='"+curT+"'"+
-			 " and s.section_id='"+parent.AssetTree.selectedsection+"'"; 
+			 " and v.section_id='"+parent.AssetTree.selectedsection+"'"; 
 	}
 	if(document.getElementById("s1").selectedIndex==3)
 	{
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
 		newa=" KWHQTY/(pfval*"+parent.gl_sampling_duration+") as C1,sectionname ,section_id,dt_logdate,'7D' as C5 from ("+
-			 " select sum(KWHQTY) KWHQTY,avg(n_pf) pfval,s.sectionname ,s.section_id,dt_logdate"+
-			 " from vw_LOADLOG V inner join fwk_section s on v.section_id=s.section_id"+
+			 " select sum(KWHQTY) KWHQTY,avg(n_pf) pfval,s.displayname sectionname ,s.assettree_id section_id,dt_logdate"+
+			 " from vw_LOADLOG V inner join fwk_assettree s on v.section_id=s.assettree_id"+
 			 " where dt_logdate>='"+LHour+"'"+
 			 " and dt_logdate<='"+curT+"'"+
-			 " and s.section_id='"+parent.AssetTree.selectedsection+"'"; 
+			 " and v.section_id='"+parent.AssetTree.selectedsection+"'"; 
 	}
 	if(document.getElementById("s1").selectedIndex==4)
 	{
@@ -1475,23 +1410,27 @@ function EnergyLoad()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 		newa=" KWHQTY/(pfval*"+parent.gl_sampling_duration+") as C1,sectionname ,section_id,dt_logdate,'30D' as C5 from ("+
-			 " select sum(KWHQTY) KWHQTY,avg(n_pf) pfval,s.sectionname ,s.section_id,dt_logdate"+
-			 " from vw_LOADLOG V inner join fwk_section s on v.section_id=s.section_id"+
+			 " select sum(KWHQTY) KWHQTY,avg(n_pf) pfval,s.displayname sectionname ,s.assettree_id section_id,dt_logdate"+
+			 " from vw_LOADLOG V inner join fwk_assettree s on v.section_id=s.assettree_id"+
 			 " where dt_logdate>='"+LHour+"'"+
 			 " and dt_logdate<='"+curT+"'"+
-			 " and s.section_id='"+parent.AssetTree.selectedsection+"'"; 
+			 " and v.section_id='"+parent.AssetTree.selectedsection+"'"; 
 	}
 	if(document.getElementById("s1").selectedIndex==5)
 	{
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
+		
+		
 		newa=" KWHQTY/(pfval*"+parent.gl_sampling_duration+") as C1,sectionname ,section_id,dt_logdate,'365D' as C5 from ("+
-			 " select sum(KWHQTY) KWHQTY,avg(n_pf) pfval,s.sectionname ,s.section_id,dt_logdate"+
-			 " from vw_LOADLOG V inner join fwk_section s on v.section_id=s.section_id"+
+			 " select sum(KWHQTY) KWHQTY,avg(n_pf) pfval,s.displayname sectionname ,s.assettree_id section_id,dt_logdate"+
+			 " from vw_LOADLOG V inner join fwk_assettree s on v.section_id=s.assettree_id"+
 			 " where dt_logdate>='"+LHour+"'"+
 			 " and dt_logdate<='"+curT+"'"+
-			 " and s.section_id='"+parent.AssetTree.selectedsection+"'"; 
+			 " and v.section_id='"+parent.AssetTree.selectedsection+"'"; 
 	}
+	
+	
 	var cl1 = new String(location.href);
 	var targetURL1 = new String();
 	var tst1 = cl1.indexOf("&amp;newRPT");
@@ -1933,28 +1872,27 @@ function beforeGeneration( chart, icsc ) &#xD;
 if(min_value!=null ||avg_value!=null ||max_value!=null)&#xD;
 {&#xD;
 	min_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(min_value));&#xD;
-	min_ml.getLabel().getCaption().setValue(&quot;Min &quot; + parseInt(min_value));             // parseInt&#xD;
-	min_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
-	min_ml.getLabel().getCaption().getFont().setSize(12);&#xD;
-	min_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(51,153,255));&#xD;
-	min_ml.getLineAttributes().getColor().set(173,210,252);&#xD;
-	min_ml.getLineAttributes().setThickness(1);&#xD;
-&#xD;
-	avg_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(avg_value));&#xD;
-	avg_ml.getLabel().getCaption().setValue(&quot;Avg &quot; + parseFloat(avg_value).toFixed(2));&#xD;
-	avg_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
-	avg_ml.getLabel().getCaption().getFont().setSize(12);&#xD;
-	avg_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(12,245,51));&#xD;
-	avg_ml.getLineAttributes().getColor().set(173,210,252);&#xD;
-	avg_ml.getLineAttributes().setThickness(1);&#xD;
-&#xD;
-	max_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(max_value));&#xD;
-	max_ml.getLabel().getCaption().setValue(&quot;Max &quot; + parseInt(max_value));            // parseInt&#xD;
-	max_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
-	max_ml.getLabel().getCaption().getFont().setSize(12);&#xD;
-	max_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(245,12,12));&#xD;
-	max_ml.getLineAttributes().getColor().set(173,210,252);&#xD;
-	max_ml.getLineAttributes().setThickness(1);&#xD;
+			min_ml.getLabel().getCaption().setValue(&quot;      Min: &quot; + parseInt(min_value).toFixed(2));             // parseInt&#xD;
+			min_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
+			min_ml.getLabel().getCaption().getFont().setSize(14);&#xD;
+			min_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(63,59,185));&#xD;
+			min_ml.getLineAttributes().getColor().set(185,95,59);   //173,210,252&#xD;
+			min_ml.getLineAttributes().setThickness(1);&#xD;
+			avg_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(avg_value));&#xD;
+			avg_ml.getLabel().getCaption().setValue(&quot;      Avg: &quot; + parseFloat(avg_value).toFixed(2));&#xD;
+			avg_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
+			avg_ml.getLabel().getCaption().getFont().setSize(14);&#xD;
+			avg_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(59,185,95));&#xD;
+			avg_ml.getLineAttributes().getColor().set(185,95,59);&#xD;
+			avg_ml.getLineAttributes().setThickness(1);&#xD;
+			&#xD;
+			max_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(max_value));&#xD;
+			max_ml.getLabel().getCaption().setValue(&quot;      Max: &quot; + parseInt(max_value).toFixed(2));            // parseInt&#xD;
+			max_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
+			max_ml.getLabel().getCaption().getFont().setSize(14);&#xD;
+			max_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(245,12,12));&#xD;
+			max_ml.getLineAttributes().getColor().set(185,95,59);&#xD;
+			max_ml.getLineAttributes().setThickness(1);&#xD;
 	}&#xD;
 &#xD;
 	//title = &quot;Parameter Trend for &quot; &#xD;
@@ -3400,6 +3338,7 @@ Formatter.format(row[&quot;DT_LOGDATE&quot;],'dd/MM/yyyy hh:mm:ss a')&#xD;
                                                 <property name="backgroundColor">#AEC0B1</property>
                                                 <property name="textAlign">center</property>
                                                 <property name="canShrink">false</property>
+                                                <property name="height">0.2916666666666667in</property>
                                                 <column id="255"/>
                                                 <row id="256">
                                                     <cell id="257">
@@ -3414,6 +3353,7 @@ Formatter.format(row[&quot;DT_LOGDATE&quot;],'dd/MM/yyyy hh:mm:ss a')&#xD;
                                                 </row>
                                             </grid>
                                             <label id="250">
+                                                <property name="style">crosstab-cell1</property>
                                                 <property name="fontSize">12px</property>
                                                 <property name="textAlign">center</property>
                                                 <text-property name="text">Energy Load</text-property>
@@ -3481,9 +3421,10 @@ Formatter.format(row[&quot;DT_LOGDATE&quot;],'dd/MM/yyyy hh:mm:ss a')&#xD;
                             <extended-item extensionName="CrosstabCell" id="251">
                                 <property name="content">
                                     <label id="252">
+                                        <property name="style">crosstab-cell1</property>
                                         <property name="fontSize">12px</property>
                                         <property name="textAlign">center</property>
-                                        <text-property name="text">Section</text-property>
+                                        <text-property name="text">Section/Asset</text-property>
                                     </label>
                                 </property>
                             </extended-item>
@@ -3500,6 +3441,7 @@ Formatter.format(row[&quot;DT_LOGDATE&quot;],'dd/MM/yyyy hh:mm:ss a')&#xD;
                                         <row id="260">
                                             <cell id="261">
                                                 <label id="262">
+                                                    <property name="style">crosstab-cell1</property>
                                                     <property name="fontSize">12px</property>
                                                     <property name="textAlign">center</property>
                                                     <text-property name="text">Unit</text-property>
@@ -3508,6 +3450,7 @@ Formatter.format(row[&quot;DT_LOGDATE&quot;],'dd/MM/yyyy hh:mm:ss a')&#xD;
                                         </row>
                                     </grid>
                                     <label id="240">
+                                        <property name="style">crosstab-cell1</property>
                                         <property name="fontSize">12px</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">Log Time</text-property>
