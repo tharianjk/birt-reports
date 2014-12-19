@@ -358,6 +358,8 @@ if(params["newRPT"].value=="")
 	this.queryText = this.queryText +
 	
     ",'7D' as C5 from ems_section_summary s"+
+    " inner join ems_utility EU on EU.utility_id=s.utility_id"+
+	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 	" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 	" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -365,11 +367,13 @@ if(params["newRPT"].value=="")
 	" and S.c_coretype='C'"+
 	" and d.DT_DATE>='"+LHour+"'"+
 	" and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+
-	" group by b.DISPLAYNAME, DAY_ID,d.DT_DATE"+
+	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
 	" UNION"+
-	" select a.DISPLAYNAME, sum(utility_qty) as C2, DAY_ID ,cast(d.dt_date as datetime) as C4"+
+	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
 	",'7D' as C5"+
 	" from ems_section_summary s"+
+	" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 	" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 	" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -378,7 +382,7 @@ if(params["newRPT"].value=="")
 	" else a.assettree_id='"+params["UsrSecId"].value+"' end and S.c_coretype='C'"+
 	" and d.DT_DATE>='"+LHour+"'"+
 	" and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+
-	" group by a.DISPLAYNAME, DAY_ID,d.DT_DATE ) tab"+
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE ) tab"+
 	" order by C4 asc";
 	
 }
@@ -386,13 +390,14 @@ else
 {
 
 
-this.queryText = this.queryText+params["newRPT"]+" group by a.DISPLAYNAME, DAY_ID,d.DT_DATE ) tab"+
+this.queryText = this.queryText+params["newRPT"]+" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE ) tab"+
 	" order by C4 asc";
 	
 }]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
-            <xml-property name="queryText"><![CDATA[select DISPLAYNAME,C2,DAY_ID,C4,C5 from (select b.DISPLAYNAME, sum(utility_qty) as C2, DAY_ID ,cast(d.dt_date as datetime) as C4]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select DISPLAYNAME,C2,unitshort,DAY_ID,C4,C5 from (select b.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4
+]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -1112,7 +1117,9 @@ function energytrend()
 					LHour=document.getElementById("fromdate").value+" 00:00:00";
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
-					newa=",' Energy Usage Trend summarized by hour from "+Cfrom+" to " +Cto+"SH' as C5 from ems_section_summary s"+
+					newa=",' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SH' as C5 from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1120,11 +1127,13 @@ function energytrend()
 					" and S.c_coretype='C'"+
 					" and d.DT_DATE>='"+LHour+"'"+
 					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME, DAY_ID,d.DT_DATE"+
+					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
 					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2, DAY_ID ,cast(d.dt_date as datetime) as C4"+
-					",' Energy Usage Trend summarized by hour from "+Cfrom+" to " +Cto+"SH' as C5"+
+					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
+					",' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SH' as C5"+
 					" from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1141,7 +1150,9 @@ function energytrend()
 					LHour=document.getElementById("fromdate").value+" 00:00:00";
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
-					newa=",' Energy Usagge Trend summarized by day from "+Cfrom+" to " +Cto+"SD' as C5 from ems_section_summary s"+
+					newa=",' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SD' as C5 from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1149,11 +1160,13 @@ function energytrend()
 					" and S.c_coretype='C'"+
 					" and d.DT_DATE>='"+LHour+"'"+
 					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME, DAY_ID,d.DT_DATE"+
+					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
 					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2, DAY_ID ,cast(d.dt_date as datetime) as C4"+
-					",' Energy Usagge Trend summarized by day from "+Cfrom+" to " +Cto+"SD' as C5"+
+					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
+					",' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SD' as C5"+
 					" from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1171,6 +1184,8 @@ function energytrend()
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
 					newa=",' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SM' as C5 from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1178,11 +1193,13 @@ function energytrend()
 					" and S.c_coretype='C'"+
 					" and d.DT_DATE>='"+LHour+"'"+
 					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME, DAY_ID,d.DT_DATE"+
+					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
 					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2, DAY_ID ,cast(d.dt_date as datetime) as C4"+
+					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
 					",' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SM' as C5"+
 					" from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1211,6 +1228,8 @@ function energytrend()
 		LHour=yearL+ "-" + monthL + "-" + dayL+" "+hoursL+":"+minutesL+":"+secondsL;
 		
 		newa=",'H' as C5 from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1218,11 +1237,13 @@ function energytrend()
 					" and S.c_coretype='C'"+
 					" and d.DT_DATE>='"+LHour+"'"+
 					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME, DAY_ID,d.DT_DATE"+
+					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
 					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2, DAY_ID ,cast(d.dt_date as datetime) as C4"+
+					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
 					",'H' as C5"+
 					" from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1241,6 +1262,8 @@ function energytrend()
 		LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
 		
 		newa=",'24H' as C5 from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1248,11 +1271,13 @@ function energytrend()
 					" and S.c_coretype='C'"+
 					" and d.DT_DATE>='"+LHour+"'"+
 					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME, DAY_ID,d.DT_DATE"+
+					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
 					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2, DAY_ID ,cast(d.dt_date as datetime) as C4"+
+					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
 					",'24H' as C5"+
 					" from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1269,6 +1294,8 @@ function energytrend()
 		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
 		
 		newa=",'7H' as C5 from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1276,11 +1303,13 @@ function energytrend()
 					" and S.c_coretype='C'"+
 					" and d.DT_DATE>='"+LHour+"'"+
 					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME, DAY_ID,d.DT_DATE"+
+					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
 					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2, DAY_ID ,cast(d.dt_date as datetime) as C4"+
+					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
 					",'7H' as C5"+
 					" from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1298,6 +1327,8 @@ function energytrend()
 		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
 		
 		newa=",'7D' as C5 from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1305,11 +1336,13 @@ function energytrend()
 					" and S.c_coretype='C'"+
 					" and d.DT_DATE>='"+LHour+"'"+
 					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME, DAY_ID,d.DT_DATE"+
+					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
 					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2, DAY_ID ,cast(d.dt_date as datetime) as C4"+
+					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
 					",'7D' as C5"+
 					" from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1326,6 +1359,8 @@ function energytrend()
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 		
 		newa=",'30H' as C5 from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1333,11 +1368,13 @@ function energytrend()
 					" and S.c_coretype='C'"+
 					" and d.DT_DATE>='"+LHour+"'"+
 					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME, DAY_ID,d.DT_DATE"+
+					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
 					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2, DAY_ID ,cast(d.dt_date as datetime) as C4"+
+					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
 					",'30H' as C5"+
 					" from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1354,6 +1391,8 @@ function energytrend()
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 		
 		newa=",'30D' as C5 from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1361,11 +1400,13 @@ function energytrend()
 					" and S.c_coretype='C'"+
 					" and d.DT_DATE>='"+LHour+"'"+
 					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME, DAY_ID,d.DT_DATE"+
+					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
 					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2, DAY_ID ,cast(d.dt_date as datetime) as C4"+
+					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
 					",'30D' as C5"+
 					" from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1382,6 +1423,8 @@ function energytrend()
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 		
 		newa=",'30M' as C5 from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1389,11 +1432,13 @@ function energytrend()
 					" and S.c_coretype='C'"+
 					" and d.DT_DATE>='"+LHour+"'"+
 					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME, DAY_ID,d.DT_DATE"+
+					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
 					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2, DAY_ID ,cast(d.dt_date as datetime) as C4"+
+					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
 					",'30M' as C5"+
 					" from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1410,6 +1455,8 @@ function energytrend()
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 		
 		newa=",'365H' as C5 from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1417,11 +1464,13 @@ function energytrend()
 					" and S.c_coretype='C'"+
 					" and d.DT_DATE>='"+LHour+"'"+
 					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME, DAY_ID,d.DT_DATE"+
+					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
 					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2, DAY_ID ,cast(d.dt_date as datetime) as C4"+
+					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
 					",'365H' as C5"+
 					" from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1438,6 +1487,8 @@ function energytrend()
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 		
 		newa=",'365D' as C5 from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1445,11 +1496,13 @@ function energytrend()
 					" and S.c_coretype='C'"+
 					" and d.DT_DATE>='"+LHour+"'"+
 					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME, DAY_ID,d.DT_DATE"+
+					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
 					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2, DAY_ID ,cast(d.dt_date as datetime) as C4"+
+					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
 					",'365D' as C5"+
 					" from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1466,6 +1519,8 @@ function energytrend()
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 		
 		newa=",'365M' as C5 from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1473,11 +1528,13 @@ function energytrend()
 					" and S.c_coretype='C'"+
 					" and d.DT_DATE>='"+LHour+"'"+
 					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME, DAY_ID,d.DT_DATE"+
+					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
 					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2, DAY_ID ,cast(d.dt_date as datetime) as C4"+
+					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
 					",'365M' as C5"+
 					" from ems_section_summary s"+
+					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
+					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
 					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
 					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
 					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
@@ -1658,46 +1715,52 @@ function showhidetab()
                                 <expression name="expression" type="javascript">dataSetRow["C5"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
+                            <structure>
+                                <property name="name">UNITSHORT</property>
+                                <text-property name="displayName">UNITSHORT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["UNITSHORT"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
                         </list-property>
                         <expression name="valueExpr">if(row["C5"]=='H')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 1 Hour';&#13;
+	row["C5"]='Energy Usage Trend for the last 1 Hour in '+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C5"]=='24H')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 24 Hour';&#13;
+	row["C5"]='Energy Usage Trend for the last 24 Hour in'+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C5"]=='7H')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 7 days Summarized by Hour';&#13;
+	row["C5"]='Energy Usage Trend for the last 7 days Summarized by Hour in '+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C5"]=='7D')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 7 days Summarized by Day';&#13;
+	row["C5"]='Energy Usage Trend for the last 7 days Summarized by Day in '+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C5"]=='30H')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 30 days Summarized by Hour';&#13;
+	row["C5"]='Energy Usage Trend for the last 30 days Summarized by Hour in'+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C5"]=='30D')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 30 days Summarized by Day';&#13;
+	row["C5"]='Energy Usage Trend for the last 30 days Summarized by Day in '+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C5"]=='30M')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 30 days Summarized by Month';&#13;
+	row["C5"]='Energy Usage Trend for the last 30 days Summarized by Month in '+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C5"]=='365D')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 365 days Summarized by Day';&#13;
+	row["C5"]='Energy Usage Trend for the last 365 days Summarized by Day in '+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C5"]=='365M')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 365 days Summarized by Month';&#13;
+	row["C5"]='Energy Usage Trend for the last 365 days Summarized by Month in '+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C5"]=='365H')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 365 days Summarized by Hour';&#13;
+	row["C5"]='Energy Usage Trend for the last 365 days Summarized by Hour in '+row["UNITSHORT"];&#13;
 }&#13;
 else&#13;
 {&#13;
@@ -1710,7 +1773,7 @@ else&#13;
 		{&#13;
 			if(lastChar!=null)&#13;
 			{&#13;
-				row["C5"].substring(0, stringLength - 2);&#13;
+				row["C5"]=row["C5"].substring(0, stringLength - 2)+' in '+row["UNITSHORT"];&#13;
 			}&#13;
 		}&#13;
 	}&#13;
@@ -1724,7 +1787,7 @@ else&#13;
 		{	&#13;
 			if(lastChar!=null)&#13;
 			{&#13;
-				row["C5"].substring(0, stringLength - 2);&#13;
+				row["C5"]=row["C5"].substring(0, stringLength - 2)+' in '+row["UNITSHORT"];&#13;
 			}&#13;
 		}&#13;
 	}&#13;
@@ -1738,7 +1801,7 @@ else&#13;
 		{&#13;
 			if(lastChar!=null)&#13;
 			{&#13;
-				row["C5"].substring(0, stringLength - 2);&#13;
+				row["C5"]=row["C5"].substring(0, stringLength - 2)+' in '+row["UNITSHORT"];&#13;
 			}&#13;
 		}&#13;
 	}&#13;
