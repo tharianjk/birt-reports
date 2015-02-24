@@ -1,11 +1,1773 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
+    <list-property name="propertyBindings">
+        <structure>
+            <property name="name">queryText</property>
+            <property name="id">405</property>
+        </structure>
+        <structure>
+            <property name="name">queryTimeOut</property>
+            <property name="id">405</property>
+        </structure>
+        <structure>
+            <property name="name">rowFetchSize</property>
+            <property name="id">405</property>
+        </structure>
+    </list-property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="359">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">org.hsqldb.jdbcDriver</property>
+            <property name="odaURL">jdbc:hsqldb:hsql://localhost/irevdb</property>
+            <property name="odaUser">sa</property>
+            <property name="OdaConnProfileName">IrevealDS</property>
+            <property name="OdaConnProfileStorePath">IrevealDsource</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="EBILL" id="405">
+            <property name="nullsOrdering">nulls lowest</property>
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">TWORDS</property>
+                    <expression name="expression">number2text(row["ParticularTotal"]) &#13;
+&#13;
+function number2text(value) &#13;
+{&#13;
+    var fraction = Math.round(frac(value)*100);&#13;
+    var f_text  = "";&#13;
+&#13;
+    if(fraction > 0) {&#13;
+        f_text = "AND "+convert_number(fraction)+" PAISE";&#13;
+    }&#13;
+&#13;
+    return convert_number(value)+" RUPEE "+f_text+" ONLY";&#13;
+}&#13;
+&#13;
+function frac(f) {&#13;
+    return f % 1;&#13;
+}&#13;
+&#13;
+function convert_number(number)&#13;
+{&#13;
+    if ((number &lt; 0) || (number > 999999999)) &#13;
+    { &#13;
+        return "NUMBER OUT OF RANGE!";&#13;
+    }&#13;
+    var Gn = Math.floor(number / 10000000);  /* Crore */ &#13;
+    number -= Gn * 10000000; &#13;
+    var kn = Math.floor(number / 100000);     /* lakhs */ &#13;
+    number -= kn * 100000; &#13;
+    var Hn = Math.floor(number / 1000);      /* thousand */ &#13;
+    number -= Hn * 1000; &#13;
+    var Dn = Math.floor(number / 100);       /* Tens (deca) */ &#13;
+    number = number % 100;               /* Ones */ &#13;
+    var tn= Math.floor(number / 10); &#13;
+    var one=Math.floor(number % 10); &#13;
+    var res = ""; &#13;
+&#13;
+    if (Gn>0) &#13;
+    { &#13;
+        res += (convert_number(Gn) + " CRORE"); &#13;
+    } &#13;
+    if (kn>0) &#13;
+    { &#13;
+            res += (((res=="") ? "" : " ") + &#13;
+            convert_number(kn) + " LAKH"); &#13;
+    } &#13;
+    if (Hn>0) &#13;
+    { &#13;
+        res += (((res=="") ? "" : " ") +&#13;
+            convert_number(Hn) + " THOUSAND"); &#13;
+    } &#13;
+&#13;
+    if (Dn) &#13;
+    { &#13;
+        res += (((res=="") ? "" : " ") + &#13;
+            convert_number(Dn) + " HUNDRED"); &#13;
+    } &#13;
+&#13;
+&#13;
+    var ones = Array("", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX","SEVEN", "EIGHT", "NINE", "TEN", "ELEVEN", "TWELVE", "THIRTEEN","FOURTEEN", "FIFTEEN", "SIXTEEN", "SEVENTEEN", "EIGHTEEN","NINETEEN"); &#13;
+var tens = Array("", "", "TWENTY", "THIRTY", "FOURTY", "FIFTY", "SIXTY","SEVENTY", "EIGHTY", "NINETY"); &#13;
+&#13;
+    if (tn>0 || one>0) &#13;
+    { &#13;
+        if (!(res=="")) &#13;
+        { &#13;
+            res += " AND "; &#13;
+        } &#13;
+        if (tn &lt; 2) &#13;
+        { &#13;
+            res += ones[tn * 10 + one]; &#13;
+        } &#13;
+        else &#13;
+        { &#13;
+&#13;
+            res += tens[tn];&#13;
+            if (one>0) &#13;
+            { &#13;
+                res += ("-" + ones[one]); &#13;
+            } &#13;
+        } &#13;
+    }&#13;
+&#13;
+    if (res=="")&#13;
+    { &#13;
+        res = "zero"; &#13;
+    } &#13;
+    return res;&#13;
+}</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">TotalEnergy</property>
+                    <expression name="expression">row["KWHNAMT"]+row["KWHPAMT"]+row["KWHOAMT"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">OtherChTotal</property>
+                    <expression name="expression">row["DUTYAMT"]+row["COMCHARGEAMT"]+row["FUELAMT"]+row["EXCESSAMT"]+row["SURCHARGEAMT"]+row["PFPENAMT"]-row["PFINCAMT"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">ParticularTotal</property>
+                    <expression name="expression">row["TotalEnergy"]+row["OtherChTotal"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">BILL_ID</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">BILL_ID</text-property>
+                    <text-property name="heading">BILL_ID</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KWHNUNIT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KWHNUNIT</text-property>
+                    <text-property name="heading">KWHNUNIT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KWHNRATE</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KWHNRATE</text-property>
+                    <text-property name="heading">KWHNRATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KWHNAMT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KWHNAMT</text-property>
+                    <text-property name="heading">KWHNAMT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KWHPUNIT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KWHPUNIT</text-property>
+                    <text-property name="heading">KWHPUNIT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KWHPRATE</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KWHPRATE</text-property>
+                    <text-property name="heading">KWHPRATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KWHPAMT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KWHPAMT</text-property>
+                    <text-property name="heading">KWHPAMT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KWHOUNIT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KWHOUNIT</text-property>
+                    <text-property name="heading">KWHOUNIT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KWHORATE</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KWHORATE</text-property>
+                    <text-property name="heading">KWHORATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KWHOAMT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KWHOAMT</text-property>
+                    <text-property name="heading">KWHOAMT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KVANUNIT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KVANUNIT</text-property>
+                    <text-property name="heading">KVANUNIT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KVANRATE</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KVANRATE</text-property>
+                    <text-property name="heading">KVANRATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KVANAMT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KVANAMT</text-property>
+                    <text-property name="heading">KVANAMT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KVAPUNIT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KVAPUNIT</text-property>
+                    <text-property name="heading">KVAPUNIT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KVAPRATE</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KVAPRATE</text-property>
+                    <text-property name="heading">KVAPRATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KVAPAMT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KVAPAMT</text-property>
+                    <text-property name="heading">KVAPAMT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KVAOUNIT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KVAOUNIT</text-property>
+                    <text-property name="heading">KVAOUNIT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KVAORATE</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KVAORATE</text-property>
+                    <text-property name="heading">KVAORATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KVAOAMT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KVAOAMT</text-property>
+                    <text-property name="heading">KVAOAMT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">PFPENUNIT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">PFPENUNIT</text-property>
+                    <text-property name="heading">PFPENUNIT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">PFINCUNIT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">PFINCUNIT</text-property>
+                    <text-property name="heading">PFINCUNIT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">PFPENRATE</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">PFPENRATE</text-property>
+                    <text-property name="heading">PFPENRATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">PFINCRATE</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">PFINCRATE</text-property>
+                    <text-property name="heading">PFINCRATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">PFPENAMT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">PFPENAMT</text-property>
+                    <text-property name="heading">PFPENAMT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">PFINCAMT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">PFINCAMT</text-property>
+                    <text-property name="heading">PFINCAMT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DUTYUNIT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">DUTYUNIT</text-property>
+                    <text-property name="heading">DUTYUNIT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DUTYRATE</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">DUTYRATE</text-property>
+                    <text-property name="heading">DUTYRATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DUTYAMT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">DUTYAMT</text-property>
+                    <text-property name="heading">DUTYAMT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">COMCHARGEUNIT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">COMCHARGEUNIT</text-property>
+                    <text-property name="heading">COMCHARGEUNIT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">COMCHARGERATE</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">COMCHARGERATE</text-property>
+                    <text-property name="heading">COMCHARGERATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">COMCHARGEAMT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">COMCHARGEAMT</text-property>
+                    <text-property name="heading">COMCHARGEAMT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">FUELUNIT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">FUELUNIT</text-property>
+                    <text-property name="heading">FUELUNIT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">FUELRATE</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">FUELRATE</text-property>
+                    <text-property name="heading">FUELRATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">FUELAMT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">FUELAMT</text-property>
+                    <text-property name="heading">FUELAMT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">EXCESSUNIT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">EXCESSUNIT</text-property>
+                    <text-property name="heading">EXCESSUNIT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">EXCESSRATE</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">EXCESSRATE</text-property>
+                    <text-property name="heading">EXCESSRATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">EXCESSAMT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">EXCESSAMT</text-property>
+                    <text-property name="heading">EXCESSAMT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SURCHARGEUNIT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">SURCHARGEUNIT</text-property>
+                    <text-property name="heading">SURCHARGEUNIT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SURCHARGERATE</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">SURCHARGERATE</text-property>
+                    <text-property name="heading">SURCHARGERATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SURCHARGEAMT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">SURCHARGEAMT</text-property>
+                    <text-property name="heading">SURCHARGEAMT</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">BILL_ID</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">KWHNUNIT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">KWHNRATE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">KWHNAMT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">KWHPUNIT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">KWHPRATE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">KWHPAMT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">KWHOUNIT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">KWHORATE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">KWHOAMT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">KVANUNIT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">KVANRATE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">KVANAMT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">KVAPUNIT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">KVAPRATE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">KVAPAMT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">KVAOUNIT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">KVAORATE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">19</property>
+                        <property name="name">KVAOAMT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
+                        <property name="name">PFPENUNIT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">21</property>
+                        <property name="name">PFINCUNIT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">22</property>
+                        <property name="name">PFPENRATE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">23</property>
+                        <property name="name">PFINCRATE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">24</property>
+                        <property name="name">PFPENAMT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">25</property>
+                        <property name="name">PFINCAMT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">26</property>
+                        <property name="name">DUTYUNIT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">27</property>
+                        <property name="name">DUTYRATE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">28</property>
+                        <property name="name">DUTYAMT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">29</property>
+                        <property name="name">COMCHARGEUNIT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">30</property>
+                        <property name="name">COMCHARGERATE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">31</property>
+                        <property name="name">COMCHARGEAMT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">32</property>
+                        <property name="name">FUELUNIT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">33</property>
+                        <property name="name">FUELRATE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">34</property>
+                        <property name="name">FUELAMT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">35</property>
+                        <property name="name">EXCESSUNIT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">36</property>
+                        <property name="name">EXCESSRATE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">37</property>
+                        <property name="name">EXCESSAMT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">38</property>
+                        <property name="name">SURCHARGEUNIT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">39</property>
+                        <property name="name">SURCHARGERATE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">40</property>
+                        <property name="name">SURCHARGEAMT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">41</property>
+                        <property name="name">TWORDS</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">42</property>
+                        <property name="name">TotalEnergy</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">43</property>
+                        <property name="name">OtherChTotal</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">44</property>
+                        <property name="name">ParticularTotal</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">IrevealDS</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">BILL_ID</property>
+                    <property name="nativeName">BILL_ID</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">KWHNUNIT</property>
+                    <property name="nativeName">KWHNUNIT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">KWHNRATE</property>
+                    <property name="nativeName">KWHNRATE</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">KWHNAMT</property>
+                    <property name="nativeName">KWHNAMT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">KWHPUNIT</property>
+                    <property name="nativeName">KWHPUNIT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">KWHPRATE</property>
+                    <property name="nativeName">KWHPRATE</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">KWHPAMT</property>
+                    <property name="nativeName">KWHPAMT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">KWHOUNIT</property>
+                    <property name="nativeName">KWHOUNIT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">KWHORATE</property>
+                    <property name="nativeName">KWHORATE</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">KWHOAMT</property>
+                    <property name="nativeName">KWHOAMT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">KVANUNIT</property>
+                    <property name="nativeName">KVANUNIT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">KVANRATE</property>
+                    <property name="nativeName">KVANRATE</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">KVANAMT</property>
+                    <property name="nativeName">KVANAMT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">KVAPUNIT</property>
+                    <property name="nativeName">KVAPUNIT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">KVAPRATE</property>
+                    <property name="nativeName">KVAPRATE</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">16</property>
+                    <property name="name">KVAPAMT</property>
+                    <property name="nativeName">KVAPAMT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
+                    <property name="name">KVAOUNIT</property>
+                    <property name="nativeName">KVAOUNIT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">18</property>
+                    <property name="name">KVAORATE</property>
+                    <property name="nativeName">KVAORATE</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">19</property>
+                    <property name="name">KVAOAMT</property>
+                    <property name="nativeName">KVAOAMT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">20</property>
+                    <property name="name">PFPENUNIT</property>
+                    <property name="nativeName">PFPENUNIT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">21</property>
+                    <property name="name">PFINCUNIT</property>
+                    <property name="nativeName">PFINCUNIT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">22</property>
+                    <property name="name">PFPENRATE</property>
+                    <property name="nativeName">PFPENRATE</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">23</property>
+                    <property name="name">PFINCRATE</property>
+                    <property name="nativeName">PFINCRATE</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">24</property>
+                    <property name="name">PFPENAMT</property>
+                    <property name="nativeName">PFPENAMT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">25</property>
+                    <property name="name">PFINCAMT</property>
+                    <property name="nativeName">PFINCAMT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">26</property>
+                    <property name="name">DUTYUNIT</property>
+                    <property name="nativeName">DUTYUNIT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">27</property>
+                    <property name="name">DUTYRATE</property>
+                    <property name="nativeName">DUTYRATE</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">28</property>
+                    <property name="name">DUTYAMT</property>
+                    <property name="nativeName">DUTYAMT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">29</property>
+                    <property name="name">COMCHARGEUNIT</property>
+                    <property name="nativeName">COMCHARGEUNIT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">30</property>
+                    <property name="name">COMCHARGERATE</property>
+                    <property name="nativeName">COMCHARGERATE</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">31</property>
+                    <property name="name">COMCHARGEAMT</property>
+                    <property name="nativeName">COMCHARGEAMT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">32</property>
+                    <property name="name">FUELUNIT</property>
+                    <property name="nativeName">FUELUNIT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">33</property>
+                    <property name="name">FUELRATE</property>
+                    <property name="nativeName">FUELRATE</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">34</property>
+                    <property name="name">FUELAMT</property>
+                    <property name="nativeName">FUELAMT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">35</property>
+                    <property name="name">EXCESSUNIT</property>
+                    <property name="nativeName">EXCESSUNIT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">36</property>
+                    <property name="name">EXCESSRATE</property>
+                    <property name="nativeName">EXCESSRATE</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">37</property>
+                    <property name="name">EXCESSAMT</property>
+                    <property name="nativeName">EXCESSAMT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">38</property>
+                    <property name="name">SURCHARGEUNIT</property>
+                    <property name="nativeName">SURCHARGEUNIT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">39</property>
+                    <property name="name">SURCHARGERATE</property>
+                    <property name="nativeName">SURCHARGERATE</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">40</property>
+                    <property name="name">SURCHARGEAMT</property>
+                    <property name="nativeName">SURCHARGEAMT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select A.bill_id,  sum(kwhNunit) kwhNunit, sum(kwhNrate) kwhNrate, sum(kwhNamt) kwhNamt,  sum(kwhPunit) kwhPunit, sum(kwhPrate) kwhPrate, sum(kwhPamt) kwhPamt, sum(kwhOunit) kwhOunit, sum(kwhOrate) kwhOrate, sum(kwhOamt) kwhOamt,
+ sum(kvaNunit) kvaNunit, sum(kvaNrate) kvaNrate,sum(kvaNamt) kvaNamt, sum(kvaPunit) kvaPunit, sum(kvaPrate) kvaPrate, sum(kvaPamt) kvaPamt, sum(kvaOunit) kvaOunit, sum(kvaOrate) kvaOrate, sum(kvaOamt) kvaOamt,pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt,
+ sum(dutyunit) dutyunit, sum(dutyrate) dutyrate, sum(dutyamt) dutyamt,sum(comchargeunit) comchargeunit, sum(comchargerate) comchargerate, sum(comchargeamt) comchargeamt,  sum(fuelunit) fuelunit,sum( fuelrate) fuelrate, sum(fuelamt) fuelamt,
+ sum(excessunit) excessunit, sum(excessrate) excessrate, sum(excessamt) excessamt,sum(surchargeunit) surchargeunit, sum(surchargerate) surchargerate, sum(surchargeamt) surchargeamt
+from vw_billKWH A left join vw_billKVA B on A.bill_id=B.bill_id
+left join vw_billpf c on A.bill_id=c.bill_id
+left join vw_billOthers d on A.bill_id=d.bill_id
+where A.bill_id=1
+group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>BILL_ID</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>32</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>BILL_ID</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>BILL_ID</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>KWHNUNIT</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>KWHNUNIT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>KWHNUNIT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>KWHNRATE</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>KWHNRATE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>KWHNRATE</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>KWHNAMT</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>KWHNAMT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>KWHNAMT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>KWHPUNIT</design:name>
+              <design:position>5</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>KWHPUNIT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>KWHPUNIT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>KWHPRATE</design:name>
+              <design:position>6</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>KWHPRATE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>KWHPRATE</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>KWHPAMT</design:name>
+              <design:position>7</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>KWHPAMT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>KWHPAMT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>KWHOUNIT</design:name>
+              <design:position>8</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>KWHOUNIT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>KWHOUNIT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>KWHORATE</design:name>
+              <design:position>9</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>KWHORATE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>KWHORATE</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>KWHOAMT</design:name>
+              <design:position>10</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>KWHOAMT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>KWHOAMT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>KVANUNIT</design:name>
+              <design:position>11</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>KVANUNIT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>KVANUNIT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>KVANRATE</design:name>
+              <design:position>12</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>KVANRATE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>KVANRATE</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>KVANAMT</design:name>
+              <design:position>13</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>KVANAMT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>KVANAMT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>KVAPUNIT</design:name>
+              <design:position>14</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>KVAPUNIT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>KVAPUNIT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>KVAPRATE</design:name>
+              <design:position>15</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>KVAPRATE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>KVAPRATE</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>KVAPAMT</design:name>
+              <design:position>16</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>KVAPAMT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>KVAPAMT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>KVAOUNIT</design:name>
+              <design:position>17</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>KVAOUNIT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>KVAOUNIT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>KVAORATE</design:name>
+              <design:position>18</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>KVAORATE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>KVAORATE</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>KVAOAMT</design:name>
+              <design:position>19</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>KVAOAMT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>KVAOAMT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>PFPENUNIT</design:name>
+              <design:position>20</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>PFPENUNIT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PFPENUNIT</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>PFINCUNIT</design:name>
+              <design:position>21</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>PFINCUNIT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PFINCUNIT</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>PFPENRATE</design:name>
+              <design:position>22</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>PFPENRATE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PFPENRATE</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>PFINCRATE</design:name>
+              <design:position>23</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>PFINCRATE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PFINCRATE</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>PFPENAMT</design:name>
+              <design:position>24</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>PFPENAMT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PFPENAMT</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>PFINCAMT</design:name>
+              <design:position>25</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>PFINCAMT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PFINCAMT</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DUTYUNIT</design:name>
+              <design:position>26</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>DUTYUNIT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DUTYUNIT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DUTYRATE</design:name>
+              <design:position>27</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>DUTYRATE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DUTYRATE</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DUTYAMT</design:name>
+              <design:position>28</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>DUTYAMT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DUTYAMT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>COMCHARGEUNIT</design:name>
+              <design:position>29</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>COMCHARGEUNIT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>COMCHARGEUNIT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>COMCHARGERATE</design:name>
+              <design:position>30</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>COMCHARGERATE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>COMCHARGERATE</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>COMCHARGEAMT</design:name>
+              <design:position>31</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>COMCHARGEAMT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>COMCHARGEAMT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>FUELUNIT</design:name>
+              <design:position>32</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>FUELUNIT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>FUELUNIT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>FUELRATE</design:name>
+              <design:position>33</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>FUELRATE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>FUELRATE</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>FUELAMT</design:name>
+              <design:position>34</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>FUELAMT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>FUELAMT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>EXCESSUNIT</design:name>
+              <design:position>35</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>EXCESSUNIT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>EXCESSUNIT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>EXCESSRATE</design:name>
+              <design:position>36</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>EXCESSRATE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>EXCESSRATE</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>EXCESSAMT</design:name>
+              <design:position>37</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>EXCESSAMT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>EXCESSAMT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>SURCHARGEUNIT</design:name>
+              <design:position>38</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>SURCHARGEUNIT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>SURCHARGEUNIT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>SURCHARGERATE</design:name>
+              <design:position>39</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>SURCHARGERATE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>SURCHARGERATE</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>SURCHARGEAMT</design:name>
+              <design:position>40</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>SURCHARGEAMT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>SURCHARGEAMT</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
     <styles>
         <style name="report" id="4">
             <property name="fontFamily">sans-serif</property>
@@ -46,6 +1808,14 @@
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
+            <page-header>
+                <label id="708">
+                    <property name="style">Font</property>
+                    <property name="fontWeight">bold</property>
+                    <property name="textAlign">center</property>
+                    <text-property name="text">Statement of Account for the Month</text-property>
+                </label>
+            </page-header>
             <page-footer>
                 <text id="3">
                     <property name="contentType">html</property>
@@ -123,6 +1893,7 @@
                                         <cell id="264">
                                             <label id="275">
                                                 <property name="style">Font</property>
+                                                <property name="textAlign">right</property>
                                                 <text-property name="text">Contract Demand:</text-property>
                                             </label>
                                         </cell>
@@ -132,6 +1903,7 @@
                                         <cell id="267">
                                             <label id="276">
                                                 <property name="style">Font</property>
+                                                <property name="textAlign">right</property>
                                                 <text-property name="text">75% of Contract Demand:</text-property>
                                             </label>
                                         </cell>
@@ -141,6 +1913,7 @@
                                         <cell id="270">
                                             <label id="277">
                                                 <property name="style">Font</property>
+                                                <property name="textAlign">right</property>
                                                 <text-property name="text">Marginal Cost for Excess Quota:</text-property>
                                             </label>
                                         </cell>
@@ -150,6 +1923,7 @@
                                         <cell id="273">
                                             <label id="290">
                                                 <property name="style">Font</property>
+                                                <property name="textAlign">right</property>
                                                 <text-property name="text">Fuel Surcharge Rate:</text-property>
                                             </label>
                                         </cell>
@@ -245,9 +2019,54 @@
                             </cell>
                         </row>
                         <row id="225">
-                            <cell id="226"/>
-                            <cell id="227"/>
-                            <cell id="228"/>
+                            <cell id="226">
+                                <data id="684">
+                                    <property name="style">Font</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="dataSet">EBILL</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">KVANUNIT</property>
+                                            <text-property name="displayName">KVANUNIT</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["KVANUNIT"]</expression>
+                                            <property name="dataType">decimal</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">KVANUNIT</property>
+                                </data>
+                            </cell>
+                            <cell id="227">
+                                <data id="685">
+                                    <property name="style">Font</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="dataSet">EBILL</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">KVAPUNIT</property>
+                                            <text-property name="displayName">KVAPUNIT</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["KVAPUNIT"]</expression>
+                                            <property name="dataType">decimal</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">KVAPUNIT</property>
+                                </data>
+                            </cell>
+                            <cell id="228">
+                                <data id="686">
+                                    <property name="style">Font</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="dataSet">EBILL</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">KVAOUNIT</property>
+                                            <text-property name="displayName">KVAOUNIT</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["KVAOUNIT"]</expression>
+                                            <property name="dataType">decimal</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">KVAOUNIT</property>
+                                </data>
+                            </cell>
                         </row>
                     </grid>
                 </cell>
@@ -398,9 +2217,54 @@
                             </cell>
                         </row>
                         <row id="165">
-                            <cell id="166"/>
-                            <cell id="167"/>
-                            <cell id="168"/>
+                            <cell id="166">
+                                <data id="687">
+                                    <property name="style">Font</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="dataSet">EBILL</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">KWHNUNIT</property>
+                                            <text-property name="displayName">KWHNUNIT</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["KWHNUNIT"]</expression>
+                                            <property name="dataType">decimal</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">KWHNUNIT</property>
+                                </data>
+                            </cell>
+                            <cell id="167">
+                                <data id="688">
+                                    <property name="style">Font</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="dataSet">EBILL</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">KWHPUNIT</property>
+                                            <text-property name="displayName">KWHPUNIT</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["KWHPUNIT"]</expression>
+                                            <property name="dataType">decimal</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">KWHPUNIT</property>
+                                </data>
+                            </cell>
+                            <cell id="168">
+                                <data id="689">
+                                    <property name="style">Font</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="dataSet">EBILL</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">KWHOUNIT</property>
+                                            <text-property name="displayName">KWHOUNIT</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["KWHOUNIT"]</expression>
+                                            <property name="dataType">decimal</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">KWHOUNIT</property>
+                                </data>
+                            </cell>
                         </row>
                     </grid>
                 </cell>
@@ -424,7 +2288,7 @@
                     <label id="137">
                         <property name="style">Font</property>
                         <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
+                        <property name="textAlign">left</property>
                         <text-property name="text">PARTICULARS</text-property>
                     </label>
                 </cell>
@@ -515,7 +2379,7 @@
                     <label id="122">
                         <property name="style">Font</property>
                         <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
+                        <property name="textAlign">left</property>
                         <text-property name="text">2. Total Energy Charges</text-property>
                     </label>
                 </cell>
@@ -530,9 +2394,54 @@
                         <text-property name="text">a) Total Energy Charges - Normal</text-property>
                     </label>
                 </cell>
-                <cell id="49"/>
-                <cell id="50"/>
-                <cell id="51"/>
+                <cell id="49">
+                    <data id="675">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">KWHNUNIT</property>
+                                <text-property name="displayName">KWHNUNIT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["KWHNUNIT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">KWHNUNIT</property>
+                    </data>
+                </cell>
+                <cell id="50">
+                    <data id="676">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">KWHNRATE</property>
+                                <text-property name="displayName">KWHNRATE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["KWHNRATE"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">KWHNRATE</property>
+                    </data>
+                </cell>
+                <cell id="51">
+                    <data id="677">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">KWHNAMT</property>
+                                <text-property name="displayName">KWHNAMT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["KWHNAMT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">KWHNAMT</property>
+                    </data>
+                </cell>
             </row>
             <row id="52">
                 <cell id="53">
@@ -541,9 +2450,54 @@
                         <text-property name="text">b) Total Energy Charges - Peak</text-property>
                     </label>
                 </cell>
-                <cell id="54"/>
-                <cell id="55"/>
-                <cell id="56"/>
+                <cell id="54">
+                    <data id="678">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">KWHPUNIT</property>
+                                <text-property name="displayName">KWHPUNIT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["KWHPUNIT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">KWHPUNIT</property>
+                    </data>
+                </cell>
+                <cell id="55">
+                    <data id="679">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">KWHPRATE</property>
+                                <text-property name="displayName">KWHPRATE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["KWHPRATE"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">KWHPRATE</property>
+                    </data>
+                </cell>
+                <cell id="56">
+                    <data id="680">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">KWHPAMT</property>
+                                <text-property name="displayName">KWHPAMT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["KWHPAMT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">KWHPAMT</property>
+                    </data>
+                </cell>
             </row>
             <row id="57">
                 <cell id="58">
@@ -552,9 +2506,54 @@
                         <text-property name="text">c) Total Energy Charges - Off Peak</text-property>
                     </label>
                 </cell>
-                <cell id="59"/>
-                <cell id="60"/>
-                <cell id="61"/>
+                <cell id="59">
+                    <data id="681">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">KWHOUNIT</property>
+                                <text-property name="displayName">KWHOUNIT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["KWHOUNIT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">KWHOUNIT</property>
+                    </data>
+                </cell>
+                <cell id="60">
+                    <data id="682">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">KWHORATE</property>
+                                <text-property name="displayName">KWHORATE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["KWHORATE"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">KWHORATE</property>
+                    </data>
+                </cell>
+                <cell id="61">
+                    <data id="683">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">KWHOAMT</property>
+                                <text-property name="displayName">KWHOAMT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["KWHOAMT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">KWHOAMT</property>
+                    </data>
+                </cell>
             </row>
             <row id="62">
                 <cell id="63">
@@ -567,14 +2566,30 @@
                 </cell>
                 <cell id="64"/>
                 <cell id="65"/>
-                <cell id="66"/>
+                <cell id="66">
+                    <data id="697">
+                        <property name="style">Font</property>
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">TotalEnergy</property>
+                                <text-property name="displayName">TotalEnergy</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["TotalEnergy"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">TotalEnergy</property>
+                    </data>
+                </cell>
             </row>
             <row id="67">
                 <cell id="68">
                     <label id="127">
                         <property name="style">Font</property>
                         <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
+                        <property name="textAlign">left</property>
                         <text-property name="text">3.Duty and Other Charges</text-property>
                     </label>
                 </cell>
@@ -589,9 +2604,54 @@
                         <text-property name="text">a) Electricity Duty</text-property>
                     </label>
                 </cell>
-                <cell id="74"/>
-                <cell id="75"/>
-                <cell id="76"/>
+                <cell id="74">
+                    <data id="672">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">DUTYUNIT</property>
+                                <text-property name="displayName">DUTYUNIT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["DUTYUNIT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">DUTYUNIT</property>
+                    </data>
+                </cell>
+                <cell id="75">
+                    <data id="673">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">DUTYRATE</property>
+                                <text-property name="displayName">DUTYRATE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["DUTYRATE"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">DUTYRATE</property>
+                    </data>
+                </cell>
+                <cell id="76">
+                    <data id="674">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">DUTYAMT</property>
+                                <text-property name="displayName">DUTYAMT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["DUTYAMT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">DUTYAMT</property>
+                    </data>
+                </cell>
             </row>
             <row id="77">
                 <cell id="78">
@@ -600,9 +2660,54 @@
                         <text-property name="text">b) Communication Charges/Meter Hire</text-property>
                     </label>
                 </cell>
-                <cell id="79"/>
-                <cell id="80"/>
-                <cell id="81"/>
+                <cell id="79">
+                    <data id="669">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">COMCHARGEUNIT</property>
+                                <text-property name="displayName">COMCHARGEUNIT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["COMCHARGEUNIT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">COMCHARGEUNIT</property>
+                    </data>
+                </cell>
+                <cell id="80">
+                    <data id="670">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">COMCHARGERATE</property>
+                                <text-property name="displayName">COMCHARGERATE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["COMCHARGERATE"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">COMCHARGERATE</property>
+                    </data>
+                </cell>
+                <cell id="81">
+                    <data id="671">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">COMCHARGEAMT</property>
+                                <text-property name="displayName">COMCHARGEAMT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["COMCHARGEAMT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">COMCHARGEAMT</property>
+                    </data>
+                </cell>
             </row>
             <row id="82">
                 <cell id="83">
@@ -611,9 +2716,54 @@
                         <text-property name="text">c) Fuel Surcharge</text-property>
                     </label>
                 </cell>
-                <cell id="84"/>
-                <cell id="85"/>
-                <cell id="86"/>
+                <cell id="84">
+                    <data id="666">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">FUELUNIT</property>
+                                <text-property name="displayName">FUELUNIT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["FUELUNIT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">FUELUNIT</property>
+                    </data>
+                </cell>
+                <cell id="85">
+                    <data id="667">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">FUELRATE</property>
+                                <text-property name="displayName">FUELRATE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["FUELRATE"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">FUELRATE</property>
+                    </data>
+                </cell>
+                <cell id="86">
+                    <data id="668">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">FUELAMT</property>
+                                <text-property name="displayName">FUELAMT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["FUELAMT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">FUELAMT</property>
+                    </data>
+                </cell>
             </row>
             <row id="87">
                 <cell id="88">
@@ -622,9 +2772,54 @@
                         <text-property name="text">d) Charges for Excess Over Quota</text-property>
                     </label>
                 </cell>
-                <cell id="89"/>
-                <cell id="90"/>
-                <cell id="91"/>
+                <cell id="89">
+                    <data id="663">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">EXCESSUNIT</property>
+                                <text-property name="displayName">EXCESSUNIT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["EXCESSUNIT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">EXCESSUNIT</property>
+                    </data>
+                </cell>
+                <cell id="90">
+                    <data id="664">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">EXCESSRATE</property>
+                                <text-property name="displayName">EXCESSRATE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["EXCESSRATE"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">EXCESSRATE</property>
+                    </data>
+                </cell>
+                <cell id="91">
+                    <data id="665">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">EXCESSAMT</property>
+                                <text-property name="displayName">EXCESSAMT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["EXCESSAMT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">EXCESSAMT</property>
+                    </data>
+                </cell>
             </row>
             <row id="92">
                 <cell id="93">
@@ -633,9 +2828,54 @@
                         <text-property name="text">e) Surcharge</text-property>
                     </label>
                 </cell>
-                <cell id="94"/>
-                <cell id="95"/>
-                <cell id="96"/>
+                <cell id="94">
+                    <data id="660">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">SURCHARGEUNIT</property>
+                                <text-property name="displayName">SURCHARGEUNIT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["SURCHARGEUNIT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">SURCHARGEUNIT</property>
+                    </data>
+                </cell>
+                <cell id="95">
+                    <data id="661">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">SURCHARGERATE</property>
+                                <text-property name="displayName">SURCHARGERATE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["SURCHARGERATE"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">SURCHARGERATE</property>
+                    </data>
+                </cell>
+                <cell id="96">
+                    <data id="662">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">SURCHARGEAMT</property>
+                                <text-property name="displayName">SURCHARGEAMT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["SURCHARGEAMT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">SURCHARGEAMT</property>
+                    </data>
+                </cell>
             </row>
             <row id="97">
                 <cell id="98">
@@ -644,9 +2884,54 @@
                         <text-property name="text">f) Power Factor Penalty</text-property>
                     </label>
                 </cell>
-                <cell id="99"/>
-                <cell id="100"/>
-                <cell id="101"/>
+                <cell id="99">
+                    <data id="690">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">PFPENUNIT</property>
+                                <text-property name="displayName">PFPENUNIT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["PFPENUNIT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">PFPENUNIT</property>
+                    </data>
+                </cell>
+                <cell id="100">
+                    <data id="692">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">PFPENRATE</property>
+                                <text-property name="displayName">PFPENRATE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["PFPENRATE"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">PFPENRATE</property>
+                    </data>
+                </cell>
+                <cell id="101">
+                    <data id="694">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">PFPENAMT</property>
+                                <text-property name="displayName">PFPENAMT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["PFPENAMT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">PFPENAMT</property>
+                    </data>
+                </cell>
             </row>
             <row id="102">
                 <cell id="103">
@@ -656,9 +2941,54 @@
                         <text-property name="text">g) Power Factor Incentive</text-property>
                     </label>
                 </cell>
-                <cell id="104"/>
-                <cell id="105"/>
-                <cell id="106"/>
+                <cell id="104">
+                    <data id="691">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">PFINCUNIT</property>
+                                <text-property name="displayName">PFINCUNIT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["PFINCUNIT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">PFINCUNIT</property>
+                    </data>
+                </cell>
+                <cell id="105">
+                    <data id="693">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">PFINCRATE</property>
+                                <text-property name="displayName">PFINCRATE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["PFINCRATE"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">PFINCRATE</property>
+                    </data>
+                </cell>
+                <cell id="106">
+                    <data id="695">
+                        <property name="style">Font</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">PFINCAMT</property>
+                                <text-property name="displayName">PFINCAMT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["PFINCAMT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">PFINCAMT</property>
+                    </data>
+                </cell>
             </row>
             <row id="107">
                 <cell id="108">
@@ -671,7 +3001,23 @@
                 </cell>
                 <cell id="109"/>
                 <cell id="110"/>
-                <cell id="111"/>
+                <cell id="111">
+                    <data id="696">
+                        <property name="style">Font</property>
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">OtherChTotal</property>
+                                <text-property name="displayName">OtherChTotal</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["OtherChTotal"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">OtherChTotal</property>
+                    </data>
+                </cell>
             </row>
             <row id="112">
                 <cell id="113">
@@ -684,7 +3030,23 @@
                 </cell>
                 <cell id="114"/>
                 <cell id="115"/>
-                <cell id="116"/>
+                <cell id="116">
+                    <data id="698">
+                        <property name="style">Font</property>
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">ParticularTotal</property>
+                                <text-property name="displayName">ParticularTotal</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["ParticularTotal"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">ParticularTotal</property>
+                    </data>
+                </cell>
             </row>
         </grid>
         <grid id="324">
@@ -708,17 +3070,55 @@
                         <text-property name="text">Grand Total</text-property>
                     </label>
                 </cell>
-                <cell id="330"/>
-                <cell id="331"/>
+                <cell id="330">
+                    <data id="659">
+                        <property name="style">Font</property>
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">TWORDS</property>
+                                <text-property name="displayName">TWORDS</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["TWORDS"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">TWORDS</property>
+                    </data>
+                </cell>
+                <cell id="331">
+                    <data id="699">
+                        <property name="style">Font</property>
+                        <property name="fontSize">11pt</property>
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">ParticularTotal</property>
+                                <text-property name="displayName">ParticularTotal</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["ParticularTotal"]</expression>
+                                <property name="dataType">string</property>
+                                <property name="allowExport">true</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">ParticularTotal</property>
+                    </data>
+                </cell>
             </row>
             <row id="332">
                 <cell id="333"/>
-                <cell id="334"/>
+                <cell id="334">
+                    <label id="706"/>
+                </cell>
                 <cell id="335"/>
             </row>
             <row id="336">
                 <cell id="337"/>
-                <cell id="338"/>
+                <cell id="338">
+                    <label id="707"/>
+                </cell>
                 <cell id="339"/>
             </row>
             <row id="340">
