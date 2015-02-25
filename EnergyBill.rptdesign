@@ -20,6 +20,20 @@
     <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="BILLID" id="780">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">integer</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="359">
             <list-property name="privateDriverProperties">
@@ -153,7 +167,32 @@ var tens = Array("", "", "TWENTY", "THIRTY", "FOURTY", "FIFTY", "SIXTY","SEVENTY
                 </structure>
                 <structure>
                     <property name="name">ParticularTotal</property>
-                    <expression name="expression">row["TotalEnergy"]+row["OtherChTotal"]</expression>
+                    <expression name="expression">row["TotalEnergy"]+row["OtherChTotal"]+row["TotalDemandCharge"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">TotalEnergyConsumption</property>
+                    <expression name="expression">row["KWHNUNIT"]+row["KWHPUNIT"]+row["KWHOUNIT"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">AdditionalMdunit</property>
+                    <expression name="expression">0</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">AdditionalMdRate</property>
+                    <expression name="expression">0</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">AdditionalMdAmount</property>
+                    <expression name="expression">0</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">TotalDemandCharge</property>
+                    <expression name="expression">row["BILLKAVAMT"]+row["KVAEXCESSAMT"]+row["AdditionalMdRate"]</expression>
                     <property name="dataType">decimal</property>
                 </structure>
             </list-property>
@@ -219,22 +258,46 @@ var tens = Array("", "", "TWENTY", "THIRTY", "FOURTY", "FIFTY", "SIXTY","SEVENTY
                     <text-property name="heading">KWHOAMT</text-property>
                 </structure>
                 <structure>
+                    <property name="columnName">KVAEXCESSUNIT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KVAEXCESSUNIT</text-property>
+                    <text-property name="heading">KVAEXCESSUNIT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KVAEXCESSRATE</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KVAEXCESSRATE</text-property>
+                    <text-property name="heading">KVAEXCESSRATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">KVAEXCESSAMT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">KVAEXCESSAMT</text-property>
+                    <text-property name="heading">KVAEXCESSAMT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BILLKVA</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">BILLKVA</text-property>
+                    <text-property name="heading">BILLKVA</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BILLKVARATE</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">BILLKVARATE</text-property>
+                    <text-property name="heading">BILLKVARATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">NDEMAND</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">NDEMAND</text-property>
+                    <text-property name="heading">NDEMAND</text-property>
+                </structure>
+                <structure>
                     <property name="columnName">KVANUNIT</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">KVANUNIT</text-property>
                     <text-property name="heading">KVANUNIT</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">KVANRATE</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">KVANRATE</text-property>
-                    <text-property name="heading">KVANRATE</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">KVANAMT</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">KVANAMT</text-property>
-                    <text-property name="heading">KVANAMT</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">KVAPUNIT</property>
@@ -243,34 +306,58 @@ var tens = Array("", "", "TWENTY", "THIRTY", "FOURTY", "FIFTY", "SIXTY","SEVENTY
                     <text-property name="heading">KVAPUNIT</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">KVAPRATE</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">KVAPRATE</text-property>
-                    <text-property name="heading">KVAPRATE</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">KVAPAMT</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">KVAPAMT</text-property>
-                    <text-property name="heading">KVAPAMT</text-property>
-                </structure>
-                <structure>
                     <property name="columnName">KVAOUNIT</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">KVAOUNIT</text-property>
                     <text-property name="heading">KVAOUNIT</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">KVAORATE</property>
+                    <property name="columnName">BILLKAVAMT</property>
                     <property name="analysis">measure</property>
-                    <text-property name="displayName">KVAORATE</text-property>
-                    <text-property name="heading">KVAORATE</text-property>
+                    <text-property name="displayName">BILLKAVAMT</text-property>
+                    <text-property name="heading">BILLKAVAMT</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">KVAOAMT</property>
+                    <property name="columnName">NREC_KWHNORMAL</property>
                     <property name="analysis">measure</property>
-                    <text-property name="displayName">KVAOAMT</text-property>
-                    <text-property name="heading">KVAOAMT</text-property>
+                    <text-property name="displayName">NREC_KWHNORMAL</text-property>
+                    <text-property name="heading">NREC_KWHNORMAL</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">NREC_KWHPEAK</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">NREC_KWHPEAK</text-property>
+                    <text-property name="heading">NREC_KWHPEAK</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">NREC_KWHOFFPEAK</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">NREC_KWHOFFPEAK</text-property>
+                    <text-property name="heading">NREC_KWHOFFPEAK</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">NREC_KVANORMAL</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">NREC_KVANORMAL</text-property>
+                    <text-property name="heading">NREC_KVANORMAL</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">NREC_KVAPEAK</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">NREC_KVAPEAK</text-property>
+                    <text-property name="heading">NREC_KVAPEAK</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">NREC_KVAOFFPEAK</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">NREC_KVAOFFPEAK</text-property>
+                    <text-property name="heading">NREC_KVAOFFPEAK</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">NREC_PF</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">NREC_PF</text-property>
+                    <text-property name="heading">NREC_PF</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">PFPENUNIT</property>
@@ -363,13 +450,19 @@ var tens = Array("", "", "TWENTY", "THIRTY", "FOURTY", "FIFTY", "SIXTY","SEVENTY
                     <text-property name="heading">FUELAMT</text-property>
                 </structure>
                 <structure>
+                    <property name="columnName">NKWHQUOTA</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">NKWHQUOTA</text-property>
+                    <text-property name="heading">NKWHQUOTA</text-property>
+                </structure>
+                <structure>
                     <property name="columnName">EXCESSUNIT</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">EXCESSUNIT</text-property>
                     <text-property name="heading">EXCESSUNIT</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">EXCESSRATE</property>
+                    <property name="columnName">NKWHEXCESSRATE</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">EXCESSRATE</text-property>
                     <text-property name="heading">EXCESSRATE</text-property>
@@ -397,6 +490,18 @@ var tens = Array("", "", "TWENTY", "THIRTY", "FOURTY", "FIFTY", "SIXTY","SEVENTY
                     <property name="analysis">measure</property>
                     <text-property name="displayName">SURCHARGEAMT</text-property>
                     <text-property name="heading">SURCHARGEAMT</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">param_1</property>
+                    <property name="paramName">BILLID</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                    <property name="position">1</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
@@ -453,172 +558,242 @@ var tens = Array("", "", "TWENTY", "THIRTY", "FOURTY", "FIFTY", "SIXTY","SEVENTY
                     </structure>
                     <structure>
                         <property name="position">11</property>
-                        <property name="name">KVANUNIT</property>
+                        <property name="name">KVAEXCESSUNIT</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">12</property>
-                        <property name="name">KVANRATE</property>
+                        <property name="name">KVAEXCESSRATE</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">13</property>
-                        <property name="name">KVANAMT</property>
+                        <property name="name">KVAEXCESSAMT</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">14</property>
-                        <property name="name">KVAPUNIT</property>
+                        <property name="name">BILLKVA</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">15</property>
-                        <property name="name">KVAPRATE</property>
+                        <property name="name">BILLKVARATE</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">16</property>
-                        <property name="name">KVAPAMT</property>
+                        <property name="name">NDEMAND</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">17</property>
-                        <property name="name">KVAOUNIT</property>
+                        <property name="name">KVANUNIT</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">18</property>
-                        <property name="name">KVAORATE</property>
+                        <property name="name">KVAPUNIT</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">19</property>
-                        <property name="name">KVAOAMT</property>
+                        <property name="name">KVAOUNIT</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">20</property>
-                        <property name="name">PFPENUNIT</property>
+                        <property name="name">BILLKAVAMT</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">21</property>
-                        <property name="name">PFINCUNIT</property>
+                        <property name="name">NREC_KWHNORMAL</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">22</property>
-                        <property name="name">PFPENRATE</property>
+                        <property name="name">NREC_KWHPEAK</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">23</property>
-                        <property name="name">PFINCRATE</property>
+                        <property name="name">NREC_KWHOFFPEAK</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">24</property>
-                        <property name="name">PFPENAMT</property>
+                        <property name="name">NREC_KVANORMAL</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">25</property>
-                        <property name="name">PFINCAMT</property>
+                        <property name="name">NREC_KVAPEAK</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">26</property>
-                        <property name="name">DUTYUNIT</property>
+                        <property name="name">NREC_KVAOFFPEAK</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">27</property>
-                        <property name="name">DUTYRATE</property>
+                        <property name="name">NREC_PF</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">28</property>
-                        <property name="name">DUTYAMT</property>
+                        <property name="name">PFPENUNIT</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">29</property>
-                        <property name="name">COMCHARGEUNIT</property>
+                        <property name="name">PFINCUNIT</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">30</property>
-                        <property name="name">COMCHARGERATE</property>
+                        <property name="name">PFPENRATE</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">31</property>
-                        <property name="name">COMCHARGEAMT</property>
+                        <property name="name">PFINCRATE</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">32</property>
-                        <property name="name">FUELUNIT</property>
+                        <property name="name">PFPENAMT</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">33</property>
-                        <property name="name">FUELRATE</property>
+                        <property name="name">PFINCAMT</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">34</property>
-                        <property name="name">FUELAMT</property>
+                        <property name="name">DUTYUNIT</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">35</property>
-                        <property name="name">EXCESSUNIT</property>
+                        <property name="name">DUTYRATE</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">36</property>
-                        <property name="name">EXCESSRATE</property>
+                        <property name="name">DUTYAMT</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">37</property>
-                        <property name="name">EXCESSAMT</property>
+                        <property name="name">COMCHARGEUNIT</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">38</property>
-                        <property name="name">SURCHARGEUNIT</property>
+                        <property name="name">COMCHARGERATE</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">39</property>
-                        <property name="name">SURCHARGERATE</property>
+                        <property name="name">COMCHARGEAMT</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">40</property>
-                        <property name="name">SURCHARGEAMT</property>
+                        <property name="name">FUELUNIT</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">41</property>
-                        <property name="name">TWORDS</property>
-                        <property name="dataType">string</property>
+                        <property name="name">FUELRATE</property>
+                        <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">42</property>
-                        <property name="name">TotalEnergy</property>
+                        <property name="name">FUELAMT</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">43</property>
-                        <property name="name">OtherChTotal</property>
+                        <property name="name">NKWHQUOTA</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">44</property>
+                        <property name="name">EXCESSUNIT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">45</property>
+                        <property name="name">NKWHEXCESSRATE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">46</property>
+                        <property name="name">EXCESSAMT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">47</property>
+                        <property name="name">SURCHARGEUNIT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">48</property>
+                        <property name="name">SURCHARGERATE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">49</property>
+                        <property name="name">SURCHARGEAMT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">50</property>
+                        <property name="name">TWORDS</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">51</property>
+                        <property name="name">TotalEnergy</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">52</property>
+                        <property name="name">OtherChTotal</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">53</property>
                         <property name="name">ParticularTotal</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">54</property>
+                        <property name="name">TotalEnergyConsumption</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">55</property>
+                        <property name="name">AdditionalMdunit</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">56</property>
+                        <property name="name">AdditionalMdRate</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">57</property>
+                        <property name="name">AdditionalMdAmount</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">58</property>
+                        <property name="name">TotalDemandCharge</property>
                         <property name="dataType">decimal</property>
                     </structure>
                 </list-property>
@@ -697,209 +872,272 @@ var tens = Array("", "", "TWENTY", "THIRTY", "FOURTY", "FIFTY", "SIXTY","SEVENTY
                 </structure>
                 <structure>
                     <property name="position">11</property>
+                    <property name="name">KVAEXCESSUNIT</property>
+                    <property name="nativeName">KVAEXCESSUNIT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">KVAEXCESSRATE</property>
+                    <property name="nativeName">KVAEXCESSRATE</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">KVAEXCESSAMT</property>
+                    <property name="nativeName">KVAEXCESSAMT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">BILLKVA</property>
+                    <property name="nativeName">BILLKVA</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">BILLKVARATE</property>
+                    <property name="nativeName">BILLKVARATE</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">16</property>
+                    <property name="name">NDEMAND</property>
+                    <property name="nativeName">NDEMAND</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
                     <property name="name">KVANUNIT</property>
                     <property name="nativeName">KVANUNIT</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">12</property>
-                    <property name="name">KVANRATE</property>
-                    <property name="nativeName">KVANRATE</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">13</property>
-                    <property name="name">KVANAMT</property>
-                    <property name="nativeName">KVANAMT</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">14</property>
+                    <property name="position">18</property>
                     <property name="name">KVAPUNIT</property>
                     <property name="nativeName">KVAPUNIT</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">15</property>
-                    <property name="name">KVAPRATE</property>
-                    <property name="nativeName">KVAPRATE</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">16</property>
-                    <property name="name">KVAPAMT</property>
-                    <property name="nativeName">KVAPAMT</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">17</property>
+                    <property name="position">19</property>
                     <property name="name">KVAOUNIT</property>
                     <property name="nativeName">KVAOUNIT</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">18</property>
-                    <property name="name">KVAORATE</property>
-                    <property name="nativeName">KVAORATE</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">19</property>
-                    <property name="name">KVAOAMT</property>
-                    <property name="nativeName">KVAOAMT</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
                     <property name="position">20</property>
+                    <property name="name">BILLKAVAMT</property>
+                    <property name="nativeName">BILLKAVAMT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">21</property>
+                    <property name="name">NREC_KWHNORMAL</property>
+                    <property name="nativeName">NREC_KWHNORMAL</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">22</property>
+                    <property name="name">NREC_KWHPEAK</property>
+                    <property name="nativeName">NREC_KWHPEAK</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">23</property>
+                    <property name="name">NREC_KWHOFFPEAK</property>
+                    <property name="nativeName">NREC_KWHOFFPEAK</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">24</property>
+                    <property name="name">NREC_KVANORMAL</property>
+                    <property name="nativeName">NREC_KVANORMAL</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">25</property>
+                    <property name="name">NREC_KVAPEAK</property>
+                    <property name="nativeName">NREC_KVAPEAK</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">26</property>
+                    <property name="name">NREC_KVAOFFPEAK</property>
+                    <property name="nativeName">NREC_KVAOFFPEAK</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">27</property>
+                    <property name="name">NREC_PF</property>
+                    <property name="nativeName">NREC_PF</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">28</property>
                     <property name="name">PFPENUNIT</property>
                     <property name="nativeName">PFPENUNIT</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">21</property>
+                    <property name="position">29</property>
                     <property name="name">PFINCUNIT</property>
                     <property name="nativeName">PFINCUNIT</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">22</property>
+                    <property name="position">30</property>
                     <property name="name">PFPENRATE</property>
                     <property name="nativeName">PFPENRATE</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">23</property>
+                    <property name="position">31</property>
                     <property name="name">PFINCRATE</property>
                     <property name="nativeName">PFINCRATE</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">24</property>
+                    <property name="position">32</property>
                     <property name="name">PFPENAMT</property>
                     <property name="nativeName">PFPENAMT</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">25</property>
+                    <property name="position">33</property>
                     <property name="name">PFINCAMT</property>
                     <property name="nativeName">PFINCAMT</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">26</property>
+                    <property name="position">34</property>
                     <property name="name">DUTYUNIT</property>
                     <property name="nativeName">DUTYUNIT</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">27</property>
+                    <property name="position">35</property>
                     <property name="name">DUTYRATE</property>
                     <property name="nativeName">DUTYRATE</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">28</property>
+                    <property name="position">36</property>
                     <property name="name">DUTYAMT</property>
                     <property name="nativeName">DUTYAMT</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">29</property>
+                    <property name="position">37</property>
                     <property name="name">COMCHARGEUNIT</property>
                     <property name="nativeName">COMCHARGEUNIT</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">30</property>
+                    <property name="position">38</property>
                     <property name="name">COMCHARGERATE</property>
                     <property name="nativeName">COMCHARGERATE</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">31</property>
+                    <property name="position">39</property>
                     <property name="name">COMCHARGEAMT</property>
                     <property name="nativeName">COMCHARGEAMT</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">32</property>
+                    <property name="position">40</property>
                     <property name="name">FUELUNIT</property>
                     <property name="nativeName">FUELUNIT</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">33</property>
+                    <property name="position">41</property>
                     <property name="name">FUELRATE</property>
                     <property name="nativeName">FUELRATE</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">34</property>
+                    <property name="position">42</property>
                     <property name="name">FUELAMT</property>
                     <property name="nativeName">FUELAMT</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">35</property>
+                    <property name="position">43</property>
+                    <property name="name">NKWHQUOTA</property>
+                    <property name="nativeName">NKWHQUOTA</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">44</property>
                     <property name="name">EXCESSUNIT</property>
                     <property name="nativeName">EXCESSUNIT</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">36</property>
-                    <property name="name">EXCESSRATE</property>
-                    <property name="nativeName">EXCESSRATE</property>
+                    <property name="position">45</property>
+                    <property name="name">NKWHEXCESSRATE</property>
+                    <property name="nativeName">NKWHEXCESSRATE</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">37</property>
+                    <property name="position">46</property>
                     <property name="name">EXCESSAMT</property>
                     <property name="nativeName">EXCESSAMT</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">38</property>
+                    <property name="position">47</property>
                     <property name="name">SURCHARGEUNIT</property>
                     <property name="nativeName">SURCHARGEUNIT</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">39</property>
+                    <property name="position">48</property>
                     <property name="name">SURCHARGERATE</property>
                     <property name="nativeName">SURCHARGERATE</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">40</property>
+                    <property name="position">49</property>
                     <property name="name">SURCHARGEAMT</property>
                     <property name="nativeName">SURCHARGEAMT</property>
                     <property name="dataType">decimal</property>
@@ -907,17 +1145,37 @@ var tens = Array("", "", "TWENTY", "THIRTY", "FOURTY", "FIFTY", "SIXTY","SEVENTY
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select A.bill_id,  sum(kwhNunit) kwhNunit, sum(kwhNrate) kwhNrate, sum(kwhNamt) kwhNamt,  sum(kwhPunit) kwhPunit, sum(kwhPrate) kwhPrate, sum(kwhPamt) kwhPamt, sum(kwhOunit) kwhOunit, sum(kwhOrate) kwhOrate, sum(kwhOamt) kwhOamt,
- sum(kvaNunit) kvaNunit, sum(kvaNrate) kvaNrate,sum(kvaNamt) kvaNamt, sum(kvaPunit) kvaPunit, sum(kvaPrate) kvaPrate, sum(kvaPamt) kvaPamt, sum(kvaOunit) kvaOunit, sum(kvaOrate) kvaOrate, sum(kvaOamt) kvaOamt,pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt,
+ kvaexcessunit, kvaexcessrate, kvaexcessamt, BillKVA, BillKVARate,ndemand,kvaNunit,kvaPunit,kvaOunit,
+    BillKAVAmt, nrec_kwhNormal, nrec_kwhpeak,nrec_kwhoffpeak,nrec_kvaNormal,nrec_kvapeak,nrec_kvaoffpeak, nrec_PF,pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt,
  sum(dutyunit) dutyunit, sum(dutyrate) dutyrate, sum(dutyamt) dutyamt,sum(comchargeunit) comchargeunit, sum(comchargerate) comchargerate, sum(comchargeamt) comchargeamt,  sum(fuelunit) fuelunit,sum( fuelrate) fuelrate, sum(fuelamt) fuelamt,
- sum(excessunit) excessunit, sum(excessrate) excessrate, sum(excessamt) excessamt,sum(surchargeunit) surchargeunit, sum(surchargerate) surchargerate, sum(surchargeamt) surchargeamt
+ nkwhquota,case when nrec_kwhpeak+nrec_kwhoffpeak+nrec_kwhnormal- nkwhquota >0 then nrec_kwhpeak+nrec_kwhoffpeak+nrec_kwhnormal- nkwhquota else 0 end excessunit, nkwhexcessrate excessrate, nkwhquota*nkwhexcessrate excessamt,sum(surchargeunit) surchargeunit, sum(surchargerate) surchargerate, sum(surchargeamt) surchargeamt
 from vw_billKWH A left join vw_billKVA B on A.bill_id=B.bill_id
 left join vw_billpf c on A.bill_id=c.bill_id
 left join vw_billOthers d on A.bill_id=d.bill_id
-where A.bill_id=1
-group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt]]></xml-property>
+where A.bill_id=?
+group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt,kvaexcessunit, kvaexcessrate, kvaexcessamt, BillKVA, BillKVARate,
+    BillKAVAmt, nrec_kwhNormal, nrec_kwhpeak,nrec_kwhoffpeak,nrec_kvaNormal,nrec_kvapeak,nrec_kvaoffpeak,kvaNunit,kvaPunit,kvaOunit, nrec_PF,ndemand,
+nkwhquota,excessrate,excessamt;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
+  <DataSetParameters>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name></design:name>
+            <design:position>1</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+          <design:precision>10</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Unknown</design:nullability>
+        </design:attributes>
+      </design:ParameterDefinition>
+    </parameter>
+  </DataSetParameters>
   <design:ResultSets derivedMetaData="true">
     <design:resultSetDefinitions>
       <design:resultSetColumns>
@@ -1767,6 +2025,327 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
   </design:ResultSets>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="EBILCONSDSET" id="721">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">CONSUMERNO</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CONSUMERNO</text-property>
+                    <text-property name="heading">CONSUMERNO</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ADDRESS</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">ADDRESS</text-property>
+                    <text-property name="heading">ADDRESS</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DTCONNECTION</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">DTCONNECTION</text-property>
+                    <text-property name="heading">DTCONNECTION</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">TYPESHORT</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">TYPESHORT</text-property>
+                    <text-property name="heading">TYPESHORT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">STMTNO</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">STMTNO</text-property>
+                    <text-property name="heading">STMTNO</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DTBILL</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">DTBILL</text-property>
+                    <text-property name="heading">DTBILL</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CUSTNAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CUSTNAME</text-property>
+                    <text-property name="heading">CUSTNAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DTSTART</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">DTSTART</text-property>
+                    <text-property name="heading">DTSTART</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DTEND</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">DTEND</text-property>
+                    <text-property name="heading">DTEND</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">param_1</property>
+                    <property name="paramName">BILLID</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                    <property name="position">1</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">CONSUMERNO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">ADDRESS</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">DTCONNECTION</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">TYPESHORT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">STMTNO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">DTBILL</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">CUSTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">DTSTART</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">DTEND</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">IrevealDS</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">CONSUMERNO</property>
+                    <property name="nativeName">CONSUMERNO</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">ADDRESS</property>
+                    <property name="nativeName">ADDRESS</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">DTCONNECTION</property>
+                    <property name="nativeName">DTCONNECTION</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">TYPESHORT</property>
+                    <property name="nativeName">TYPESHORT</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">STMTNO</property>
+                    <property name="nativeName">STMTNO</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">DTBILL</property>
+                    <property name="nativeName">DTBILL</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">CUSTNAME</property>
+                    <property name="nativeName">CUSTNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">DTSTART</property>
+                    <property name="nativeName">DTSTART</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">DTEND</property>
+                    <property name="nativeName">DTEND</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select consumerno,address,dtconnection,ETTYPE.TYPESHORT,EBILL.STMTNO,EBILL.DTBILL,BA.CUSTNAME,EBILL.DTSTART,EBILL.DTEND from ems_billaccount BA inner join 
+ems_tarifftype ETTYPE on ETTYPE.TARIFFTYPE_ID=BA.TARIFFTYPE_ID inner join ems_bill EBILL on EBILL.BACCOUNT_ID=BA.BACCOUNT_ID
+where EBILL.BILL_ID=?]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <DataSetParameters>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name></design:name>
+            <design:position>1</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+          <design:precision>10</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Unknown</design:nullability>
+        </design:attributes>
+      </design:ParameterDefinition>
+    </parameter>
+  </DataSetParameters>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CONSUMERNO</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CONSUMERNO</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CONSUMERNO</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ADDRESS</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>100</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ADDRESS</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ADDRESS</design:label>
+            <design:formattingHints>
+              <design:displaySize>100</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DTCONNECTION</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>91</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>DTCONNECTION</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DTCONNECTION</design:label>
+            <design:formattingHints>
+              <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>TYPESHORT</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>TYPESHORT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>TYPESHORT</design:label>
+            <design:formattingHints>
+              <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>STMTNO</design:name>
+              <design:position>5</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>100</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>STMTNO</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>STMTNO</design:label>
+            <design:formattingHints>
+              <design:displaySize>100</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
     </data-sets>
     <styles>
         <style name="report" id="4">
@@ -1809,12 +2388,28 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <page-header>
-                <label id="708">
+                <text-data id="761">
                     <property name="style">Font</property>
                     <property name="fontWeight">bold</property>
                     <property name="textAlign">center</property>
-                    <text-property name="text">Statement of Account for the Month</text-property>
-                </label>
+                    <property name="dataSet">EBILCONSDSET</property>
+                    <list-property name="boundDataColumns">
+                        <structure>
+                            <property name="name">DTSTART</property>
+                            <text-property name="displayName">DTSTART</text-property>
+                            <expression name="expression" type="javascript">dataSetRow["DTSTART"]</expression>
+                            <property name="dataType">date</property>
+                        </structure>
+                        <structure>
+                            <property name="name">DTEND</property>
+                            <text-property name="displayName">DTEND</text-property>
+                            <expression name="expression" type="javascript">dataSetRow["DTEND"]</expression>
+                            <property name="dataType">date</property>
+                        </structure>
+                    </list-property>
+                    <expression name="valueExpr">"Statement of Account from "+row["DTSTART"]+" to "+row["DTEND"]</expression>
+                    <property name="contentType">html</property>
+                </text-data>
             </page-header>
             <page-footer>
                 <text id="3">
@@ -1849,14 +2444,42 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                                     <text-property name="text">Consumer No:</text-property>
                                 </label>
                             </cell>
-                            <cell id="285"/>
+                            <cell id="285">
+                                <data id="722">
+                                    <property name="style">Font</property>
+                                    <property name="dataSet">EBILCONSDSET</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">CONSUMERNO</property>
+                                            <text-property name="displayName">CONSUMERNO</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["CONSUMERNO"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">CONSUMERNO</property>
+                                </data>
+                            </cell>
                             <cell id="286">
                                 <label id="289">
                                     <property name="style">Font</property>
                                     <text-property name="text">Stmnt:No:</text-property>
                                 </label>
                             </cell>
-                            <cell id="287"/>
+                            <cell id="287">
+                                <data id="723">
+                                    <property name="style">Font</property>
+                                    <property name="dataSet">EBILCONSDSET</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">STMTNO</property>
+                                            <text-property name="displayName">STMTNO</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["STMTNO"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">STMTNO</property>
+                                </data>
+                            </cell>
                         </row>
                     </grid>
                 </cell>
@@ -1880,10 +2503,52 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                                     <text-property name="text">Date:</text-property>
                                 </label>
                             </cell>
-                            <cell id="298"/>
+                            <cell id="298">
+                                <data id="753">
+                                    <property name="style">Font</property>
+                                    <property name="textAlign">left</property>
+                                    <property name="dataSet">EBILCONSDSET</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">DTBILL</property>
+                                            <text-property name="displayName">DTBILL</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["DTBILL"]</expression>
+                                            <property name="dataType">date</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">DTBILL</property>
+                                </data>
+                            </cell>
                         </row>
                         <row id="299">
-                            <cell id="300"/>
+                            <cell id="300">
+                                <data id="762">
+                                    <property name="style">Font</property>
+                                    <property name="dataSet">EBILCONSDSET</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">CUSTNAME</property>
+                                            <text-property name="displayName">CUSTNAME</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["CUSTNAME"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">CUSTNAME</property>
+                                </data>
+                                <data id="724">
+                                    <property name="style">Font</property>
+                                    <property name="dataSet">EBILCONSDSET</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">ADDRESS</property>
+                                            <text-property name="displayName">ADDRESS</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["ADDRESS"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">ADDRESS</property>
+                                </data>
+                            </cell>
                             <cell id="301"/>
                             <cell id="302">
                                 <grid id="260">
@@ -1897,7 +2562,26 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                                                 <text-property name="text">Contract Demand:</text-property>
                                             </label>
                                         </cell>
-                                        <cell id="265"/>
+                                        <cell id="265">
+                                            <data id="742">
+                                                <property name="style">Font</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Custom</property>
+                                                    <property name="pattern">########0.00</property>
+                                                </structure>
+                                                <property name="textAlign">left</property>
+                                                <property name="dataSet">EBILL</property>
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">NDEMAND</property>
+                                                        <text-property name="displayName">NDEMAND</text-property>
+                                                        <expression name="expression" type="javascript">dataSetRow["NDEMAND"]</expression>
+                                                        <property name="dataType">decimal</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">NDEMAND</property>
+                                            </data>
+                                        </cell>
                                     </row>
                                     <row id="266">
                                         <cell id="267">
@@ -1907,7 +2591,26 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                                                 <text-property name="text">75% of Contract Demand:</text-property>
                                             </label>
                                         </cell>
-                                        <cell id="268"/>
+                                        <cell id="268">
+                                            <data id="740">
+                                                <property name="style">Font</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Custom</property>
+                                                    <property name="pattern">########0.00</property>
+                                                </structure>
+                                                <property name="textAlign">left</property>
+                                                <property name="dataSet">EBILL</property>
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">BILLKVA</property>
+                                                        <text-property name="displayName">BILLKVA</text-property>
+                                                        <expression name="expression" type="javascript">dataSetRow["BILLKVA"]</expression>
+                                                        <property name="dataType">decimal</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">BILLKVA</property>
+                                            </data>
+                                        </cell>
                                     </row>
                                     <row id="269">
                                         <cell id="270">
@@ -1917,7 +2620,26 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                                                 <text-property name="text">Marginal Cost for Excess Quota:</text-property>
                                             </label>
                                         </cell>
-                                        <cell id="271"/>
+                                        <cell id="271">
+                                            <data id="749">
+                                                <property name="style">Font</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Custom</property>
+                                                    <property name="pattern">########0.00</property>
+                                                </structure>
+                                                <property name="textAlign">left</property>
+                                                <property name="dataSet">EBILL</property>
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">NKWHEXCESSRATE</property>
+                                                        <text-property name="displayName">EXCESSRATE</text-property>
+                                                        <expression name="expression" type="javascript">dataSetRow["NKWHEXCESSRATE"]</expression>
+                                                        <property name="dataType">decimal</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">NKWHEXCESSRATE</property>
+                                            </data>
+                                        </cell>
                                     </row>
                                     <row id="272">
                                         <cell id="273">
@@ -1927,7 +2649,26 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                                                 <text-property name="text">Fuel Surcharge Rate:</text-property>
                                             </label>
                                         </cell>
-                                        <cell id="274"/>
+                                        <cell id="274">
+                                            <data id="719">
+                                                <property name="style">Font</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Custom</property>
+                                                    <property name="pattern">########0.00</property>
+                                                </structure>
+                                                <property name="textAlign">left</property>
+                                                <property name="dataSet">EBILL</property>
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">FUELRATE</property>
+                                                        <text-property name="displayName">FUELRATE</text-property>
+                                                        <expression name="expression" type="javascript">dataSetRow["FUELRATE"]</expression>
+                                                        <property name="dataType">decimal</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">FUELRATE</property>
+                                            </data>
+                                        </cell>
                                     </row>
                                 </grid>
                             </cell>
@@ -1938,25 +2679,42 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
             <row id="322">
                 <cell id="323">
                     <grid id="305">
-                        <column id="306"/>
                         <column id="307"/>
                         <row id="308">
-                            <cell id="309">
-                                <label id="314">
+                            <cell id="310">
+                                <data id="725">
                                     <property name="style">Font</property>
-                                    <text-property name="text">Date of Connection:</text-property>
-                                </label>
+                                    <property name="dataSet">EBILCONSDSET</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">DTCONNECTION</property>
+                                            <text-property name="displayName">DTCONNECTION</text-property>
+                                            <expression name="expression" type="javascript">"Date of Connection:  "+dataSetRow["DTCONNECTION"]</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">DTCONNECTION</property>
+                                </data>
                             </cell>
-                            <cell id="310"/>
                         </row>
                         <row id="311">
-                            <cell id="312">
-                                <label id="315">
+                            <cell id="313">
+                                <data id="726">
                                     <property name="style">Font</property>
-                                    <text-property name="text">Tariff:</text-property>
-                                </label>
+                                    <property name="dataSet">EBILCONSDSET</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">TYPESHORT</property>
+                                            <text-property name="displayName">TYPESHORT</text-property>
+                                            <expression name="expression" type="javascript">"Tariff: "+dataSetRow["TYPESHORT"]</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">TYPESHORT</property>
+                                </data>
                             </cell>
-                            <cell id="313"/>
                         </row>
                     </grid>
                 </cell>
@@ -2020,51 +2778,51 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                         </row>
                         <row id="225">
                             <cell id="226">
-                                <data id="684">
+                                <data id="736">
                                     <property name="style">Font</property>
                                     <property name="textAlign">center</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">KVANUNIT</property>
-                                            <text-property name="displayName">KVANUNIT</text-property>
-                                            <expression name="expression" type="javascript">dataSetRow["KVANUNIT"]</expression>
+                                            <property name="name">NREC_KVANORMAL</property>
+                                            <text-property name="displayName">NREC_KVANORMAL</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["NREC_KVANORMAL"]</expression>
                                             <property name="dataType">decimal</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">KVANUNIT</property>
+                                    <property name="resultSetColumn">NREC_KVANORMAL</property>
                                 </data>
                             </cell>
                             <cell id="227">
-                                <data id="685">
+                                <data id="737">
                                     <property name="style">Font</property>
                                     <property name="textAlign">center</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">KVAPUNIT</property>
-                                            <text-property name="displayName">KVAPUNIT</text-property>
-                                            <expression name="expression" type="javascript">dataSetRow["KVAPUNIT"]</expression>
+                                            <property name="name">NREC_KVAPEAK</property>
+                                            <text-property name="displayName">NREC_KVAPEAK</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["NREC_KVAPEAK"]</expression>
                                             <property name="dataType">decimal</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">KVAPUNIT</property>
+                                    <property name="resultSetColumn">NREC_KVAPEAK</property>
                                 </data>
                             </cell>
                             <cell id="228">
-                                <data id="686">
+                                <data id="738">
                                     <property name="style">Font</property>
                                     <property name="textAlign">center</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">KVAOUNIT</property>
-                                            <text-property name="displayName">KVAOUNIT</text-property>
-                                            <expression name="expression" type="javascript">dataSetRow["KVAOUNIT"]</expression>
+                                            <property name="name">NREC_KVAOFFPEAK</property>
+                                            <text-property name="displayName">NREC_KVAOFFPEAK</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["NREC_KVAOFFPEAK"]</expression>
                                             <property name="dataType">decimal</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">KVAOUNIT</property>
+                                    <property name="resultSetColumn">NREC_KVAOFFPEAK</property>
                                 </data>
                             </cell>
                         </row>
@@ -2109,9 +2867,54 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                             </cell>
                         </row>
                         <row id="240">
-                            <cell id="241"/>
-                            <cell id="242"/>
-                            <cell id="243"/>
+                            <cell id="241">
+                                <data id="743">
+                                    <property name="style">Font</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="dataSet">EBILL</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">KVANUNIT</property>
+                                            <text-property name="displayName">KVANUNIT</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["KVANUNIT"]</expression>
+                                            <property name="dataType">decimal</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">KVANUNIT</property>
+                                </data>
+                            </cell>
+                            <cell id="242">
+                                <data id="744">
+                                    <property name="style">Font</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="dataSet">EBILL</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">KVAPUNIT</property>
+                                            <text-property name="displayName">KVAPUNIT</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["KVAPUNIT"]</expression>
+                                            <property name="dataType">decimal</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">KVAPUNIT</property>
+                                </data>
+                            </cell>
+                            <cell id="243">
+                                <data id="745">
+                                    <property name="style">Font</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="dataSet">EBILL</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">KVAOUNIT</property>
+                                            <text-property name="displayName">KVAOUNIT</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["KVAOUNIT"]</expression>
+                                            <property name="dataType">decimal</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">KVAOUNIT</property>
+                                </data>
+                            </cell>
                         </row>
                     </grid>
                 </cell>
@@ -2119,16 +2922,25 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
             <row id="212">
                 <cell id="213">
                     <grid id="244">
-                        <column id="245"/>
                         <column id="246"/>
                         <row id="247">
-                            <cell id="248">
-                                <label id="187">
+                            <cell id="249">
+                                <data id="739">
                                     <property name="style">Font</property>
-                                    <text-property name="text">Average pf:</text-property>
-                                </label>
+                                    <property name="textAlign">left</property>
+                                    <property name="dataSet">EBILL</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">NREC_PF</property>
+                                            <text-property name="displayName">NREC_PF</text-property>
+                                            <expression name="expression" type="javascript">"Average pf: "+dataSetRow["NREC_PF"]</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">NREC_PF</property>
+                                </data>
                             </cell>
-                            <cell id="249"/>
                         </row>
                     </grid>
                 </cell>
@@ -2147,25 +2959,43 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
             <row id="178">
                 <cell id="179">
                     <grid id="142">
-                        <column id="143"/>
                         <column id="144"/>
-                        <column id="145"/>
                         <column id="146"/>
                         <row id="147">
-                            <cell id="148">
-                                <label id="152">
+                            <cell id="149">
+                                <data id="752">
                                     <property name="style">Font</property>
-                                    <text-property name="text">Monthly Quota(KWh):</text-property>
-                                </label>
+                                    <property name="textAlign">left</property>
+                                    <property name="dataSet">EBILL</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">NKWHQUOTA</property>
+                                            <text-property name="displayName">NKWHQUOTA</text-property>
+                                            <expression name="expression" type="javascript">"Monthly Quota(KWh): "+dataSetRow["NKWHQUOTA"]</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">NKWHQUOTA</property>
+                                </data>
                             </cell>
-                            <cell id="149"/>
-                            <cell id="150">
-                                <label id="153">
+                            <cell id="151">
+                                <data id="751">
                                     <property name="style">Font</property>
-                                    <text-property name="text">Excess Over Quota:</text-property>
-                                </label>
+                                    <property name="textAlign">left</property>
+                                    <property name="dataSet">EBILL</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">EXCESSUNIT</property>
+                                            <text-property name="displayName">EXCESSUNIT</text-property>
+                                            <expression name="expression" type="javascript">"Excess Over Quota: "+dataSetRow["EXCESSUNIT"]</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">EXCESSUNIT</property>
+                                </data>
                             </cell>
-                            <cell id="151"/>
                         </row>
                     </grid>
                 </cell>
@@ -2173,16 +3003,28 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
             <row id="180">
                 <cell id="181">
                     <grid id="154">
-                        <column id="155"/>
                         <column id="156"/>
                         <row id="157">
-                            <cell id="158">
-                                <label id="160">
+                            <cell id="159">
+                                <data id="709">
                                     <property name="style">Font</property>
-                                    <text-property name="text">Total Energy Consumption (kwh) :</text-property>
-                                </label>
+                                    <structure name="stringFormat">
+                                        <property name="category">Custom</property>
+                                    </structure>
+                                    <property name="textAlign">left</property>
+                                    <property name="dataSet">EBILL</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">TotalEnergyConsumption</property>
+                                            <text-property name="displayName">TotalEnergyConsumption</text-property>
+                                            <expression name="expression" type="javascript">"Total Energy Consumption (kwh) :"+dataSetRow["TotalEnergyConsumption"]</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">TotalEnergyConsumption</property>
+                                </data>
                             </cell>
-                            <cell id="159"/>
                         </row>
                     </grid>
                 </cell>
@@ -2218,51 +3060,51 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                         </row>
                         <row id="165">
                             <cell id="166">
-                                <data id="687">
+                                <data id="755">
                                     <property name="style">Font</property>
                                     <property name="textAlign">center</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">KWHNUNIT</property>
-                                            <text-property name="displayName">KWHNUNIT</text-property>
-                                            <expression name="expression" type="javascript">dataSetRow["KWHNUNIT"]</expression>
+                                            <property name="name">NREC_KWHNORMAL</property>
+                                            <text-property name="displayName">NREC_KWHNORMAL</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["NREC_KWHNORMAL"]</expression>
                                             <property name="dataType">decimal</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">KWHNUNIT</property>
+                                    <property name="resultSetColumn">NREC_KWHNORMAL</property>
                                 </data>
                             </cell>
                             <cell id="167">
-                                <data id="688">
+                                <data id="756">
                                     <property name="style">Font</property>
                                     <property name="textAlign">center</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">KWHPUNIT</property>
-                                            <text-property name="displayName">KWHPUNIT</text-property>
-                                            <expression name="expression" type="javascript">dataSetRow["KWHPUNIT"]</expression>
+                                            <property name="name">NREC_KWHPEAK</property>
+                                            <text-property name="displayName">NREC_KWHPEAK</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["NREC_KWHPEAK"]</expression>
                                             <property name="dataType">decimal</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">KWHPUNIT</property>
+                                    <property name="resultSetColumn">NREC_KWHPEAK</property>
                                 </data>
                             </cell>
                             <cell id="168">
-                                <data id="689">
+                                <data id="757">
                                     <property name="style">Font</property>
                                     <property name="textAlign">center</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">KWHOUNIT</property>
-                                            <text-property name="displayName">KWHOUNIT</text-property>
-                                            <expression name="expression" type="javascript">dataSetRow["KWHOUNIT"]</expression>
+                                            <property name="name">NREC_KWHOFFPEAK</property>
+                                            <text-property name="displayName">NREC_KWHOFFPEAK</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["NREC_KWHOFFPEAK"]</expression>
                                             <property name="dataType">decimal</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">KWHOUNIT</property>
+                                    <property name="resultSetColumn">NREC_KWHOFFPEAK</property>
                                 </data>
                             </cell>
                         </row>
@@ -2296,7 +3138,7 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                     <label id="139">
                         <property name="style">Font</property>
                         <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
+                        <property name="textAlign">right</property>
                         <text-property name="text">Unit</text-property>
                     </label>
                 </cell>
@@ -2304,7 +3146,7 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                     <label id="140">
                         <property name="style">Font</property>
                         <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
+                        <property name="textAlign">right</property>
                         <text-property name="text">Rate(Rs.)</text-property>
                     </label>
                 </cell>
@@ -2312,7 +3154,7 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                     <label id="141">
                         <property name="style">Font</property>
                         <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
+                        <property name="textAlign">right</property>
                         <text-property name="text">Amount(Rs.)</text-property>
                     </label>
                 </cell>
@@ -2321,6 +3163,7 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="18">
                     <label id="117">
                         <property name="style">Font</property>
+                        <property name="fontWeight">bold</property>
                         <text-property name="text">1. Total Demand Charge</text-property>
                     </label>
                 </cell>
@@ -2335,9 +3178,66 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                         <text-property name="text">a) Billing Demand Charge</text-property>
                     </label>
                 </cell>
-                <cell id="24"/>
-                <cell id="25"/>
-                <cell id="26"/>
+                <cell id="24">
+                    <data id="727">
+                        <property name="style">Font</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">BILLKVA</property>
+                                <text-property name="displayName">BILLKVA</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["BILLKVA"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">BILLKVA</property>
+                    </data>
+                </cell>
+                <cell id="25">
+                    <data id="728">
+                        <property name="style">Font</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">BILLKVARATE</property>
+                                <text-property name="displayName">BILLKVARATE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["BILLKVARATE"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">BILLKVARATE</property>
+                    </data>
+                </cell>
+                <cell id="26">
+                    <data id="729">
+                        <property name="style">Font</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">BILLKAVAMT</property>
+                                <text-property name="displayName">BILLKAVAMT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["BILLKAVAMT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">BILLKAVAMT</property>
+                    </data>
+                </cell>
             </row>
             <row id="27">
                 <cell id="28">
@@ -2346,9 +3246,66 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                         <text-property name="text">b) Excess Demand Charge</text-property>
                     </label>
                 </cell>
-                <cell id="29"/>
-                <cell id="30"/>
-                <cell id="31"/>
+                <cell id="29">
+                    <data id="733">
+                        <property name="style">Font</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">KVAEXCESSUNIT</property>
+                                <text-property name="displayName">KVAEXCESSUNIT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["KVAEXCESSUNIT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">KVAEXCESSUNIT</property>
+                    </data>
+                </cell>
+                <cell id="30">
+                    <data id="734">
+                        <property name="style">Font</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">KVAEXCESSRATE</property>
+                                <text-property name="displayName">KVAEXCESSRATE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["KVAEXCESSRATE"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">KVAEXCESSRATE</property>
+                    </data>
+                </cell>
+                <cell id="31">
+                    <data id="735">
+                        <property name="style">Font</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">KVAEXCESSAMT</property>
+                                <text-property name="displayName">KVAEXCESSAMT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["KVAEXCESSAMT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">KVAEXCESSAMT</property>
+                    </data>
+                </cell>
             </row>
             <row id="32">
                 <cell id="33">
@@ -2357,9 +3314,66 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                         <text-property name="text">c) Additional MD Charge</text-property>
                     </label>
                 </cell>
-                <cell id="34"/>
-                <cell id="35"/>
-                <cell id="36"/>
+                <cell id="34">
+                    <data id="730">
+                        <property name="style">Font</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">AdditionalMdunit</property>
+                                <text-property name="displayName">AdditionalMdunit</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["AdditionalMdunit"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">AdditionalMdunit</property>
+                    </data>
+                </cell>
+                <cell id="35">
+                    <data id="731">
+                        <property name="style">Font</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">AdditionalMdRate</property>
+                                <text-property name="displayName">AdditionalMdRate</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["AdditionalMdRate"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">AdditionalMdRate</property>
+                    </data>
+                </cell>
+                <cell id="36">
+                    <data id="732">
+                        <property name="style">Font</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">AdditionalMdAmount</property>
+                                <text-property name="displayName">AdditionalMdAmount</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["AdditionalMdAmount"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">AdditionalMdAmount</property>
+                    </data>
+                </cell>
             </row>
             <row id="37">
                 <cell id="38">
@@ -2372,7 +3386,27 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 </cell>
                 <cell id="39"/>
                 <cell id="40"/>
-                <cell id="41"/>
+                <cell id="41">
+                    <data id="741">
+                        <property name="style">Font</property>
+                        <property name="fontWeight">bold</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
+                        <property name="dataSet">EBILL</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">TotalDemandCharge</property>
+                                <text-property name="displayName">TotalDemandCharge</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["TotalDemandCharge"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">TotalDemandCharge</property>
+                    </data>
+                </cell>
             </row>
             <row id="42">
                 <cell id="43">
@@ -2395,25 +3429,33 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                     </label>
                 </cell>
                 <cell id="49">
-                    <data id="675">
+                    <data id="758">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
-                                <property name="name">KWHNUNIT</property>
-                                <text-property name="displayName">KWHNUNIT</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["KWHNUNIT"]</expression>
+                                <property name="name">NREC_KWHNORMAL</property>
+                                <text-property name="displayName">NREC_KWHNORMAL</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["NREC_KWHNORMAL"]</expression>
                                 <property name="dataType">decimal</property>
                             </structure>
                         </list-property>
-                        <property name="resultSetColumn">KWHNUNIT</property>
+                        <property name="resultSetColumn">NREC_KWHNORMAL</property>
                     </data>
                 </cell>
                 <cell id="50">
                     <data id="676">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2429,7 +3471,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="51">
                     <data id="677">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2451,25 +3497,33 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                     </label>
                 </cell>
                 <cell id="54">
-                    <data id="678">
+                    <data id="759">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
-                                <property name="name">KWHPUNIT</property>
-                                <text-property name="displayName">KWHPUNIT</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["KWHPUNIT"]</expression>
+                                <property name="name">NREC_KWHPEAK</property>
+                                <text-property name="displayName">NREC_KWHPEAK</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["NREC_KWHPEAK"]</expression>
                                 <property name="dataType">decimal</property>
                             </structure>
                         </list-property>
-                        <property name="resultSetColumn">KWHPUNIT</property>
+                        <property name="resultSetColumn">NREC_KWHPEAK</property>
                     </data>
                 </cell>
                 <cell id="55">
                     <data id="679">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2485,7 +3539,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="56">
                     <data id="680">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2507,25 +3565,33 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                     </label>
                 </cell>
                 <cell id="59">
-                    <data id="681">
+                    <data id="760">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
-                                <property name="name">KWHOUNIT</property>
-                                <text-property name="displayName">KWHOUNIT</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["KWHOUNIT"]</expression>
+                                <property name="name">NREC_KWHOFFPEAK</property>
+                                <text-property name="displayName">NREC_KWHOFFPEAK</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["NREC_KWHOFFPEAK"]</expression>
                                 <property name="dataType">decimal</property>
                             </structure>
                         </list-property>
-                        <property name="resultSetColumn">KWHOUNIT</property>
+                        <property name="resultSetColumn">NREC_KWHOFFPEAK</property>
                     </data>
                 </cell>
                 <cell id="60">
                     <data id="682">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2541,7 +3607,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="61">
                     <data id="683">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2570,7 +3640,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                     <data id="697">
                         <property name="style">Font</property>
                         <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2607,7 +3681,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="74">
                     <data id="672">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2623,7 +3701,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="75">
                     <data id="673">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2639,7 +3721,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="76">
                     <data id="674">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2663,7 +3749,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="79">
                     <data id="669">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2679,7 +3769,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="80">
                     <data id="670">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2695,7 +3789,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="81">
                     <data id="671">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2719,7 +3817,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="84">
                     <data id="666">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2735,7 +3837,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="85">
                     <data id="667">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2751,7 +3857,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="86">
                     <data id="668">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2773,41 +3883,53 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                     </label>
                 </cell>
                 <cell id="89">
-                    <data id="663">
+                    <data id="747">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
-                                <property name="name">EXCESSUNIT</property>
+                                <property name="name">NKWHQUOTA</property>
                                 <text-property name="displayName">EXCESSUNIT</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["EXCESSUNIT"]</expression>
+                                <expression name="expression" type="javascript">dataSetRow["NKWHQUOTA"]</expression>
                                 <property name="dataType">decimal</property>
                             </structure>
                         </list-property>
-                        <property name="resultSetColumn">EXCESSUNIT</property>
+                        <property name="resultSetColumn">NKWHQUOTA</property>
                     </data>
                 </cell>
                 <cell id="90">
-                    <data id="664">
+                    <data id="746">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
-                                <property name="name">EXCESSRATE</property>
+                                <property name="name">NKWHEXCESSRATE</property>
                                 <text-property name="displayName">EXCESSRATE</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["EXCESSRATE"]</expression>
+                                <expression name="expression" type="javascript">dataSetRow["NKWHEXCESSRATE"]</expression>
                                 <property name="dataType">decimal</property>
                             </structure>
                         </list-property>
-                        <property name="resultSetColumn">EXCESSRATE</property>
+                        <property name="resultSetColumn">NKWHEXCESSRATE</property>
                     </data>
                 </cell>
                 <cell id="91">
-                    <data id="665">
+                    <data id="748">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2831,7 +3953,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="94">
                     <data id="660">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2847,7 +3973,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="95">
                     <data id="661">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2863,7 +3993,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="96">
                     <data id="662">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2887,7 +4021,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="99">
                     <data id="690">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2903,7 +4041,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="100">
                     <data id="692">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2919,7 +4061,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="101">
                     <data id="694">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2944,7 +4090,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="104">
                     <data id="691">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2960,7 +4110,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="105">
                     <data id="693">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2976,7 +4130,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 <cell id="106">
                     <data id="695">
                         <property name="style">Font</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -3005,7 +4163,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                     <data id="696">
                         <property name="style">Font</property>
                         <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -3034,7 +4196,11 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                     <data id="698">
                         <property name="style">Font</property>
                         <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
+                        <structure name="numberFormat">
+                            <property name="category">Custom</property>
+                            <property name="pattern">########0.00</property>
+                        </structure>
+                        <property name="textAlign">right</property>
                         <property name="dataSet">EBILL</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -3049,7 +4215,7 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                 </cell>
             </row>
         </grid>
-        <grid id="324">
+        <grid id="776">
             <property name="borderBottomStyle">solid</property>
             <property name="borderBottomWidth">thin</property>
             <property name="borderLeftStyle">solid</property>
@@ -3058,19 +4224,50 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
             <property name="borderRightWidth">thin</property>
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">thin</property>
-            <column id="325"/>
-            <column id="326"/>
-            <column id="327"/>
-            <row id="328">
-                <cell id="329">
-                    <label id="344">
-                        <property name="style">Font</property>
-                        <property name="fontWeight">bold</property>
-                        <property name="textAlign">left</property>
-                        <text-property name="text">Grand Total</text-property>
-                    </label>
-                </cell>
-                <cell id="330">
+            <column id="777"/>
+            <row id="778">
+                <cell id="779">
+                    <grid id="324">
+                        <property name="borderBottomStyle">none</property>
+                        <property name="borderLeftStyle">none</property>
+                        <property name="borderRightStyle">none</property>
+                        <property name="borderTopStyle">none</property>
+                        <property name="height">0.2916666666666667in</property>
+                        <column id="325"/>
+                        <column id="326"/>
+                        <column id="327"/>
+                        <row id="328">
+                            <property name="height">0.2916666666666667in</property>
+                            <cell id="329">
+                                <label id="344">
+                                    <property name="style">Font</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="textAlign">left</property>
+                                    <text-property name="text">Grand Total</text-property>
+                                </label>
+                            </cell>
+                            <cell id="330"/>
+                            <cell id="331">
+                                <data id="699">
+                                    <property name="style">Font</property>
+                                    <property name="fontSize">11pt</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="textAlign">right</property>
+                                    <property name="dataSet">EBILL</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">ParticularTotal</property>
+                                            <text-property name="displayName">ParticularTotal</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["ParticularTotal"]</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">ParticularTotal</property>
+                                </data>
+                            </cell>
+                        </row>
+                    </grid>
                     <data id="659">
                         <property name="style">Font</property>
                         <property name="fontWeight">bold</property>
@@ -3087,44 +4284,22 @@ group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt
                         <property name="resultSetColumn">TWORDS</property>
                     </data>
                 </cell>
-                <cell id="331">
-                    <data id="699">
-                        <property name="style">Font</property>
-                        <property name="fontSize">11pt</property>
-                        <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
-                        <property name="dataSet">EBILL</property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">ParticularTotal</property>
-                                <text-property name="displayName">ParticularTotal</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["ParticularTotal"]</expression>
-                                <property name="dataType">string</property>
-                                <property name="allowExport">true</property>
-                            </structure>
-                        </list-property>
-                        <property name="resultSetColumn">ParticularTotal</property>
-                    </data>
-                </cell>
             </row>
-            <row id="332">
-                <cell id="333"/>
-                <cell id="334">
+        </grid>
+        <grid id="768">
+            <column id="769"/>
+            <row id="770">
+                <cell id="771">
                     <label id="706"/>
                 </cell>
-                <cell id="335"/>
             </row>
-            <row id="336">
-                <cell id="337"/>
-                <cell id="338">
+            <row id="772">
+                <cell id="773">
                     <label id="707"/>
                 </cell>
-                <cell id="339"/>
             </row>
-            <row id="340">
-                <cell id="341"/>
-                <cell id="342"/>
-                <cell id="343">
+            <row id="774">
+                <cell id="775">
                     <label id="345">
                         <property name="style">Font</property>
                         <property name="fontWeight">bold</property>
