@@ -1144,18 +1144,19 @@ var tens = Array("", "", "TWENTY", "THIRTY", "FOURTY", "FIFTY", "SIXTY","SEVENTY
                     <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select A.bill_id,  sum(kwhNunit) kwhNunit, sum(kwhNrate) kwhNrate, sum(kwhNamt) kwhNamt,  sum(kwhPunit) kwhPunit, sum(kwhPrate) kwhPrate, sum(kwhPamt) kwhPamt, sum(kwhOunit) kwhOunit, sum(kwhOrate) kwhOrate, sum(kwhOamt) kwhOamt,
- kvaexcessunit, kvaexcessrate, kvaexcessamt, BillKVA, BillKVARate,ndemand,kvaNunit,kvaPunit,kvaOunit,
-    BillKAVAmt, nrec_kwhNormal, nrec_kwhpeak,nrec_kwhoffpeak,nrec_kvaNormal,nrec_kvapeak,nrec_kvaoffpeak, nrec_PF,pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt,
- sum(dutyunit) dutyunit, sum(dutyrate) dutyrate, sum(dutyamt) dutyamt,sum(comchargeunit) comchargeunit, sum(comchargerate) comchargerate, sum(comchargeamt) comchargeamt,  sum(fuelunit) fuelunit,sum( fuelrate) fuelrate, sum(fuelamt) fuelamt,
- nkwhquota,case when nrec_kwhpeak+nrec_kwhoffpeak+nrec_kwhnormal- nkwhquota >0 then nrec_kwhpeak+nrec_kwhoffpeak+nrec_kwhnormal- nkwhquota else 0 end excessunit, nkwhexcessrate excessrate, nkwhquota*nkwhexcessrate excessamt,sum(surchargeunit) surchargeunit, sum(surchargerate) surchargerate, sum(surchargeamt) surchargeamt
-from vw_billKWH A left join vw_billKVA B on A.bill_id=B.bill_id
-left join vw_billpf c on A.bill_id=c.bill_id
-left join vw_billOthers d on A.bill_id=d.bill_id
-where A.bill_id=?
-group by A.bill_id, pfpenunit, pfincunit,pfpenrate, pfincrate,pfpenamt, pfincamt,kvaexcessunit, kvaexcessrate, kvaexcessamt, BillKVA, BillKVARate,
-    BillKAVAmt, nrec_kwhNormal, nrec_kwhpeak,nrec_kwhoffpeak,nrec_kvaNormal,nrec_kvapeak,nrec_kvaoffpeak,kvaNunit,kvaPunit,kvaOunit, nrec_PF,ndemand,
-nkwhquota,excessrate,excessamt;]]></xml-property>
+            <xml-property name="queryText"><![CDATA[SELECT A.BILL_ID,  SUM(KWHNUNIT) KWHNUNIT, SUM(KWHNRATE) KWHNRATE, SUM(KWHNAMT) KWHNAMT,  SUM(KWHPUNIT) KWHPUNIT, SUM(KWHPRATE) KWHPRATE, SUM(KWHPAMT) KWHPAMT, SUM(KWHOUNIT) KWHOUNIT, SUM(KWHORATE) KWHORATE, SUM(KWHOAMT) KWHOAMT,
+ KVAEXCESSUNIT, KVAEXCESSRATE, KVAEXCESSAMT, BILLKVA, BILLKVARATE,NDEMAND,KVANUNIT,KVAPUNIT,KVAOUNIT,
+    BILLKAVAMT, NREC_KWHNORMAL, NREC_KWHPEAK,NREC_KWHOFFPEAK,NREC_KVANORMAL,NREC_KVAPEAK,NREC_KVAOFFPEAK, NREC_PF,PFPENUNIT, PFINCUNIT,PFPENRATE, PFINCRATE,PFPENAMT, PFINCAMT,
+ SUM(DUTYUNIT) DUTYUNIT, SUM(DUTYRATE) DUTYRATE, SUM(DUTYAMT) DUTYAMT,SUM(COMCHARGEUNIT) COMCHARGEUNIT, SUM(COMCHARGERATE) COMCHARGERATE, SUM(COMCHARGEAMT) COMCHARGEAMT,  SUM(FUELUNIT) FUELUNIT,SUM( FUELRATE) FUELRATE, SUM(FUELAMT) FUELAMT,
+ NKWHQUOTA,CASE WHEN NREC_KWHPEAK+NREC_KWHOFFPEAK+NREC_KWHNORMAL- NKWHQUOTA >0 THEN NREC_KWHPEAK+NREC_KWHOFFPEAK+NREC_KWHNORMAL- NKWHQUOTA ELSE 0 END EXCESSUNIT, NKWHEXCESSRATE EXCESSRATE, NKWHQUOTA*NKWHEXCESSRATE EXCESSAMT,SUM(SURCHARGEUNIT) SURCHARGEUNIT, SUM(SURCHARGERATE) SURCHARGERATE, SUM(SURCHARGEAMT) SURCHARGEAMT
+FROM VW_BILLKWH A LEFT JOIN VW_BILLKVA B ON A.BILL_ID=B.BILL_ID
+LEFT JOIN VW_BILLPF C ON A.BILL_ID=C.BILL_ID
+LEFT JOIN VW_BILLOTHERS D ON A.BILL_ID=D.BILL_ID
+WHERE A.BILL_ID=?
+GROUP BY A.BILL_ID, PFPENUNIT, PFINCUNIT,PFPENRATE, PFINCRATE,PFPENAMT, PFINCAMT,KVAEXCESSUNIT, KVAEXCESSRATE, KVAEXCESSAMT, BILLKVA, BILLKVARATE,
+    BILLKAVAMT, NREC_KWHNORMAL, NREC_KWHPEAK,NREC_KWHOFFPEAK,NREC_KVANORMAL,NREC_KVAPEAK,NREC_KVAOFFPEAK,KVANUNIT,KVAPUNIT,KVAOUNIT, NREC_PF,NDEMAND,
+NKWHQUOTA,EXCESSRATE,EXCESSAMT;
+]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -2209,9 +2210,10 @@ nkwhquota,excessrate,excessamt;]]></xml-property>
                     <property name="nativeDataType">91</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select consumerno,address,dtconnection,ETTYPE.TYPESHORT,EBILL.STMTNO,EBILL.DTBILL,BA.CUSTNAME,EBILL.DTSTART,EBILL.DTEND from ems_billaccount BA inner join 
-ems_tarifftype ETTYPE on ETTYPE.TARIFFTYPE_ID=BA.TARIFFTYPE_ID inner join ems_bill EBILL on EBILL.BACCOUNT_ID=BA.BACCOUNT_ID
-where EBILL.BILL_ID=?]]></xml-property>
+            <xml-property name="queryText"><![CDATA[SELECT CONSUMERNO,ADDRESS,DTCONNECTION,ETTYPE.TYPESHORT,EBILL.STMTNO,EBILL.DTBILL,BA.CUSTNAME,EBILL.DTSTART,EBILL.DTEND FROM EMS_BILLACCOUNT BA INNER JOIN 
+EMS_TARIFFTYPE ETTYPE ON ETTYPE.TARIFFTYPE_ID=BA.TARIFFTYPE_ID INNER JOIN EMS_BILL EBILL ON EBILL.BACCOUNT_ID=BA.BACCOUNT_ID
+WHERE EBILL.BILL_ID=?
+]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>

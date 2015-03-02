@@ -57,7 +57,35 @@ mychart.setHeight("5");]]></method>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="EnergyLoad" id="9">
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">C1</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">SECTIONNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">SECTION_ID</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">DT_LOGDATE</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">C5</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
             <method name="beforeOpen"><![CDATA[if(params["newRPT"].value=="")
 {
 	this.queryText = this.queryText +
@@ -108,7 +136,38 @@ else
 }
  */]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet"/>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">C1</property>
+                    <property name="nativeName">C1</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">SECTIONNAME</property>
+                    <property name="nativeName">SECTIONNAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">SECTION_ID</property>
+                    <property name="nativeName">SECTION_ID</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">DT_LOGDATE</property>
+                    <property name="nativeName">DT_LOGDATE</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">C5</property>
+                    <property name="nativeName">C5</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
             <xml-property name="queryText"><![CDATA[ select ]]></xml-property>
         </oda-data-set>
     </data-sets>
@@ -1872,7 +1931,7 @@ function beforeGeneration( chart, icsc ) &#xD;
 if(min_value!=null ||avg_value!=null ||max_value!=null)&#xD;
 {&#xD;
 	min_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(min_value));&#xD;
-			min_ml.getLabel().getCaption().setValue(&quot;      Min: &quot; + parseInt(min_value).toFixed(2));             // parseInt&#xD;
+			min_ml.getLabel().getCaption().setValue(&quot;      Min: &quot; + parseFloat(min_value).toFixed(2));             // parseInt&#xD;
 			min_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
 			min_ml.getLabel().getCaption().getFont().setSize(14);&#xD;
 			min_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(63,59,185));&#xD;
@@ -1887,7 +1946,7 @@ if(min_value!=null ||avg_value!=null ||max_value!=null)&#xD;
 			avg_ml.getLineAttributes().setThickness(1);&#xD;
 			&#xD;
 			max_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(max_value));&#xD;
-			max_ml.getLabel().getCaption().setValue(&quot;      Max: &quot; + parseInt(max_value).toFixed(2));            // parseInt&#xD;
+			max_ml.getLabel().getCaption().setValue(&quot;      Max: &quot; + parseFloat(max_value).toFixed(2));            // parseInt&#xD;
 			max_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
 			max_ml.getLabel().getCaption().getFont().setSize(14);&#xD;
 			max_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(245,12,12));&#xD;
@@ -3124,25 +3183,14 @@ Formatter.format(row[&quot;DT_LOGDATE&quot;],'dd/MM/yyyy hh:mm:ss a')&#xD;
         <Stacked>false</Stacked>
       </Series>
       <Grouping>
-        <Enabled>true</Enabled>
+        <Enabled>false</Enabled>
         <GroupingUnit>Minutes</GroupingUnit>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>if(row[&quot;C5&quot;]=='LH')&#xD;
-{&#xD;
-Formatter.format(row[&quot;DT_LOGDATE&quot;],'hh:mm:ss a')&#xD;
-}&#xD;
-else if(row[&quot;C5&quot;]=='24H')&#xD;
-{&#xD;
-Formatter.format(row[&quot;DT_LOGDATE&quot;],'hh:mm:ss a')&#xD;
-}&#xD;
-else &#xD;
-{&#xD;
-Formatter.format(row[&quot;DT_LOGDATE&quot;],'dd/MM/yyyy hh:mm:ss a')&#xD;
-}</Definition>
+        <Definition>row[&quot;SECTIONNAME&quot;]</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>

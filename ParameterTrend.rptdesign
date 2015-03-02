@@ -48,7 +48,7 @@ mychart.setHeight("5");
                 </ex-property>
             </list-property>
             <property name="odaDriverClass">org.hsqldb.jdbcDriver</property>
-            <property name="odaURL">jdbc:hsqldb:hsql://localhost</property>
+            <property name="odaURL">jdbc:hsqldb:hsql://localhost/irevdb</property>
             <property name="odaUser">sa</property>
             <property name="OdaConnProfileName">IrevealDS</property>
             <property name="OdaConnProfileStorePath">IrevealDsource</property>
@@ -1967,7 +1967,7 @@ if(localcount1==&quot;single&quot;)&#xD;
 		if(min_value!=null ||avg_value!=null ||max_value!=null)&#xD;
 		{&#xD;
 			min_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(min_value));&#xD;
-			min_ml.getLabel().getCaption().setValue(&quot;      Min: &quot; + parseInt(min_value).toFixed(2));             // parseInt&#xD;
+			min_ml.getLabel().getCaption().setValue(&quot;      Min: &quot; + parseFloat(min_value).toFixed(2));             // parseInt&#xD;
 			min_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
 			min_ml.getLabel().getCaption().getFont().setSize(14);&#xD;
 			min_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(63,59,185));&#xD;
@@ -1982,7 +1982,7 @@ if(localcount1==&quot;single&quot;)&#xD;
 			avg_ml.getLineAttributes().setThickness(1);&#xD;
 			&#xD;
 			max_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(max_value));&#xD;
-			max_ml.getLabel().getCaption().setValue(&quot;      Max: &quot; + parseInt(max_value).toFixed(2));            // parseInt&#xD;
+			max_ml.getLabel().getCaption().setValue(&quot;      Max: &quot; + parseFloat(max_value).toFixed(2));            // parseInt&#xD;
 			max_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
 			max_ml.getLabel().getCaption().getFont().setSize(14);&#xD;
 			max_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(245,12,12));&#xD;
@@ -3223,25 +3223,14 @@ Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
         <Stacked>false</Stacked>
       </Series>
       <Grouping>
-        <Enabled>true</Enabled>
+        <Enabled>false</Enabled>
         <GroupingUnit>Minutes</GroupingUnit>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>if(row[&quot;C5&quot;]=='LH')&#xD;
-{&#xD;
-Formatter.format(row[&quot;C3&quot;],'hh:mm:ss a')&#xD;
-}&#xD;
-else if(row[&quot;C5&quot;]=='24H')&#xD;
-{&#xD;
-Formatter.format(row[&quot;C3&quot;],'hh:mm:ss a')&#xD;
-}&#xD;
-else &#xD;
-{&#xD;
-Formatter.format(row[&quot;C3&quot;],'dd/MM/yyyy hh:mm:ss a')&#xD;
-}</Definition>
+        <Definition>row[&quot;ATTRIBUTE&quot;]</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
