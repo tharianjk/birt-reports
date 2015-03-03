@@ -1474,6 +1474,10 @@ else&#13;
                                         <property name="content">
                                             <data id="565">
                                                 <property name="style">crosstab-detail1</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">SUPPLYQTY_Group8/TYP_Group9/UNITSHORT</property>
                                             </data>
@@ -1489,6 +1493,10 @@ else&#13;
                                                 <property name="style">crosstab-detail1</property>
                                                 <property name="fontSize">11px</property>
                                                 <property name="fontWeight">bold</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">SUPPLYQTY_Group/Day Of Month_Group9/UNITSHORT</property>
                                             </data>
@@ -1501,6 +1509,10 @@ else&#13;
                                                 <property name="style">crosstab-detail1</property>
                                                 <property name="fontSize">12px</property>
                                                 <property name="fontWeight">bold</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">SUPPLYQTY_Group9/UNITSHORT</property>
                                             </data>
@@ -1528,6 +1540,10 @@ else&#13;
                                         <property name="content">
                                             <data id="573">
                                                 <property name="style">crosstab-detail1</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">DEMANDQTY_Group8/TYP_Group9/UNITSHORT</property>
                                             </data>
@@ -1543,6 +1559,10 @@ else&#13;
                                                 <property name="style">crosstab-detail1</property>
                                                 <property name="fontSize">11px</property>
                                                 <property name="fontWeight">bold</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">DEMANDQTY_Group/Day Of Month_Group9/UNITSHORT</property>
                                             </data>
@@ -1555,6 +1575,10 @@ else&#13;
                                                 <property name="style">crosstab-detail1</property>
                                                 <property name="fontSize">12px</property>
                                                 <property name="fontWeight">bold</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">DEMANDQTY_Group9/UNITSHORT</property>
                                             </data>
@@ -1581,6 +1605,10 @@ else&#13;
                                         <property name="content">
                                             <data name="Waste Quantity7" id="603">
                                                 <property name="style">crosstab-detail1</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">Waste Quantity</property>
                                             </data>
@@ -1596,6 +1624,10 @@ else&#13;
                                                 <property name="style">crosstab-detail1</property>
                                                 <property name="fontSize">11px</property>
                                                 <property name="fontWeight">bold</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">wasteqty_Group/Day Of Month_Group9/UNITSHORT</property>
                                             </data>
@@ -1608,6 +1640,10 @@ else&#13;
                                                 <property name="style">crosstab-detail1</property>
                                                 <property name="fontSize">12px</property>
                                                 <property name="fontWeight">bold</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">wasteqty_Group9/UNITSHORT</property>
                                             </data>
@@ -1646,6 +1682,13 @@ else&#13;
                                         <property name="levels">
                                             <extended-item extensionName="LevelView" name="NewLevel View10" id="553">
                                                 <property name="level">Group/Day Of Month</property>
+                                                <property name="sort">
+                                                    <sort-element>
+                                                        <expression name="key" type="javascript">data["Day Of Month"]</expression>
+                                                        <property name="direction">asc</property>
+                                                        <property name="strength">-1</property>
+                                                    </sort-element>
+                                                </property>
                                                 <property name="member">
                                                     <extended-item extensionName="CrosstabCell" id="554">
                                                         <property name="content">
@@ -1926,6 +1969,10 @@ else&#13;
                                         <property name="content">
                                             <data id="641">
                                                 <property name="style">crosstab-detail1</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">SUPPLYQTY_Group8/TYP_Group9/UNITSHORT</property>
                                             </data>
@@ -1941,6 +1988,10 @@ else&#13;
                                                 <property name="style">crosstab-detail1</property>
                                                 <property name="fontSize">11px</property>
                                                 <property name="fontWeight">bold</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">SUPPLYQTY_Group1/Month_Group9/UNITSHORT</property>
                                             </data>
@@ -1953,6 +2004,10 @@ else&#13;
                                                 <property name="style">crosstab-detail1</property>
                                                 <property name="fontSize">12px</property>
                                                 <property name="fontWeight">bold</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">SUPPLYQTY_Group9/UNITSHORT</property>
                                             </data>
@@ -1980,6 +2035,10 @@ else&#13;
                                         <property name="content">
                                             <data id="636">
                                                 <property name="style">crosstab-detail1</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">DEMANDQTY_Group8/TYP_Group9/UNITSHORT</property>
                                             </data>
@@ -1995,6 +2054,10 @@ else&#13;
                                                 <property name="style">crosstab-detail1</property>
                                                 <property name="fontSize">11px</property>
                                                 <property name="fontWeight">bold</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">DEMANDQTY_Group1/Month_Group9/UNITSHORT</property>
                                             </data>
@@ -2007,6 +2070,10 @@ else&#13;
                                                 <property name="style">crosstab-detail1</property>
                                                 <property name="fontSize">12px</property>
                                                 <property name="fontWeight">bold</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">DEMANDQTY_Group9/UNITSHORT</property>
                                             </data>
@@ -2033,6 +2100,10 @@ else&#13;
                                         <property name="content">
                                             <data name="Wasteq1" id="666">
                                                 <property name="style">crosstab-detail1</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">Wasteq</property>
                                             </data>
@@ -2048,6 +2119,10 @@ else&#13;
                                                 <property name="style">crosstab-detail1</property>
                                                 <property name="fontSize">11px</property>
                                                 <property name="fontWeight">bold</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">wasteqty_Group1/Month_Group9/UNITSHORT</property>
                                             </data>
@@ -2060,6 +2135,10 @@ else&#13;
                                                 <property name="style">crosstab-detail1</property>
                                                 <property name="fontSize">12px</property>
                                                 <property name="fontWeight">bold</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">wasteqty_Group9/UNITSHORT</property>
                                             </data>
@@ -2097,6 +2176,13 @@ else&#13;
                                         <property name="levels">
                                             <extended-item extensionName="LevelView" name="NewLevel View2" id="611">
                                                 <property name="level">Group1/Month</property>
+                                                <property name="sort">
+                                                    <sort-element>
+                                                        <expression name="key" type="javascript">data["Month"]</expression>
+                                                        <property name="direction">asc</property>
+                                                        <property name="strength">-1</property>
+                                                    </sort-element>
+                                                </property>
                                                 <property name="member">
                                                     <extended-item extensionName="CrosstabCell" id="612">
                                                         <property name="content">
@@ -2376,6 +2462,10 @@ else&#13;
                                         <property name="content">
                                             <data id="284">
                                                 <property name="style">crosstab-detail1</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">SUPPLYQTY_Group8/TYP_Group9/UNITSHORT</property>
                                             </data>
@@ -2391,6 +2481,10 @@ else&#13;
                                                 <property name="style">crosstab-detail1</property>
                                                 <property name="fontSize">11px</property>
                                                 <property name="fontWeight">bold</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">SUPPLYQTY_Group3/DT_DATE_Group9/UNITSHORT</property>
                                             </data>
@@ -2403,6 +2497,10 @@ else&#13;
                                                 <property name="style">crosstab-detail1</property>
                                                 <property name="fontSize">12px</property>
                                                 <property name="fontWeight">bold</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">SUPPLYQTY_Group9/UNITSHORT</property>
                                             </data>
@@ -2430,6 +2528,10 @@ else&#13;
                                         <property name="content">
                                             <data id="292">
                                                 <property name="style">crosstab-detail1</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">DEMANDQTY_Group8/TYP_Group9/UNITSHORT</property>
                                             </data>
@@ -2445,6 +2547,10 @@ else&#13;
                                                 <property name="style">crosstab-detail1</property>
                                                 <property name="fontSize">11px</property>
                                                 <property name="fontWeight">bold</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">DEMANDQTY_Group3/DT_DATE_Group9/UNITSHORT</property>
                                             </data>
@@ -2457,6 +2563,10 @@ else&#13;
                                                 <property name="style">crosstab-detail1</property>
                                                 <property name="fontSize">12px</property>
                                                 <property name="fontWeight">bold</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">DEMANDQTY_Group9/UNITSHORT</property>
                                             </data>
@@ -2483,6 +2593,10 @@ else&#13;
                                         <property name="content">
                                             <data name="Waste Quantity1" id="440">
                                                 <property name="style">crosstab-detail1</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">Waste Quantity</property>
                                             </data>
@@ -2498,6 +2612,10 @@ else&#13;
                                                 <property name="style">crosstab-detail1</property>
                                                 <property name="fontSize">11px</property>
                                                 <property name="fontWeight">bold</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">wasteqty_Group3/DT_DATE_Group9/UNITSHORT</property>
                                             </data>
@@ -2510,6 +2628,10 @@ else&#13;
                                                 <property name="style">crosstab-detail1</property>
                                                 <property name="fontSize">12px</property>
                                                 <property name="fontWeight">bold</property>
+                                                <structure name="numberFormat">
+                                                    <property name="category">Fixed</property>
+                                                    <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                                </structure>
                                                 <property name="textAlign">center</property>
                                                 <property name="resultSetColumn">wasteqty_Group9/UNITSHORT</property>
                                             </data>
@@ -2548,6 +2670,13 @@ else&#13;
                                         <property name="levels">
                                             <extended-item extensionName="LevelView" name="NewLevel View7" id="273">
                                                 <property name="level">Group3/DT_DATE</property>
+                                                <property name="sort">
+                                                    <sort-element>
+                                                        <expression name="key" type="javascript">data["DT_DATE"]</expression>
+                                                        <property name="direction">asc</property>
+                                                        <property name="strength">-1</property>
+                                                    </sort-element>
+                                                </property>
                                                 <property name="member">
                                                     <extended-item extensionName="CrosstabCell" id="274">
                                                         <property name="content">
