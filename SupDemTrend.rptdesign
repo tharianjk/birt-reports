@@ -3229,7 +3229,7 @@ else if((row[&quot;C6&quot;]=='7D')||(row[&quot;C6&quot;]=='30D')||(row[&quot;C6
 }&#xD;
 else if((row[&quot;C6&quot;]=='30M')||(row[&quot;C6&quot;]=='365M'))&#xD;
 {&#xD;
-	Formatter.format(row[&quot;DT_DATE&quot;],'MMM')&#xD;
+	Formatter.format(row[&quot;DT_DATE&quot;],'MMM/yyyy')&#xD;
 }&#xD;
 else&#xD;
 {&#xD;
@@ -3246,7 +3246,7 @@ else&#xD;
 	}&#xD;
 	else&#xD;
 	{&#xD;
-		Formatter.format(row[&quot;DT_DATE&quot;],'MMM')&#xD;
+		Formatter.format(row[&quot;DT_DATE&quot;],'MMM/yyyy')&#xD;
 	}&#xD;
 }</Definition>
         </DataDefinition>
@@ -3268,7 +3268,7 @@ else&#xD;
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;C6&quot;]</Definition>
+        <Definition>row[&quot;DT_DATE&quot;]</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
