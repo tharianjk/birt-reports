@@ -2437,16 +2437,14 @@ WHERE EBILL.BILL_ID=?
                     <grid id="278">
                         <column id="279"/>
                         <column id="280"/>
-                        <column id="281"/>
-                        <column id="282"/>
+                        <column id="281">
+                            <property name="width">2.25in</property>
+                        </column>
+                        <column id="282">
+                            <property name="width">1.6875in</property>
+                        </column>
                         <row id="283">
                             <cell id="284">
-                                <label id="288">
-                                    <property name="style">Font</property>
-                                    <text-property name="text">Consumer No:</text-property>
-                                </label>
-                            </cell>
-                            <cell id="285">
                                 <data id="722">
                                     <property name="style">Font</property>
                                     <property name="dataSet">EBILCONSDSET</property>
@@ -2454,20 +2452,18 @@ WHERE EBILL.BILL_ID=?
                                         <structure>
                                             <property name="name">CONSUMERNO</property>
                                             <text-property name="displayName">CONSUMERNO</text-property>
-                                            <expression name="expression" type="javascript">dataSetRow["CONSUMERNO"]</expression>
+                                            <expression name="expression" type="javascript">"Consumer No: "+dataSetRow["CONSUMERNO"]</expression>
                                             <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
                                     <property name="resultSetColumn">CONSUMERNO</property>
                                 </data>
                             </cell>
-                            <cell id="286">
-                                <label id="289">
-                                    <property name="style">Font</property>
-                                    <text-property name="text">Stmnt:No:</text-property>
-                                </label>
+                            <cell id="285">
+                                <label id="785"/>
                             </cell>
-                            <cell id="287">
+                            <cell id="286">
                                 <data id="723">
                                     <property name="style">Font</property>
                                     <property name="dataSet">EBILCONSDSET</property>
@@ -2475,11 +2471,29 @@ WHERE EBILL.BILL_ID=?
                                         <structure>
                                             <property name="name">STMTNO</property>
                                             <text-property name="displayName">STMTNO</text-property>
-                                            <expression name="expression" type="javascript">dataSetRow["STMTNO"]</expression>
+                                            <expression name="expression" type="javascript">"Stmnt.No: "+dataSetRow["STMTNO"]</expression>
                                             <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
                                     <property name="resultSetColumn">STMTNO</property>
+                                </data>
+                            </cell>
+                            <cell id="287">
+                                <data id="753">
+                                    <property name="style">Font</property>
+                                    <property name="textAlign">left</property>
+                                    <property name="dataSet">EBILCONSDSET</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">DTBILL</property>
+                                            <text-property name="displayName">DTBILL</text-property>
+                                            <expression name="expression" type="javascript">"Date:"+dataSetRow["DTBILL"]</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">DTBILL</property>
                                 </data>
                             </cell>
                         </row>
@@ -2490,7 +2504,7 @@ WHERE EBILL.BILL_ID=?
                 <cell id="321">
                     <grid id="291">
                         <column id="292"/>
-                        <column id="293"/>
+                        <column id="783"/>
                         <column id="294"/>
                         <row id="295">
                             <cell id="296">
@@ -2499,27 +2513,26 @@ WHERE EBILL.BILL_ID=?
                                     <text-property name="text">Address:</text-property>
                                 </label>
                             </cell>
-                            <cell id="297">
-                                <label id="304">
-                                    <property name="style">Font</property>
-                                    <text-property name="text">Date:</text-property>
-                                </label>
+                            <cell id="781">
+                                <label id="784"/>
                             </cell>
                             <cell id="298">
-                                <data id="753">
-                                    <property name="style">Font</property>
-                                    <property name="textAlign">left</property>
-                                    <property name="dataSet">EBILCONSDSET</property>
-                                    <list-property name="boundDataColumns">
-                                        <structure>
-                                            <property name="name">DTBILL</property>
-                                            <text-property name="displayName">DTBILL</text-property>
-                                            <expression name="expression" type="javascript">dataSetRow["DTBILL"]</expression>
-                                            <property name="dataType">date</property>
-                                        </structure>
-                                    </list-property>
-                                    <property name="resultSetColumn">DTBILL</property>
-                                </data>
+                                <grid id="787">
+                                    <column id="788">
+                                        <property name="width">2.21875in</property>
+                                    </column>
+                                    <column id="789">
+                                        <property name="width">1.65625in</property>
+                                    </column>
+                                    <row id="790">
+                                        <cell id="791">
+                                            <label id="795"/>
+                                        </cell>
+                                        <cell id="792">
+                                            <label id="794"/>
+                                        </cell>
+                                    </row>
+                                </grid>
                             </cell>
                         </row>
                         <row id="299">
@@ -2551,11 +2564,15 @@ WHERE EBILL.BILL_ID=?
                                     <property name="resultSetColumn">ADDRESS</property>
                                 </data>
                             </cell>
-                            <cell id="301"/>
+                            <cell id="782"/>
                             <cell id="302">
                                 <grid id="260">
-                                    <column id="261"/>
-                                    <column id="262"/>
+                                    <column id="261">
+                                        <property name="width">2.2291666666666665in</property>
+                                    </column>
+                                    <column id="262">
+                                        <property name="width">1.6458333333333333in</property>
+                                    </column>
                                     <row id="263">
                                         <cell id="264">
                                             <label id="275">
