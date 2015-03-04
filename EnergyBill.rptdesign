@@ -2521,15 +2521,9 @@ WHERE EBILL.BILL_ID=?
                                     <column id="788">
                                         <property name="width">2.21875in</property>
                                     </column>
-                                    <column id="789">
-                                        <property name="width">1.65625in</property>
-                                    </column>
                                     <row id="790">
                                         <cell id="791">
                                             <label id="795"/>
-                                        </cell>
-                                        <cell id="792">
-                                            <label id="794"/>
                                         </cell>
                                     </row>
                                 </grid>
@@ -2564,20 +2558,19 @@ WHERE EBILL.BILL_ID=?
                                     <property name="resultSetColumn">ADDRESS</property>
                                 </data>
                             </cell>
-                            <cell id="782"/>
-                            <cell id="302">
+                            <cell id="782">
                                 <grid id="260">
                                     <column id="261">
-                                        <property name="width">2.2291666666666665in</property>
+                                        <property name="width">2.1458333333333335in</property>
                                     </column>
                                     <column id="262">
-                                        <property name="width">1.6458333333333333in</property>
+                                        <property name="width">1.7291666666666667in</property>
                                     </column>
                                     <row id="263">
                                         <cell id="264">
                                             <label id="275">
                                                 <property name="style">Font</property>
-                                                <property name="textAlign">right</property>
+                                                <property name="textAlign">left</property>
                                                 <text-property name="text">Contract Demand:</text-property>
                                             </label>
                                         </cell>
@@ -2606,7 +2599,7 @@ WHERE EBILL.BILL_ID=?
                                         <cell id="267">
                                             <label id="276">
                                                 <property name="style">Font</property>
-                                                <property name="textAlign">right</property>
+                                                <property name="textAlign">left</property>
                                                 <text-property name="text">75% of Contract Demand:</text-property>
                                             </label>
                                         </cell>
@@ -2635,7 +2628,7 @@ WHERE EBILL.BILL_ID=?
                                         <cell id="270">
                                             <label id="277">
                                                 <property name="style">Font</property>
-                                                <property name="textAlign">right</property>
+                                                <property name="textAlign">left</property>
                                                 <text-property name="text">Marginal Cost for Excess Quota:</text-property>
                                             </label>
                                         </cell>
@@ -2664,7 +2657,7 @@ WHERE EBILL.BILL_ID=?
                                         <cell id="273">
                                             <label id="290">
                                                 <property name="style">Font</property>
-                                                <property name="textAlign">right</property>
+                                                <property name="textAlign">left</property>
                                                 <text-property name="text">Fuel Surcharge Rate:</text-property>
                                             </label>
                                         </cell>
@@ -2691,6 +2684,7 @@ WHERE EBILL.BILL_ID=?
                                     </row>
                                 </grid>
                             </cell>
+                            <cell id="302"/>
                         </row>
                     </grid>
                 </cell>
