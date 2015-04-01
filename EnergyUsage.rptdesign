@@ -357,6 +357,35 @@ if(params["newRPT"].value=="")
 {
 	this.queryText = this.queryText +
 	
+	" ,'7D' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
+	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
+	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
+	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
+	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+params["UsrSecId"].value+"') and S.c_coretype='C'"+ 
+	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
+	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION"+
+	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'7D' as C5"+ 
+	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
+ 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
+ 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
+	" where case '"+params["typ"].value+"' when 2 then a.parent_id='"+params["UsrSecId"].value+"' else a.assettree_id='"+params["UsrSecId"].value+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
+	" and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'7D'"+ 
+	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
+	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
+	" EUN.unit_id=EU.unit_id and case '"+params["typ"].value+"' when 2 then a.parent_id='"+params["UsrSecId"].value+"' else a.assettree_id='"+params["UsrSecId"].value+"' end and"+ 
+	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE) tab"+
+	" group by DISPLAYNAME,unitshort,DAY_ID,C4,C5 order by C4 asc";
+	
+	
+
+	
+	
+	/*
+	
     ",'7D' as C5 from ems_section_summary s"+
     " inner join ems_utility EU on EU.utility_id=s.utility_id"+
 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
@@ -383,21 +412,22 @@ if(params["newRPT"].value=="")
 	" and d.DT_DATE>='"+LHour+"'"+
 	" and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+
 	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE ) tab"+
-	" order by C4 asc";
+	" order by C4 asc";*/
 	
 }
 else
 {
 
 
-this.queryText = this.queryText+params["newRPT"]+" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE ) tab"+
-	" order by C4 asc";
-	
+this.queryText = this.queryText+params["newRPT"]+" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE) tab"+
+	" group by DISPLAYNAME,unitshort,DAY_ID,C4,C5 order by C4 asc";
+		
 }]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
-            <xml-property name="queryText"><![CDATA[select DISPLAYNAME,C2,unitshort,DAY_ID,C4,C5 from (select b.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4
-]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select DISPLAYNAME,sum(C2) C2,unitshort,DAY_ID,C4,C5 from (
+select b.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID
+,cast(d.dt_date as datetime) as C4]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -1117,31 +1147,31 @@ function energytrend()
 					LHour=document.getElementById("fromdate").value+" 00:00:00";
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
-					newa=",' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SH' as C5 from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where b.assettreetype_id=2 and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+
-					" and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
-					",' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SH' as C5"+
-					" from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where case '"+parent.AssetTree.selectedtype+"'"+
-					" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-					" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'";
+					newa=",' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SH' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
+	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
+	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
+	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
+	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
+	" and S.c_coretype='C'"+ 
+	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION"+
+	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SH' as C5"+ 
+	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
+ 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
+ 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
+	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
+	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SH'"+ 
+	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
+	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
+	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
+	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
+	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
+					
 					
 				}
 				else if((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
@@ -1150,31 +1180,31 @@ function energytrend()
 					LHour=document.getElementById("fromdate").value+" 00:00:00";
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
-					newa=",' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SD' as C5 from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where b.assettreetype_id=2 and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+
-					" and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
-					",' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SD' as C5"+
-					" from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where case '"+parent.AssetTree.selectedtype+"'"+
-					" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-					" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'";
+					newa=",' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SD' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
+	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
+	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
+	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
+	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
+	" and S.c_coretype='C'"+ 
+	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION"+
+	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SD' as C5"+ 
+	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
+ 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
+ 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
+	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
+	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SD'"+ 
+	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
+	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
+	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
+	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
+	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
+					
 					
 				}
 				else if((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
@@ -1183,32 +1213,33 @@ function energytrend()
 					LHour=document.getElementById("fromdate").value+" 00:00:00";
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
-					newa=",' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SM' as C5 from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where b.assettreetype_id=2 and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+
-					" and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
-					",' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SM' as C5"+
-					" from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where case '"+parent.AssetTree.selectedtype+"'"+
-					" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-					" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'";
 					
+					newa=",' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SM' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
+	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
+	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
+	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
+	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
+	" and S.c_coretype='C'"+ 
+	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION"+
+	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SM' as C5"+ 
+	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
+ 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
+ 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
+	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
+	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SM'"+ 
+	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
+	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
+	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
+	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
+	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
+					
+		
 				}
 				else
 				{}
@@ -1227,31 +1258,30 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=yearL+ "-" + monthL + "-" + dayL+" "+hoursL+":"+minutesL+":"+secondsL;
 		
-		newa=",'H' as C5 from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where b.assettreetype_id=2 and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+
-					" and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
-					",'H' as C5"+
-					" from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where case '"+parent.AssetTree.selectedtype+"'"+
-					" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-					" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'";
+		newa=",'H' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
+	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
+	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
+	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
+	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
+	" and S.c_coretype='C'"+ 
+	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION"+
+	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'H' as C5"+ 
+	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
+ 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
+ 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
+	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
+	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'H'"+ 
+	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
+	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
+	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
+	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
+	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
 	}
 	
 	else if((document.getElementById("s1").selectedIndex==2) &amp;&amp; (document.getElementById("s3").selectedIndex==1)||
@@ -1261,31 +1291,30 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
 		
-		newa=",'24H' as C5 from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where b.assettreetype_id=2 and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+
-					" and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
-					",'24H' as C5"+
-					" from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where case '"+parent.AssetTree.selectedtype+"'"+
-					" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-					" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'";
+		newa=",'24H' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
+	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
+	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
+	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
+	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
+	" and S.c_coretype='C'"+ 
+	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION"+
+	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'24H' as C5"+ 
+	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
+ 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
+ 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
+	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
+	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'24H'"+ 
+	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
+	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
+	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
+	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
+	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==3) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
@@ -1293,31 +1322,30 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
 		
-		newa=",'7H' as C5 from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where b.assettreetype_id=2 and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+
-					" and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
-					",'7H' as C5"+
-					" from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where case '"+parent.AssetTree.selectedtype+"'"+
-					" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-					" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'";	
+		newa=",'7H' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
+	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
+	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
+	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
+	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
+	" and S.c_coretype='C'"+ 
+	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION"+
+	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'7H' as C5"+ 
+	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
+ 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
+ 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
+	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
+	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'7H'"+ 
+	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
+	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
+	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
+	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
+	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==3) &amp;&amp; (document.getElementById("s3").selectedIndex==2)||
@@ -1326,31 +1354,30 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
 		
-		newa=",'7D' as C5 from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where b.assettreetype_id=2 and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+
-					" and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
-					",'7D' as C5"+
-					" from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where case '"+parent.AssetTree.selectedtype+"'"+
-					" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-					" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'";
+		newa=",'7D' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
+	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
+	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
+	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
+	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
+	" and S.c_coretype='C'"+ 
+	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION"+
+	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'7D' as C5"+ 
+	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
+ 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
+ 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
+	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
+	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'7D'"+ 
+	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
+	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
+	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
+	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
+	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
@@ -1358,31 +1385,30 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 		
-		newa=",'30H' as C5 from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where b.assettreetype_id=2 and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+
-					" and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
-					",'30H' as C5"+
-					" from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where case '"+parent.AssetTree.selectedtype+"'"+
-					" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-					" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'";
+		newa=",'30H' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
+	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
+	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
+	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
+	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
+	" and S.c_coretype='C'"+ 
+	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION"+
+	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'30H' as C5"+ 
+	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
+ 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
+ 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
+	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
+	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'30H'"+ 
+	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
+	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
+	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
+	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
+	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
@@ -1390,31 +1416,30 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 		
-		newa=",'30D' as C5 from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where b.assettreetype_id=2 and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+
-					" and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
-					",'30D' as C5"+
-					" from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where case '"+parent.AssetTree.selectedtype+"'"+
-					" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-					" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'";
+		newa=",'30D' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
+	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
+	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
+	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
+	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
+	" and S.c_coretype='C'"+ 
+	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION"+
+	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'30D' as C5"+ 
+	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
+ 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
+ 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
+	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
+	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'30D'"+ 
+	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
+	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
+	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
+	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
+	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
@@ -1422,31 +1447,30 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 		
-		newa=",'30M' as C5 from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where b.assettreetype_id=2 and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+
-					" and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
-					",'30M' as C5"+
-					" from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where case '"+parent.AssetTree.selectedtype+"'"+
-					" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-					" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'";
+		newa=",'30M' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
+	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
+	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
+	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
+	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
+	" and S.c_coretype='C'"+ 
+	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION"+
+	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'30M' as C5"+ 
+	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
+ 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
+ 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
+	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
+	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'30M'"+ 
+	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
+	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
+	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
+	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
+	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==5) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
@@ -1454,31 +1478,30 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 		
-		newa=",'365H' as C5 from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where b.assettreetype_id=2 and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+
-					" and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
-					",'365H' as C5"+
-					" from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where case '"+parent.AssetTree.selectedtype+"'"+
-					" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-					" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'";
+		newa=",'365H' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
+	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
+	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
+	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
+	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
+	" and S.c_coretype='C'"+ 
+	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION"+
+	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'365H' as C5"+ 
+	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
+ 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
+ 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
+	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
+	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'365H'"+ 
+	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
+	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
+	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
+	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
+	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==5) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
@@ -1486,31 +1509,30 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 		
-		newa=",'365D' as C5 from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where b.assettreetype_id=2 and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+
-					" and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
-					",'365D' as C5"+
-					" from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where case '"+parent.AssetTree.selectedtype+"'"+
-					" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-					" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'";
+		newa=",'365D' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
+	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
+	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
+	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
+	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
+	" and S.c_coretype='C'"+ 
+	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION"+
+	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'365D' as C5"+ 
+	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
+ 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
+ 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
+	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
+	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'365D'"+ 
+	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
+	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
+	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
+	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
+	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==5) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
@@ -1518,32 +1540,33 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 		
-		newa=",'365M' as C5 from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where b.assettreetype_id=2 and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+
-					" and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+
-					" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-					" UNION"+
-					" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
-					",'365M' as C5"+
-					" from ems_section_summary s"+
-					" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-					" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-					" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-					" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-					" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-					" where case '"+parent.AssetTree.selectedtype+"'"+
-					" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-					" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C'"+
-					" and d.DT_DATE>='"+LHour+"'"+
-					" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'";
+		newa=",'365M' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
+	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
+	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
+	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
+	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
+	" and S.c_coretype='C'"+ 
+	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION"+
+	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'365M' as C5"+ 
+	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
+ 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
+ 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
+	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
+	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'365M'"+ 
+	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
+	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
+	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
+	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
+	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
+	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
 	
+		
+		
 	}
 	else
 	{
