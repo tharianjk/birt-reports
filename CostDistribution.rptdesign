@@ -99,35 +99,7 @@
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">SOURCENAME</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">QTY</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">UNITSHORT</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">C4</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">newrowcount</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                </list-property>
-            </structure>
+            <structure name="cachedMetaData"/>
             <method name="beforeOpen"><![CDATA[var currentTime = new Date()
 
 var month = currentTime.getMonth() + 1
@@ -318,44 +290,19 @@ if(params["newRPT"].value=="")
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"'" +
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"'" +
 					" and sup.company_id='"+params["UsrCompId"].value+"'"+
-					" group by sup.sourcename, V.N_COST,un.unitshort";
+					" group by sup.sourcename,un.unitshort";
 
 }
 else
 {
-	this.queryText = this.queryText+params["newRPT"].value+" group by sup.sourcename, V.N_COST,un.unitshort";
+	this.queryText = this.queryText+params["newRPT"].value+" group by sup.sourcename,un.unitshort";
 	
 }]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">SOURCENAME</property>
-                    <property name="nativeName">SOURCENAME</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">QTY</property>
-                    <property name="nativeName">QTY</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">UNITSHORT</property>
-                    <property name="nativeName">UNITSHORT</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">C4</property>
-                    <property name="nativeName">C4</property>
-                    <property name="dataType">string</property>
-                </structure>
-            </list-property>
-            <xml-property name="queryText"><![CDATA[select sup.sourcename, sum(su.utility_qty)*V.N_COST QTY ,un.unitshort]]></xml-property>
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[select sup.sourcename, sum(su.utility_qty*V.N_COST) QTY ,un.unitshort]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -468,35 +415,7 @@ else
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">TIMEPERIOD</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">QTY</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">UNITSHORT</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">C4</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">rowcount</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                </list-property>
-            </structure>
+            <structure name="cachedMetaData"/>
             <method name="beforeOpen"><![CDATA[var currentTime = new Date()
 
 var month = currentTime.getMonth() + 1
@@ -680,6 +599,20 @@ LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds3
 if(params["newRPT1"].value=="")
 {
 	this.queryText = this.queryText +
+	",'30D' as C4 from vw_billtime_source v inner join fwk_section s"+
+				" on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
+				" inner join ems_section_summary su on su.assettree_id=s.section_id"+ 
+				" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+  
+				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+ 
+				" inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"'"+
+				" and t.dt_date <'"+curT+"' and v.source_id='10000' and sup.company_id='1' "+
+				" group by timeperiod,V.N_COST,un.unitshort,NF_FRACTION,NT_FRACTION)"+
+				" group by timeperiod,unitshort,C4";
+				
+	
+	
+/*
+	
 	",'30D' as C4 from vw_billtime_source v"+ 
 			" inner join fwk_section s on v.source_id=s.source_id"+
 			" inner join ems_section_summary su on su.assettree_id=s.section_id"+
@@ -687,43 +620,20 @@ if(params["newRPT1"].value=="")
 			" and t.hr_id=v.hr_id "+
 			" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 			" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-			" where  t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and v.source_id = 10000 "+
-			" group by timeperiod,V.N_COST,un.unitshort";
+			" where  t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and v.source_id = 10000 "+
+			" group by timeperiod,V.N_COST,un.unitshort";*/
 
 }
 else
 {
-	this.queryText = this.queryText+params["newRPT1"].value+" group by timeperiod,V.N_COST,un.unitshort";
+	this.queryText = this.queryText+params["newRPT1"].value+" group by timeperiod,V.N_COST,un.unitshort,NF_FRACTION,NT_FRACTION)"+
+				" group by timeperiod,unitshort,C4";
 	
 }]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">TIMEPERIOD</property>
-                    <property name="nativeName">TIMEPERIOD</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">QTY</property>
-                    <property name="nativeName">QTY</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">UNITSHORT</property>
-                    <property name="nativeName">UNITSHORT</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">C4</property>
-                    <property name="nativeName">C4</property>
-                    <property name="dataType">string</property>
-                </structure>
-            </list-property>
-            <xml-property name="queryText"><![CDATA[select timeperiod,sum(su.utility_qty)*V.N_COST QTY ,un.unitshort]]></xml-property>
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[select timeperiod,sum(qty) QTY,unitshort,C4 from (
+select timeperiod,sum(su.utility_qty)*V.N_COST+sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION)*V.N_COST QTY ,un.unitshort]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -1344,15 +1254,14 @@ function costdis()
 				LHour=document.getElementById("fromdate").value+" 00:00:00";
 				var Cfrom=document.getElementById("fromdate").value;
 				var Cto=document.getElementById("todate").value;
-				newa1=",' Cost distribution from "+Cfrom+" to " +Cto+" ' as C4 from vw_billtime_source v"+ 
-				" inner join fwk_section s on v.source_id=s.source_id"+
-				" inner join ems_source sup on v.source_id = sup.source_id"+
-				" inner join ems_section_summary su on su.assettree_id=s.section_id"+
-				" inner join ems_time_dim t on su.time_id=t.time_id"+
-				" and t.hr_id=v.hr_id "+
-				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
+				newa1=",' Cost distribution from "+Cfrom+" to " +Cto+" ' as C4 from vw_billtime_source v inner join fwk_section s"+
+				" on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
+				" inner join ems_section_summary su on su.assettree_id=s.section_id"+ 
+				" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+  
+				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+ 
+				" inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"'"+
+				" and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
+				
 			}		
 		}
 		if(document.getElementById("s1").selectedIndex==0)
@@ -1366,62 +1275,51 @@ function costdis()
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
-				newa1=",'24H' as C4 from vw_billtime_source v"+ 
-				" inner join fwk_section s on v.source_id=s.source_id"+
-				" inner join ems_source sup on v.source_id = sup.source_id"+
-				" inner join ems_section_summary su on su.assettree_id=s.section_id"+
-				" inner join ems_time_dim t on su.time_id=t.time_id"+
-				" and t.hr_id=v.hr_id "+
-				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
-				console.log("am 24");
+				newa1=",'24H' as C4 from vw_billtime_source v inner join fwk_section s"+
+				" on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
+				" inner join ems_section_summary su on su.assettree_id=s.section_id"+ 
+				" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+  
+				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+ 
+				" inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"'"+
+				" and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
 			}
 			if(document.getElementById("s1").selectedIndex==2)
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-				newa1=",'7D' as C4 from vw_billtime_source v"+ 
-				" inner join fwk_section s on v.source_id=s.source_id"+
-				" inner join ems_source sup on v.source_id = sup.source_id"+
-				" inner join ems_section_summary su on su.assettree_id=s.section_id"+
-				" inner join ems_time_dim t on su.time_id=t.time_id"+
-				" and t.hr_id=v.hr_id "+
-				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
-				console.log("am 7d");
+				newa1=",'7D' as C4 from vw_billtime_source v inner join fwk_section s"+
+				" on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
+				" inner join ems_section_summary su on su.assettree_id=s.section_id"+ 
+				" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+  
+				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+ 
+				" inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"'"+
+				" and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
 			}
 			if(document.getElementById("s1").selectedIndex==3)
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-				newa1=",'30D' as C4 from vw_billtime_source v"+ 
-				" inner join fwk_section s on v.source_id=s.source_id"+
-				" inner join ems_source sup on v.source_id = sup.source_id"+
-				" inner join ems_section_summary su on su.assettree_id=s.section_id"+
-				" inner join ems_time_dim t on su.time_id=t.time_id"+
-				" and t.hr_id=v.hr_id "+
-				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
-				console.log("am 30d");
+				newa1=",'30D' as C4 from vw_billtime_source v inner join fwk_section s"+
+				" on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
+				" inner join ems_section_summary su on su.assettree_id=s.section_id"+ 
+				" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+  
+				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+ 
+				" inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"'"+
+				" and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
 			}
 			if(document.getElementById("s1").selectedIndex==4)
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 				
-				newa1=",'365D' as C4 from vw_billtime_source v"+ 
-				" inner join fwk_section s on v.source_id=s.source_id"+
-				" inner join ems_source sup on v.source_id = sup.source_id"+
-				" inner join ems_section_summary su on su.assettree_id=s.section_id"+
-				" inner join ems_time_dim t on su.time_id=t.time_id"+
-				" and t.hr_id=v.hr_id "+
-				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
-				console.log("am 36dd");
+				newa1=",'365D' as C4 from vw_billtime_source v inner join fwk_section s"+
+				" on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
+				" inner join ems_section_summary su on su.assettree_id=s.section_id"+ 
+				" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+  
+				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+ 
+				" inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"'"+
+				" and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
+				
 			}
 			document.getElementById('mytable').style.display = "none";
 			var cl11 = new String(location.href);
@@ -1480,7 +1378,7 @@ function costdis()
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and sup.company_id='"+parent.compid+"' ";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
 			}		
 		}
 		if(document.getElementById("s1").selectedIndex==0)
@@ -1501,7 +1399,7 @@ function costdis()
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and sup.company_id='"+parent.compid+"' ";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
 			}
 			if(document.getElementById("s1").selectedIndex==2)
 			{
@@ -1514,7 +1412,7 @@ function costdis()
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and sup.company_id='"+parent.compid+"' ";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
 			}
 			if(document.getElementById("s1").selectedIndex==3)
 			{
@@ -1527,7 +1425,7 @@ function costdis()
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and sup.company_id='"+parent.compid+"' ";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
 			}
 			if(document.getElementById("s1").selectedIndex==4)
 			{
@@ -1540,7 +1438,7 @@ function costdis()
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <='"+curT+"' and sup.company_id='"+parent.compid+"' ";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
 			}
 			
 			var cl2 = new String(location.href);

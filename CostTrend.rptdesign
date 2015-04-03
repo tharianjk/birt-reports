@@ -94,55 +94,7 @@ if(lastChar=='M')&#13;
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">SOURCENAME</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">TIMEPERIOD</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">COST</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">QTY</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">DTDATE</property>
-                        <property name="dataType">date</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">UNITSHORT</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">C7</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">RowCount</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">9</property>
-                        <property name="name">CUSD</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                </list-property>
-            </structure>
+            <structure name="cachedMetaData"/>
             <method name="beforeOpen"><![CDATA[var currentTime = new Date()
 
 var month = currentTime.getMonth() + 1
@@ -325,7 +277,16 @@ curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 if(params["newRPT"].value=="")
 {
-	this.queryText = this.queryText+",'30M' C7 from vw_billtime_source v"+
+	this.queryText = this.queryText+",'30M' C7 from vw_billtime_source v inner join ems_source sc on sc.source_id=v.source_id inner join fwk_section s"+
+		" on v.source_id=s.source_id inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='1000001' and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"' and sc.company_id='"+params["UsrCompId"].value+"'"+
+		" group by sourcename, timeperiod,V.N_COST,CAST(dt_date AS DATE),un.unitshort,NF_FRACTION,NT_FRACTION"+
+		" order by dtdate,TIMEPERIOD"; 
+	
+	
+	
+	/*
+	
+",'30M' C7 from vw_billtime_source v"+
 	" inner join ems_source sc on sc.source_id=v.source_id"+
 	" inner join fwk_section s on v.source_id=s.source_id"+
 	" inner join ems_section_summary su on su.assettree_id=s.section_id"+
@@ -334,10 +295,13 @@ if(params["newRPT"].value=="")
 	" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 	" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
 	" where sc.source_id='100001' and"+
-	"  t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"' "+
+	"  t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"' "+
 	" and sc.company_id='"+params["UsrCompId"].value+"'"+
 	" group by sourcename, timeperiod,V.N_COST,CAST(dt_date AS DATE),un.unitshort"+
-    " order by  dtdate,TIMEPERIOD";
+    " order by  dtdate,TIMEPERIOD";*/
+    
+    
+    
 
 	
 }
@@ -345,56 +309,16 @@ else
 {
 
 
-this.queryText = this.queryText+params["newRPT"]+" group by sourcename, timeperiod,V.N_COST,CAST(dt_date AS DATE),un.unitshort"+
-    " order by  dtdate,TIMEPERIOD";
+this.queryText = this.queryText+params["newRPT"]+" group by sourcename, timeperiod,V.N_COST,CAST(dt_date AS DATE),un.unitshort,NF_FRACTION,NT_FRACTION"+
+		" order by dtdate,TIMEPERIOD"; 
 
 }]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">SOURCENAME</property>
-                    <property name="nativeName">SOURCENAME</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">TIMEPERIOD</property>
-                    <property name="nativeName">TIMEPERIOD</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">COST</property>
-                    <property name="nativeName">COST</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">QTY</property>
-                    <property name="nativeName">QTY</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">DTDATE</property>
-                    <property name="nativeName">DTDATE</property>
-                    <property name="dataType">date</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
-                    <property name="name">UNITSHORT</property>
-                    <property name="nativeName">UNITSHORT</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">7</property>
-                    <property name="name">C7</property>
-                    <property name="nativeName">C7</property>
-                    <property name="dataType">string</property>
-                </structure>
-            </list-property>
-            <xml-property name="queryText"><![CDATA[select sourcename,timeperiod,sum(su.utility_qty)*V.N_COST cost,sum(su.utility_qty) QTY,CAST(dt_date AS DATE) dtdate,un.unitshort]]></xml-property>
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[select sourcename,timeperiod,
+case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty)*V.N_COST else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION)*V.N_COST end cost,
+case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION) end QTY
+,CAST(dt_date AS DATE) dtdate,un.unitshort]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -535,87 +459,6 @@ this.queryText = this.queryText+params["newRPT"]+" group by sourcename, timeperi
         </oda-data-set>
     </data-sets>
     <cubes>
-        <tabular-cube name="DailyDatacube" id="26">
-            <property name="dimensions">
-                <tabular-dimension name="Group" id="27">
-                    <property name="defaultHierarchy">NewTabularHierarchy</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy" id="28">
-                            <property name="levels">
-                                <tabular-level name="PRODUCT" id="29">
-                                    <property name="dataType">string</property>
-                                    <property name="levelType">dynamic</property>
-                                    <property name="columnName">SOURCENAME</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Group1" id="151">
-                    <property name="isTimeType">true</property>
-                    <property name="defaultHierarchy">NewTabularHierarchy2</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy2" id="152">
-                            <property name="levels">
-                                <tabular-level name="Day Of Year" id="153">
-                                    <property name="dataType">integer</property>
-                                    <property name="dateTimeLevelType">day-of-year</property>
-                                    <property name="dateTimeFormat">MMMM dd, yyyy</property>
-                                    <list-property name="attributes">
-                                        <structure>
-                                            <property name="name">DateTime</property>
-                                            <property name="dataType">date</property>
-                                        </structure>
-                                    </list-property>
-                                    <property name="columnName">DTDATE</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Group3" id="155">
-                    <property name="defaultHierarchy">NewTabularHierarchy3</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy3" id="156">
-                            <property name="levels">
-                                <tabular-level name="TIMEPERIOD" id="157">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">TIMEPERIOD</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Group4" id="158">
-                    <property name="defaultHierarchy">NewTabularHierarchy4</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy4" id="159">
-                            <property name="levels">
-                                <tabular-level name="UNITSHORT" id="160">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">UNITSHORT</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-            </property>
-            <property name="measureGroups">
-                <tabular-measure-group name="Summary Field" id="34">
-                    <property name="measures">
-                        <tabular-measure name="COST" id="154">
-                            <expression name="measureExpression" type="javascript">dataSetRow["COST"]</expression>
-                            <property name="dataType">decimal</property>
-                        </tabular-measure>
-                        <tabular-measure name="QTY" id="232">
-                            <expression name="measureExpression" type="javascript">dataSetRow["QTY"]</expression>
-                            <property name="dataType">decimal</property>
-                        </tabular-measure>
-                    </property>
-                </tabular-measure-group>
-            </property>
-            <property name="dataSet">CostTrend</property>
-        </tabular-cube>
         <tabular-cube name="DatacubeMonth" id="240">
             <property name="dimensions">
                 <tabular-dimension name="Group2" id="241">
@@ -1230,15 +1073,9 @@ function CostTrend()
 					LHour=document.getElementById("fromdate").value+" 00:00:00";
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
-					newa=",' Cost Trend from "+Cfrom+" to " +Cto+" SM' C7 from vw_billtime_source v"+
-					" inner join ems_source sc on sc.source_id=v.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+
-					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
-					" inner join ems_time_dim t on su.time_id=t.time_id"+
-					" and t.hr_id=v.hr_id"+
-					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
-					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where v.source_id='"+sourceId+"' and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"' and sc.company_id='"+parent.compid+"' ";
+					newa=",' Cost Trend from "+Cfrom+" to " +Cto+" SM' C7 from vw_billtime_source v inner join ems_source sc on sc.source_id=v.source_id inner join fwk_section s"+
+		" on v.source_id=s.source_id inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='"+sourceId+"' and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"' and sc.company_id='"+parent.compid+"'"; 
+					
 						
 				}
 				
@@ -1256,15 +1093,8 @@ function CostTrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 		
-		newa=",'30M' C7 from vw_billtime_source v"+
-					" inner join ems_source sc on sc.source_id=v.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+
-					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
-					" inner join ems_time_dim t on su.time_id=t.time_id"+
-					" and t.hr_id=v.hr_id"+
-					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
-					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where v.source_id='"+sourceId+"' and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"' and sc.company_id='"+parent.compid+"' ";
+		newa=",'30M' C7 from vw_billtime_source v inner join ems_source sc on sc.source_id=v.source_id inner join fwk_section s"+
+		" on v.source_id=s.source_id inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='"+sourceId+"' and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"' and sc.company_id='"+parent.compid+"'"; 
 						
 		
 	}
@@ -1275,16 +1105,8 @@ function CostTrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 		
-		newa=",'365M' C7 from vw_billtime_source v"+
-					" inner join ems_source sc on sc.source_id=v.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+
-					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
-					" inner join ems_time_dim t on su.time_id=t.time_id"+
-					" and t.hr_id=v.hr_id"+
-					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
-					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where v.source_id='"+sourceId+"' and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"' and sc.company_id='"+parent.compid+"' ";
-						
+		newa=",'365M' C7 from vw_billtime_source v inner join ems_source sc on sc.source_id=v.source_id inner join fwk_section s"+
+		" on v.source_id=s.source_id inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='"+sourceId+"' and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"' and sc.company_id='"+parent.compid+"'"; 
 		
 	}
 	else
@@ -1390,7 +1212,7 @@ function showhidetab()
 
 
 
- 
+
 
 
 
