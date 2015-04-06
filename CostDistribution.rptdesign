@@ -935,6 +935,9 @@ select timeperiod,sum(su.utility_qty)*V.N_COST+sum(su.utility_qty)*(NF_FRACTION+
             <property name="contentType">html</property>
             <text-property name="content"><![CDATA[
 <script>
+var cjio;
+var newa;
+var newa1;
 var currentTime = new Date()
 
 var month = currentTime.getMonth() + 1
@@ -1219,7 +1222,7 @@ function costdis()
 	parent.selected_tdate=document.getElementById("todate").value;
 	parent.selected_source_ndx=document.getElementById("Source").selectedIndex;
 	console.log("before:"+document.getElementById("Source").selectedIndex);
-	if((document.getElementById("Source").selectedIndex!=0))
+	if((document.getElementById("Source").selectedIndex>0))
 	{
 	
 	console.log("inside:"+document.getElementById("Source").selectedIndex);
@@ -1334,14 +1337,134 @@ function costdis()
 				var ch11 = cl11.indexOf("&amp;newRPT1=");
 				cl11 = cl11.substring(0, ch11) + "&amp;newRPT1=" + newa1;
 			}
-			window.location = cl11;
+			//window.location = cl11;
 		}
-	}
-	else if((document.getElementById("Source").selectedIndex)==0)
-	{
+	
+	//else if((document.getElementById("Source").selectedIndex)==0)
+	//{
 	
 	console.log("after:"+document.getElementById("Source").selectedIndex);
 		if(parent.AssetTree.selectedtype == 5)
+		{
+			alert ("Select Section/Asset/Location!");
+			return;
+		}
+		if ((document.getElementById("s1").selectedIndex==5) &amp;&amp; (document.getElementById("fromdate").value==''))
+		{
+			alert ("Enter a valid time period!");
+			return;
+		}
+		else if ((document.getElementById("s1").selectedIndex==5)&amp;&amp; (document.getElementById("todate").value==''))
+		{
+			alert ("Enter a valid time period!");
+			return;
+		}
+		else
+		{
+			var d1 = Date.parse(document.getElementById("todate").value);
+			var d2 = Date.parse(document.getElementById("fromdate").value);
+			if (d1 < d2) 
+			{
+				alert ("To Date cannot be Greater than From Date!");
+				return;
+			}
+			else
+			{
+				curT=document.getElementById("todate").value+" 00:00:00";
+				LHour=document.getElementById("fromdate").value+" 00:00:00";
+				var Cfrom=document.getElementById("fromdate").value;
+				var Cto=document.getElementById("todate").value;
+				newa=",' Cost distribution from "+Cfrom+" to " +Cto+" ' as C4 from vw_billtime_source v"+
+					" inner join ems_source sup on v.source_id = sup.source_id"+
+					" inner join fwk_section s on v.source_id=s.source_id"+
+					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
+					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
+					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
+					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
+			}		
+		}
+		if(document.getElementById("s1").selectedIndex==0)
+		{
+			alert("Select Duration!");
+		}
+		else
+		{
+		
+			if(document.getElementById("s1").selectedIndex==1)
+			{
+				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
+				LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
+				newa=",'24H' as C4 from vw_billtime_source v"+
+					" inner join ems_source sup on v.source_id = sup.source_id"+
+					" inner join fwk_section s on v.source_id=s.source_id"+
+					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
+					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
+					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
+					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
+			}
+			if(document.getElementById("s1").selectedIndex==2)
+			{
+				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
+				LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
+				newa=",'7D' as C4 from vw_billtime_source v"+
+					" inner join ems_source sup on v.source_id = sup.source_id"+
+					" inner join fwk_section s on v.source_id=s.source_id"+
+					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
+					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
+					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
+					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
+			}
+			if(document.getElementById("s1").selectedIndex==3)
+			{
+				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
+				LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
+				newa=",'30D' as C4 from vw_billtime_source v"+
+					" inner join ems_source sup on v.source_id = sup.source_id"+
+					" inner join fwk_section s on v.source_id=s.source_id"+
+					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
+					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
+					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
+					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
+			}
+			if(document.getElementById("s1").selectedIndex==4)
+			{
+				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
+				LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
+				newa=",'365D' as C4 from vw_billtime_source v"+
+					" inner join ems_source sup on v.source_id = sup.source_id"+
+					" inner join fwk_section s on v.source_id=s.source_id"+
+					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
+					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
+					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
+					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
+			}
+			
+			var cl2 = new String(location.href);
+			var targetURL2 = new String();
+			var tst2 = cl2.indexOf("&amp;newRPT");
+			if(  tst2 == -1 )
+			{
+				cl2 = cl2 + "&amp;newRPT=" +newa+"&amp;newRPT1="+newa1;
+			}
+			else
+			{
+				var ch2 = cl2.indexOf("&amp;newRPT=");
+				cl2 = cl2.substring(0, ch2) + "&amp;newRPT=" +newa+"&amp;newRPT1="+newa1;
+			}
+			//window.location = cl2;
+			cjio=cl2;
+		}
+	
+	window.location = cjio;
+	}
+	else
+	{
+	if(parent.AssetTree.selectedtype == 5)
 		{
 			alert ("Select Section/Asset/Location!");
 			return;
@@ -1451,14 +1574,17 @@ function costdis()
 			else
 			{
 				var ch2 = cl2.indexOf("&amp;newRPT=");
-				cl2 = cl2.substring(0, ch2) + "&amp;newRPT=" + newa;
+				cl2 = cl2.substring(0, ch2) + "&amp;newRPT=" +newa;
 			}
 			window.location = cl2;
+			//cjio=cl2;
 		}
 	
+	
 	}
-	else
-	{}
+	//}
+	//else
+	//{}
 }
 document.getElementById('mytable').style.display = "none";
 
