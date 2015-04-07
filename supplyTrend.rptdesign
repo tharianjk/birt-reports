@@ -126,7 +126,7 @@ if(lastChar=='M')&#13;
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
-                        <property name="name">SOURCENAME</property>
+                        <property name="name">DISPLAYNAME</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -186,32 +186,31 @@ if(params["newRPT"].value=="")
 {
 	this.queryText = this.queryText +
 	
-	",'7H' C6 from ems_section_summary s"+
-" inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
-" inner join fwk_section sec on s.assettree_id = sec.section_id"+
-" inner join ems_source src on sec.source_id = src.source_id"+
-" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID"+
-" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
-" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-" where src.source_id = 10001"+
-" group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
-" order by d.DT_DATE asc";
+	",'7H' C6 from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
+			" inner join fwk_section sec on s.assettree_id = sec.section_id"+
+			" inner join ems_source src on sec.source_id = src.source_id"+
+			" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
+			" inner join ems_unit UN on UN.unit_id=UT.unit_id where"+ 
+			" d.DT_DATE>='2015-03-30 00:00:00'and d.DT_DATE<'2015-03-31 00:00:00' and src.source_id='10001' group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
+			" UNION"+
+			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.unitshort ,'7H' as C6"+
+			" from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , fwk_section sec, ems_source  src where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id and sec.source_id ='10001'"+ 
+			" and d.DT_DATE>='2015-03-30 00:00:00' and d.DT_DATE<'2015-03-31 00:00:00' group by src.sourcename ,EUN.unitshort,DAY_ID,d.DT_DATE) tab group by DISPLAYNAME,DAY_ID,C4,unitshort,C6 order by C4 asc";
 
 }
 else
 {
 
 
-this.queryText = this.queryText+params["newRPT"]+" group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
-" order by d.DT_DATE asc";
+this.queryText = this.queryText+params["newRPT"]+" group by src.sourcename ,EUN.unitshort,DAY_ID,d.DT_DATE) tab group by DISPLAYNAME,DAY_ID,C4,unitshort,C6 order by C4 asc";
 	
 }]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">SOURCENAME</property>
-                    <property name="nativeName">SOURCENAME</property>
+                    <property name="name">DISPLAYNAME</property>
+                    <property name="nativeName">DISPLAYNAME</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -245,7 +244,9 @@ this.queryText = this.queryText+params["newRPT"]+" group by src.sourcename,DAY_I
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select src.sourcename as DISPLAYNAME, sum(utility_qty) C2, d.DAY_ID ,cast(d.DT_DATE as datetime) C4, un.unitshort]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select DISPLAYNAME,sum(C2) C2,DAY_ID,C4,unitshort,C6 from (
+select src.sourcename DISPLAYNAME,sum(utility_qty) C2, d.DAY_ID ,cast(d.DT_DATE as datetime) C4,
+un.unitshort]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -347,14 +348,14 @@ this.queryText = this.queryText+params["newRPT"]+" group by src.sourcename,DAY_I
         <tabular-cube name="DataCubeMonth" id="540">
             <property name="dimensions">
                 <tabular-dimension name="GroupM" id="541">
+                    <property name="isTimeType">false</property>
                     <property name="defaultHierarchy">NewTabularHierarchy</property>
                     <property name="hierarchies">
                         <tabular-hierarchy name="NewTabularHierarchy" id="542">
                             <property name="levels">
-                                <tabular-level name="DISPLAYNAME" id="543">
+                                <tabular-level name="DISPLAYNAME" id="892">
                                     <property name="dataType">string</property>
-                                    <property name="levelType">dynamic</property>
-                                    <property name="columnName">SOURCENAME</property>
+                                    <property name="columnName">DISPLAYNAME</property>
                                 </tabular-level>
                             </property>
                         </tabular-hierarchy>
@@ -411,14 +412,14 @@ this.queryText = this.queryText+params["newRPT"]+" group by src.sourcename,DAY_I
         <tabular-cube name="DataCubeDay" id="569">
             <property name="dimensions">
                 <tabular-dimension name="GroupDay" id="570">
+                    <property name="isTimeType">false</property>
                     <property name="defaultHierarchy">NewTabularHierarchy2</property>
                     <property name="hierarchies">
                         <tabular-hierarchy name="NewTabularHierarchy2" id="571">
                             <property name="levels">
-                                <tabular-level name="DISPLAYNAME" id="572">
+                                <tabular-level name="DISPLAYNAME" id="893">
                                     <property name="dataType">string</property>
-                                    <property name="levelType">dynamic</property>
-                                    <property name="columnName">SOURCENAME</property>
+                                    <property name="columnName">DISPLAYNAME</property>
                                 </tabular-level>
                             </property>
                         </tabular-hierarchy>
@@ -475,14 +476,14 @@ this.queryText = this.queryText+params["newRPT"]+" group by src.sourcename,DAY_I
         <tabular-cube name="Data Cube" id="689">
             <property name="dimensions">
                 <tabular-dimension name="Group3" id="690">
+                    <property name="isTimeType">false</property>
                     <property name="defaultHierarchy">NewTabularHierarchy5</property>
                     <property name="hierarchies">
                         <tabular-hierarchy name="NewTabularHierarchy5" id="691">
                             <property name="levels">
-                                <tabular-level name="DISPLAYNAME" id="692">
+                                <tabular-level name="DISPLAYNAME" id="891">
                                     <property name="dataType">string</property>
-                                    <property name="levelType">dynamic</property>
-                                    <property name="columnName">SOURCENAME</property>
+                                    <property name="columnName">DISPLAYNAME</property>
                                 </tabular-level>
                             </property>
                         </tabular-hierarchy>
@@ -520,7 +521,7 @@ this.queryText = this.queryText+params["newRPT"]+" group by src.sourcename,DAY_I
             <property name="measureGroups">
                 <tabular-measure-group name="Summary Field3" id="696">
                     <property name="measures">
-                        <tabular-measure name="C23" id="697">
+                        <tabular-measure name="C21" id="940">
                             <expression name="measureExpression" type="javascript">dataSetRow["C2"]</expression>
                             <property name="dataType">decimal</property>
                         </tabular-measure>
@@ -667,10 +668,7 @@ this.queryText = this.queryText+params["newRPT"]+" group by src.sourcename,DAY_I
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
+                
             </page-footer>
         </simple-master-page>
     </page-setup>
@@ -1019,15 +1017,15 @@ function energytrend()
 					LHour=document.getElementById("fromdate").value+" 00:00:00";
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
-					newa=",' Supply Trend summarized by hour from "+Cfrom+" to " +Cto+" in:SH' C6 from ems_section_summary s"+
-							" inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
-							" inner join fwk_section sec on s.assettree_id = sec.section_id"+
-							" inner join ems_source src on sec.source_id = src.source_id"+
-							" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID"+
-							" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
-							" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-							" where d.DT_DATE>='"+LHour+"'"+
-							" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' ";
+					newa=",' Supply Trend summarized by month from "+Cfrom+" to " +Cto+" in:SH' C6 from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
+			" inner join fwk_section sec on s.assettree_id = sec.section_id"+
+			" inner join ems_source src on sec.source_id = src.source_id"+
+			" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
+			" inner join ems_unit UN on UN.unit_id=UT.unit_id where d.DT_DATE>='"+LHour+"'"+
+			" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
+			" UNION"+
+			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.unitshort ,' Supply Trend summarized by month from "+Cfrom+" to " +Cto+" in:SH' as C6"+
+			 " from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , fwk_section sec, ems_source  src where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id and sec.source_id ='"+sourceId+"'  and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"'"; 
 					
 				}
 				else if((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
@@ -1036,15 +1034,15 @@ function energytrend()
 					LHour=document.getElementById("fromdate").value+" 00:00:00";
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
-					newa=",' Supply Trend summarized by day from "+Cfrom+" to " +Cto+" in:SD' C6 from ems_section_summary s"+
-							" inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
-							" inner join fwk_section sec on s.assettree_id = sec.section_id"+
-							" inner join ems_source src on sec.source_id = src.source_id"+
-							" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID"+
-							" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
-							" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-							" where d.DT_DATE>='"+LHour+"'"+
-							" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' ";
+					newa=",' Supply Trend summarized by month from "+Cfrom+" to " +Cto+" in:SD' C6 from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
+			" inner join fwk_section sec on s.assettree_id = sec.section_id"+
+			" inner join ems_source src on sec.source_id = src.source_id"+
+			" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
+			" inner join ems_unit UN on UN.unit_id=UT.unit_id where d.DT_DATE>='"+LHour+"'"+
+			" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
+			" UNION"+
+			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.unitshort ,' Supply Trend summarized by month from "+Cfrom+" to " +Cto+" in:SD' as C6"+
+			 " from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , fwk_section sec, ems_source  src where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id and sec.source_id ='"+sourceId+"'  and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"'"; 
 					
 				}
 				else if((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
@@ -1053,15 +1051,17 @@ function energytrend()
 					LHour=document.getElementById("fromdate").value+" 00:00:00";
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
-					newa=",' Supply Trend summarized by month from "+Cfrom+" to " +Cto+" in:SM' C6 from ems_section_summary s"+
-							" inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
-							" inner join fwk_section sec on s.assettree_id = sec.section_id"+
-							" inner join ems_source src on sec.source_id = src.source_id"+
-							" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID"+
-							" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
-							" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-							" where d.DT_DATE>='"+LHour+"'"+
-							" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' ";
+					newa=",' Supply Trend summarized by month from "+Cfrom+" to " +Cto+" in:SM' C6 from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
+			" inner join fwk_section sec on s.assettree_id = sec.section_id"+
+			" inner join ems_source src on sec.source_id = src.source_id"+
+			" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
+			" inner join ems_unit UN on UN.unit_id=UT.unit_id where d.DT_DATE>='"+LHour+"'"+
+			" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
+			" UNION"+
+			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.unitshort ,' Supply Trend summarized by month from "+Cfrom+" to " +Cto+" in:SM' as C6"+
+			 " from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , fwk_section sec, ems_source  src where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id and sec.source_id ='"+sourceId+"'  and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"'"; 
+					
+				
 					
 				}
 				else
@@ -1081,15 +1081,15 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=yearL+ "-" + monthL + "-" + dayL+" "+hoursL+":"+minutesL+":"+secondsL;
 		
-		newa=",'H' C6 from ems_section_summary s"+
-							" inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
-							" inner join fwk_section sec on s.assettree_id = sec.section_id"+
-							" inner join ems_source src on sec.source_id = src.source_id"+
-							" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID"+
-							" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
-							" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-							" where d.DT_DATE>='"+LHour+"'"+
-							" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' ";
+		newa=",'H' C6 from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
+			" inner join fwk_section sec on s.assettree_id = sec.section_id"+
+			" inner join ems_source src on sec.source_id = src.source_id"+
+			" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
+			" inner join ems_unit UN on UN.unit_id=UT.unit_id where d.DT_DATE>='"+LHour+"'"+
+			" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
+			" UNION"+
+			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.unitshort ,'H' as C6"+
+			" from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , fwk_section sec, ems_source  src where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id and sec.source_id ='"+sourceId+"'  and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"'"; 
 		
 	}
 	
@@ -1100,15 +1100,15 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
 		
-		newa=",'24H' C6 from ems_section_summary s"+
-							" inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
-							" inner join fwk_section sec on s.assettree_id = sec.section_id"+
-							" inner join ems_source src on sec.source_id = src.source_id"+
-							" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID"+
-							" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
-							" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-							" where d.DT_DATE>='"+LHour+"'"+
-							" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' ";
+		newa=",'24H' C6 from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
+			" inner join fwk_section sec on s.assettree_id = sec.section_id"+
+			" inner join ems_source src on sec.source_id = src.source_id"+
+			" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
+			" inner join ems_unit UN on UN.unit_id=UT.unit_id where d.DT_DATE>='"+LHour+"'"+
+			" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
+			" UNION"+
+			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.unitshort ,'24H' as C6"+
+			" from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , fwk_section sec, ems_source  src where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id and sec.source_id ='"+sourceId+"'  and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"'"; 
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==3) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
@@ -1116,15 +1116,15 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
 		
-		newa=",'7H' C6 from ems_section_summary s"+
-							" inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
-							" inner join fwk_section sec on s.assettree_id = sec.section_id"+
-							" inner join ems_source src on sec.source_id = src.source_id"+
-							" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID"+
-							" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
-							" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-							" where d.DT_DATE>='"+LHour+"'"+
-							" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' ";
+		newa=",'7H' C6 from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
+			" inner join fwk_section sec on s.assettree_id = sec.section_id"+
+			" inner join ems_source src on sec.source_id = src.source_id"+
+			" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
+			" inner join ems_unit UN on UN.unit_id=UT.unit_id where d.DT_DATE>='"+LHour+"'"+
+			" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
+			" UNION"+
+			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.unitshort ,'7H' as C6"+
+			" from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , fwk_section sec, ems_source  src where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id and sec.source_id ='"+sourceId+"'  and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"'"; 
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==3) &amp;&amp; (document.getElementById("s3").selectedIndex==2)||
@@ -1133,15 +1133,15 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
 		
-		newa=",'7D' C6 from ems_section_summary s"+
-							" inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
-							" inner join fwk_section sec on s.assettree_id = sec.section_id"+
-							" inner join ems_source src on sec.source_id = src.source_id"+
-							" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID"+
-							" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
-							" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-							" where d.DT_DATE>='"+LHour+"'"+
-							" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' ";
+		newa=",'7D' C6 from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
+			" inner join fwk_section sec on s.assettree_id = sec.section_id"+
+			" inner join ems_source src on sec.source_id = src.source_id"+
+			" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
+			" inner join ems_unit UN on UN.unit_id=UT.unit_id where d.DT_DATE>='"+LHour+"'"+
+			" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
+			" UNION"+
+			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.unitshort ,'7D' as C6"+
+			" from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , fwk_section sec, ems_source  src where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id and sec.source_id ='"+sourceId+"'  and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"'"; 
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
@@ -1149,15 +1149,15 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 		
-		newa=",'30H' C6 from ems_section_summary s"+
-							" inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
-							" inner join fwk_section sec on s.assettree_id = sec.section_id"+
-							" inner join ems_source src on sec.source_id = src.source_id"+
-							" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID"+
-							" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
-							" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-							" where d.DT_DATE>='"+LHour+"'"+
-							" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' ";
+		newa=",'30H' C6 from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
+			" inner join fwk_section sec on s.assettree_id = sec.section_id"+
+			" inner join ems_source src on sec.source_id = src.source_id"+
+			" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
+			" inner join ems_unit UN on UN.unit_id=UT.unit_id where d.DT_DATE>='"+LHour+"'"+
+			" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
+			" UNION"+
+			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.unitshort ,'30H' as C6"+
+			" from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , fwk_section sec, ems_source  src where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id and sec.source_id ='"+sourceId+"'  and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"'"; 
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
@@ -1165,15 +1165,15 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 		
-		newa=",'30D' C6 from ems_section_summary s"+
-							" inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
-							" inner join fwk_section sec on s.assettree_id = sec.section_id"+
-							" inner join ems_source src on sec.source_id = src.source_id"+
-							" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID"+
-							" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
-							" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-							" where d.DT_DATE>='"+LHour+"'"+
-							" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' ";
+		newa=",'30D' C6 from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
+			" inner join fwk_section sec on s.assettree_id = sec.section_id"+
+			" inner join ems_source src on sec.source_id = src.source_id"+
+			" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
+			" inner join ems_unit UN on UN.unit_id=UT.unit_id where d.DT_DATE>='"+LHour+"'"+
+			" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
+			" UNION"+
+			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.unitshort ,'30D' as C6"+
+			" from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , fwk_section sec, ems_source  src where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id and sec.source_id ='"+sourceId+"'  and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"'"; 
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
@@ -1181,15 +1181,15 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 		
-		newa=",'30M' C6 from ems_section_summary s"+
-							" inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
-							" inner join fwk_section sec on s.assettree_id = sec.section_id"+
-							" inner join ems_source src on sec.source_id = src.source_id"+
-							" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID"+
-							" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
-							" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-							" where d.DT_DATE>='"+LHour+"'"+
-							" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' ";
+		newa=",'30M' C6 from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
+			" inner join fwk_section sec on s.assettree_id = sec.section_id"+
+			" inner join ems_source src on sec.source_id = src.source_id"+
+			" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
+			" inner join ems_unit UN on UN.unit_id=UT.unit_id where d.DT_DATE>='"+LHour+"'"+
+			" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
+			" UNION"+
+			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.unitshort ,'30M' as C6"+
+			" from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , fwk_section sec, ems_source  src where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id and sec.source_id ='"+sourceId+"'  and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"'"; 
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==5) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
@@ -1197,15 +1197,15 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 		
-		newa=",'365H' C6 from ems_section_summary s"+
-							" inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
-							" inner join fwk_section sec on s.assettree_id = sec.section_id"+
-							" inner join ems_source src on sec.source_id = src.source_id"+
-							" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID"+
-							" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
-							" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-							" where d.DT_DATE>='"+LHour+"'"+
-							" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' ";
+		newa=",'365H' C6 from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
+			" inner join fwk_section sec on s.assettree_id = sec.section_id"+
+			" inner join ems_source src on sec.source_id = src.source_id"+
+			" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
+			" inner join ems_unit UN on UN.unit_id=UT.unit_id where d.DT_DATE>='"+LHour+"'"+
+			" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
+			" UNION"+
+			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.unitshort ,'365H' as C6"+
+			" from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , fwk_section sec, ems_source  src where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id and sec.source_id ='"+sourceId+"'  and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"'"; 
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==5) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
@@ -1213,15 +1213,15 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 		
-		newa=",'365D' C6 from ems_section_summary s"+
-							" inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
-							" inner join fwk_section sec on s.assettree_id = sec.section_id"+
-							" inner join ems_source src on sec.source_id = src.source_id"+
-							" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID"+
-							" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
-							" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-							" where d.DT_DATE>='"+LHour+"'"+
-							" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' ";
+		newa=",'365D' C6 from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
+			" inner join fwk_section sec on s.assettree_id = sec.section_id"+
+			" inner join ems_source src on sec.source_id = src.source_id"+
+			" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
+			" inner join ems_unit UN on UN.unit_id=UT.unit_id where d.DT_DATE>='"+LHour+"'"+
+			" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
+			" UNION"+
+			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.unitshort ,'365D' as C6"+
+			" from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , fwk_section sec, ems_source  src where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id and sec.source_id ='"+sourceId+"'  and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"'"; 
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==5) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
@@ -1229,15 +1229,16 @@ function energytrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 		
-		newa=",'365M' C6 from ems_section_summary s"+
-							" inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
-							" inner join fwk_section sec on s.assettree_id = sec.section_id"+
-							" inner join ems_source src on sec.source_id = src.source_id"+
-							" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID"+
-							" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
-							" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-							" where d.DT_DATE>='"+LHour+"'"+
-							" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' ";
+		newa=",'365M' C6 from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
+			" inner join fwk_section sec on s.assettree_id = sec.section_id"+
+			" inner join ems_source src on sec.source_id = src.source_id"+
+			" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
+			" inner join ems_unit UN on UN.unit_id=UT.unit_id where d.DT_DATE>='"+LHour+"'"+
+			" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
+			" UNION"+
+			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.unitshort ,'365M' as C6"+
+			" from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , fwk_section sec, ems_source  src where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id and sec.source_id ='"+sourceId+"'  and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"'"; 
+		
 		
 	}
 	else
@@ -1475,7 +1476,7 @@ else&#13;
 		{&#13;
 			if(lastChar!=null)&#13;
 			{&#13;
-				row["C6"].substring(0, stringLength - 2);&#13;
+				row["C6"]=row["C6"].substring(0, stringLength - 2)+row["unit"];&#13;
 			}&#13;
 		}&#13;
 	}&#13;
@@ -1489,7 +1490,7 @@ else&#13;
 		{	&#13;
 			if(lastChar!=null)&#13;
 			{&#13;
-				row["C6"].substring(0, stringLength - 2);&#13;
+				row["C6"]=row["C6"].substring(0, stringLength - 2)+row["unit"];&#13;
 			}&#13;
 		}&#13;
 	}&#13;
@@ -1503,7 +1504,8 @@ else&#13;
 		{&#13;
 			if(lastChar!=null)&#13;
 			{&#13;
-				row["C6"].substring(0, stringLength - 2);&#13;
+				&#13;
+				row["C6"]=row["C6"].substring(0, stringLength - 2)+row["unit"];&#13;
 			}&#13;
 		}&#13;
 	}&#13;
@@ -1938,7 +1940,7 @@ if( series.getSeriesIdentifier() == &quot;Series 1&quot; )
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>row[&quot;SOURCENAME&quot;]</Definition>
+          <Definition>row[&quot;DISPLAYNAME&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -2735,8 +2737,8 @@ else&#xD;
             <property name="dataSet">EDISData Set</property>
             <list-property name="boundDataColumns">
                 <structure>
-                    <property name="name">SOURCENAME</property>
-                    <expression name="expression" type="javascript">dataSetRow["SOURCENAME"]</expression>
+                    <property name="name">DISPLAYNAME</property>
+                    <expression name="expression" type="javascript">dataSetRow["DISPLAYNAME"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -2751,38 +2753,8 @@ else&#xD;
                 </structure>
                 <structure>
                     <property name="name">C4</property>
-                    <expression name="expression" type="javascript">if((row["C6"]=='H')||(row["C6"]=='24H')||(row["C6"]=='7H')||(row["C6"]=='365H')||(row["C6"]=='30H'))&#13;
-{&#13;
-	Formatter.format(dataSetRow["C4"],'dd/MM/yyyy hh:mm:ss a')&#13;
-}&#13;
-else if((row["C6"]=='7D')||(row["C6"]=='30D')||(row["C6"]=='365D'))&#13;
-{&#13;
-	Formatter.format(dataSetRow["C4"],'dd/MM/yyyy')&#13;
-}&#13;
-else if((row["C6"]=='30M')||(row["C6"]=='365M'))&#13;
-{&#13;
-	Formatter.format(dataSetRow["C4"],'dd/MM/yyyy')&#13;
-}&#13;
-else&#13;
-{&#13;
-	var myString = row["C6"];&#13;
-	var stringLength = myString.length; &#13;
-	var lastChar = myString.charAt(stringLength - 1); &#13;
-	if(lastChar=='H')&#13;
-	{&#13;
-		Formatter.format(dataSetRow["C4"],'dd/MM/yyyy hh:mm:ss a')&#13;
-	}&#13;
-	else if(lastChar=='D')&#13;
-	{&#13;
-		Formatter.format(dataSetRow["C4"],'dd/MM/yyyy')&#13;
-	}&#13;
-	else&#13;
-	{&#13;
-		Formatter.format(dataSetRow["C4"],'dd/MM/yyyy')&#13;
-	}&#13;
-}</expression>
+                    <expression name="expression" type="javascript">dataSetRow["C4"]</expression>
                     <property name="dataType">date-time</property>
-                    <property name="allowExport">true</property>
                 </structure>
                 <structure>
                     <property name="name">UNITSHORT</property>
@@ -2851,27 +2823,26 @@ else&#13;
                                 <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="578">
                                     <property name="cube">DataCubeDay</property>
                                     <property name="measures">
-                                        <extended-item extensionName="MeasureView" id="591">
+                                        <extended-item extensionName="MeasureView" id="954">
                                             <property name="measure">C22</property>
                                             <property name="detail">
-                                                <extended-item extensionName="AggregationCell" id="592">
+                                                <extended-item extensionName="AggregationCell" id="955">
                                                     <property name="aggregationOnRow">Group1/Day Of Year</property>
-                                                    <property name="aggregationOnColumn">GroupDay/DISPLAYNAME</property>
+                                                    <property name="aggregationOnColumn">Group6/UNITSHORT</property>
                                                     <property name="content">
-                                                        <data id="593">
+                                                        <data id="956">
                                                             <property name="style">crosstab-detail1</property>
                                                             <property name="fontSize">12px</property>
                                                             <property name="textAlign">center</property>
-                                                            <property name="resultSetColumn">C22_Group1/Day Of Year_GroupDay/DISPLAYNAME</property>
+                                                            <property name="resultSetColumn">C22_Group1/Day Of Year_Group6/UNITSHORT</property>
                                                         </data>
                                                     </property>
-                                                    <property name="style">crosstab-cell1</property>
                                                 </extended-item>
                                             </property>
                                             <property name="header">
-                                                <extended-item extensionName="CrosstabCell" id="594">
+                                                <extended-item extensionName="CrosstabCell" id="957">
                                                     <property name="content">
-                                                        <label id="595">
+                                                        <label id="958">
                                                             <property name="fontSize">12px</property>
                                                             <property name="textAlign">center</property>
                                                             <text-property name="text">Consumption</text-property>
@@ -2893,6 +2864,8 @@ else&#13;
                                                                 <extended-item extensionName="CrosstabCell" id="583">
                                                                     <property name="content">
                                                                         <data name="Day Of Year" id="584">
+                                                                            <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
                                                                             <property name="fontWeight">normal</property>
                                                                             <structure name="dateTimeFormat">
                                                                                 <property name="category">Custom</property>
@@ -2913,6 +2886,26 @@ else&#13;
                                     <property name="columns">
                                         <extended-item extensionName="CrosstabView" id="586">
                                             <property name="views">
+                                                <extended-item extensionName="DimensionView" id="948">
+                                                    <property name="dimension">GroupDay</property>
+                                                    <property name="levels">
+                                                        <extended-item extensionName="LevelView" name="NewLevel View7" id="949">
+                                                            <property name="level">GroupDay/DISPLAYNAME</property>
+                                                            <property name="member">
+                                                                <extended-item extensionName="CrosstabCell" id="950">
+                                                                    <property name="content">
+                                                                        <data name="DISPLAYNAME2" id="952">
+                                                                            <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
+                                                                            <property name="textAlign">center</property>
+                                                                            <property name="resultSetColumn">DISPLAYNAME</property>
+                                                                        </data>
+                                                                    </property>
+                                                                </extended-item>
+                                                            </property>
+                                                        </extended-item>
+                                                    </property>
+                                                </extended-item>
                                                 <extended-item extensionName="DimensionView" id="861">
                                                     <property name="dimension">Group6</property>
                                                     <property name="levels">
@@ -2923,29 +2916,9 @@ else&#13;
                                                                     <property name="content">
                                                                         <data name="UNITSHORT2" id="865">
                                                                             <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
                                                                             <property name="textAlign">center</property>
                                                                             <property name="resultSetColumn">UNITSHORT</property>
-                                                                        </data>
-                                                                    </property>
-                                                                </extended-item>
-                                                            </property>
-                                                        </extended-item>
-                                                    </property>
-                                                </extended-item>
-                                                <extended-item extensionName="DimensionView" id="587">
-                                                    <property name="dimension">GroupDay</property>
-                                                    <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View5" id="588">
-                                                            <property name="level">GroupDay/DISPLAYNAME</property>
-                                                            <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="589">
-                                                                    <property name="content">
-                                                                        <data name="DISPLAYNAME2" id="590">
-                                                                            <property name="style">crosstab-detail1</property>
-                                                                            <property name="fontSize">12px</property>
-                                                                            <property name="fontWeight">normal</property>
-                                                                            <property name="textAlign">center</property>
-                                                                            <property name="resultSetColumn">DISPLAYNAME</property>
                                                                         </data>
                                                                     </property>
                                                                 </extended-item>
@@ -2957,21 +2930,21 @@ else&#13;
                                         </extended-item>
                                     </property>
                                     <property name="header">
-                                        <extended-item extensionName="CrosstabCell" id="864">
+                                        <extended-item extensionName="CrosstabCell" id="951">
                                             <property name="content">
-                                                <label id="866">
+                                                <label id="953">
                                                     <property name="fontSize">12px</property>
                                                     <property name="textAlign">center</property>
-                                                    <text-property name="text">Unit</text-property>
+                                                    <text-property name="text">Source  Name</text-property>
                                                 </label>
                                             </property>
                                         </extended-item>
-                                        <extended-item extensionName="CrosstabCell" id="596">
+                                        <extended-item extensionName="CrosstabCell" id="959">
                                             <property name="content">
-                                                <label id="597">
+                                                <label id="960">
                                                     <property name="fontSize">12px</property>
                                                     <property name="textAlign">center</property>
-                                                    <text-property name="text">Source Name</text-property>
+                                                    <text-property name="text">Unit</text-property>
                                                 </label>
                                             </property>
                                         </extended-item>
@@ -2994,24 +2967,24 @@ else&#13;
                                             <property name="dataType">date-time</property>
                                         </structure>
                                         <structure>
+                                            <property name="name">UNITSHORT</property>
+                                            <expression name="expression">dimension["Group6"]["UNITSHORT"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                        <structure>
                                             <property name="name">DISPLAYNAME</property>
                                             <expression name="expression">dimension["GroupDay"]["DISPLAYNAME"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                         <structure>
-                                            <property name="name">C22_Group1/Day Of Year_GroupDay/DISPLAYNAME</property>
+                                            <property name="name">C22_Group1/Day Of Year_Group6/UNITSHORT</property>
                                             <expression name="expression">measure["C22"]</expression>
                                             <property name="dataType">decimal</property>
                                             <simple-property-list name="aggregateOn">
                                                 <value>Group1/Day Of Year</value>
-                                                <value>GroupDay/DISPLAYNAME</value>
+                                                <value>Group6/UNITSHORT</value>
                                             </simple-property-list>
                                             <property name="aggregateFunction">SUM</property>
-                                        </structure>
-                                        <structure>
-                                            <property name="name">UNITSHORT</property>
-                                            <expression name="expression">dimension["Group6"]["UNITSHORT"]</expression>
-                                            <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
                                 </extended-item>
@@ -3041,25 +3014,26 @@ else&#13;
                                 <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="549">
                                     <property name="cube">DataCubeMonth</property>
                                     <property name="measures">
-                                        <extended-item extensionName="MeasureView" id="562">
+                                        <extended-item extensionName="MeasureView" id="904">
                                             <property name="measure">C2</property>
                                             <property name="detail">
-                                                <extended-item extensionName="AggregationCell" id="563">
+                                                <extended-item extensionName="AggregationCell" id="905">
                                                     <property name="aggregationOnRow">Group/Month</property>
-                                                    <property name="aggregationOnColumn">GroupM/DISPLAYNAME</property>
+                                                    <property name="aggregationOnColumn">Group5/UNITSHORT</property>
                                                     <property name="content">
-                                                        <data id="564">
+                                                        <data id="906">
                                                             <property name="style">crosstab-detail1</property>
+                                                            <property name="fontSize">12px</property>
                                                             <property name="textAlign">center</property>
-                                                            <property name="resultSetColumn">C2_Group/Month_GroupM/DISPLAYNAME</property>
+                                                            <property name="resultSetColumn">C2_Group/Month_Group5/UNITSHORT</property>
                                                         </data>
                                                     </property>
                                                 </extended-item>
                                             </property>
                                             <property name="header">
-                                                <extended-item extensionName="CrosstabCell" id="565">
+                                                <extended-item extensionName="CrosstabCell" id="907">
                                                     <property name="content">
-                                                        <label id="566">
+                                                        <label id="908">
                                                             <property name="fontSize">12px</property>
                                                             <property name="textAlign">center</property>
                                                             <text-property name="text">Consumption</text-property>
@@ -3072,15 +3046,17 @@ else&#13;
                                     <property name="rows">
                                         <extended-item extensionName="CrosstabView" id="551">
                                             <property name="views">
-                                                <extended-item extensionName="DimensionView" id="552">
+                                                <extended-item extensionName="DimensionView" id="900">
                                                     <property name="dimension">Group</property>
                                                     <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View2" id="553">
+                                                        <extended-item extensionName="LevelView" name="NewLevel View2" id="901">
                                                             <property name="level">Group/Month</property>
                                                             <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="554">
+                                                                <extended-item extensionName="CrosstabCell" id="902">
                                                                     <property name="content">
-                                                                        <data name="Month" id="555">
+                                                                        <data name="Month" id="903">
+                                                                            <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
                                                                             <property name="fontWeight">normal</property>
                                                                             <structure name="dateTimeFormat">
                                                                                 <property name="category">Custom</property>
@@ -3101,6 +3077,26 @@ else&#13;
                                     <property name="columns">
                                         <extended-item extensionName="CrosstabView" id="557">
                                             <property name="views">
+                                                <extended-item extensionName="DimensionView" id="894">
+                                                    <property name="dimension">GroupM</property>
+                                                    <property name="levels">
+                                                        <extended-item extensionName="LevelView" name="NewLevel View3" id="895">
+                                                            <property name="level">GroupM/DISPLAYNAME</property>
+                                                            <property name="member">
+                                                                <extended-item extensionName="CrosstabCell" id="896">
+                                                                    <property name="content">
+                                                                        <data name="DISPLAYNAME" id="898">
+                                                                            <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
+                                                                            <property name="textAlign">center</property>
+                                                                            <property name="resultSetColumn">DISPLAYNAME</property>
+                                                                        </data>
+                                                                    </property>
+                                                                </extended-item>
+                                                            </property>
+                                                        </extended-item>
+                                                    </property>
+                                                </extended-item>
                                                 <extended-item extensionName="DimensionView" id="852">
                                                     <property name="dimension">Group5</property>
                                                     <property name="levels">
@@ -3111,28 +3107,9 @@ else&#13;
                                                                     <property name="content">
                                                                         <data name="UNITSHORT1" id="856">
                                                                             <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
                                                                             <property name="textAlign">center</property>
                                                                             <property name="resultSetColumn">UNITSHORT</property>
-                                                                        </data>
-                                                                    </property>
-                                                                </extended-item>
-                                                            </property>
-                                                        </extended-item>
-                                                    </property>
-                                                </extended-item>
-                                                <extended-item extensionName="DimensionView" id="558">
-                                                    <property name="dimension">GroupM</property>
-                                                    <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View3" id="559">
-                                                            <property name="level">GroupM/DISPLAYNAME</property>
-                                                            <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="560">
-                                                                    <property name="content">
-                                                                        <data name="DISPLAYNAME1" id="561">
-                                                                            <property name="style">crosstab-detail1</property>
-                                                                            <property name="fontWeight">normal</property>
-                                                                            <property name="textAlign">center</property>
-                                                                            <property name="resultSetColumn">DISPLAYNAME</property>
                                                                         </data>
                                                                     </property>
                                                                 </extended-item>
@@ -3144,21 +3121,21 @@ else&#13;
                                         </extended-item>
                                     </property>
                                     <property name="header">
-                                        <extended-item extensionName="CrosstabCell" id="855">
+                                        <extended-item extensionName="CrosstabCell" id="897">
                                             <property name="content">
-                                                <label id="857">
-                                                    <property name="fontSize">12px</property>
-                                                    <property name="textAlign">center</property>
-                                                    <text-property name="text">Unit</text-property>
-                                                </label>
-                                            </property>
-                                        </extended-item>
-                                        <extended-item extensionName="CrosstabCell" id="567">
-                                            <property name="content">
-                                                <label id="568">
+                                                <label id="899">
                                                     <property name="fontSize">12px</property>
                                                     <property name="textAlign">center</property>
                                                     <text-property name="text">Source Name</text-property>
+                                                </label>
+                                            </property>
+                                        </extended-item>
+                                        <extended-item extensionName="CrosstabCell" id="909">
+                                            <property name="content">
+                                                <label id="910">
+                                                    <property name="fontSize">12px</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text">Unit</text-property>
                                                 </label>
                                             </property>
                                         </extended-item>
@@ -3176,9 +3153,9 @@ else&#13;
                                     <expression name="bookmark" type="javascript">"mytablemonth"</expression>
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Month</property>
-                                            <expression name="expression">dimension["Group"]["Month"]["DateTime"]</expression>
-                                            <property name="dataType">date-time</property>
+                                            <property name="name">UNITSHORT</property>
+                                            <expression name="expression">dimension["Group5"]["UNITSHORT"]</expression>
+                                            <property name="dataType">string</property>
                                         </structure>
                                         <structure>
                                             <property name="name">DISPLAYNAME</property>
@@ -3186,19 +3163,19 @@ else&#13;
                                             <property name="dataType">string</property>
                                         </structure>
                                         <structure>
-                                            <property name="name">C2_Group/Month_GroupM/DISPLAYNAME</property>
+                                            <property name="name">Month</property>
+                                            <expression name="expression">dimension["Group"]["Month"]["DateTime"]</expression>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">C2_Group/Month_Group5/UNITSHORT</property>
                                             <expression name="expression">measure["C2"]</expression>
                                             <property name="dataType">decimal</property>
                                             <simple-property-list name="aggregateOn">
                                                 <value>Group/Month</value>
-                                                <value>GroupM/DISPLAYNAME</value>
+                                                <value>Group5/UNITSHORT</value>
                                             </simple-property-list>
                                             <property name="aggregateFunction">SUM</property>
-                                        </structure>
-                                        <structure>
-                                            <property name="name">UNITSHORT</property>
-                                            <expression name="expression">dimension["Group5"]["UNITSHORT"]</expression>
-                                            <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
                                 </extended-item>
@@ -3228,26 +3205,26 @@ else&#13;
                                 <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="698">
                                     <property name="cube">Data Cube</property>
                                     <property name="measures">
-                                        <extended-item extensionName="MeasureView" id="711">
-                                            <property name="measure">C23</property>
+                                        <extended-item extensionName="MeasureView" id="941">
+                                            <property name="measure">C21</property>
                                             <property name="detail">
-                                                <extended-item extensionName="AggregationCell" id="712">
+                                                <extended-item extensionName="AggregationCell" id="942">
                                                     <property name="aggregationOnRow">Group4/C4</property>
-                                                    <property name="aggregationOnColumn">Group3/DISPLAYNAME</property>
+                                                    <property name="aggregationOnColumn">Group2/UNITSHORT</property>
                                                     <property name="content">
-                                                        <data id="713">
+                                                        <data id="943">
                                                             <property name="style">crosstab-detail1</property>
                                                             <property name="fontSize">12px</property>
                                                             <property name="textAlign">center</property>
-                                                            <property name="resultSetColumn">C23_Group4/C4_Group3/DISPLAYNAME</property>
+                                                            <property name="resultSetColumn">C21_Group4/C4_Group2/UNITSHORT</property>
                                                         </data>
                                                     </property>
                                                 </extended-item>
                                             </property>
                                             <property name="header">
-                                                <extended-item extensionName="CrosstabCell" id="714">
+                                                <extended-item extensionName="CrosstabCell" id="944">
                                                     <property name="content">
-                                                        <label id="715">
+                                                        <label id="945">
                                                             <property name="fontSize">12px</property>
                                                             <property name="textAlign">center</property>
                                                             <text-property name="text">Consumption</text-property>
@@ -3260,27 +3237,18 @@ else&#13;
                                     <property name="rows">
                                         <extended-item extensionName="CrosstabView" id="700">
                                             <property name="views">
-                                                <extended-item extensionName="DimensionView" id="701">
+                                                <extended-item extensionName="DimensionView" id="936">
                                                     <property name="dimension">Group4</property>
                                                     <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View6" id="702">
+                                                        <extended-item extensionName="LevelView" name="NewLevel View6" id="937">
                                                             <property name="level">Group4/C4</property>
-                                                            <property name="sort">
-                                                                <sort-element>
-                                                                    <expression name="key" type="javascript">data["C4"]</expression>
-                                                                    <property name="direction">asc</property>
-                                                                    <property name="strength">-1</property>
-                                                                </sort-element>
-                                                            </property>
                                                             <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="703">
+                                                                <extended-item extensionName="CrosstabCell" id="938">
                                                                     <property name="content">
-                                                                        <data name="C4" id="704">
+                                                                        <data name="C4" id="939">
                                                                             <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
                                                                             <property name="fontWeight">normal</property>
-                                                                            <structure name="dateTimeFormat">
-                                                                                <property name="category">Unformatted</property>
-                                                                            </structure>
                                                                             <property name="textAlign">center</property>
                                                                             <property name="resultSetColumn">C4</property>
                                                                         </data>
@@ -3296,19 +3264,19 @@ else&#13;
                                     <property name="columns">
                                         <extended-item extensionName="CrosstabView" id="706">
                                             <property name="views">
-                                                <extended-item extensionName="DimensionView" id="874">
-                                                    <property name="dimension">Group2</property>
+                                                <extended-item extensionName="DimensionView" id="925">
+                                                    <property name="dimension">Group3</property>
                                                     <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View" id="875">
-                                                            <property name="level">Group2/UNITSHORT</property>
+                                                        <extended-item extensionName="LevelView" name="NewLevel View" id="926">
+                                                            <property name="level">Group3/DISPLAYNAME</property>
                                                             <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="876">
+                                                                <extended-item extensionName="CrosstabCell" id="927">
                                                                     <property name="content">
-                                                                        <data name="UNITSHORT" id="878">
+                                                                        <data name="DISPLAYNAME1" id="928">
                                                                             <property name="style">crosstab-detail1</property>
-                                                                            <property name="fontWeight">normal</property>
+                                                                            <property name="fontSize">12px</property>
                                                                             <property name="textAlign">center</property>
-                                                                            <property name="resultSetColumn">UNITSHORT</property>
+                                                                            <property name="resultSetColumn">DISPLAYNAME</property>
                                                                         </data>
                                                                     </property>
                                                                 </extended-item>
@@ -3316,19 +3284,19 @@ else&#13;
                                                         </extended-item>
                                                     </property>
                                                 </extended-item>
-                                                <extended-item extensionName="DimensionView" id="707">
-                                                    <property name="dimension">Group3</property>
+                                                <extended-item extensionName="DimensionView" id="930">
+                                                    <property name="dimension">Group2</property>
                                                     <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View7" id="708">
-                                                            <property name="level">Group3/DISPLAYNAME</property>
+                                                        <extended-item extensionName="LevelView" name="NewLevel View5" id="931">
+                                                            <property name="level">Group2/UNITSHORT</property>
                                                             <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="709">
+                                                                <extended-item extensionName="CrosstabCell" id="932">
                                                                     <property name="content">
-                                                                        <data name="DISPLAYNAME3" id="710">
+                                                                        <data name="UNITSHORT" id="934">
                                                                             <property name="style">crosstab-detail1</property>
-                                                                            <property name="fontWeight">normal</property>
+                                                                            <property name="fontSize">12px</property>
                                                                             <property name="textAlign">center</property>
-                                                                            <property name="resultSetColumn">DISPLAYNAME</property>
+                                                                            <property name="resultSetColumn">UNITSHORT</property>
                                                                         </data>
                                                                     </property>
                                                                 </extended-item>
@@ -3340,27 +3308,27 @@ else&#13;
                                         </extended-item>
                                     </property>
                                     <property name="header">
-                                        <extended-item extensionName="CrosstabCell" id="877">
+                                        <extended-item extensionName="CrosstabCell" id="699">
                                             <property name="content">
-                                                <label id="879">
-                                                    <property name="fontSize">12px</property>
-                                                    <property name="textAlign">center</property>
-                                                    <text-property name="text">UNITSHORT</text-property>
-                                                </label>
-                                            </property>
-                                        </extended-item>
-                                        <extended-item extensionName="CrosstabCell" id="716">
-                                            <property name="content">
-                                                <label id="717">
+                                                <label id="929">
                                                     <property name="fontSize">12px</property>
                                                     <property name="textAlign">center</property>
                                                     <text-property name="text">Source Name</text-property>
                                                 </label>
                                             </property>
                                         </extended-item>
-                                        <extended-item extensionName="CrosstabCell" id="699">
+                                        <extended-item extensionName="CrosstabCell" id="946">
                                             <property name="content">
-                                                <label id="705">
+                                                <label id="947">
+                                                    <property name="fontSize">12px</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text">Unit</text-property>
+                                                </label>
+                                            </property>
+                                        </extended-item>
+                                        <extended-item extensionName="CrosstabCell" id="933">
+                                            <property name="content">
+                                                <label id="935">
                                                     <property name="fontSize">12px</property>
                                                     <property name="textAlign">center</property>
                                                     <text-property name="text">Hour</text-property>
@@ -3371,29 +3339,29 @@ else&#13;
                                     <property name="canShrink">true</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">C4</property>
-                                            <expression name="expression">dimension["Group4"]["C4"]</expression>
-                                            <property name="dataType">date-time</property>
-                                        </structure>
-                                        <structure>
                                             <property name="name">DISPLAYNAME</property>
                                             <expression name="expression">dimension["Group3"]["DISPLAYNAME"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                         <structure>
-                                            <property name="name">C23_Group4/C4_Group3/DISPLAYNAME</property>
-                                            <expression name="expression">measure["C23"]</expression>
-                                            <property name="dataType">decimal</property>
-                                            <simple-property-list name="aggregateOn">
-                                                <value>Group4/C4</value>
-                                                <value>Group3/DISPLAYNAME</value>
-                                            </simple-property-list>
-                                            <property name="aggregateFunction">SUM</property>
-                                        </structure>
-                                        <structure>
                                             <property name="name">UNITSHORT</property>
                                             <expression name="expression">dimension["Group2"]["UNITSHORT"]</expression>
                                             <property name="dataType">string</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">C4</property>
+                                            <expression name="expression">dimension["Group4"]["C4"]</expression>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">C21_Group4/C4_Group2/UNITSHORT</property>
+                                            <expression name="expression">measure["C21"]</expression>
+                                            <property name="dataType">decimal</property>
+                                            <simple-property-list name="aggregateOn">
+                                                <value>Group4/C4</value>
+                                                <value>Group2/UNITSHORT</value>
+                                            </simple-property-list>
+                                            <property name="aggregateFunction">SUM</property>
                                         </structure>
                                     </list-property>
                                 </extended-item>
