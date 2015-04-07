@@ -282,27 +282,26 @@ curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 if(params["newRPT"].value=="")
 {
-	this.queryText = this.queryText +
-	",'30D' as C4 from vw_billtime_source v"+
-					" inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+
-					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
-					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
-					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
-					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"'" +
-					" and sup.company_id='"+params["UsrCompId"].value+"'"+
-					" group by sup.sourcename,un.unitshort";
-
+	this.queryText = this.queryText +",'30D' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
+	" inner join fwk_section s on v.source_id=s.source_id"+ 
+	" inner join ems_section_summary su on su.assettree_id=s.section_id"+
+	" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
+	" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
+	" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
+	" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+params["UsrCompId"].value+"'"+
+	" group by sup.sourcename,un.unitshort,NF_FRACTION,NT_FRACTION,V.N_COST) group by sourcename,unitshort,C4";
+	
 }
 else
 {
-	this.queryText = this.queryText+params["newRPT"].value+" group by sup.sourcename,un.unitshort";
+	this.queryText = this.queryText+params["newRPT"].value+" group by sup.sourcename,un.unitshort,NF_FRACTION,NT_FRACTION,V.N_COST) group by sourcename,unitshort,C4";
 	
 }]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
-            <xml-property name="queryText"><![CDATA[select sup.sourcename, sum(su.utility_qty*V.N_COST) QTY ,un.unitshort]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select sourcename,sum(QTY) QTY,unitshort,C4 from(
+select sup.sourcename, case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty)*V.N_COST
+else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION)*V.N_COST end QTY ,un.unitshort]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -598,42 +597,21 @@ curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 if(params["newRPT1"].value=="")
 {
-	this.queryText = this.queryText +
-	",'30D' as C4 from vw_billtime_source v inner join fwk_section s"+
-				" on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
-				" inner join ems_section_summary su on su.assettree_id=s.section_id"+ 
-				" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+  
-				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+ 
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"'"+
-				" and t.dt_date <'"+curT+"' and v.source_id='10000' and sup.company_id='1' "+
-				" group by timeperiod,V.N_COST,un.unitshort,NF_FRACTION,NT_FRACTION)"+
-				" group by timeperiod,unitshort,C4";
-				
+	this.queryText = this.queryText +",'30D' as C4 from vw_billtime_source v inner join fwk_section s on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
+				" inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t"+
+				" on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and v.source_id='10001' and sup.company_id='1'"+
+				" group by timeperiod,V.N_COST,un.unitshort,NF_FRACTION,NT_FRACTION";
 	
 	
-/*
-	
-	",'30D' as C4 from vw_billtime_source v"+ 
-			" inner join fwk_section s on v.source_id=s.source_id"+
-			" inner join ems_section_summary su on su.assettree_id=s.section_id"+
-			" inner join ems_time_dim t on su.time_id=t.time_id"+
-			" and t.hr_id=v.hr_id "+
-			" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
-			" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-			" where  t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and v.source_id = 10000 "+
-			" group by timeperiod,V.N_COST,un.unitshort";*/
-
 }
 else
 {
-	this.queryText = this.queryText+params["newRPT1"].value+" group by timeperiod,V.N_COST,un.unitshort,NF_FRACTION,NT_FRACTION)"+
-				" group by timeperiod,unitshort,C4";
+	this.queryText = this.queryText+params["newRPT1"].value+" group by timeperiod,V.N_COST,un.unitshort,NF_FRACTION,NT_FRACTION";
 	
 }]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
-            <xml-property name="queryText"><![CDATA[select timeperiod,sum(qty) QTY,unitshort,C4 from (
-select timeperiod,sum(su.utility_qty)*V.N_COST+sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION)*V.N_COST QTY ,un.unitshort]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select timeperiod,case (NF_FRACTION+NT_FRACTION) when 0 then sum(su.utility_qty)*V.N_COST else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION)*V.N_COST end QTY ,un.unitshort]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -1257,13 +1235,10 @@ function costdis()
 				LHour=document.getElementById("fromdate").value+" 00:00:00";
 				var Cfrom=document.getElementById("fromdate").value;
 				var Cto=document.getElementById("todate").value;
-				newa1=",' Cost distribution from "+Cfrom+" to " +Cto+" ' as C4 from vw_billtime_source v inner join fwk_section s"+
-				" on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
-				" inner join ems_section_summary su on su.assettree_id=s.section_id"+ 
-				" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+  
-				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+ 
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"'"+
-				" and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
+				newa1=",' Cost distribution from "+Cfrom+" to " +Cto+" ' as C4 from vw_billtime_source v inner join fwk_section s on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
+				" inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t"+
+				" on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"'";
+				
 				
 			}		
 		}
@@ -1278,50 +1253,34 @@ function costdis()
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
-				newa1=",'24H' as C4 from vw_billtime_source v inner join fwk_section s"+
-				" on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
-				" inner join ems_section_summary su on su.assettree_id=s.section_id"+ 
-				" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+  
-				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+ 
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"'"+
-				" and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
+				newa1=",'24H' as C4 from vw_billtime_source v inner join fwk_section s on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
+				" inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t"+
+				" on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"'";
 			}
 			if(document.getElementById("s1").selectedIndex==2)
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-				newa1=",'7D' as C4 from vw_billtime_source v inner join fwk_section s"+
-				" on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
-				" inner join ems_section_summary su on su.assettree_id=s.section_id"+ 
-				" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+  
-				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+ 
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"'"+
-				" and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
+				newa1=",'7D' as C4 from vw_billtime_source v inner join fwk_section s on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
+				" inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t"+
+				" on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"'";
 			}
 			if(document.getElementById("s1").selectedIndex==3)
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-				newa1=",'30D' as C4 from vw_billtime_source v inner join fwk_section s"+
-				" on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
-				" inner join ems_section_summary su on su.assettree_id=s.section_id"+ 
-				" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+  
-				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+ 
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"'"+
-				" and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
+				newa1=",'30D' as C4 from vw_billtime_source v inner join fwk_section s on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
+				" inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t"+
+				" on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"'";
 			}
 			if(document.getElementById("s1").selectedIndex==4)
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
+				newa1=",'365D' as C4 from vw_billtime_source v inner join fwk_section s on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
+				" inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t"+
+				" on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"'";
 				
-				newa1=",'365D' as C4 from vw_billtime_source v inner join fwk_section s"+
-				" on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
-				" inner join ems_section_summary su on su.assettree_id=s.section_id"+ 
-				" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+  
-				" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+ 
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"'"+
-				" and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"' ";
 				
 			}
 			document.getElementById('mytable').style.display = "none";
@@ -1374,14 +1333,14 @@ function costdis()
 				LHour=document.getElementById("fromdate").value+" 00:00:00";
 				var Cfrom=document.getElementById("fromdate").value;
 				var Cto=document.getElementById("todate").value;
-				newa=",' Cost distribution from "+Cfrom+" to " +Cto+" ' as C4 from vw_billtime_source v"+
-					" inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+
+				newa=",' Cost distribution from "+Cfrom+" to " +Cto+" ' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
+					" inner join fwk_section s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"'";
+				
 			}		
 		}
 		if(document.getElementById("s1").selectedIndex==0)
@@ -1395,53 +1354,50 @@ function costdis()
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
-				newa=",'24H' as C4 from vw_billtime_source v"+
-					" inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+
+				newa=",'24H' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
+					" inner join fwk_section s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"'";
+				
 			}
 			if(document.getElementById("s1").selectedIndex==2)
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-				newa=",'7D' as C4 from vw_billtime_source v"+
-					" inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+
+				newa=",'7D' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
+					" inner join fwk_section s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"'";
 			}
 			if(document.getElementById("s1").selectedIndex==3)
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-				newa=",'30D' as C4 from vw_billtime_source v"+
-					" inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+
+				newa=",'30D' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
+					" inner join fwk_section s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"'";
 			}
 			if(document.getElementById("s1").selectedIndex==4)
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
-				newa=",'365D' as C4 from vw_billtime_source v"+
-					" inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+
+				newa=",'365D' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
+					" inner join fwk_section s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"'";
 			}
 			
 			var cl2 = new String(location.href);
@@ -1494,14 +1450,14 @@ function costdis()
 				LHour=document.getElementById("fromdate").value+" 00:00:00";
 				var Cfrom=document.getElementById("fromdate").value;
 				var Cto=document.getElementById("todate").value;
-				newa=",' Cost distribution from "+Cfrom+" to " +Cto+" ' as C4 from vw_billtime_source v"+
-					" inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+
+				newa=",' Cost distribution from "+Cfrom+" to " +Cto+" ' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
+					" inner join fwk_section s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"'";
+				
 			}		
 		}
 		if(document.getElementById("s1").selectedIndex==0)
@@ -1515,53 +1471,50 @@ function costdis()
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
-				newa=",'24H' as C4 from vw_billtime_source v"+
-					" inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+
+				newa=",'24H' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
+					" inner join fwk_section s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"'";
+				
 			}
 			if(document.getElementById("s1").selectedIndex==2)
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-				newa=",'7D' as C4 from vw_billtime_source v"+
-					" inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+
+				newa=",'7D' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
+					" inner join fwk_section s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"'";
 			}
 			if(document.getElementById("s1").selectedIndex==3)
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-				newa=",'30D' as C4 from vw_billtime_source v"+
-					" inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+
+				newa=",'30D' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
+					" inner join fwk_section s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"'";
 			}
 			if(document.getElementById("s1").selectedIndex==4)
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
-				newa=",'365D' as C4 from vw_billtime_source v"+
-					" inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+
+				newa=",'365D' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
+					" inner join fwk_section s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
 					" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"' ";
+					" where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and sup.company_id='"+parent.compid+"'";
 			}
 			
 			var cl2 = new String(location.href);
@@ -2766,6 +2719,9 @@ else&#13;
         <Visible>false</Visible>
       </Outline>
       <Visible>false</Visible>
+      <Cursor>
+        <Type>Auto</Type>
+      </Cursor>
       <Label>
         <Caption>
           <Value>Chart Title</Value>
@@ -2883,6 +2839,19 @@ else&#13;
         <Visible>false</Visible>
       </Outline>
       <Visible>true</Visible>
+      <Triggers>
+        <Condition>onmouseover</Condition>
+        <Action>
+          <Type>Show_Tooltip</Type>
+          <Value xsi:type="attribute:TooltipValue">
+            <Text></Text>
+            <Delay>200</Delay>
+          </Value>
+        </Action>
+      </Triggers>
+      <Cursor>
+        <Type>Auto</Type>
+      </Cursor>
       <ClientArea>
         <Outline>
           <Style>Solid</Style>
@@ -2985,6 +2954,16 @@ else&#13;
       <Visible>true</Visible>
     </Outline>
     <Visible>true</Visible>
+    <Triggers>
+      <Condition>onmouseover</Condition>
+      <Action>
+        <Type>Show_Tooltip</Type>
+        <Value xsi:type="attribute:TooltipValue">
+          <Text></Text>
+          <Delay>200</Delay>
+        </Value>
+      </Action>
+    </Triggers>
     <Cursor>
       <Type>Auto</Type>
     </Cursor>
@@ -3519,21 +3498,21 @@ else&#13;
         <LabelPosition>Outside</LabelPosition>
         <Stacked>false</Stacked>
         <Triggers>
-          <Condition>onmouseover</Condition>
-          <Action>
-            <Type>Show_Tooltip</Type>
-            <Value xsi:type="attribute:TooltipValue">
-              <Text>row[&quot;TIMEPERIOD&quot;]+&quot;: &quot;+row[&quot;QTY&quot;]+&quot; &quot;+row[&quot;UNITSHORT&quot;]</Text>
-              <Delay>200</Delay>
-            </Value>
-          </Action>
-        </Triggers>
-        <Triggers>
           <Condition>onmousemove</Condition>
           <Action>
             <Type>Highlight</Type>
             <Value xsi:type="attribute:SeriesValue">
               <Name></Name>
+            </Value>
+          </Action>
+        </Triggers>
+        <Triggers>
+          <Condition>onmouseover</Condition>
+          <Action>
+            <Type>Show_Tooltip</Type>
+            <Value xsi:type="attribute:TooltipValue">
+              <Text></Text>
+              <Delay>200</Delay>
             </Value>
           </Action>
         </Triggers>
