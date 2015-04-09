@@ -8,15 +8,12 @@
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <parameters>
-        <scalar-parameter name="newRPT" id="99">
-            <property name="hidden">true</property>
+        <scalar-parameter name="UsrCompId" id="303">
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -24,15 +21,58 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="UsrCompId" id="303">
-            <property name="hidden">true</property>
+        <scalar-parameter name="coltype" id="419">
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="vb" id="475">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="sourceid" id="476">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="fromdate" id="477">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="todate" id="478">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -80,245 +120,51 @@
                         </structure>
                     </list-property>
                 </structure>
-                <structure>
-                    <property name="name">CUSD</property>
-                    <expression name="expression">var myString = row["C7"];&#13;
-var stringLength = myString.length; &#13;
-var lastChar = myString.charAt(stringLength - 1); &#13;
-if(lastChar=='M')&#13;
-{&#13;
-	row["C7"]=lastChar;&#13;
-}</expression>
-                    <property name="dataType">string</property>
-                </structure>
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
             <structure name="cachedMetaData"/>
-            <method name="beforeOpen"><![CDATA[var currentTime = new Date()
+            <method name="beforeOpen"><![CDATA[
+curT=params["todate"].value
+LHour=params["fromdate"].value
 
-var month = currentTime.getMonth() + 1
-var day = currentTime.getDate()
-var year = currentTime.getFullYear()
-var currentTime = new Date()
-var hours = currentTime.getHours()
-var minutes = currentTime.getMinutes()
-var seconds=currentTime.getSeconds()
-//Last 7 days
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var month7 = Lastweek.getMonth() + 1
-var day7 = Lastweek.getDate()
-var year7 = Lastweek.getFullYear()
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var hours7 = Lastweek.getHours()
-var minutes7 = Lastweek.getMinutes()
-var seconds7=Lastweek.getSeconds()
-//Last 30days
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-
-var month30 = LastMonth.getMonth() + 1
-var day30= LastMonth.getDate()
-var year30= LastMonth.getFullYear()
-
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-var hours30 = LastMonth.getHours()
-var minutes30 = LastMonth.getMinutes()
-var seconds30=LastMonth.getSeconds()
-//last 365 days
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-
-var month365 = LastYear.getMonth() + 1
-var day365= LastYear.getDate()
-var year365= LastYear.getFullYear()
-
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-var hours365 = LastYear.getHours()
-var minutes365 = LastYear.getMinutes()
-var seconds365=LastYear.getSeconds()
-
-
-//last hour
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var monthL = hourago.getMonth() + 1
-var dayL= hourago.getDate()
-var yearL= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var hoursL = hourago.getHours()
-var minutesL = hourago.getMinutes()
-var secondsL=hourago.getSeconds()
-//last 24 hour
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var monthL24 = hourago.getMonth() + 1
-var dayL24= hourago.getDate()
-var yearL24= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var hoursL24 = hourago.getHours()
-var minutesL24 = hourago.getMinutes()
-var secondsL24=hourago.getSeconds()
-
-/////////Today
-if (minutes < 10){
-minutes = "0" + minutes
-}
-if (seconds < 10){
-seconds= "0" + seconds
-}
-
-if (month  < 10){
-month  = "0" + month 
-}
-if (day  < 10){
-day  = "0" + day 
-}
-if (hours  < 10){
-hours  = "0" + hours 
-}
-
-///Last 365
-if (minutes365 < 10){
-minutes365 = "0" + minutes365
-}
-if (seconds365 < 10){
-seconds365= "0" + seconds365
-}
-
-if (month365  < 10){
-month365  = "0" + month365 
-}
-if (day365  < 10){
-day365  = "0" + day365 
-}
-if (hours365  < 10){
-hours365  = "0" + hours365 
-}
-
-
-///Last 7 days
-if (minutes7 < 10){
-minutes7 = "0" + minutes7
-}
-if (seconds7 < 10){
-seconds7= "0" + seconds7
-}
-
-if (month7  < 10){
-month7  = "0" + month7 
-}
-if (day7  < 10){
-day7  = "0" + day7 
-}
-if (hours7  < 10){
-hours7  = "0" + hours7 
-}
-//last 30days
-if (minutes30 < 10){
-minutes30 = "0" + minutes30
-}
-if (seconds30 < 10){
-seconds30= "0" + seconds30
-}
-
-if (month30  < 10){
-month30  = "0" + month30 
-}
-if (day30  < 10){
-day30  = "0" + day30 
-}
-if (hours30  < 10){
-hours30  = "0" + hours30 
-}
-
-//last hour
-if (minutesL < 10){
-minutesL = "0" + minutesL
-}
-if (secondsL < 10){
-secondsL= "0" + secondsL
-}
-
-if (monthL  < 10){
-monthL  = "0" + monthL 
-}
-if (dayL  < 10){
-dayL  = "0" + dayL
-}
-if (hoursL  < 10){
-hoursL  = "0" + hoursL
-}
-//last 24 hour
-
-if (minutesL24 < 10){
-minutesL24 = "0" + minutesL24
-}
-if (secondsL24 < 10){
-secondsL24= "0" + secondsL24
-}
-
-if (monthL24  < 10){
-monthL24  = "0" + monthL24 
-}
-if (dayL24  < 10){
-dayL24  = "0" + dayL24
-}
-if (hoursL24  < 10){
-hoursL24  = "0" + hoursL24
-}
-curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-if(params["newRPT"].value=="")
-{
-	this.queryText = this.queryText+",'30M' C7 from vw_billtime_source v inner join ems_source sc on sc.source_id=v.source_id inner join fwk_section s"+
-		" on v.source_id=s.source_id inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='1000001' and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"' and sc.company_id='"+params["UsrCompId"].value+"'"+
-		" group by sourcename, timeperiod,V.N_COST,CAST(dt_date AS DATE),un.unitshort,NF_FRACTION,NT_FRACTION"+
-		" order by dtdate,TIMEPERIOD"; 
+	this.queryText = this.queryText+
 	
+	",'"+params["coltype"].value+"' as C7 from vw_billtime_source v inner join ems_source sc on sc.source_id=v.source_id inner join fwk_section s on v.source_id=s.source_id"+
+		" inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
+		" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='"+params["sourceid"].value+"'"+
+		" and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"' and sc.company_id='"+params["UsrCompId"].value+"' and timeperiod='Normal'"+
+		" group by sourcename,timeperiod,V.N_COST,dt_date,unitshort,NF_FRACTION,NT_FRACTION UNION select sourcename,0 NormalCost,0 NormalQty,"+
+		" case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty)*V.N_COST else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION)*V.N_COST end OffpeakCost,"+
+		" case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION) end OffpeakQty,0 PeakCost,0 PeakQty"+
+		", dt_date as dtdate,un.unitshort,'"+params["coltype"].value+"' as C7 from vw_billtime_source v inner join ems_source sc on sc.source_id=v.source_id"+
+		" inner join fwk_section s on v.source_id=s.source_id inner join ems_section_summary su on su.assettree_id=s.section_id"+
+        " inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
+		" inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='"+params["sourceid"].value+"' and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"'"+
+		" and sc.company_id='"+params["UsrCompId"].value+"' and timeperiod='Off-Peak' group by sourcename,timeperiod,V.N_COST,dt_date,unitshort,NF_FRACTION,NT_FRACTION UNION"+
+		" select sourcename,0 NormalCost,0 NormalQty,0 OffpeakCost,0 OffpeakQty,"+
+        " case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty)*V.N_COST else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION)*V.N_COST end PeakCost,"+
+        " case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION) end PeakQty"+
+		", dt_date as dtdate,un.unitshort,'"+params["coltype"].value+"' as C7 from vw_billtime_source v inner join ems_source sc on sc.source_id=v.source_id"+
+		" inner join fwk_section s on v.source_id=s.source_id inner join ems_section_summary su on su.assettree_id=s.section_id"+
+		" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
+		" inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='"+params["sourceid"].value+"' and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"'"+
+        " and sc.company_id='"+params["UsrCompId"].value+"' and timeperiod='Peak' group by sourcename,timeperiod,V.N_COST,dt_date,unitshort,NF_FRACTION,NT_FRACTION"+
+        " union select src.sourcename , 0 as NormalCost,0 as NormalQty,0 OffpeakCost,0 OffpeakQty,0 PeakCost,0 PeakQty,d.dt_date as dtdate,EUN.unitshort ,'"+params["coltype"].value+"' as C7"+
+		" from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , fwk_section sec, ems_source src"+
+        " where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id"+
+		" and sec.source_id ='"+params["sourceid"].value+"'  and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+
+		" group by src.sourcename ,EUN.unitshort,d.DT_DATE) as tab group by sourcename ,unitshort,DTDATE,C7 order by dtdate";
+		
 	
-	
-	/*
-	
-",'30M' C7 from vw_billtime_source v"+
-	" inner join ems_source sc on sc.source_id=v.source_id"+
-	" inner join fwk_section s on v.source_id=s.source_id"+
-	" inner join ems_section_summary su on su.assettree_id=s.section_id"+
-	" inner join ems_time_dim t on su.time_id=t.time_id"+
-	" and t.hr_id=v.hr_id"+
-	" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
-	" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-	" where sc.source_id='100001' and"+
-	"  t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"' "+
-	" and sc.company_id='"+params["UsrCompId"].value+"'"+
-	" group by sourcename, timeperiod,V.N_COST,CAST(dt_date AS DATE),un.unitshort"+
-    " order by  dtdate,TIMEPERIOD";*/
-    
-    
-    
-
-	
-}
-else
-{
-
-
-this.queryText = this.queryText+params["newRPT"]+" group by sourcename, timeperiod,V.N_COST,CAST(dt_date AS DATE),un.unitshort,NF_FRACTION,NT_FRACTION"+
-		" order by dtdate,TIMEPERIOD"; 
-
-}]]></method>
+]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
-            <xml-property name="queryText"><![CDATA[select sourcename,timeperiod,
-case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty)*V.N_COST else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION)*V.N_COST end cost,
-case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION) end QTY
-,CAST(dt_date AS DATE) dtdate,un.unitshort]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select  sourcename,sum(round(NormalCost,2)) NormalCost,sum(NormalQty) NormalQty,sum(round(OffpeakCost,2)) OffpeakCost,sum(OffpeakQty) OffpeakQty,sum(round(PeakCost,2)) PeakCost,sum(PeakQty) PeakQty ,dtdate,unitshort,C7 from (
+select sourcename,
+case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty)*V.N_COST else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION)*V.N_COST end NormalCost,
+case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION) end NormalQty,0 OffpeakCost,0 OffpeakQty,0 PeakCost,0 PeakQty
+, dt_date as dtdate,un.unitshort]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -459,14 +305,14 @@ case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility
         </oda-data-set>
     </data-sets>
     <cubes>
-        <tabular-cube name="DatacubeMonth" id="240">
+        <tabular-cube name="Data CubeGrid" id="325">
             <property name="dimensions">
-                <tabular-dimension name="Group2" id="241">
-                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                <tabular-dimension name="Group" id="326">
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy1" id="242">
+                        <tabular-hierarchy name="NewTabularHierarchy" id="327">
                             <property name="levels">
-                                <tabular-level name="SOURCENAME" id="243">
+                                <tabular-level name="SOURCENAME" id="328">
                                     <property name="dataType">string</property>
                                     <property name="columnName">SOURCENAME</property>
                                 </tabular-level>
@@ -474,25 +320,12 @@ case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility
                         </tabular-hierarchy>
                     </property>
                 </tabular-dimension>
-                <tabular-dimension name="Group5" id="244">
-                    <property name="defaultHierarchy">NewTabularHierarchy5</property>
+                <tabular-dimension name="Group1" id="329">
+                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy5" id="245">
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="330">
                             <property name="levels">
-                                <tabular-level name="TIMEPERIOD" id="246">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">TIMEPERIOD</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Group6" id="247">
-                    <property name="defaultHierarchy">NewTabularHierarchy6</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy6" id="248">
-                            <property name="levels">
-                                <tabular-level name="UNITSHORT" id="249">
+                                <tabular-level name="UNITSHORT" id="331">
                                     <property name="dataType">string</property>
                                     <property name="columnName">UNITSHORT</property>
                                 </tabular-level>
@@ -500,20 +333,42 @@ case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility
                         </tabular-hierarchy>
                     </property>
                 </tabular-dimension>
-                <tabular-dimension name="Group7" id="250">
+                <tabular-dimension name="Group2" id="332">
                     <property name="isTimeType">true</property>
-                    <property name="defaultHierarchy">NewTabularHierarchy8</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy3</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy8" id="251">
+                        <tabular-hierarchy name="NewTabularHierarchy3" id="333">
                             <property name="levels">
-                                <tabular-level name="Month" id="252">
+                                <tabular-level name="Month" id="334">
                                     <property name="dataType">integer</property>
                                     <property name="dateTimeLevelType">month</property>
                                     <property name="dateTimeFormat">MMM yyyy</property>
                                     <list-property name="attributes">
                                         <structure>
                                             <property name="name">DateTime</property>
-                                            <property name="dataType">date</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">DTDATE</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Group4" id="335">
+                    <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy5</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy5" id="336">
+                            <property name="levels">
+                                <tabular-level name="Day Of Year" id="337">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">day-of-year</property>
+                                    <property name="dateTimeFormat">MMMM dd, yyyy</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
                                         </structure>
                                     </list-property>
                                     <property name="columnName">DTDATE</property>
@@ -524,18 +379,30 @@ case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility
                 </tabular-dimension>
             </property>
             <property name="measureGroups">
-                <tabular-measure-group name="Summary Field1" id="253">
+                <tabular-measure-group name="Summary Field" id="338">
                     <property name="measures">
-                        <tabular-measure name="QTY1" id="254">
-                            <expression name="measureExpression" type="javascript">dataSetRow["QTY"]</expression>
+                        <tabular-measure name="NORMALCOST" id="339">
+                            <expression name="measureExpression" type="javascript">dataSetRow["NORMALCOST"]</expression>
                             <property name="dataType">decimal</property>
                         </tabular-measure>
-                    </property>
-                </tabular-measure-group>
-                <tabular-measure-group name="Summary Field2" id="255">
-                    <property name="measures">
-                        <tabular-measure name="COST1" id="256">
-                            <expression name="measureExpression" type="javascript">dataSetRow["COST"]</expression>
+                        <tabular-measure name="NORMALQTY" id="340">
+                            <expression name="measureExpression" type="javascript">dataSetRow["NORMALQTY"]</expression>
+                            <property name="dataType">decimal</property>
+                        </tabular-measure>
+                        <tabular-measure name="OFFPEAKCOST" id="341">
+                            <expression name="measureExpression" type="javascript">dataSetRow["OFFPEAKCOST"]</expression>
+                            <property name="dataType">decimal</property>
+                        </tabular-measure>
+                        <tabular-measure name="OFFPEAKQTY" id="342">
+                            <expression name="measureExpression" type="javascript">dataSetRow["OFFPEAKQTY"]</expression>
+                            <property name="dataType">decimal</property>
+                        </tabular-measure>
+                        <tabular-measure name="PEAKCOST" id="343">
+                            <expression name="measureExpression" type="javascript">dataSetRow["PEAKCOST"]</expression>
+                            <property name="dataType">decimal</property>
+                        </tabular-measure>
+                        <tabular-measure name="PEAKQTY" id="344">
+                            <expression name="measureExpression" type="javascript">dataSetRow["PEAKQTY"]</expression>
                             <property name="dataType">decimal</property>
                         </tabular-measure>
                     </property>
@@ -748,476 +615,6 @@ case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility
         <simple-master-page name="Simple MasterPage" id="2"/>
     </page-setup>
     <body>
-        <text id="98">
-            <list-property name="visibility">
-                <structure>
-                    <property name="format">doc</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">docx</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">pdf</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">xls</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">xlsx</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-            </list-property>
-            <property name="contentType">html</property>
-            <text-property name="content"><![CDATA[<script>
-
-var currentTime = new Date()
-
-var month = currentTime.getMonth() + 1
-var day = currentTime.getDate()
-var year = currentTime.getFullYear()
-var currentTime = new Date()
-var hours = currentTime.getHours()
-var minutes = currentTime.getMinutes()
-var seconds=currentTime.getSeconds()
-//Last 7 days
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var month7 = Lastweek.getMonth() + 1
-var day7 = Lastweek.getDate()
-var year7 = Lastweek.getFullYear()
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var hours7 = Lastweek.getHours()
-var minutes7 = Lastweek.getMinutes()
-var seconds7=Lastweek.getSeconds()
-//Last 30days
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-
-var month30 = LastMonth.getMonth() + 1
-var day30= LastMonth.getDate()
-var year30= LastMonth.getFullYear()
-
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-var hours30 = LastMonth.getHours()
-var minutes30 = LastMonth.getMinutes()
-var seconds30=LastMonth.getSeconds()
-//last 365 days
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-
-var month365 = LastYear.getMonth() + 1
-var day365= LastYear.getDate()
-var year365= LastYear.getFullYear()
-
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-var hours365 = LastYear.getHours()
-var minutes365 = LastYear.getMinutes()
-var seconds365=LastYear.getSeconds()
-
-
-//last hour
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var monthL = hourago.getMonth() + 1
-var dayL= hourago.getDate()
-var yearL= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var hoursL = hourago.getHours()
-var minutesL = hourago.getMinutes()
-var secondsL=hourago.getSeconds()
-//last 24 hour
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var monthL24 = hourago.getMonth() + 1
-var dayL24= hourago.getDate()
-var yearL24= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var hoursL24 = hourago.getHours()
-var minutesL24 = hourago.getMinutes()
-var secondsL24=hourago.getSeconds()
-
-/////////Today
-if (minutes < 10){
-minutes = "0" + minutes
-}
-if (seconds < 10){
-seconds= "0" + seconds
-}
-
-if (month  < 10){
-month  = "0" + month 
-}
-if (day  < 10){
-day  = "0" + day 
-}
-if (hours  < 10){
-hours  = "0" + hours 
-}
-
-///Last 365
-if (minutes365 < 10){
-minutes365 = "0" + minutes365
-}
-if (seconds365 < 10){
-seconds365= "0" + seconds365
-}
-
-if (month365  < 10){
-month365  = "0" + month365 
-}
-if (day365  < 10){
-day365  = "0" + day365 
-}
-if (hours365  < 10){
-hours365  = "0" + hours365 
-}
-
-
-///Last 7 days
-if (minutes7 < 10){
-minutes7 = "0" + minutes7
-}
-if (seconds7 < 10){
-seconds7= "0" + seconds7
-}
-
-if (month7  < 10){
-month7  = "0" + month7 
-}
-if (day7  < 10){
-day7  = "0" + day7 
-}
-if (hours7  < 10){
-hours7  = "0" + hours7 
-}
-//last 30days
-if (minutes30 < 10){
-minutes30 = "0" + minutes30
-}
-if (seconds30 < 10){
-seconds30= "0" + seconds30
-}
-
-if (month30  < 10){
-month30  = "0" + month30 
-}
-if (day30  < 10){
-day30  = "0" + day30 
-}
-if (hours30  < 10){
-hours30  = "0" + hours30 
-}
-
-//last hour
-if (minutesL < 10){
-minutesL = "0" + minutesL
-}
-if (secondsL < 10){
-secondsL= "0" + secondsL
-}
-
-if (monthL  < 10){
-monthL  = "0" + monthL 
-}
-if (dayL  < 10){
-dayL  = "0" + dayL
-}
-if (hoursL  < 10){
-hoursL  = "0" + hoursL
-}
-//last 24 hour
-
-if (minutesL24 < 10){
-minutesL24 = "0" + minutesL24
-}
-if (secondsL24 < 10){
-secondsL24= "0" + secondsL24
-}
-
-if (monthL24  < 10){
-monthL24  = "0" + monthL24 
-}
-if (dayL24  < 10){
-dayL24  = "0" + dayL24
-}
-if (hoursL24  < 10){
-hoursL24  = "0" + hoursL24
-}
-
-				document.getElementById('Grid').style.display = "none";
-            	document.getElementById('mychart').style.display = "block";
-         	
-				document.onload=populate();
-if(parent.compid === undefined)
-	{
-		parent.compid = 1;
-	}
-function populate()
-{
-				for(i=0;i<parent.sourcename_arr.length;i++)
-				{
-					var select = document.getElementById("Source");
-					select.options[select.options.length] = new Option(parent.sourcename_arr[i]);
-				}
-				if(parent.selected_period_ndx==null || parent.selected_period_ndx==0)
-				{
-					parent.selected_period_ndx=0;
-				}
-				if(parent.selected_sum_ndx==null || parent.selected_sum_ndx==0)
-				{
-					parent.selected_sum_ndx=0;
-				}
-				if(parent.selected_source_ndx==null || parent.selected_source_ndx==0)
-				{
-					parent.selected_source_ndx=0;
-				}
-				document.getElementById("s1").selectedIndex=parent.selected_period_ndx;	
-				document.getElementById("Source").selectedIndex=parent.selected_source_ndx;	
-				if(document.getElementById("s1").selectedIndex==3)
-				{
-					if (document.getElementById("s1").selectedIndex==3)
-					{
-						document.getElementById("fromdate").disabled=false;
-						document.getElementById("todate").disabled=false;
-						document.getElementById("fromdate").value=parent.selected_fdate;
-						document.getElementById("todate").value=parent.selected_tdate;
-					}
-					else
-					{
-						document.getElementById("fromdate").value='';
-						document.getElementById("todate").value='';
-						document.getElementById("fromdate").disabled=true;
-						document.getElementById("todate").disabled=true;
-					}
-				}
-}
-
-function CheckDate()
-{
-	if (document.getElementById("s1").selectedIndex==3)
-	{
-				document.getElementById("fromdate").disabled=false;
-				document.getElementById("todate").disabled=false;
-	}
-	else
-	{
-				document.getElementById("fromdate").value='';
-				document.getElementById("todate").value='';
-				document.getElementById("fromdate").disabled=true;
-				document.getElementById("todate").disabled=true;		
-	}
-}
-
-function CostTrend()
-{
-	parent.selected_period_ndx=document.getElementById("s1").selectedIndex;
-	parent.selected_source_ndx=document.getElementById("Source").selectedIndex;
-	parent.selected_fdate=document.getElementById("fromdate").value;
-	parent.selected_tdate=document.getElementById("todate").value;
-
-	var sourceId=parent.sourceid_arr[document.getElementById("Source").selectedIndex-1];
-	if(parent.AssetTree.selectedtype == 5)
-	{
-		alert ("Select Section/Asset/Location!");
-			return;
-	}
-	if(document.getElementById("Source").selectedIndex==0)
-	{
-		alert ("Select Source!");
-			return;
-	}
-	if(document.getElementById("s1").selectedIndex==0)
-	{
-		alert ("Select Period!");
-			return;
-	}
-	
-
-	if ((document.getElementById("s1").selectedIndex==3))
-	{
-		if ((document.getElementById("s1").selectedIndex==3) &amp;&amp; (document.getElementById("fromdate").value==''))
-		{
-			alert ("Enter a valid time period!");
-			return;
-		}
-		else if ((document.getElementById("s1").selectedIndex==3)&amp;&amp; (document.getElementById("todate").value==''))
-		{
-			alert ("Enter a valid time period!");
-			return;
-		}
-	
-		else
-		{
-			var d1 = Date.parse(document.getElementById("todate").value);
-			var d2 = Date.parse(document.getElementById("fromdate").value);
-			if (d1 < d2) 
-			{
-				alert ("To Date cannot be Greater than From Date!");
-				return;
-			}
-			else
-			{
-		
-				if(document.getElementById("s1").selectedIndex==3)
-				{	
-					curT=document.getElementById("todate").value+" 00:00:00";
-					LHour=document.getElementById("fromdate").value+" 00:00:00";
-					var Cfrom=document.getElementById("fromdate").value;
-					var Cto=document.getElementById("todate").value;
-					newa=",' Cost Trend from "+Cfrom+" to " +Cto+" SM' C7 from vw_billtime_source v inner join ems_source sc on sc.source_id=v.source_id inner join fwk_section s"+
-		" on v.source_id=s.source_id inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='"+sourceId+"' and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"' and sc.company_id='"+parent.compid+"'"; 
-					
-						
-				}
-				
-				
-				else
-				{}
-			
-			}		
-		}
-
-	}
-	
-	else if(document.getElementById("s1").selectedIndex==1)
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-		
-		newa=",'30M' C7 from vw_billtime_source v inner join ems_source sc on sc.source_id=v.source_id inner join fwk_section s"+
-		" on v.source_id=s.source_id inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='"+sourceId+"' and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"' and sc.company_id='"+parent.compid+"'"; 
-						
-		
-	}
-	
-	
-	else if(document.getElementById("s1").selectedIndex==2)
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
-		
-		newa=",'365M' C7 from vw_billtime_source v inner join ems_source sc on sc.source_id=v.source_id inner join fwk_section s"+
-		" on v.source_id=s.source_id inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='"+sourceId+"' and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"' and sc.company_id='"+parent.compid+"'"; 
-		
-	}
-	else
-	{
-		alert("Select Duration/Summarize by option!");
-	}
-	var cl1 = new String(location.href);
-	var targetURL1 = new String();
-	var tst1 = cl1.indexOf("&amp;newRPT");
-	if(  tst1 == -1 )
-	{
-		cl1 = cl1 + "&amp;newRPT=" + newa;
-	}
-	else
-	{
-		var ch1 = cl1.indexOf("&amp;newRPT=");
-		cl1 = cl1.substring(0, ch1) + "&amp;newRPT=" + newa;
-    }
-	window.location = cl1;
-	
-}
-
-function showhidetab()
-{
-    if(document.getElementById("s2").selectedIndex==0)
-	{
-		document.getElementById('Grid').style.display = "none";
-		document.getElementById('mychart').style.display = "block";		
-	}
-	if(document.getElementById("s2").selectedIndex==1)
-	{
-			
-			document.getElementById('Grid').style.display = "block";
-			document.getElementById('mychart').style.display = "none";    
-	}			
-}
-
-</script>
-
-<body>
-<head>
-
-</head>
-
-<table  border=1 style="width:300px" bgcolor="black">
-
-<tr>
-  
-  <td>
-  <select id=s2 width=10 size=1 title="Select Report Type" name=Characters2 onChange="showhidetab()";>
-	
-	<option value=K>Chart</option> 
-	<option value=L>Table</option> 
-	</select>
-</td>
-
-<td>
-  <select id=Source size=1 title="Select Source" name=Characters ">
-  <option value=F>--Select Source--</option>
-
-</select>
-  </td>	
-  
-  <td>
-  <select id=s1 size=1 title="Select Period" name=Characters onChange="CheckDate()">
-<option value=F>--Select Period--</option>
-<option value=F>Last 30 Days</option>
-<option value=F>Last 365 Days</option>
-<option value=G>Specific Period</option>
-</select>
-  </td>	
-  </td>	
-  <td>
-   <b><font color="white">From:</font></b>
-  </td>
-  <td>
-  <input type="date" title="Select From Date" id="fromdate" disabled>
-  </input>
-  </td>
-  <td>
-    <b><font color="white">To:</font></b>
-  </td>
-  <td>
-  <input type="date" title="Select To Date" id="todate" disabled>
-  </td>
-  <td>
-  <button type="button" title="Generate Report" onClick="CostTrend()">Go</button>
-  </button>
-  </td>
-  
-  
-  
-  
-
-</tr>
-
-</table>
-
-</body>
-
-
-
-
-
-
-
-
-
-
-]]></text-property>
-        </text>
         <grid id="298">
             <column id="299"/>
             <row id="300">
@@ -1235,30 +632,31 @@ function showhidetab()
                         </list-property>
                         <expression name="valueExpr">if(row["C7"]=='30M')&#13;
 {&#13;
-	row["C7"]='Cost Trend for the last 30 days';&#13;
+	row["C7"]='Cost Trend for the last 30 days Summarized by Month';&#13;
+}&#13;
+else if(row["C7"]=='30D')&#13;
+{&#13;
+	row["C7"]='Cost Trend for the last 30 days Summarized by Day';&#13;
+}&#13;
+else if(row["C7"]=='365D')&#13;
+{&#13;
+	row["C7"]='Cost Trend for the last 365 days Summarized by Day';&#13;
 }&#13;
 else if(row["C7"]=='365M')&#13;
 {&#13;
-	row["C7"]='Cost Trend for the last 365 days';&#13;
+	row["C7"]='Cost Trend for the last 365 days Summarized by Month';&#13;
 }&#13;
 else&#13;
 {&#13;
-	if(row["C7"]!=null)&#13;
-	{&#13;
-		var myString = row["C7"];&#13;
-		var stringLength = myString.length; &#13;
-		var lastChar = myString.charAt(stringLength - 2); &#13;
-		if(row["C7"]!='30M' &amp;&amp; row["C7"]!='365M')&#13;
-		{&#13;
-			if(lastChar!=null)&#13;
-			{&#13;
-				row["C7"].substring(0, stringLength - 2);&#13;
-			}&#13;
-		}&#13;
-	}&#13;
+	&#13;
 	if(row["C7"]==null || row["C7"]=='')&#13;
 	{&#13;
 		row["C7"]="No Data to display";&#13;
+	}&#13;
+	else&#13;
+	{&#13;
+	row["C7"]="Cost Trend for the Specified Period";&#13;
+	&#13;
 	}&#13;
 }</expression>
                         <property name="contentType">html</property>
@@ -1533,7 +931,7 @@ else&#13;
   <Dimension>Two_Dimensional_With_Depth</Dimension>
   <Script>function afterDataSetFilled( series, dataSet, icsc )&#xD;
 {&#xD;
-	if( series.getSeriesIdentifier() == &quot;Series 1&quot; )&#xD;
+	if( series.getSeriesIdentifier() == &quot;Normal&quot; )&#xD;
 	{&#xD;
 		if( dataSet.getValues().length > 30 &amp;&amp; dataSet.getValues().length&lt;50)&#xD;
 		{&#xD;
@@ -1565,6 +963,14 @@ else&#13;
     <OrthogonalSampleData>
       <DataSetRepresentation>5,4,12</DataSetRepresentation>
       <SeriesDefinitionIndex>0</SeriesDefinitionIndex>
+    </OrthogonalSampleData>
+    <OrthogonalSampleData>
+      <DataSetRepresentation>10.0,8.0,24.0</DataSetRepresentation>
+      <SeriesDefinitionIndex>1</SeriesDefinitionIndex>
+    </OrthogonalSampleData>
+    <OrthogonalSampleData>
+      <DataSetRepresentation>15.0,12.0,36.0</DataSetRepresentation>
+      <SeriesDefinitionIndex>2</SeriesDefinitionIndex>
     </OrthogonalSampleData>
     <AncillarySampleData>
       <DataSetRepresentation>Series 1</DataSetRepresentation>
@@ -1685,7 +1091,7 @@ else&#13;
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>row[&quot;TIMEPERIOD&quot;]</Definition>
+          <Definition></Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -1913,13 +1319,540 @@ else&#13;
             <Visible>false</Visible>
           </Label>
           <DataDefinition>
-            <Definition>row[&quot;COST&quot;]</Definition>
+            <Definition>row[&quot;NORMALCOST&quot;]</Definition>
             <Grouping>
               <GroupType>Text</GroupType>
               <AggregateExpression>Sum</AggregateExpression>
             </Grouping>
           </DataDefinition>
-          <SeriesIdentifier>Series 1</SeriesIdentifier>
+          <SeriesIdentifier>Normal</SeriesIdentifier>
+          <DataPoint>
+            <Components>
+              <Type>Orthogonal_Value</Type>
+            </Components>
+            <Separator>, </Separator>
+          </DataPoint>
+          <LabelPosition>Outside</LabelPosition>
+          <Stacked>false</Stacked>
+          <Triggers>
+            <Condition>onmouseover</Condition>
+            <Action>
+              <Type>Show_Tooltip</Type>
+              <Value xsi:type="attribute:TooltipValue">
+                <Text></Text>
+                <Delay>200</Delay>
+              </Value>
+            </Action>
+          </Triggers>
+          <Riser>Rectangle</Riser>
+        </Series>
+        <Grouping>
+          <GroupType>Text</GroupType>
+          <AggregateExpression>Sum</AggregateExpression>
+        </Grouping>
+        <SortKey/>
+      </SeriesDefinitions>
+      <SeriesDefinitions>
+        <Query>
+          <Definition></Definition>
+          <Grouping>
+            <GroupType>Text</GroupType>
+          </Grouping>
+        </Query>
+        <SeriesPalette>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>242</Red>
+            <Green>88</Green>
+            <Blue>106</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>232</Red>
+            <Green>172</Green>
+            <Blue>57</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>255</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>64</Red>
+            <Green>128</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>170</Red>
+            <Green>85</Green>
+            <Blue>85</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>192</Red>
+            <Green>192</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>192</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>7</Red>
+            <Green>146</Green>
+            <Blue>94</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>128</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>0</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>64</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>80</Red>
+            <Green>240</Green>
+            <Blue>120</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>64</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>0</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>0</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>64</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>80</Red>
+            <Green>166</Green>
+            <Blue>218</Blue>
+          </Entries>
+        </SeriesPalette>
+        <Series xsi:type="type:BarSeries">
+          <Visible>true</Visible>
+          <Label>
+            <Caption>
+              <Value></Value>
+              <Font>
+                <Alignment/>
+              </Font>
+            </Caption>
+            <Background xsi:type="attribute:ColorDefinition">
+              <Transparency>0</Transparency>
+              <Red>255</Red>
+              <Green>255</Green>
+              <Blue>255</Blue>
+            </Background>
+            <Outline>
+              <Style>Solid</Style>
+              <Thickness>1</Thickness>
+              <Color>
+                <Transparency>255</Transparency>
+                <Red>0</Red>
+                <Green>0</Green>
+                <Blue>0</Blue>
+              </Color>
+              <Visible>false</Visible>
+            </Outline>
+            <Insets>
+              <Top>0.0</Top>
+              <Left>2.0</Left>
+              <Bottom>0.0</Bottom>
+              <Right>3.0</Right>
+            </Insets>
+            <Visible>false</Visible>
+          </Label>
+          <DataDefinition>
+            <Definition>row[&quot;PEAKCOST&quot;]</Definition>
+            <Grouping>
+              <Enabled>false</Enabled>
+              <GroupType>Text</GroupType>
+              <AggregateExpression>Sum</AggregateExpression>
+            </Grouping>
+          </DataDefinition>
+          <SeriesIdentifier>Peak</SeriesIdentifier>
+          <DataPoint>
+            <Components>
+              <Type>Orthogonal_Value</Type>
+            </Components>
+            <Separator>, </Separator>
+          </DataPoint>
+          <LabelPosition>Outside</LabelPosition>
+          <Stacked>false</Stacked>
+          <Triggers>
+            <Condition>onmouseover</Condition>
+            <Action>
+              <Type>Show_Tooltip</Type>
+              <Value xsi:type="attribute:TooltipValue">
+                <Text></Text>
+                <Delay>200</Delay>
+              </Value>
+            </Action>
+          </Triggers>
+          <Riser>Rectangle</Riser>
+        </Series>
+        <Grouping>
+          <GroupType>Text</GroupType>
+          <AggregateExpression>Sum</AggregateExpression>
+        </Grouping>
+      </SeriesDefinitions>
+      <SeriesDefinitions>
+        <Query>
+          <Definition></Definition>
+          <Grouping>
+            <GroupType>Text</GroupType>
+          </Grouping>
+        </Query>
+        <SeriesPalette>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>232</Red>
+            <Green>172</Green>
+            <Blue>57</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>255</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>64</Red>
+            <Green>128</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>170</Red>
+            <Green>85</Green>
+            <Blue>85</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>192</Red>
+            <Green>192</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>192</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>7</Red>
+            <Green>146</Green>
+            <Blue>94</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>128</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>0</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>64</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>80</Red>
+            <Green>240</Green>
+            <Blue>120</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>64</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>0</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>0</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>64</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>80</Red>
+            <Green>166</Green>
+            <Blue>218</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>242</Red>
+            <Green>88</Green>
+            <Blue>106</Blue>
+          </Entries>
+        </SeriesPalette>
+        <Series xsi:type="type:BarSeries">
+          <Visible>true</Visible>
+          <Label>
+            <Caption>
+              <Value></Value>
+              <Font>
+                <Alignment/>
+              </Font>
+            </Caption>
+            <Background xsi:type="attribute:ColorDefinition">
+              <Transparency>0</Transparency>
+              <Red>255</Red>
+              <Green>255</Green>
+              <Blue>255</Blue>
+            </Background>
+            <Outline>
+              <Style>Solid</Style>
+              <Thickness>1</Thickness>
+              <Color>
+                <Transparency>255</Transparency>
+                <Red>0</Red>
+                <Green>0</Green>
+                <Blue>0</Blue>
+              </Color>
+              <Visible>false</Visible>
+            </Outline>
+            <Insets>
+              <Top>0.0</Top>
+              <Left>2.0</Left>
+              <Bottom>0.0</Bottom>
+              <Right>3.0</Right>
+            </Insets>
+            <Visible>false</Visible>
+          </Label>
+          <DataDefinition>
+            <Definition>row[&quot;OFFPEAKCOST&quot;]</Definition>
+            <Grouping>
+              <Enabled>false</Enabled>
+              <GroupType>Text</GroupType>
+              <AggregateExpression>Sum</AggregateExpression>
+            </Grouping>
+          </DataDefinition>
+          <SeriesIdentifier>Off-Peak</SeriesIdentifier>
           <DataPoint>
             <Components>
               <Type>Orthogonal_Value</Type>
@@ -2665,6 +2598,16 @@ Formatter.format(row[&quot;DTDATE&quot;],'MMM')&#xD;
 &#xD;
 }&#xD;
 &#xD;
+else if((row[&quot;C7&quot;]=='30D')||(row[&quot;C7&quot;]=='365D'))&#xD;
+{&#xD;
+Formatter.format(row[&quot;DTDATE&quot;],'dd/MMM/yyyy')&#xD;
+//Formatter.format(row[&quot;DTDATE&quot;],'MMM')&#xD;
+&#xD;
+}&#xD;
+&#xD;
+&#xD;
+&#xD;
+&#xD;
 else &#xD;
 {&#xD;
 	var myString = row[&quot;C7&quot;];&#xD;
@@ -2677,7 +2620,7 @@ else &#xD;
 	}&#xD;
 	else&#xD;
 	{&#xD;
-		Formatter.format(row[&quot;DTDATE&quot;],'MMM')&#xD;
+		Formatter.format(row[&quot;DTDATE&quot;],'dd/MMM/yyyy')&#xD;
 	}&#xD;
 	&#xD;
 }</Definition>
@@ -2694,7 +2637,7 @@ else &#xD;
       </Series>
       <Grouping>
         <Enabled>true</Enabled>
-        <GroupingUnit>Years</GroupingUnit>
+        <GroupingUnit>String</GroupingUnit>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -2702,6 +2645,7 @@ else &#xD;
       <SortKey>
         <Definition>row[&quot;DTDATE&quot;]</Definition>
       </SortKey>
+      <SortStrength>2</SortStrength>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
     <LineAttributes>
@@ -2830,6 +2774,12 @@ else &#xD;
             <property name="width">7.9375in</property>
             <expression name="bookmark" type="javascript">"mychart"</expression>
             <property name="dataSet">CostTrend</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">params["vb"].value=='G'</expression>
+                </structure>
+            </list-property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">SOURCENAME</property>
@@ -2837,43 +2787,39 @@ else &#xD;
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">TIMEPERIOD</property>
-                    <expression name="expression" type="javascript">dataSetRow["TIMEPERIOD"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">COST</property>
-                    <expression name="expression" type="javascript">dataSetRow["COST"]</expression>
+                    <property name="name">NORMALCOST</property>
+                    <expression name="expression" type="javascript">dataSetRow["NORMALCOST"]</expression>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
-                    <property name="name">QTY</property>
-                    <expression name="expression" type="javascript">dataSetRow["QTY"]</expression>
+                    <property name="name">NORMALQTY</property>
+                    <expression name="expression" type="javascript">dataSetRow["NORMALQTY"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">OFFPEAKCOST</property>
+                    <expression name="expression" type="javascript">dataSetRow["OFFPEAKCOST"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">OFFPEAKQTY</property>
+                    <expression name="expression" type="javascript">dataSetRow["OFFPEAKQTY"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">PEAKCOST</property>
+                    <expression name="expression" type="javascript">dataSetRow["PEAKCOST"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">PEAKQTY</property>
+                    <expression name="expression" type="javascript">dataSetRow["PEAKQTY"]</expression>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="name">DTDATE</property>
-                    <expression name="expression" type="javascript">if((row["C7"]=='30M')||(row["C7"]=='365M'))&#13;
-{&#13;
-	//dataSetRow["DTDATE"]&#13;
-	Formatter.format(dataSetRow["DTDATE"],'dd/MM/yyyy')&#13;
-}&#13;
-else&#13;
-{&#13;
-	var myString = row["C7"];&#13;
-	var stringLength = myString.length; &#13;
-	var lastChar = myString.charAt(stringLength - 1); &#13;
-	if(lastChar=='M')&#13;
-	{&#13;
-		Formatter.format(dataSetRow["DTDATE"],'dd/MM/yyyy')&#13;
-	}&#13;
-	else&#13;
-	{&#13;
-		Formatter.format(dataSetRow["DTDATE"],'dd/MM/yyyy')&#13;
-	}&#13;
-}</expression>
-                    <property name="dataType">date</property>
-                    <property name="allowExport">true</property>
+                    <expression name="expression" type="javascript">dataSetRow["DTDATE"]</expression>
+                    <property name="dataType">date-time</property>
                 </structure>
                 <structure>
                     <property name="name">UNITSHORT</property>
@@ -2892,278 +2838,941 @@ else&#13;
                 </structure>
             </list-property>
         </extended-item>
-        <grid id="286">
-            <expression name="bookmark" type="javascript">"Grid"</expression>
-            <column id="287"/>
-            <row id="288">
-                <cell id="289">
-                    <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="238">
-                        <property name="cube">DatacubeMonth</property>
-                        <property name="measures">
-                            <extended-item extensionName="MeasureView" id="274">
-                                <property name="measure">QTY1</property>
-                                <property name="detail">
-                                    <extended-item extensionName="AggregationCell" id="275">
-                                        <property name="aggregationOnRow">Group5/TIMEPERIOD</property>
-                                        <property name="aggregationOnColumn">Group6/UNITSHORT</property>
-                                        <property name="content">
-                                            <data id="276">
-                                                <property name="style">crosstab-detail1</property>
-                                                <property name="fontSize">11px</property>
-                                                <property name="textAlign">center</property>
-                                                <property name="resultSetColumn">QTY1_Group5/TIMEPERIOD_Group6/UNITSHORT</property>
-                                            </data>
-                                        </property>
-                                    </extended-item>
-                                </property>
-                                <property name="header">
-                                    <extended-item extensionName="CrosstabCell" id="277">
-                                        <property name="content">
-                                            <label id="278">
-                                                <property name="fontSize">12px</property>
-                                                <property name="textAlign">center</property>
-                                                <text-property name="text">Quantity</text-property>
-                                            </label>
-                                        </property>
-                                    </extended-item>
-                                </property>
-                            </extended-item>
-                            <extended-item extensionName="MeasureView" id="281">
-                                <property name="measure">COST1</property>
-                                <property name="detail">
-                                    <extended-item extensionName="AggregationCell" id="282">
-                                        <property name="aggregationOnRow">Group5/TIMEPERIOD</property>
-                                        <property name="aggregationOnColumn">Group6/UNITSHORT</property>
-                                        <property name="content">
-                                            <data id="283">
-                                                <property name="style">crosstab-detail1</property>
-                                                <property name="fontSize">11px</property>
-                                                <property name="textAlign">center</property>
-                                                <property name="resultSetColumn">COST1_Group5/TIMEPERIOD_Group6/UNITSHORT</property>
-                                            </data>
-                                        </property>
-                                    </extended-item>
-                                </property>
-                                <property name="header">
-                                    <extended-item extensionName="CrosstabCell" id="284">
-                                        <property name="content">
-                                            <label id="285">
-                                                <property name="fontSize">12px</property>
-                                                <property name="textAlign">center</property>
-                                                <text-property name="text">Cost in INR</text-property>
-                                            </label>
-                                        </property>
-                                    </extended-item>
-                                </property>
-                            </extended-item>
-                        </property>
-                        <property name="rows">
-                            <extended-item extensionName="CrosstabView" id="269">
-                                <property name="views">
-                                    <extended-item extensionName="DimensionView" id="270">
-                                        <property name="dimension">Group7</property>
-                                        <property name="levels">
-                                            <extended-item extensionName="LevelView" name="NewLevel View2" id="271">
-                                                <property name="level">Group7/Month</property>
-                                                <property name="member">
-                                                    <extended-item extensionName="CrosstabCell" id="272">
-                                                        <property name="content">
-                                                            <data name="Month" id="273">
-                                                                <property name="style">crosstab-detail1</property>
-                                                                <property name="fontSize">11px</property>
-                                                                <property name="fontWeight">normal</property>
-                                                                <structure name="dateTimeFormat">
-                                                                    <property name="category">Custom</property>
-                                                                    <property name="pattern">MMM yyyy</property>
-                                                                </structure>
-                                                                <property name="textAlign">center</property>
-                                                                <property name="resultSetColumn">Month</property>
-                                                            </data>
-                                                        </property>
-                                                        <property name="style">crosstab-detail1</property>
-                                                    </extended-item>
-                                                </property>
-                                            </extended-item>
-                                        </property>
-                                    </extended-item>
-                                    <extended-item extensionName="DimensionView" id="290">
-                                        <property name="dimension">Group5</property>
-                                        <property name="levels">
-                                            <extended-item extensionName="LevelView" name="NewLevel View3" id="291">
-                                                <property name="level">Group5/TIMEPERIOD</property>
-                                                <property name="member">
-                                                    <extended-item extensionName="CrosstabCell" id="292">
-                                                        <property name="content">
-                                                            <data name="TIMEPERIOD" id="296">
-                                                                <property name="style">crosstab-detail1</property>
-                                                                <property name="fontSize">11px</property>
-                                                                <property name="fontWeight">normal</property>
-                                                                <property name="textAlign">center</property>
-                                                                <property name="resultSetColumn">TIMEPERIOD</property>
-                                                            </data>
-                                                        </property>
-                                                    </extended-item>
-                                                </property>
-                                            </extended-item>
-                                        </property>
-                                    </extended-item>
-                                </property>
-                            </extended-item>
-                        </property>
-                        <property name="columns">
-                            <extended-item extensionName="CrosstabView" id="257">
-                                <property name="views">
-                                    <extended-item extensionName="DimensionView" id="263">
-                                        <property name="dimension">Group2</property>
-                                        <property name="levels">
-                                            <extended-item extensionName="LevelView" name="NewLevel View1" id="264">
-                                                <property name="level">Group2/SOURCENAME</property>
-                                                <property name="member">
-                                                    <extended-item extensionName="CrosstabCell" id="265">
-                                                        <property name="content">
-                                                            <data name="SOURCENAME" id="267">
-                                                                <property name="style">crosstab-detail1</property>
-                                                                <property name="fontSize">11px</property>
-                                                                <property name="fontWeight">normal</property>
-                                                                <property name="textAlign">center</property>
-                                                                <property name="resultSetColumn">SOURCENAME</property>
-                                                            </data>
-                                                        </property>
-                                                    </extended-item>
-                                                </property>
-                                            </extended-item>
-                                        </property>
-                                    </extended-item>
-                                    <extended-item extensionName="DimensionView" id="258">
-                                        <property name="dimension">Group6</property>
-                                        <property name="levels">
-                                            <extended-item extensionName="LevelView" name="NewLevel View" id="259">
-                                                <property name="level">Group6/UNITSHORT</property>
-                                                <property name="member">
-                                                    <extended-item extensionName="CrosstabCell" id="260">
-                                                        <property name="content">
-                                                            <data name="UNITSHORT" id="261">
-                                                                <property name="style">crosstab-detail1</property>
-                                                                <property name="fontSize">11px</property>
-                                                                <property name="fontWeight">normal</property>
-                                                                <property name="textAlign">center</property>
-                                                                <property name="resultSetColumn">UNITSHORT</property>
-                                                            </data>
-                                                        </property>
-                                                    </extended-item>
-                                                </property>
-                                            </extended-item>
-                                        </property>
-                                    </extended-item>
-                                </property>
-                            </extended-item>
-                        </property>
-                        <property name="header">
-                            <extended-item extensionName="CrosstabCell" id="295"/>
-                            <extended-item extensionName="CrosstabCell" id="266">
-                                <property name="content">
-                                    <label id="268">
-                                        <property name="fontSize">12px</property>
-                                        <property name="textAlign">center</property>
-                                        <text-property name="text">SOURCE</text-property>
-                                    </label>
-                                </property>
-                            </extended-item>
-                            <extended-item extensionName="CrosstabCell" id="294"/>
-                            <extended-item extensionName="CrosstabCell" id="279">
-                                <property name="content">
-                                    <label id="280">
-                                        <property name="fontSize">12px</property>
-                                        <property name="textAlign">center</property>
-                                        <text-property name="text">Unit</text-property>
-                                    </label>
-                                </property>
-                            </extended-item>
-                            <extended-item extensionName="CrosstabCell" id="239">
-                                <property name="content">
-                                    <label id="262">
-                                        <property name="fontSize">12px</property>
-                                        <property name="textAlign">center</property>
-                                        <text-property name="text">Month Of the Year</text-property>
-                                    </label>
-                                </property>
-                            </extended-item>
-                            <extended-item extensionName="CrosstabCell" id="293">
-                                <property name="content">
-                                    <label id="297">
-                                        <property name="fontSize">12px</property>
-                                        <property name="textAlign">center</property>
-                                        <text-property name="text">Period</text-property>
-                                    </label>
-                                </property>
-                            </extended-item>
-                        </property>
-                        <property name="canShrink">true</property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">UNITSHORT</property>
-                                <expression name="expression">dimension["Group6"]["UNITSHORT"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                            <structure>
-                                <property name="name">SOURCENAME</property>
-                                <expression name="expression">dimension["Group2"]["SOURCENAME"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                            <structure>
-                                <property name="name">Month</property>
-                                <expression name="expression">dimension["Group7"]["Month"]["DateTime"]</expression>
-                                <property name="dataType">date-time</property>
-                            </structure>
-                            <structure>
-                                <property name="name">QTY1_Group7/Month_Group6/UNITSHORT</property>
-                                <expression name="expression">measure["QTY1"]</expression>
-                                <property name="dataType">decimal</property>
-                                <simple-property-list name="aggregateOn">
-                                    <value>Group7/Month</value>
-                                    <value>Group6/UNITSHORT</value>
-                                </simple-property-list>
-                                <property name="aggregateFunction">SUM</property>
-                            </structure>
-                            <structure>
-                                <property name="name">COST1_Group7/Month_Group6/UNITSHORT</property>
-                                <expression name="expression">measure["COST1"]</expression>
-                                <property name="dataType">decimal</property>
-                                <simple-property-list name="aggregateOn">
-                                    <value>Group7/Month</value>
-                                    <value>Group6/UNITSHORT</value>
-                                </simple-property-list>
-                                <property name="aggregateFunction">SUM</property>
-                            </structure>
-                            <structure>
-                                <property name="name">TIMEPERIOD</property>
-                                <expression name="expression">dimension["Group5"]["TIMEPERIOD"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                            <structure>
-                                <property name="name">QTY1_Group5/TIMEPERIOD_Group6/UNITSHORT</property>
-                                <expression name="expression">measure["QTY1"]</expression>
-                                <property name="dataType">decimal</property>
-                                <simple-property-list name="aggregateOn">
-                                    <value>Group5/TIMEPERIOD</value>
-                                    <value>Group6/UNITSHORT</value>
-                                </simple-property-list>
-                                <property name="aggregateFunction">SUM</property>
-                            </structure>
-                            <structure>
-                                <property name="name">COST1_Group5/TIMEPERIOD_Group6/UNITSHORT</property>
-                                <expression name="expression">measure["COST1"]</expression>
-                                <property name="dataType">decimal</property>
-                                <simple-property-list name="aggregateOn">
-                                    <value>Group5/TIMEPERIOD</value>
-                                    <value>Group6/UNITSHORT</value>
-                                </simple-property-list>
-                                <property name="aggregateFunction">SUM</property>
-                            </structure>
-                        </list-property>
-                    </extended-item>
-                </cell>
-            </row>
-        </grid>
+        <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="345">
+            <property name="cube">Data CubeGrid</property>
+            <property name="measures">
+                <extended-item extensionName="MeasureView" id="381">
+                    <property name="measure">NORMALQTY</property>
+                    <property name="detail">
+                        <extended-item extensionName="AggregationCell" id="382">
+                            <property name="aggregationOnRow">Group2/Month</property>
+                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="width">123px</property>
+                            <property name="content">
+                                <data id="383">
+                                    <property name="style">crosstab-detail1</property>
+                                    <property name="fontSize">12px</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="resultSetColumn">NORMALQTY_Group2/Month_Group1/UNITSHORT</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="384">
+                            <property name="content">
+                                <label id="385">
+                                    <property name="fontSize">12px</property>
+                                    <property name="borderBottomStyle">none</property>
+                                    <property name="borderLeftStyle">none</property>
+                                    <property name="borderRightStyle">none</property>
+                                    <property name="borderTopStyle">none</property>
+                                    <property name="textAlign">center</property>
+                                    <text-property name="text">Normal Qty</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+                <extended-item extensionName="MeasureView" id="388">
+                    <property name="measure">NORMALCOST</property>
+                    <property name="detail">
+                        <extended-item extensionName="AggregationCell" id="389">
+                            <property name="aggregationOnRow">Group2/Month</property>
+                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="content">
+                                <data id="390">
+                                    <property name="style">crosstab-detail1</property>
+                                    <property name="fontSize">12px</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="resultSetColumn">NORMALCOST_Group2/Month_Group1/UNITSHORT</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="391">
+                            <property name="content">
+                                <label id="392">
+                                    <property name="fontSize">12px</property>
+                                    <property name="borderBottomStyle">none</property>
+                                    <property name="borderLeftStyle">none</property>
+                                    <property name="borderRightStyle">none</property>
+                                    <property name="borderTopStyle">none</property>
+                                    <property name="textAlign">center</property>
+                                    <text-property name="text">Normal Cost</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+                <extended-item extensionName="MeasureView" id="393">
+                    <property name="measure">PEAKQTY</property>
+                    <property name="detail">
+                        <extended-item extensionName="AggregationCell" id="394">
+                            <property name="aggregationOnRow">Group2/Month</property>
+                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="content">
+                                <data id="395">
+                                    <property name="style">crosstab-detail1</property>
+                                    <property name="fontSize">12px</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="resultSetColumn">PEAKQTY_Group2/Month_Group1/UNITSHORT</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="396">
+                            <property name="content">
+                                <label id="397">
+                                    <property name="fontSize">12px</property>
+                                    <property name="borderBottomStyle">none</property>
+                                    <property name="borderLeftStyle">none</property>
+                                    <property name="borderRightStyle">none</property>
+                                    <property name="borderTopStyle">none</property>
+                                    <property name="textAlign">center</property>
+                                    <text-property name="text">Peak Qty</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+                <extended-item extensionName="MeasureView" id="398">
+                    <property name="measure">PEAKCOST</property>
+                    <property name="detail">
+                        <extended-item extensionName="AggregationCell" id="399">
+                            <property name="aggregationOnRow">Group2/Month</property>
+                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="content">
+                                <data id="400">
+                                    <property name="style">crosstab-detail1</property>
+                                    <property name="fontSize">12px</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="resultSetColumn">PEAKCOST_Group2/Month_Group1/UNITSHORT</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="401">
+                            <property name="content">
+                                <label id="402">
+                                    <property name="fontSize">12px</property>
+                                    <property name="borderBottomStyle">none</property>
+                                    <property name="borderLeftStyle">none</property>
+                                    <property name="borderRightStyle">none</property>
+                                    <property name="borderTopStyle">none</property>
+                                    <property name="textAlign">center</property>
+                                    <text-property name="text">Peak Cost</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+                <extended-item extensionName="MeasureView" id="403">
+                    <property name="measure">OFFPEAKQTY</property>
+                    <property name="detail">
+                        <extended-item extensionName="AggregationCell" id="404">
+                            <property name="aggregationOnRow">Group2/Month</property>
+                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="content">
+                                <data id="405">
+                                    <property name="style">crosstab-detail1</property>
+                                    <property name="fontSize">12px</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="resultSetColumn">OFFPEAKQTY_Group2/Month_Group1/UNITSHORT</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="406">
+                            <property name="content">
+                                <label id="407">
+                                    <property name="fontSize">12px</property>
+                                    <property name="borderBottomStyle">none</property>
+                                    <property name="borderLeftStyle">none</property>
+                                    <property name="borderRightStyle">none</property>
+                                    <property name="borderTopStyle">none</property>
+                                    <property name="textAlign">center</property>
+                                    <text-property name="text">Off-Peak Qty</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+                <extended-item extensionName="MeasureView" id="408">
+                    <property name="measure">OFFPEAKCOST</property>
+                    <property name="detail">
+                        <extended-item extensionName="AggregationCell" id="409">
+                            <property name="aggregationOnRow">Group2/Month</property>
+                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="content">
+                                <data id="410">
+                                    <property name="style">crosstab-detail1</property>
+                                    <property name="fontSize">12px</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="resultSetColumn">OFFPEAKCOST_Group2/Month_Group1/UNITSHORT</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="411">
+                            <property name="content">
+                                <label id="412">
+                                    <property name="fontSize">12px</property>
+                                    <property name="borderBottomStyle">none</property>
+                                    <property name="borderLeftStyle">none</property>
+                                    <property name="borderRightStyle">none</property>
+                                    <property name="borderTopStyle">none</property>
+                                    <property name="textAlign">center</property>
+                                    <text-property name="text">Off-Peak Cost</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="rows">
+                <extended-item extensionName="CrosstabView" id="347">
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="348">
+                            <property name="dimension">Group2</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View" id="349">
+                                    <property name="level">Group2/Month</property>
+                                    <property name="sort">
+                                        <sort-element>
+                                            <expression name="key" type="javascript">data["Month"]</expression>
+                                            <property name="direction">asc</property>
+                                            <property name="strength">-1</property>
+                                        </sort-element>
+                                    </property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="350">
+                                            <property name="content">
+                                                <data name="Month" id="351">
+                                                    <property name="style">crosstab-detail1</property>
+                                                    <property name="fontSize">12px</property>
+                                                    <structure name="dateTimeFormat">
+                                                        <property name="category">Custom</property>
+                                                        <property name="pattern">MMM yyyy</property>
+                                                    </structure>
+                                                    <property name="textAlign">center</property>
+                                                    <property name="resultSetColumn">Month</property>
+                                                </data>
+                                            </property>
+                                            <property name="width">63px</property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="columns">
+                <extended-item extensionName="CrosstabView" id="353">
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="354">
+                            <property name="dimension">Group</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View1" id="355">
+                                    <property name="level">Group/SOURCENAME</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="356">
+                                            <property name="content">
+                                                <data name="SOURCENAME" id="357">
+                                                    <property name="style">crosstab-detail1</property>
+                                                    <property name="fontSize">12px</property>
+                                                    <property name="fontWeight">normal</property>
+                                                    <property name="textAlign">center</property>
+                                                    <property name="resultSetColumn">SOURCENAME</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                        <extended-item extensionName="DimensionView" id="413">
+                            <property name="dimension">Group1</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View2" id="414">
+                                    <property name="level">Group1/UNITSHORT</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="415">
+                                            <property name="content">
+                                                <data name="UNITSHORT" id="417">
+                                                    <property name="style">crosstab-detail1</property>
+                                                    <property name="fontSize">12px</property>
+                                                    <property name="fontWeight">normal</property>
+                                                    <property name="textAlign">center</property>
+                                                    <property name="resultSetColumn">UNITSHORT</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="header">
+                <extended-item extensionName="CrosstabCell" id="386">
+                    <property name="content">
+                        <label id="387">
+                            <property name="fontSize">12px</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="borderBottomStyle">none</property>
+                            <property name="borderLeftStyle">none</property>
+                            <property name="borderRightStyle">none</property>
+                            <property name="borderTopStyle">none</property>
+                            <property name="textAlign">center</property>
+                            <text-property name="text">Source Name</text-property>
+                        </label>
+                    </property>
+                </extended-item>
+                <extended-item extensionName="CrosstabCell" id="416">
+                    <property name="content">
+                        <label id="418">
+                            <property name="fontSize">12px</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="borderBottomStyle">none</property>
+                            <property name="borderLeftStyle">none</property>
+                            <property name="borderRightStyle">none</property>
+                            <property name="borderTopStyle">none</property>
+                            <property name="textAlign">center</property>
+                            <text-property name="text">Unit</text-property>
+                        </label>
+                    </property>
+                </extended-item>
+                <extended-item extensionName="CrosstabCell" id="346">
+                    <property name="content">
+                        <label id="352">
+                            <property name="fontSize">12px</property>
+                            <property name="borderBottomStyle">none</property>
+                            <property name="borderLeftStyle">none</property>
+                            <property name="borderRightStyle">none</property>
+                            <property name="borderTopStyle">none</property>
+                            <property name="textAlign">center</property>
+                            <text-property name="text">Month</text-property>
+                        </label>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="canShrink">true</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">params["coltype"].value!='30M' &amp;&amp; params["coltype"].value!='365M' &amp;&amp; params["coltype"].value!='sm' || params["vb"].value=='C'</expression>
+                </structure>
+            </list-property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Month</property>
+                    <expression name="expression">dimension["Group2"]["Month"]["DateTime"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">SOURCENAME</property>
+                    <expression name="expression">dimension["Group"]["SOURCENAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">NORMALQTY_Group2/Month_Group/SOURCENAME</property>
+                    <expression name="expression">measure["NORMALQTY"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group2/Month</value>
+                        <value>Group/SOURCENAME</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">NORMALCOST_Group2/Month_Group/SOURCENAME</property>
+                    <expression name="expression">measure["NORMALCOST"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group2/Month</value>
+                        <value>Group/SOURCENAME</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">PEAKQTY_Group2/Month_Group/SOURCENAME</property>
+                    <expression name="expression">measure["PEAKQTY"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group2/Month</value>
+                        <value>Group/SOURCENAME</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">PEAKCOST_Group2/Month_Group/SOURCENAME</property>
+                    <expression name="expression">measure["PEAKCOST"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group2/Month</value>
+                        <value>Group/SOURCENAME</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">OFFPEAKQTY_Group2/Month_Group/SOURCENAME</property>
+                    <expression name="expression">measure["OFFPEAKQTY"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group2/Month</value>
+                        <value>Group/SOURCENAME</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">OFFPEAKCOST_Group2/Month_Group/SOURCENAME</property>
+                    <expression name="expression">measure["OFFPEAKCOST"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group2/Month</value>
+                        <value>Group/SOURCENAME</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">UNITSHORT</property>
+                    <expression name="expression">dimension["Group1"]["UNITSHORT"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">NORMALQTY_Group2/Month_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["NORMALQTY"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group2/Month</value>
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">NORMALCOST_Group2/Month_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["NORMALCOST"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group2/Month</value>
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">PEAKQTY_Group2/Month_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["PEAKQTY"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group2/Month</value>
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">PEAKCOST_Group2/Month_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["PEAKCOST"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group2/Month</value>
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">OFFPEAKQTY_Group2/Month_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["OFFPEAKQTY"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group2/Month</value>
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">OFFPEAKCOST_Group2/Month_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["OFFPEAKCOST"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group2/Month</value>
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+            </list-property>
+        </extended-item>
+        <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="420">
+            <property name="cube">Data CubeGrid</property>
+            <property name="measures">
+                <extended-item extensionName="MeasureView" id="421">
+                    <property name="measure">NORMALQTY</property>
+                    <property name="detail">
+                        <extended-item extensionName="AggregationCell" id="422">
+                            <property name="aggregationOnRow">Group4/Day Of Year</property>
+                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="width">123px</property>
+                            <property name="content">
+                                <data id="423">
+                                    <property name="style">crosstab-detail1</property>
+                                    <property name="fontSize">12px</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="resultSetColumn">NORMALQTY_Group4/Day Of Year_Group1/UNITSHORT</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="424">
+                            <property name="content">
+                                <label id="425">
+                                    <property name="fontSize">12px</property>
+                                    <property name="borderBottomStyle">none</property>
+                                    <property name="borderLeftStyle">none</property>
+                                    <property name="borderRightStyle">none</property>
+                                    <property name="borderTopStyle">none</property>
+                                    <property name="textAlign">center</property>
+                                    <text-property name="text">Normal Qty</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+                <extended-item extensionName="MeasureView" id="426">
+                    <property name="measure">NORMALCOST</property>
+                    <property name="detail">
+                        <extended-item extensionName="AggregationCell" id="427">
+                            <property name="aggregationOnRow">Group4/Day Of Year</property>
+                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="content">
+                                <data id="428">
+                                    <property name="style">crosstab-detail1</property>
+                                    <property name="fontSize">12px</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="resultSetColumn">NORMALCOST_Group4/Day Of Year_Group1/UNITSHORT</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="429">
+                            <property name="content">
+                                <label id="430">
+                                    <property name="fontSize">12px</property>
+                                    <property name="borderBottomStyle">none</property>
+                                    <property name="borderLeftStyle">none</property>
+                                    <property name="borderRightStyle">none</property>
+                                    <property name="borderTopStyle">none</property>
+                                    <property name="textAlign">center</property>
+                                    <text-property name="text">Normal Cost</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+                <extended-item extensionName="MeasureView" id="431">
+                    <property name="measure">PEAKQTY</property>
+                    <property name="detail">
+                        <extended-item extensionName="AggregationCell" id="432">
+                            <property name="aggregationOnRow">Group4/Day Of Year</property>
+                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="content">
+                                <data id="433">
+                                    <property name="style">crosstab-detail1</property>
+                                    <property name="fontSize">12px</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="resultSetColumn">PEAKQTY_Group4/Day Of Year_Group1/UNITSHORT</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="434">
+                            <property name="content">
+                                <label id="435">
+                                    <property name="fontSize">12px</property>
+                                    <property name="borderBottomStyle">none</property>
+                                    <property name="borderLeftStyle">none</property>
+                                    <property name="borderRightStyle">none</property>
+                                    <property name="borderTopStyle">none</property>
+                                    <property name="textAlign">center</property>
+                                    <text-property name="text">Peak Qty</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+                <extended-item extensionName="MeasureView" id="436">
+                    <property name="measure">PEAKCOST</property>
+                    <property name="detail">
+                        <extended-item extensionName="AggregationCell" id="437">
+                            <property name="aggregationOnRow">Group4/Day Of Year</property>
+                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="content">
+                                <data id="438">
+                                    <property name="style">crosstab-detail1</property>
+                                    <property name="fontSize">12px</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="resultSetColumn">PEAKCOST_Group4/Day Of Year_Group1/UNITSHORT</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="439">
+                            <property name="content">
+                                <label id="440">
+                                    <property name="fontSize">12px</property>
+                                    <property name="borderBottomStyle">none</property>
+                                    <property name="borderLeftStyle">none</property>
+                                    <property name="borderRightStyle">none</property>
+                                    <property name="borderTopStyle">none</property>
+                                    <property name="textAlign">center</property>
+                                    <text-property name="text">Peak Cost</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+                <extended-item extensionName="MeasureView" id="441">
+                    <property name="measure">OFFPEAKQTY</property>
+                    <property name="detail">
+                        <extended-item extensionName="AggregationCell" id="442">
+                            <property name="aggregationOnRow">Group4/Day Of Year</property>
+                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="content">
+                                <data id="443">
+                                    <property name="style">crosstab-detail1</property>
+                                    <property name="fontSize">12px</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="resultSetColumn">OFFPEAKQTY_Group4/Day Of Year_Group1/UNITSHORT</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="444">
+                            <property name="content">
+                                <label id="445">
+                                    <property name="fontSize">12px</property>
+                                    <property name="borderBottomStyle">none</property>
+                                    <property name="borderLeftStyle">none</property>
+                                    <property name="borderRightStyle">none</property>
+                                    <property name="borderTopStyle">none</property>
+                                    <property name="textAlign">center</property>
+                                    <text-property name="text">Off-Peak Qty</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+                <extended-item extensionName="MeasureView" id="446">
+                    <property name="measure">OFFPEAKCOST</property>
+                    <property name="detail">
+                        <extended-item extensionName="AggregationCell" id="447">
+                            <property name="aggregationOnRow">Group4/Day Of Year</property>
+                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="content">
+                                <data id="448">
+                                    <property name="style">crosstab-detail1</property>
+                                    <property name="fontSize">12px</property>
+                                    <property name="textAlign">center</property>
+                                    <property name="resultSetColumn">OFFPEAKCOST_Group4/Day Of Year_Group1/UNITSHORT</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="449">
+                            <property name="content">
+                                <label id="450">
+                                    <property name="fontSize">12px</property>
+                                    <property name="borderBottomStyle">none</property>
+                                    <property name="borderLeftStyle">none</property>
+                                    <property name="borderRightStyle">none</property>
+                                    <property name="borderTopStyle">none</property>
+                                    <property name="textAlign">center</property>
+                                    <text-property name="text">Off-Peak Cost</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="rows">
+                <extended-item extensionName="CrosstabView" id="451">
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="471">
+                            <property name="dimension">Group4</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View3" id="472">
+                                    <property name="level">Group4/Day Of Year</property>
+                                    <property name="sort">
+                                        <sort-element>
+                                            <expression name="key" type="javascript">data["Day Of Year"]</expression>
+                                            <property name="direction">asc</property>
+                                            <property name="strength">-1</property>
+                                        </sort-element>
+                                    </property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="473">
+                                            <property name="content">
+                                                <data name="Day Of Year" id="474">
+                                                    <property name="style">crosstab-detail1</property>
+                                                    <property name="fontSize">12px</property>
+                                                    <property name="fontWeight">normal</property>
+                                                    <structure name="dateTimeFormat">
+                                                        <property name="category">Custom</property>
+                                                        <property name="pattern">MMMM dd, yyyy</property>
+                                                    </structure>
+                                                    <property name="textAlign">center</property>
+                                                    <property name="resultSetColumn">Day Of Year</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="columns">
+                <extended-item extensionName="CrosstabView" id="456">
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="457">
+                            <property name="dimension">Group</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View11" id="458">
+                                    <property name="level">Group/SOURCENAME</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="459">
+                                            <property name="content">
+                                                <data name="SOURCENAME1" id="460">
+                                                    <property name="style">crosstab-detail1</property>
+                                                    <property name="fontSize">12px</property>
+                                                    <property name="fontWeight">normal</property>
+                                                    <property name="textAlign">center</property>
+                                                    <property name="resultSetColumn">SOURCENAME</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                        <extended-item extensionName="DimensionView" id="461">
+                            <property name="dimension">Group1</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View21" id="462">
+                                    <property name="level">Group1/UNITSHORT</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="463">
+                                            <property name="content">
+                                                <data name="UNITSHORT1" id="464">
+                                                    <property name="style">crosstab-detail1</property>
+                                                    <property name="fontSize">12px</property>
+                                                    <property name="fontWeight">normal</property>
+                                                    <property name="textAlign">center</property>
+                                                    <property name="resultSetColumn">UNITSHORT</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="header">
+                <extended-item extensionName="CrosstabCell" id="465">
+                    <property name="content">
+                        <label id="466">
+                            <property name="fontSize">12px</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="borderBottomStyle">none</property>
+                            <property name="borderLeftStyle">none</property>
+                            <property name="borderRightStyle">none</property>
+                            <property name="borderTopStyle">none</property>
+                            <property name="textAlign">center</property>
+                            <text-property name="text">Source Name</text-property>
+                        </label>
+                    </property>
+                </extended-item>
+                <extended-item extensionName="CrosstabCell" id="467">
+                    <property name="content">
+                        <label id="468">
+                            <property name="fontSize">12px</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="borderBottomStyle">none</property>
+                            <property name="borderLeftStyle">none</property>
+                            <property name="borderRightStyle">none</property>
+                            <property name="borderTopStyle">none</property>
+                            <property name="textAlign">center</property>
+                            <text-property name="text">Unit</text-property>
+                        </label>
+                    </property>
+                </extended-item>
+                <extended-item extensionName="CrosstabCell" id="469">
+                    <property name="content">
+                        <label id="470">
+                            <property name="fontSize">12px</property>
+                            <property name="borderBottomStyle">none</property>
+                            <property name="borderLeftStyle">none</property>
+                            <property name="borderRightStyle">none</property>
+                            <property name="borderTopStyle">none</property>
+                            <property name="textAlign">center</property>
+                            <text-property name="text">Day</text-property>
+                        </label>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="canShrink">true</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">params["coltype"].value!='30D' &amp;&amp; params["coltype"].value!='365D' &amp;&amp; params["coltype"].value!='sd' || params["vb"].value=='C'</expression>
+                </structure>
+            </list-property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">SOURCENAME</property>
+                    <expression name="expression">dimension["Group"]["SOURCENAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">UNITSHORT</property>
+                    <expression name="expression">dimension["Group1"]["UNITSHORT"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">NORMALQTY_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["NORMALQTY"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">NORMALCOST_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["NORMALCOST"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">PEAKQTY_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["PEAKQTY"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">PEAKCOST_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["PEAKCOST"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">OFFPEAKQTY_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["OFFPEAKQTY"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">OFFPEAKCOST_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["OFFPEAKCOST"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">Day Of Year</property>
+                    <expression name="expression">dimension["Group4"]["Day Of Year"]["DateTime"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">NORMALQTY_Group4/Day Of Year_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["NORMALQTY"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group4/Day Of Year</value>
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">NORMALCOST_Group4/Day Of Year_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["NORMALCOST"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group4/Day Of Year</value>
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">PEAKQTY_Group4/Day Of Year_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["PEAKQTY"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group4/Day Of Year</value>
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">PEAKCOST_Group4/Day Of Year_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["PEAKCOST"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group4/Day Of Year</value>
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">OFFPEAKQTY_Group4/Day Of Year_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["OFFPEAKQTY"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group4/Day Of Year</value>
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">OFFPEAKCOST_Group4/Day Of Year_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["OFFPEAKCOST"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group4/Day Of Year</value>
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+            </list-property>
+        </extended-item>
     </body>
 </report>
