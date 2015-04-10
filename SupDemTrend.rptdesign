@@ -115,60 +115,7 @@ if(lastChar=='M')&#13;
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">DT_DATE</property>
-                        <property name="dataType">date-time</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">UNITSHORT</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">SUPPLY_QTY</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">DEMAND_QTY</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">WASTE_QTY</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">C6</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">rowc</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">CUSH</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">9</property>
-                        <property name="name">CUSD</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">10</property>
-                        <property name="name">CUSM</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                </list-property>
-            </structure>
+            <structure name="cachedMetaData"/>
             <method name="beforeOpen"><![CDATA[
 var currentTime = new Date()
 var month = currentTime.getMonth() + 1
@@ -355,62 +302,31 @@ LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds3
 
 if(params["newRPT"].value=="")
 {
-	this.queryText = this.queryText +",'30M' as C6"+ 
-	" from VW_SUPPLYDEMAND v"+ 
-	" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
-	" where v.company_id='"+params["UsrCompId"].value+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
-	//" where v.company_id=1 and dt_date>='2014-02-01 00:00:00' and dt_date<'2014-03-01 00:00:00'"+
-	" group by dt_date,unitshort";
+	this.queryText = this.queryText +
+	
+	",'30M' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
+		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+params["UsrCompId"].value+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
+		" group by dt_date,unitshort union"+
+		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'30M' as C6"+
+		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab"+
+		" group by dt_date,unitshort,C6 order by dt_date asc";
+	
 	
 }
 else
 {
 
 
-this.queryText = this.queryText+params["newRPT"]+" group by dt_date,unitshort";
+this.queryText = this.queryText+params["newRPT"]+" group by dt_date,unitshort,C6 order by dt_date asc";
 	
 }]]></method>
             <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("Demographic", row["UNITSHORT"]);]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">DT_DATE</property>
-                    <property name="nativeName">DT_DATE</property>
-                    <property name="dataType">date-time</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">UNITSHORT</property>
-                    <property name="nativeName">UNITSHORT</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">SUPPLY_QTY</property>
-                    <property name="nativeName">SUPPLY_QTY</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">DEMAND_QTY</property>
-                    <property name="nativeName">DEMAND_QTY</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">WASTE_QTY</property>
-                    <property name="nativeName">WASTE_QTY</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
-                    <property name="name">C6</property>
-                    <property name="nativeName">C6</property>
-                    <property name="dataType">string</property>
-                </structure>
-            </list-property>
-            <xml-property name="queryText"><![CDATA[select cast(d.dt_date as datetime) dt_date, v.unitshort, sum(v.supplyqty) supply_qty, sum(v.demandqty) demand_qty, sum(v.supplyqty)-sum(v.demandqty) waste_qty]]></xml-property>
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[select dt_date,unitshort,sum(supply_qty) supply_qty,
+sum(demand_qty) demand_qty, sum(waste_qty) waste_qty,C6 from (
+select cast(d.dt_date as datetime) dt_date, v.unitshort, sum(v.supplyqty) supply_qty,
+sum(v.demandqty) demand_qty, sum(v.supplyqty)-sum(v.demandqty) waste_qty]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -1229,10 +1145,11 @@ function supplydemandtrend()
 					LHour=document.getElementById("fromdate").value+" 00:00:00";
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
-					newa=",' Supply/Demand Trend summarized by hour from "+Cfrom+" to " +Cto+" in:SH' as C6"+ 
-				" from VW_SUPPLYDEMAND v"+ 
-				" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
-				" where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'";
+					newa=",' Supply /Demand Trend summarized by Hour from "+Cfrom+" to " +Cto+" in:SH' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
+		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
+		" group by dt_date,unitshort union"+
+		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,' Supply /Demand Trend summarized by Hour from "+Cfrom+" to " +Cto+" in:SH' as C6"+
+		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
 
 					
 				}
@@ -1242,10 +1159,12 @@ function supplydemandtrend()
 					LHour=document.getElementById("fromdate").value+" 00:00:00";
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
-					newa=",' Supply/Demand Trend summarized by day from "+Cfrom+" to " +Cto+" in:SD' as C6"+ 
-				" from VW_SUPPLYDEMAND v"+ 
-				" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
-				" where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'";
+					
+					newa=",' Supply /Demand Trend summarized by Day from "+Cfrom+" to " +Cto+" in:SD' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
+		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
+		" group by dt_date,unitshort union"+
+		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,' Supply /Demand Trend summarized by Day from "+Cfrom+" to " +Cto+" in:SD' as C6"+
+		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
 					
 				}
 				else if((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
@@ -1254,10 +1173,12 @@ function supplydemandtrend()
 					LHour=document.getElementById("fromdate").value+" 00:00:00";
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
-					newa=",' Supply /Demand Trend summarized by Month from "+Cfrom+" to " +Cto+" in:SM' as C6"+ 
-				" from VW_SUPPLYDEMAND v"+ 
-				" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
-				" where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'";
+					newa=",' Supply /Demand Trend summarized by Month from "+Cfrom+" to " +Cto+" in:SM' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
+		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
+		" group by dt_date,unitshort union"+
+		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,' Supply /Demand Trend summarized by Month from "+Cfrom+" to " +Cto+" in:SM' as C6"+
+		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
+					
 					
 				}
 				else
@@ -1277,10 +1198,11 @@ function supplydemandtrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=yearL+ "-" + monthL + "-" + dayL+" "+hoursL+":"+minutesL+":"+secondsL;
 		
-		newa=",'H' as C6"+ 
-				" from VW_SUPPLYDEMAND v"+ 
-				" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
-				" where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'";
+		newa=",'H' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
+		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
+		" group by dt_date,unitshort union"+
+		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'H' as C6"+
+		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
 
 		
 	}
@@ -1292,10 +1214,11 @@ function supplydemandtrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
 		
-		newa=",'24H' as C6"+ 
-				" from VW_SUPPLYDEMAND v"+ 
-				" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
-				" where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'";
+		newa=",'24H' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
+		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
+		" group by dt_date,unitshort union"+
+		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'24H' as C6"+
+		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
 
 		
 	}
@@ -1304,10 +1227,11 @@ function supplydemandtrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
 		
-		newa=",'7H' as C6"+ 
-				" from VW_SUPPLYDEMAND v"+ 
-				" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
-				" where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'";	
+		newa=",'7H' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
+		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
+		" group by dt_date,unitshort union"+
+		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'7H' as C6"+
+		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";	
 
 		
 	}
@@ -1317,10 +1241,11 @@ function supplydemandtrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
 		
-		newa=",'7D' as C6"+ 
-				" from VW_SUPPLYDEMAND v"+ 
-				" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
-				" where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'";	
+		newa=",'7D' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
+		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
+		" group by dt_date,unitshort union"+
+		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'7D' as C6"+
+		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";	
 
 		
 	}
@@ -1329,10 +1254,11 @@ function supplydemandtrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 		
-		newa=",'30H' as C6"+ 
-				" from VW_SUPPLYDEMAND v"+ 
-				" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
-				" where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'";
+		newa=",'30H' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
+		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
+		" group by dt_date,unitshort union"+
+		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'30H' as C6"+
+		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
 
 		
 	}
@@ -1341,10 +1267,11 @@ function supplydemandtrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 		
-		newa=",'30D' as C6"+ 
-				" from VW_SUPPLYDEMAND v"+ 
-				" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
-				" where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'";
+		newa=",'30D' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
+		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
+		" group by dt_date,unitshort union"+
+		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'30D' as C6"+
+		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
 
 		
 	}
@@ -1353,10 +1280,11 @@ function supplydemandtrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 		
-		newa=",'30M' as C6"+ 
-				" from VW_SUPPLYDEMAND v"+ 
-				" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
-				" where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'";
+		newa=",'30M' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
+		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
+		" group by dt_date,unitshort union"+
+		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'30M' as C6"+
+		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
 
 		
 	}
@@ -1365,10 +1293,11 @@ function supplydemandtrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 		
-		newa=",'365H' as C6"+ 
-				" from VW_SUPPLYDEMAND v"+ 
-				" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
-				" where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'";
+		newa=",'365H' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
+		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
+		" group by dt_date,unitshort union"+
+		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'365H' as C6"+
+		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
 
 		
 	}
@@ -1377,10 +1306,11 @@ function supplydemandtrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 		
-		newa=",'365D' as C6"+ 
-				" from VW_SUPPLYDEMAND v"+ 
-				" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
-				" where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'";	
+		newa=",'365D' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
+		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
+		" group by dt_date,unitshort union"+
+		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'365D' as C6"+
+		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";	
 
 		
 	}
@@ -1389,12 +1319,11 @@ function supplydemandtrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 		
-		newa=",'365M' as C6"+ 
-				" from VW_SUPPLYDEMAND v"+ 
-				" inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id and v.year_id=d.year_id and d.hr_id=0"+
-				" where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'";
-				
-
+		newa=",'365M' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
+		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
+		" group by dt_date,unitshort union"+
+		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'365M' as C6"+
+		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
 		
 	}
 	else
@@ -1626,7 +1555,8 @@ else&#13;
 		{&#13;
 			if(lastChar!=null)&#13;
 			{&#13;
-				row["6"]=row["C6"].substring(0, stringLength - 2);&#13;
+				row["6"]=row["C6"].substring(0, stringLength - 2)+row["unit"];&#13;
+				&#13;
 				&#13;
 			}&#13;
 		}&#13;
@@ -1641,7 +1571,7 @@ else&#13;
 		{	&#13;
 			if(lastChar!=null)&#13;
 			{&#13;
-				row["C6"].substring(0, stringLength - 2);&#13;
+				row["6"]=row["C6"].substring(0, stringLength - 2)+row["unit"];&#13;
 					&#13;
 			}&#13;
 		}&#13;
@@ -1656,7 +1586,7 @@ else&#13;
 		{&#13;
 			if(lastChar!=null)&#13;
 			{&#13;
-				row["C6"].substring(0, stringLength - 2);&#13;
+				row["6"]=row["C6"].substring(0, stringLength - 2)+row["unit"];&#13;
 					&#13;
 			}&#13;
 		}&#13;
