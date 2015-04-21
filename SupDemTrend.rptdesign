@@ -7,15 +7,12 @@
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <parameters>
-        <scalar-parameter name="newRPT" id="244">
-            <property name="hidden">true</property>
+        <scalar-parameter name="UsrCompId" id="245">
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -23,15 +20,43 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="UsrCompId" id="245">
-            <property name="hidden">true</property>
+        <scalar-parameter name="coltype" id="251">
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="vb" id="252">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="fromdate" id="253">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="todate" id="254">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -115,218 +140,144 @@ if(lastChar=='M')&#13;
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">DT_DATE</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">UNITSHORT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">SUPPLY_QTY</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">DEMAND_QTY</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">WASTE_QTY</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">C6</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">rowc</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">CUSH</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">CUSD</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">CUSM</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
             <method name="beforeOpen"><![CDATA[
-var currentTime = new Date()
-var month = currentTime.getMonth() + 1
-var day = currentTime.getDate()
-var year = currentTime.getFullYear()
-var currentTime = new Date()
-var hours = currentTime.getHours()
-var minutes = currentTime.getMinutes()
-var seconds=currentTime.getSeconds()
-//Last 7 days
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var month7 = Lastweek.getMonth() + 1
-var day7 = Lastweek.getDate()
-var year7 = Lastweek.getFullYear()
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var hours7 = Lastweek.getHours()
-var minutes7 = Lastweek.getMinutes()
-var seconds7=Lastweek.getSeconds()
-//Last 30days
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
+curT=params["todate"].value
+LHour=params["fromdate"].value
 
-var month30 = LastMonth.getMonth() + 1
-var day30= LastMonth.getDate()
-var year30= LastMonth.getFullYear()
-
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-var hours30 = LastMonth.getHours()
-var minutes30 = LastMonth.getMinutes()
-var seconds30=LastMonth.getSeconds()
-//last 365 days
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-
-var month365 = LastYear.getMonth() + 1
-var day365= LastYear.getDate()
-var year365= LastYear.getFullYear()
-
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-var hours365 = LastYear.getHours()
-var minutes365 = LastYear.getMinutes()
-var seconds365=LastYear.getSeconds()
-
-
-//last hour
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var monthL = hourago.getMonth() + 1
-var dayL= hourago.getDate()
-var yearL= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var hoursL = hourago.getHours()
-var minutesL = hourago.getMinutes()
-var secondsL=hourago.getSeconds()
-//last 24 hour
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var monthL24 = hourago.getMonth() + 1
-var dayL24= hourago.getDate()
-var yearL24= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var hoursL24 = hourago.getHours()
-var minutesL24 = hourago.getMinutes()
-var secondsL24=hourago.getSeconds()
-
-/////////Today
-if (minutes < 10){
-minutes = "0" + minutes
-}
-if (seconds < 10){
-seconds= "0" + seconds
-}
-
-if (month  < 10){
-month  = "0" + month 
-}
-if (day  < 10){
-day  = "0" + day 
-}
-if (hours  < 10){
-hours  = "0" + hours 
-}
-
-///Last 365
-if (minutes365 < 10){
-minutes365 = "0" + minutes365
-}
-if (seconds365 < 10){
-seconds365= "0" + seconds365
-}
-
-if (month365  < 10){
-month365  = "0" + month365 
-}
-if (day365  < 10){
-day365  = "0" + day365 
-}
-if (hours365  < 10){
-hours365  = "0" + hours365 
-}
-
-
-///Last 7 days
-if (minutes7 < 10){
-minutes7 = "0" + minutes7
-}
-if (seconds7 < 10){
-seconds7= "0" + seconds7
-}
-
-if (month7  < 10){
-month7  = "0" + month7 
-}
-if (day7  < 10){
-day7  = "0" + day7 
-}
-if (hours7  < 10){
-hours7  = "0" + hours7 
-}
-//last 30days
-if (minutes30 < 10){
-minutes30 = "0" + minutes30
-}
-if (seconds30 < 10){
-seconds30= "0" + seconds30
-}
-
-if (month30  < 10){
-month30  = "0" + month30 
-}
-if (day30  < 10){
-day30  = "0" + day30 
-}
-if (hours30  < 10){
-hours30  = "0" + hours30 
-}
-
-//last hour
-if (minutesL < 10){
-minutesL = "0" + minutesL
-}
-if (secondsL < 10){
-secondsL= "0" + secondsL
-}
-
-if (monthL  < 10){
-monthL  = "0" + monthL 
-}
-if (dayL  < 10){
-dayL  = "0" + dayL
-}
-if (hoursL  < 10){
-hoursL  = "0" + hoursL
-}
-//last 24 hour
-
-if (minutesL24 < 10){
-minutesL24 = "0" + minutesL24
-}
-if (secondsL24 < 10){
-secondsL24= "0" + secondsL24
-}
-
-if (monthL24  < 10){
-monthL24  = "0" + monthL24 
-}
-if (dayL24  < 10){
-dayL24  = "0" + dayL24
-}
-if (hoursL24  < 10){
-hoursL24  = "0" + hoursL24
-}
-
-
-curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-
-
-if(params["newRPT"].value=="")
-{
 	this.queryText = this.queryText +
 	
-	",'30M' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
-		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+params["UsrCompId"].value+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
-		" group by dt_date,unitshort union"+
-		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'30M' as C6"+
-		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab"+
-		" group by dt_date,unitshort,C6 order by dt_date asc";
+	
+",'"+params["coltype"].value+"' as C6  from (select dt_date,unitshort,sum(ss.UTILITY_QTY) supply_qty , 0 demand_qty  , 0 waste_qty "+
+" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID"+
+ " join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
+ " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
+ " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
+ " where ss.C_CORETYPE = 'S'  and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+ " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2) group by dt_date,un.UNITSHORT"+   
+ " union Select dt_date,unitshort,0 supply_qty,sum(ss.UTILITY_QTY) demand_qty, 0 waste_qty from ems_section_summary ss"+
+ " join ems_time_dim d ON ss.TIME_ID = d.TIME_ID"+ 
+ " join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
+ " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID"+
+ " left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
+ " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
+ " where ss.C_CORETYPE = 'C'  and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"' and ad.PARENT_ID in (select"+ 
+ " fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2) group by dt_date,un.UNITSHORT "+ 
+ " union select dt_date, unitshort,0 supply_qty,0 demand_qty,sum(supqty-demqty)  waste_qty from ("+
+ " select dt_date,unitshort,sum(ss.UTILITY_QTY) supqty,0 demqty from ems_section_summary ss"+
+ " join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
+ " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
+ " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
+ " where ss.C_CORETYPE = 'S'  and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+ " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
+ " group by dt_date,un.UNITSHORT union Select dt_date,unitshort,0 supqty,sum(ss.UTILITY_QTY) demqty "+
+ " from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
+ " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID"+
+ " left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
+ " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
+ " where ss.C_CORETYPE = 'C'  and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"' and ad.PARENT_ID in (select"+ 
+ " fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
+ " group by dt_date,un.UNITSHORT  ) as tab group by dt_date,unitshort union"+ 
+ " select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty"+ 
+ " from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tabmain"+
+ " group by dt_date,unitshort,C6 order by dt_date asc";
 	
 	
-}
-else
-{
-
-
-this.queryText = this.queryText+params["newRPT"]+" group by dt_date,unitshort,C6 order by dt_date asc";
-	
-}]]></method>
+	]]></method>
             <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("Demographic", row["UNITSHORT"]);]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet"/>
-            <xml-property name="queryText"><![CDATA[select dt_date,unitshort,sum(supply_qty) supply_qty,
-sum(demand_qty) demand_qty, sum(waste_qty) waste_qty,C6 from (
-select cast(d.dt_date as datetime) dt_date, v.unitshort, sum(v.supplyqty) supply_qty,
-sum(v.demandqty) demand_qty, sum(v.supplyqty)-sum(v.demandqty) waste_qty]]></xml-property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">DT_DATE</property>
+                    <property name="nativeName">DT_DATE</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">UNITSHORT</property>
+                    <property name="nativeName">UNITSHORT</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">SUPPLY_QTY</property>
+                    <property name="nativeName">SUPPLY_QTY</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">DEMAND_QTY</property>
+                    <property name="nativeName">DEMAND_QTY</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">WASTE_QTY</property>
+                    <property name="nativeName">WASTE_QTY</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">C6</property>
+                    <property name="nativeName">C6</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select dt_date,unitshort,sum(supply_qty) supply_qty,sum(demand_qty) demand_qty, sum(waste_qty) waste_qty]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -807,681 +758,6 @@ sum(v.demandqty) demand_qty, sum(v.supplyqty)-sum(v.demandqty) waste_qty]]></xml
         <simple-master-page name="Simple MasterPage" id="2"/>
     </page-setup>
     <body>
-        <text id="243">
-            <list-property name="visibility">
-                <structure>
-                    <property name="format">doc</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">docx</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">pdf</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">xls</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">xlsx</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-            </list-property>
-            <property name="contentType">html</property>
-            <text-property name="content"><![CDATA[<script>
-
-var currentTime = new Date()
-var month = currentTime.getMonth() + 1
-var day = currentTime.getDate()
-var year = currentTime.getFullYear()
-var currentTime = new Date()
-var hours = currentTime.getHours()
-var minutes = currentTime.getMinutes()
-var seconds=currentTime.getSeconds()
-//Last 7 days
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var month7 = Lastweek.getMonth() + 1
-var day7 = Lastweek.getDate()
-var year7 = Lastweek.getFullYear()
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var hours7 = Lastweek.getHours()
-var minutes7 = Lastweek.getMinutes()
-var seconds7=Lastweek.getSeconds()
-//Last 30days
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-
-var month30 = LastMonth.getMonth() + 1
-var day30= LastMonth.getDate()
-var year30= LastMonth.getFullYear()
-
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-var hours30 = LastMonth.getHours()
-var minutes30 = LastMonth.getMinutes()
-var seconds30=LastMonth.getSeconds()
-//last 365 days
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-
-var month365 = LastYear.getMonth() + 1
-var day365= LastYear.getDate()
-var year365= LastYear.getFullYear()
-
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-var hours365 = LastYear.getHours()
-var minutes365 = LastYear.getMinutes()
-var seconds365=LastYear.getSeconds()
-
-
-//last hour
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var monthL = hourago.getMonth() + 1
-var dayL= hourago.getDate()
-var yearL= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var hoursL = hourago.getHours()
-var minutesL = hourago.getMinutes()
-var secondsL=hourago.getSeconds()
-//last 24 hour
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var monthL24 = hourago.getMonth() + 1
-var dayL24= hourago.getDate()
-var yearL24= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var hoursL24 = hourago.getHours()
-var minutesL24 = hourago.getMinutes()
-var secondsL24=hourago.getSeconds()
-
-/////////Today
-if (minutes < 10){
-minutes = "0" + minutes
-}
-if (seconds < 10){
-seconds= "0" + seconds
-}
-
-if (month  < 10){
-month  = "0" + month 
-}
-if (day  < 10){
-day  = "0" + day 
-}
-if (hours  < 10){
-hours  = "0" + hours 
-}
-
-///Last 365
-if (minutes365 < 10){
-minutes365 = "0" + minutes365
-}
-if (seconds365 < 10){
-seconds365= "0" + seconds365
-}
-
-if (month365  < 10){
-month365  = "0" + month365 
-}
-if (day365  < 10){
-day365  = "0" + day365 
-}
-if (hours365  < 10){
-hours365  = "0" + hours365 
-}
-
-
-///Last 7 days
-if (minutes7 < 10){
-minutes7 = "0" + minutes7
-}
-if (seconds7 < 10){
-seconds7= "0" + seconds7
-}
-
-if (month7  < 10){
-month7  = "0" + month7 
-}
-if (day7  < 10){
-day7  = "0" + day7 
-}
-if (hours7  < 10){
-hours7  = "0" + hours7 
-}
-//last 30days
-if (minutes30 < 10){
-minutes30 = "0" + minutes30
-}
-if (seconds30 < 10){
-seconds30= "0" + seconds30
-}
-
-if (month30  < 10){
-month30  = "0" + month30 
-}
-if (day30  < 10){
-day30  = "0" + day30 
-}
-if (hours30  < 10){
-hours30  = "0" + hours30 
-}
-
-//last hour
-if (minutesL < 10){
-minutesL = "0" + minutesL
-}
-if (secondsL < 10){
-secondsL= "0" + secondsL
-}
-
-if (monthL  < 10){
-monthL  = "0" + monthL 
-}
-if (dayL  < 10){
-dayL  = "0" + dayL
-}
-if (hoursL  < 10){
-hoursL  = "0" + hoursL
-}
-//last 24 hour
-
-if (minutesL24 < 10){
-minutesL24 = "0" + minutesL24
-}
-if (secondsL24 < 10){
-secondsL24= "0" + secondsL24
-}
-
-if (monthL24  < 10){
-monthL24  = "0" + monthL24 
-}
-if (dayL24  < 10){
-dayL24  = "0" + dayL24
-}
-if (hoursL24  < 10){
-hoursL24  = "0" + hoursL24
-}
-
-
-				document.getElementById('GridMain').style.display = "none";
-            	document.getElementById('mychart').style.display = "block";
-           
-if (parent.AssetTree.selectedsection === undefined)
-	{
-		parent.AssetTree.selectedsection = 0;
-	}
-if(parent.AssetTree.selectedtype === undefined)
-	{
-		parent.AssetTree.selectedtype = 0;
-	}		   
-document.onload=populate();
-
-function populate()
-{	//Function which sets the previously selected parameters for the report.
-	
-	if(parent.selected_period_ndx==null || parent.selected_period_ndx==0)
-	{
-		parent.selected_period_ndx=4;
-	}
-	if(parent.selected_sum_ndx==null || parent.selected_sum_ndx==0)
-	{
-		parent.selected_sum_ndx=3;
-	}
-
-	if(parent.compid==null || parent.compid==0)
-	{
-		parent.compid=1;
-	}
-	
-	document.getElementById("s1").selectedIndex=parent.selected_period_ndx;	
-	document.getElementById("s3").selectedIndex=parent.selected_sum_ndx;
-	
-	if(document.getElementById("s1").selectedIndex==6)
-	{
-		if (document.getElementById("s1").selectedIndex==6)
-		{
-	
-			document.getElementById("fromdate").disabled=false;
-			document.getElementById("todate").disabled=false;
-				
-			document.getElementById("fromdate").value=parent.selected_fdate;
-			document.getElementById("todate").value=parent.selected_tdate;
-				
-				
-		}
-		else
-		{
-			document.getElementById("fromdate").value='';
-			document.getElementById("todate").value='';
-			document.getElementById("fromdate").disabled=true;
-			document.getElementById("todate").disabled=true;
-				
-		}
-			
-	}
-			
-			
-
-}
-	
-	
-	
-function supplydemandtrend()
-{
-	
-	parent.selected_period_ndx=document.getElementById("s1").selectedIndex;
-	parent.selected_sum_ndx=document.getElementById("s3").selectedIndex;
-	parent.selected_fdate=document.getElementById("fromdate").value;
-	parent.selected_tdate=document.getElementById("todate").value;
-	
-	
-	if(parent.AssetTree.selectedtype == 5)
-	{
-		alert ("Select Section/Asset/Location!");
-			return;
-	}
-	
-	if(((document.getElementById("s1").selectedIndex==1) &amp;&amp; (document.getElementById("s3").selectedIndex==2))||
-		((document.getElementById("s1").selectedIndex==1) &amp;&amp; (document.getElementById("s3").selectedIndex==3)))
-	{
-	
-		alert ("Change the summarization method to Hour!");
-			return;
-	}
-	if(document.getElementById("s1").selectedIndex==2 &amp;&amp; document.getElementById("s3").selectedIndex>1)
-	{
-		alert ("Change the summarization method to Hour!");
-			return;
-	
-	}
-	if(document.getElementById("s1").selectedIndex==3 &amp;&amp; document.getElementById("s3").selectedIndex>2)
-	{
-		alert ("Change the summarization method to Hour/Day!");
-			return;
-	
-	}
-
-	if ((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==1)||
-		(document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==2)||
-		(document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==3)
-		)
-	{
-		if ((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("fromdate").value==''))
-		{
-			alert ("Enter a valid time period!");
-			return;
-		}
-		else if ((document.getElementById("s1").selectedIndex==6)&amp;&amp; (document.getElementById("todate").value==''))
-		{
-			alert ("Enter a valid time period!");
-			return;
-		}
-	
-		else
-		{
-			var d1 = Date.parse(document.getElementById("todate").value);
-			var d2 = Date.parse(document.getElementById("fromdate").value);
-			if (d1 < d2) 
-			{
-				alert ("To Date cannot be Greater than From Date!");
-				return;
-			}
-			else
-			{
-			//parent.AssetTree.selectedsection
-		
-				if((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
-				{	
-					curT=document.getElementById("todate").value+" 00:00:00";
-					LHour=document.getElementById("fromdate").value+" 00:00:00";
-					var Cfrom=document.getElementById("fromdate").value;
-					var Cto=document.getElementById("todate").value;
-					newa=",' Supply /Demand Trend summarized by Hour from "+Cfrom+" to " +Cto+" in:SH' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
-		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
-		" group by dt_date,unitshort union"+
-		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,' Supply /Demand Trend summarized by Hour from "+Cfrom+" to " +Cto+" in:SH' as C6"+
-		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
-
-					
-				}
-				else if((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
-				{
-					curT=document.getElementById("todate").value+" 00:00:00";
-					LHour=document.getElementById("fromdate").value+" 00:00:00";
-					var Cfrom=document.getElementById("fromdate").value;
-					var Cto=document.getElementById("todate").value;
-					
-					newa=",' Supply /Demand Trend summarized by Day from "+Cfrom+" to " +Cto+" in:SD' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
-		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
-		" group by dt_date,unitshort union"+
-		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,' Supply /Demand Trend summarized by Day from "+Cfrom+" to " +Cto+" in:SD' as C6"+
-		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
-					
-				}
-				else if((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
-				{
-					curT=document.getElementById("todate").value+" 00:00:00";
-					LHour=document.getElementById("fromdate").value+" 00:00:00";
-					var Cfrom=document.getElementById("fromdate").value;
-					var Cto=document.getElementById("todate").value;
-					newa=",' Supply /Demand Trend summarized by Month from "+Cfrom+" to " +Cto+" in:SM' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
-		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
-		" group by dt_date,unitshort union"+
-		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,' Supply /Demand Trend summarized by Month from "+Cfrom+" to " +Cto+" in:SM' as C6"+
-		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
-					
-					
-				}
-				else
-				{}
-			
-			}		
-		}
-
-	}
-	
-	
-	else if((document.getElementById("s1").selectedIndex==1) &amp;&amp; (document.getElementById("s3").selectedIndex==1)||
-		(document.getElementById("s1").selectedIndex==1) &amp;&amp; (document.getElementById("s3").selectedIndex==2)||
-		(document.getElementById("s1").selectedIndex==1) &amp;&amp; (document.getElementById("s3").selectedIndex==3)
-		)
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=yearL+ "-" + monthL + "-" + dayL+" "+hoursL+":"+minutesL+":"+secondsL;
-		
-		newa=",'H' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
-		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
-		" group by dt_date,unitshort union"+
-		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'H' as C6"+
-		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
-
-		
-	}
-	
-	else if((document.getElementById("s1").selectedIndex==2) &amp;&amp; (document.getElementById("s3").selectedIndex==1)||
-	(document.getElementById("s1").selectedIndex==2) &amp;&amp; (document.getElementById("s3").selectedIndex==2)||
-	(document.getElementById("s1").selectedIndex==2) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
-		
-		newa=",'24H' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
-		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
-		" group by dt_date,unitshort union"+
-		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'24H' as C6"+
-		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
-
-		
-	}
-	else if((document.getElementById("s1").selectedIndex==3) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-		
-		newa=",'7H' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
-		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
-		" group by dt_date,unitshort union"+
-		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'7H' as C6"+
-		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";	
-
-		
-	}
-	else if((document.getElementById("s1").selectedIndex==3) &amp;&amp; (document.getElementById("s3").selectedIndex==2)||
-	(document.getElementById("s1").selectedIndex==3) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-		
-		newa=",'7D' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
-		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
-		" group by dt_date,unitshort union"+
-		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'7D' as C6"+
-		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";	
-
-		
-	}
-	else if((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-		
-		newa=",'30H' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
-		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
-		" group by dt_date,unitshort union"+
-		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'30H' as C6"+
-		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
-
-		
-	}
-	else if((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-		
-		newa=",'30D' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
-		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
-		" group by dt_date,unitshort union"+
-		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'30D' as C6"+
-		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
-
-		
-	}
-	else if((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-		
-		newa=",'30M' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
-		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
-		" group by dt_date,unitshort union"+
-		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'30M' as C6"+
-		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
-
-		
-	}
-	else if((document.getElementById("s1").selectedIndex==5) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
-		
-		newa=",'365H' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
-		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
-		" group by dt_date,unitshort union"+
-		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'365H' as C6"+
-		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
-
-		
-	}
-	else if((document.getElementById("s1").selectedIndex==5) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
-		
-		newa=",'365D' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
-		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
-		" group by dt_date,unitshort union"+
-		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'365D' as C6"+
-		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";	
-
-		
-	}
-	else if((document.getElementById("s1").selectedIndex==5) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
-		
-		newa=",'365M' as C6 from VW_SUPPLYDEMAND v inner join ems_time_dim d on d.day_id=v.day_id and d.month_id=v.month_id"+
-		" and v.year_id=d.year_id and d.hr_id=0 where v.company_id='"+parent.compid+"' and d.dt_date>='"+LHour+"' and d.dt_date<'"+curT+"'"+
-		" group by dt_date,unitshort union"+
-		" select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty ,'365M' as C6"+
-		" from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tab";
-		
-	}
-	else
-	{
-		alert("Select Duration/Summarize by option!");
-	}
-	var cl1 = new String(location.href);
-	var targetURL1 = new String();
-	var tst1 = cl1.indexOf("&amp;newRPT");
-	if(  tst1 == -1 )
-	{
-		cl1 = cl1 + "&amp;newRPT=" + newa;
-	}
-	else
-	{
-		var ch1 = cl1.indexOf("&amp;newRPT=");
-		cl1 = cl1.substring(0, ch1) + "&amp;newRPT=" + newa;
-    }
-	window.location = cl1;
-	
-}
-function CheckDate()
-{
-	if (document.getElementById("s1").selectedIndex==6)
-	{
-	
-				document.getElementById("fromdate").disabled=false;
-				document.getElementById("todate").disabled=false;
-				
-				
-	}
-	else
-	{
-				document.getElementById("fromdate").value='';
-				document.getElementById("todate").value='';
-				document.getElementById("fromdate").disabled=true;
-				document.getElementById("todate").disabled=true;
-				
-	}
-	
-
-}
-
-
-
-
-function showhidetab()
-{
-
-    
-    if(document.getElementById("s2").selectedIndex==0)
-	{
-				document.getElementById('mychart').style.display = "block";
-				document.getElementById('GridMain').style.display = "none";
-	}
-	if(document.getElementById("s2").selectedIndex==1)
-	{
-			
-            	document.getElementById('GridMain').style.display = "block";
-				document.getElementById('mychart').style.display = "none";
-          
-	}		
-	
-
-   
-}
-
-
-
-
-
-
-</script>
-
-
-
-
-<body>
-<head>
-
-</head>
-
-
-<table  border=1 style="width:300px" bgcolor="black">
-
-<tr>
-  
-  
-  
-  <td>
-  <select id=s2 width=10 title="Select Report Type" size=1 name=Characters2 onChange="showhidetab()";>
-	
-	<option value=K>Chart</option> 
-	<option value=L>Table</option> 
-	</select>
-</td>
-
-  <td>
-  <select id=s1 title="Select Period" size=1 name=Characters onChange="CheckDate()">
-<option value=F>--Select Period--</option>
-<option value=F>Last Hour</option> 
-<option value=D>Last 24 Hour</option> 
-<option value=E>Last 7 Days</option>
-<option value=F>Last 30 Days</option>
-<option value=F>Last 365 Days</option>
-<option value=G>Specific Period</option>
-</select>
-  </td>	
-  
-  <td>
-  <select id=s3 title="Select Summarization Method" size=1 name=Characters3>
-<option value=F>--Summarize By--</option>
-<option value=F>Hour</option> 
-<option value=D>Day</option> 
-<option value=E>Month</option>
-
-</select>
-  </td>	
-  </td>	
-  <td>
-   <b><font color="white">From:</font></b>
-  </td>
-  <td>
-  <input type="date" title="Select From Date" id="fromdate" disabled>
-  </input>
-  </td>
-  <td>
-    <b><font color="white">To:</font></b>
-  </td>
-  <td>
-  <input type="date" title="Select To Date" id="todate" disabled>
-  </td>	
-  <td>
-  <button type="button" title="Generate Report" onClick="supplydemandtrend()">Go</button>
-  </button>
-  </td>
-  
-  
-  
-  
-
-</tr>
-
-</table>
-
-</body>
-
-
-
-
-
-
- 
-
-
-
-]]></text-property>
-        </text>
         <grid id="246">
             <column id="247"/>
             <row id="248">
@@ -1555,7 +831,7 @@ else&#13;
 		{&#13;
 			if(lastChar!=null)&#13;
 			{&#13;
-				row["6"]=row["C6"].substring(0, stringLength - 2)+row["unit"];&#13;
+			row["6"]='Supply/Demand Trend for the Specified Period in:'+row["unit"];&#13;
 				&#13;
 				&#13;
 			}&#13;
@@ -1571,7 +847,7 @@ else&#13;
 		{	&#13;
 			if(lastChar!=null)&#13;
 			{&#13;
-				row["6"]=row["C6"].substring(0, stringLength - 2)+row["unit"];&#13;
+				row["6"]='Supply/Demand Trend for the Specified Period in:'+row["unit"];&#13;
 					&#13;
 			}&#13;
 		}&#13;
@@ -1586,7 +862,7 @@ else&#13;
 		{&#13;
 			if(lastChar!=null)&#13;
 			{&#13;
-				row["6"]=row["C6"].substring(0, stringLength - 2)+row["unit"];&#13;
+				row["6"]='Supply/Demand Trend for the Specified Period in:'+row["unit"];&#13;
 					&#13;
 			}&#13;
 		}&#13;
@@ -3329,41 +2605,17 @@ else&#xD;
             <property name="width">7.916666666666667in</property>
             <expression name="bookmark" type="javascript">"mychart"</expression>
             <property name="dataSet">SupplyDemandTrend</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">params["vb"].value=='G'</expression>
+                </structure>
+            </list-property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">DT_DATE</property>
-                    <expression name="expression" type="javascript">if((row["C6"]=='H')||(row["C6"]=='24H')||(row["C6"]=='7H')||(row["C6"]=='365H')||(row["C6"]=='30H'))&#13;
-{&#13;
-	Formatter.format(dataSetRow["DT_DATE"],'dd/MM/yyyy hh:mm:ss a')&#13;
-}&#13;
-else if((row["C6"]=='7D')||(row["C6"]=='30D')||(row["C6"]=='365D'))&#13;
-{&#13;
-	Formatter.format(dataSetRow["DT_DATE"],'dd/MM/yyyy')&#13;
-}&#13;
-else if((row["C6"]=='30M')||(row["C6"]=='365M'))&#13;
-{&#13;
-	Formatter.format(dataSetRow["DT_DATE"],'dd/MM/yyyy')&#13;
-}&#13;
-else&#13;
-{&#13;
-	var myString = row["C6"];&#13;
-	var stringLength = myString.length; &#13;
-	var lastChar = myString.charAt(stringLength - 1); &#13;
-	if(lastChar=='H')&#13;
-	{&#13;
-		Formatter.format(dataSetRow["DT_DATE"],'dd/MM/yyyy hh:mm:ss a')&#13;
-	}&#13;
-	else if(lastChar=='D')&#13;
-	{&#13;
-		Formatter.format(dataSetRow["DT_DATE"],'dd/MM/yyyy')&#13;
-	}&#13;
-	else&#13;
-	{&#13;
-		Formatter.format(dataSetRow["DT_DATE"],'dd/MM/yyyy')&#13;
-	}&#13;
-}</expression>
+                    <expression name="expression" type="javascript">dataSetRow["DT_DATE"]</expression>
                     <property name="dataType">date-time</property>
-                    <property name="allowExport">true</property>
                 </structure>
                 <structure>
                     <property name="name">UNITSHORT</property>
@@ -3390,10 +2642,36 @@ else&#13;
                     <expression name="expression" type="javascript">dataSetRow["C6"]</expression>
                     <property name="dataType">string</property>
                 </structure>
+                <structure>
+                    <property name="name">rowc</property>
+                    <expression name="expression" type="javascript">dataSetRow["rowc"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSH</property>
+                    <expression name="expression" type="javascript">dataSetRow["CUSH"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSD</property>
+                    <expression name="expression" type="javascript">dataSetRow["CUSD"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSM</property>
+                    <expression name="expression" type="javascript">dataSetRow["CUSM"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
             </list-property>
         </extended-item>
         <grid id="169">
             <property name="height">3.0833333333333335in</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">params["vb"].value=='C'</expression>
+                </structure>
+            </list-property>
             <expression name="bookmark" type="javascript">"GridMain"</expression>
             <column id="170"/>
             <row id="171">
@@ -3706,6 +2984,7 @@ else&#13;
                                                         <data id="102">
                                                             <property name="style">crosstab-detail1</property>
                                                             <property name="fontSize">11px</property>
+                                                            <property name="textAlign">center</property>
                                                             <property name="resultSetColumn">DEMAND_QTY1_Group/Day Of Year_Group2/UNITSHORT</property>
                                                         </data>
                                                     </property>
@@ -3733,6 +3012,7 @@ else&#13;
                                                         <data id="97">
                                                             <property name="style">crosstab-detail1</property>
                                                             <property name="fontSize">11px</property>
+                                                            <property name="textAlign">center</property>
                                                             <property name="resultSetColumn">SUPPLY_QTY1_Group/Day Of Year_Group2/UNITSHORT</property>
                                                         </data>
                                                     </property>
@@ -3964,6 +3244,7 @@ else&#13;
                                                         <data id="142">
                                                             <property name="style">crosstab-detail1</property>
                                                             <property name="fontSize">11px</property>
+                                                            <property name="textAlign">center</property>
                                                             <property name="resultSetColumn">DEMAND_QTY2_Group1/Month_Group5/UNITSHORT</property>
                                                         </data>
                                                     </property>
@@ -3991,6 +3272,7 @@ else&#13;
                                                         <data id="137">
                                                             <property name="style">crosstab-detail1</property>
                                                             <property name="fontSize">11px</property>
+                                                            <property name="textAlign">center</property>
                                                             <property name="resultSetColumn">SUPPLY_QTY2_Group1/Month_Group5/UNITSHORT</property>
                                                         </data>
                                                     </property>

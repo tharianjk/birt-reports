@@ -973,14 +973,14 @@ function supplydemandtrendConsolidated()
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'P' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+		" where ss.C_CORETYPE = 'S'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
         " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
 		" group by un.UNITSHORT , ad.DISPLAYNAME  ,dt_date union "+
 		" Select displayname typ,unitshort,0 supplyqty ,sum(ss.UTILITY_QTY) demandqty ,dt_date"+ 
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'C' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
+		" where ss.C_CORETYPE = 'C'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
 					
 				}
 				else if((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
@@ -993,14 +993,14 @@ function supplydemandtrendConsolidated()
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'P' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+		" where ss.C_CORETYPE = 'S'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
         " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
 		" group by un.UNITSHORT , ad.DISPLAYNAME  ,dt_date union "+
 		" Select displayname typ,unitshort,0 supplyqty ,sum(ss.UTILITY_QTY) demandqty ,dt_date"+ 
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'C' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
+		" where ss.C_CORETYPE = 'C'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
 					
 				}
 				else if((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
@@ -1013,14 +1013,14 @@ function supplydemandtrendConsolidated()
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'P' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+		" where ss.C_CORETYPE = 'S'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
         " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
 		" group by un.UNITSHORT , ad.DISPLAYNAME  ,dt_date union "+
 		" Select displayname typ,unitshort,0 supplyqty ,sum(ss.UTILITY_QTY) demandqty ,dt_date"+ 
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'C' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
+		" where ss.C_CORETYPE = 'C'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
 					
 					
 					
@@ -1046,14 +1046,14 @@ function supplydemandtrendConsolidated()
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'P' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+		" where ss.C_CORETYPE = 'S'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
         " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
 		" group by un.UNITSHORT , ad.DISPLAYNAME  ,dt_date union "+
 		" Select displayname typ,unitshort,0 supplyqty ,sum(ss.UTILITY_QTY) demandqty ,dt_date"+ 
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'C' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
+		" where ss.C_CORETYPE = 'C'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
 		
 	}
 	
@@ -1068,14 +1068,14 @@ function supplydemandtrendConsolidated()
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'P' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+		" where ss.C_CORETYPE = 'S'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
         " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
 		" group by un.UNITSHORT , ad.DISPLAYNAME  ,dt_date union "+
 		" Select displayname typ,unitshort,0 supplyqty ,sum(ss.UTILITY_QTY) demandqty ,dt_date"+ 
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'C' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
+		" where ss.C_CORETYPE = 'C'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==3) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
@@ -1087,14 +1087,14 @@ function supplydemandtrendConsolidated()
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'P' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+		" where ss.C_CORETYPE = 'S'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
         " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
 		" group by un.UNITSHORT , ad.DISPLAYNAME  ,dt_date union "+
 		" Select displayname typ,unitshort,0 supplyqty ,sum(ss.UTILITY_QTY) demandqty ,dt_date"+ 
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'C' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
+		" where ss.C_CORETYPE = 'C'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
 	}
 	else if((document.getElementById("s1").selectedIndex==3) &amp;&amp; (document.getElementById("s3").selectedIndex==2)||
 	(document.getElementById("s1").selectedIndex==3) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
@@ -1106,14 +1106,14 @@ function supplydemandtrendConsolidated()
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'P' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+		" where ss.C_CORETYPE = 'S'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
         " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
 		" group by un.UNITSHORT , ad.DISPLAYNAME  ,dt_date union "+
 		" Select displayname typ,unitshort,0 supplyqty ,sum(ss.UTILITY_QTY) demandqty ,dt_date"+ 
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'C' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
+		" where ss.C_CORETYPE = 'C'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
@@ -1125,14 +1125,14 @@ function supplydemandtrendConsolidated()
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'P' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+		" where ss.C_CORETYPE = 'S'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
         " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
 		" group by un.UNITSHORT , ad.DISPLAYNAME  ,dt_date union "+
 		" Select displayname typ,unitshort,0 supplyqty ,sum(ss.UTILITY_QTY) demandqty ,dt_date"+ 
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'C' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
+		" where ss.C_CORETYPE = 'C'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
@@ -1144,14 +1144,14 @@ function supplydemandtrendConsolidated()
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'P' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+		" where ss.C_CORETYPE = 'S'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
         " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
 		" group by un.UNITSHORT , ad.DISPLAYNAME  ,dt_date union "+
 		" Select displayname typ,unitshort,0 supplyqty ,sum(ss.UTILITY_QTY) demandqty ,dt_date"+ 
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'C' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
+		" where ss.C_CORETYPE = 'C'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
@@ -1163,14 +1163,14 @@ function supplydemandtrendConsolidated()
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'P' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+		" where ss.C_CORETYPE = 'S'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
         " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
 		" group by un.UNITSHORT , ad.DISPLAYNAME  ,dt_date union "+
 		" Select displayname typ,unitshort,0 supplyqty ,sum(ss.UTILITY_QTY) demandqty ,dt_date"+ 
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'C' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
+		" where ss.C_CORETYPE = 'C'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==5) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
@@ -1182,14 +1182,14 @@ function supplydemandtrendConsolidated()
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'P' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+		" where ss.C_CORETYPE = 'S'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
         " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
 		" group by un.UNITSHORT , ad.DISPLAYNAME  ,dt_date union "+
 		" Select displayname typ,unitshort,0 supplyqty ,sum(ss.UTILITY_QTY) demandqty ,dt_date"+ 
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'C' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
+		" where ss.C_CORETYPE = 'C'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==5) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
@@ -1201,14 +1201,14 @@ function supplydemandtrendConsolidated()
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'P' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+		" where ss.C_CORETYPE = 'S'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
         " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
 		" group by un.UNITSHORT , ad.DISPLAYNAME  ,dt_date union "+
 		" Select displayname typ,unitshort,0 supplyqty ,sum(ss.UTILITY_QTY) demandqty ,dt_date"+ 
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'C' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
+		" where ss.C_CORETYPE = 'C'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
 		
 	}
 	else if((document.getElementById("s1").selectedIndex==5) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
@@ -1220,14 +1220,14 @@ function supplydemandtrendConsolidated()
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'P' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+		" where ss.C_CORETYPE = 'S'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
         " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
 		" group by un.UNITSHORT , ad.DISPLAYNAME  ,dt_date union "+
 		" Select displayname typ,unitshort,0 supplyqty ,sum(ss.UTILITY_QTY) demandqty ,dt_date"+ 
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-		" where ss.C_CORETYPE = 'C' and d.hr_id=0 and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
+		" where ss.C_CORETYPE = 'C'  and company_id='"+parent.compid+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'";
 		
 		
 	}
