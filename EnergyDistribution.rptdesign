@@ -10,31 +10,12 @@ false);*/]]></method>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <parameters>
-        <scalar-parameter name="newRPT" id="241">
-            <property name="hidden">true</property>
-            <property name="valueType">static</property>
-            <property name="isRequired">false</property>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
         <scalar-parameter name="UsrSecId" id="356">
             <property name="hidden">true</property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">2</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -45,12 +26,9 @@ false);*/]]></method>
         <scalar-parameter name="UsrCompId" id="375">
             <property name="hidden">true</property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -61,12 +39,57 @@ false);*/]]></method>
         <scalar-parameter name="UtlId" id="384">
             <property name="hidden">true</property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="fromdate" id="409">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="todate" id="410">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="coltype" id="411">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="vb" id="412">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -162,194 +185,11 @@ false);*/]]></method>
                     </structure>
                 </list-property>
             </structure>
-            <method name="beforeOpen"><![CDATA[var currentTime = new Date()
-var month = currentTime.getMonth() + 1
-var day = currentTime.getDate()
-var year = currentTime.getFullYear()
-var currentTime = new Date()
-var hours = currentTime.getHours()
-var minutes = currentTime.getMinutes()
-var seconds=currentTime.getSeconds()
-//Last 7 days
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var month7 = Lastweek.getMonth() + 1
-var day7 = Lastweek.getDate()
-var year7 = Lastweek.getFullYear()
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var hours7 = Lastweek.getHours()
-var minutes7 = Lastweek.getMinutes()
-var seconds7=Lastweek.getSeconds()
-//Last 30days
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-
-var month30 = LastMonth.getMonth() + 1
-var day30= LastMonth.getDate()
-var year30= LastMonth.getFullYear()
-
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-var hours30 = LastMonth.getHours()
-var minutes30 = LastMonth.getMinutes()
-var seconds30=LastMonth.getSeconds()
-//last 365 days
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-
-var month365 = LastYear.getMonth() + 1
-var day365= LastYear.getDate()
-var year365= LastYear.getFullYear()
-
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-var hours365 = LastYear.getHours()
-var minutes365 = LastYear.getMinutes()
-var seconds365=LastYear.getSeconds()
-
-
-//last hour
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var monthL = hourago.getMonth() + 1
-var dayL= hourago.getDate()
-var yearL= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var hoursL = hourago.getHours()
-var minutesL = hourago.getMinutes()
-var secondsL=hourago.getSeconds()
-//last 24 hour
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var monthL24 = hourago.getMonth() + 1
-var dayL24= hourago.getDate()
-var yearL24= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var hoursL24 = hourago.getHours()
-var minutesL24 = hourago.getMinutes()
-var secondsL24=hourago.getSeconds()
-
-/////////Today
-if (minutes < 10){
-minutes = "0" + minutes
-}
-if (seconds < 10){
-seconds= "0" + seconds
-}
-
-if (month  < 10){
-month  = "0" + month 
-}
-if (day  < 10){
-day  = "0" + day 
-}
-if (hours  < 10){
-hours  = "0" + hours 
-}
-
-///Last 365
-if (minutes365 < 10){
-minutes365 = "0" + minutes365
-}
-if (seconds365 < 10){
-seconds365= "0" + seconds365
-}
-
-if (month365  < 10){
-month365  = "0" + month365 
-}
-if (day365  < 10){
-day365  = "0" + day365 
-}
-if (hours365  < 10){
-hours365  = "0" + hours365 
-}
-
-
-///Last 7 days
-if (minutes7 < 10){
-minutes7 = "0" + minutes7
-}
-if (seconds7 < 10){
-seconds7= "0" + seconds7
-}
-
-if (month7  < 10){
-month7  = "0" + month7 
-}
-if (day7  < 10){
-day7  = "0" + day7 
-}
-if (hours7  < 10){
-hours7  = "0" + hours7 
-}
-//last 30days
-if (minutes30 < 10){
-minutes30 = "0" + minutes30
-}
-if (seconds30 < 10){
-seconds30= "0" + seconds30
-}
-
-if (month30  < 10){
-month30  = "0" + month30 
-}
-if (day30  < 10){
-day30  = "0" + day30 
-}
-if (hours30  < 10){
-hours30  = "0" + hours30 
-}
-
-//last hour
-if (minutesL < 10){
-minutesL = "0" + minutesL
-}
-if (secondsL < 10){
-secondsL= "0" + secondsL
-}
-
-if (monthL  < 10){
-monthL  = "0" + monthL 
-}
-if (dayL  < 10){
-dayL  = "0" + dayL
-}
-if (hoursL  < 10){
-hoursL  = "0" + hoursL
-}
-//last 24 hour
-
-if (minutesL24 < 10){
-minutesL24 = "0" + minutesL24
-}
-if (secondsL24 < 10){
-secondsL24= "0" + secondsL24
-}
-
-if (monthL24  < 10){
-monthL24  = "0" + monthL24 
-}
-if (dayL24  < 10){
-dayL24  = "0" + dayL24
-}
-if (hoursL24  < 10){
-hoursL24  = "0" + hoursL24
-}
-
-curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-
-
-
-
-if(params["newRPT"].value=="")
-
-{
-	this.queryText = this.queryText +",'7D' as C4"+
+            <method name="beforeOpen"><![CDATA[
+	curT=params["todate"].value
+	LHour=params["fromdate"].value
+	
+	this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4"+
 	" from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+ 
 	" inner join  fwk_assettree b on a.parent_id=b.assettree_id"+ 
     " inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
@@ -364,7 +204,7 @@ if(params["newRPT"].value=="")
     " and  S.UTILITY_ID='"+params["UtlId"].value+"' and S.c_coretype='C'"+
     " group by b.displayname,un.unitshort"+
     " union"+
-	" select a.displayname,sum(s.UTILITY_QTY) as UTILITY_QTY,un.unitshort,'7D' as C4"+
+	" select a.displayname,sum(s.UTILITY_QTY) as UTILITY_QTY,un.unitshort,'"+params["coltype"].value+"' as C4"+
     " from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+  
     " inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
     " inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID "+ 
@@ -376,14 +216,7 @@ if(params["newRPT"].value=="")
     " group by a.displayname,un.unitshort";
 
 
-
-}
-else
-{
-	this.queryText = this.queryText+params["newRPT"].value+
-	" S.c_coretype='C'"+
-	" group by a.displayname,un.unitshort";
-}]]></method>
+]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet">
                 <structure>
@@ -713,641 +546,6 @@ else
         <simple-master-page name="Simple MasterPage" id="2"/>
     </page-setup>
     <body>
-        <grid name="mytable123" id="371">
-            <property name="canShrink">true</property>
-            <expression name="bookmark" type="javascript">"mytable123"</expression>
-            <property name="allowExport">false</property>
-            <column id="372"/>
-            <row id="373">
-                <cell id="374">
-                    <text id="238">
-                        <list-property name="visibility">
-                            <structure>
-                                <property name="format">doc</property>
-                                <expression name="valueExpr" type="javascript">true</expression>
-                            </structure>
-                            <structure>
-                                <property name="format">docx</property>
-                                <expression name="valueExpr" type="javascript">true</expression>
-                            </structure>
-                            <structure>
-                                <property name="format">xlsx</property>
-                                <expression name="valueExpr" type="javascript">true</expression>
-                            </structure>
-                            <structure>
-                                <property name="format">xls</property>
-                                <expression name="valueExpr" type="javascript">true</expression>
-                            </structure>
-                            <structure>
-                                <property name="format">pdf</property>
-                                <expression name="valueExpr" type="javascript">true</expression>
-                            </structure>
-                        </list-property>
-                        <property name="allowExport">false</property>
-                        <property name="contentType">html</property>
-                        <text-property name="content"><![CDATA[<script>
-var currentTime = new Date()
-
-var month = currentTime.getMonth() + 1
-var day = currentTime.getDate()
-var year = currentTime.getFullYear()
-var currentTime = new Date()
-var hours = currentTime.getHours()
-var minutes = currentTime.getMinutes()
-var seconds=currentTime.getSeconds()
-//Last 7 days
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var month7 = Lastweek.getMonth() + 1
-var day7 = Lastweek.getDate()
-var year7 = Lastweek.getFullYear()
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var hours7 = Lastweek.getHours()
-var minutes7 = Lastweek.getMinutes()
-var seconds7=Lastweek.getSeconds()
-//Last 30days
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-
-var month30 = LastMonth.getMonth() + 1
-var day30= LastMonth.getDate()
-var year30= LastMonth.getFullYear()
-
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-var hours30 = LastMonth.getHours()
-var minutes30 = LastMonth.getMinutes()
-var seconds30=LastMonth.getSeconds()
-//last 365 days
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-
-var month365 = LastYear.getMonth() + 1
-var day365= LastYear.getDate()
-var year365= LastYear.getFullYear()
-
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-var hours365 = LastYear.getHours()
-var minutes365 = LastYear.getMinutes()
-var seconds365=LastYear.getSeconds()
-
-
-//last hour
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var monthL = hourago.getMonth() + 1
-var dayL= hourago.getDate()
-var yearL= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var hoursL = hourago.getHours()
-var minutesL = hourago.getMinutes()
-var secondsL=hourago.getSeconds()
-//last 24 hour
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var monthL24 = hourago.getMonth() + 1
-var dayL24= hourago.getDate()
-var yearL24= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var hoursL24 = hourago.getHours()
-var minutesL24 = hourago.getMinutes()
-var secondsL24=hourago.getSeconds()
-
-/////////Today
-if (minutes < 10){
-minutes = "0" + minutes
-}
-if (seconds < 10){
-seconds= "0" + seconds
-}
-
-if (month  < 10){
-month  = "0" + month 
-}
-if (day  < 10){
-day  = "0" + day 
-}
-if (hours  < 10){
-hours  = "0" + hours 
-}
-
-///Last 365
-if (minutes365 < 10){
-minutes365 = "0" + minutes365
-}
-if (seconds365 < 10){
-seconds365= "0" + seconds365
-}
-
-if (month365  < 10){
-month365  = "0" + month365 
-}
-if (day365  < 10){
-day365  = "0" + day365 
-}
-if (hours365  < 10){
-hours365  = "0" + hours365 
-}
-
-
-///Last 7 days
-if (minutes7 < 10){
-minutes7 = "0" + minutes7
-}
-if (seconds7 < 10){
-seconds7= "0" + seconds7
-}
-
-if (month7  < 10){
-month7  = "0" + month7 
-}
-if (day7  < 10){
-day7  = "0" + day7 
-}
-if (hours7  < 10){
-hours7  = "0" + hours7 
-}
-//last 30days
-if (minutes30 < 10){
-minutes30 = "0" + minutes30
-}
-if (seconds30 < 10){
-seconds30= "0" + seconds30
-}
-
-if (month30  < 10){
-month30  = "0" + month30 
-}
-if (day30  < 10){
-day30  = "0" + day30 
-}
-if (hours30  < 10){
-hours30  = "0" + hours30 
-}
-
-//last hour
-if (minutesL < 10){
-minutesL = "0" + minutesL
-}
-if (secondsL < 10){
-secondsL= "0" + secondsL
-}
-
-if (monthL  < 10){
-monthL  = "0" + monthL 
-}
-if (dayL  < 10){
-dayL  = "0" + dayL
-}
-if (hoursL  < 10){
-hoursL  = "0" + hoursL
-}
-//last 24 hour
-
-if (minutesL24 < 10){
-minutesL24 = "0" + minutesL24
-}
-if (secondsL24 < 10){
-secondsL24= "0" + secondsL24
-}
-
-if (monthL24  < 10){
-monthL24  = "0" + monthL24 
-}
-if (dayL24  < 10){
-dayL24  = "0" + dayL24
-}
-if (hoursL24  < 10){
-hoursL24  = "0" + hoursL24
-}
-	document.getElementById('mytable').style.display = "none";
-	if (parent.AssetTree.selectedsection === undefined)
-	{
-		parent.AssetTree.selectedsection = 0;
-	}
-	if(parent.AssetTree.selectedtype === undefined)
-	{
-		parent.AssetTree.selectedtype = 0;
-	}
-	
-	document.onload=populate();
-
-function populate()
-{	//Function which sets the previously selected parameters for the report.
-	if(parent.selected_period_ndx==null || parent.selected_period_ndx==0)
-	{
-		parent.selected_period_ndx=3;
-	}
-	if(parent.compid==null || parent.compid==0)
-	{
-		parent.compid=1;
-	}
-	if(parent.UtilId==null || parent.UtilId==0)
-	{
-		parent.UtilId=1;
-	}
-	
-	document.getElementById("s1").selectedIndex=parent.selected_period_ndx;	
-	if(document.getElementById("s1").selectedIndex==6)
-	{
-		if (document.getElementById("s1").selectedIndex==6)
-		{
-	
-			document.getElementById("fromdate").disabled=false;
-			document.getElementById("todate").disabled=false;
-				
-			document.getElementById("fromdate").value=parent.selected_fdate;
-			document.getElementById("todate").value=parent.selected_tdate;
-				
-				
-		}
-		else
-		{
-			document.getElementById("fromdate").value='';
-			document.getElementById("todate").value='';
-			document.getElementById("fromdate").disabled=true;
-			document.getElementById("todate").disabled=true;
-				
-		}
-			
-	}
-	
-}	
-	
-	
-	
-function CheckDate()
-{
-	if (document.getElementById("s1").selectedIndex==6)
-	{
-	
-				document.getElementById("fromdate").disabled=false;
-				document.getElementById("todate").disabled=false;
-				
-				
-	}
-	else
-	{
-				document.getElementById("fromdate").value='';
-				document.getElementById("todate").value='';
-				document.getElementById("fromdate").disabled=true;
-				document.getElementById("todate").disabled=true;
-				
-	}
-
-}
-
-
-
-function energydis()
-
-{
-	parent.selected_period_ndx=document.getElementById("s1").selectedIndex;
-	parent.selected_fdate=document.getElementById("fromdate").value;
-	parent.selected_tdate=document.getElementById("todate").value;
-	if(parent.AssetTree.selectedtype == 5)
-	{
-		alert ("Select Section/Asset/Location!");
-			return;
-	}
-
-	if ((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("fromdate").value==''))
-	{
-		alert ("Enter a valid time period!");
-		return;
-	}
-	else if ((document.getElementById("s1").selectedIndex==6)&amp;&amp; (document.getElementById("todate").value==''))
-	{
-		alert ("Enter a valid time period!");
-		return;
-	}
-	
-	
-	else
-	{
-		var d1 = Date.parse(document.getElementById("todate").value);
-		var d2 = Date.parse(document.getElementById("fromdate").value);
-		if (d1 < d2) 
-		{
-			alert ("To Date cannot be Greater than From Date!");
-			return;
-		}
-		else
-		{
-			curT=document.getElementById("todate").value+" 00:00:00";
-			LHour=document.getElementById("fromdate").value+" 00:00:00";
-			var Cfrom=document.getElementById("fromdate").value;
-			var Cto=document.getElementById("todate").value;
-			newa=",' Energy Distribution from "+Cfrom+" to " +Cto+" in:' as C4"+
-				" from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+ 
-				" inner join  fwk_assettree b on a.parent_id=b.assettree_id"+ 
-				" inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
-				" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+  
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where b.assettreetype_id=2 and a.parent_id in"+ 
-				" (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+ 
-				" and T.dt_date >'"+LHour+"'"+
-				" and T.dt_date <'"+curT+"'"+ 
-				" and a.company_id='"+parent.compid+"'"+
-				" and  S.UTILITY_ID='"+parent.UtilId+"' and S.c_coretype='C'"+
-				" group by b.displayname,un.unitshort"+
-				" union"+
-				" select a.displayname,sum(s.UTILITY_QTY) as UTILITY_QTY,un.unitshort,' Energy Distribution from "+Cfrom+" to " +Cto+" in:' as C4"+
-				" from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+  
-				" inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
-				" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID "+ 
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where a.parent_id='"+parent.AssetTree.selectedsection+"' and T.dt_date >'"+LHour+"'"+
-				" and T.dt_date <'"+curT+"'"+
-				" and a.company_id='"+parent.compid+"'"+
-				" and  S.UTILITY_ID='"+parent.UtilId+"' and";
-		
-		}
-			
-	}
-	
-	
-
-
-	if(document.getElementById("s1").selectedIndex==0)
-	{
-		alert("Select Duration!");
-	}
-	else
-	{
-		if(document.getElementById("s1").selectedIndex==1)
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=yearL+ "-" + monthL + "-" + dayL+" "+hoursL+":"+minutesL+":"+secondsL;
-		newa=",'LH' as C4"+
-				" from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+ 
-				" inner join  fwk_assettree b on a.parent_id=b.assettree_id"+ 
-				" inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
-				" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+  
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where b.assettreetype_id=2 and a.parent_id in"+ 
-				" (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+ 
-				" and T.dt_date >'"+LHour+"'"+
-				" and T.dt_date <'"+curT+"'"+ 
-				" and a.company_id='"+parent.compid+"'"+
-				" and  S.UTILITY_ID='"+parent.UtilId+"' and S.c_coretype='C'"+
-				" group by b.displayname,un.unitshort"+
-				" union"+
-				" select a.displayname,sum(s.UTILITY_QTY) as UTILITY_QTY,un.unitshort,'LH' as C4"+
-				" from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+  
-				" inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
-				" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID "+ 
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where a.parent_id='"+parent.AssetTree.selectedsection+"' and T.dt_date >'"+LHour+"'"+
-				" and T.dt_date <'"+curT+"'"+
-				" and a.company_id='"+parent.compid+"'"+
-				" and  S.UTILITY_ID='"+parent.UtilId+"' and";
-	}
-	if(document.getElementById("s1").selectedIndex==2)
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
-		newa=",'24H' as C4"+
-				" from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+ 
-				" inner join  fwk_assettree b on a.parent_id=b.assettree_id"+ 
-				" inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
-				" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+  
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where b.assettreetype_id=2 and a.parent_id in"+ 
-				" (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+ 
-				" and T.dt_date >'"+LHour+"'"+
-				" and T.dt_date <'"+curT+"'"+ 
-				" and a.company_id='"+parent.compid+"'"+
-				" and  S.UTILITY_ID='"+parent.UtilId+"' and S.c_coretype='C'"+
-				" group by b.displayname,un.unitshort"+
-				" union"+
-				" select a.displayname,sum(s.UTILITY_QTY) as UTILITY_QTY,un.unitshort,'24H' as C4"+
-				" from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+  
-				" inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
-				" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID "+ 
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where a.parent_id='"+parent.AssetTree.selectedsection+"' and T.dt_date >'"+LHour+"'"+
-				" and T.dt_date <'"+curT+"'"+
-				" and a.company_id='"+parent.compid+"'"+
-				" and  S.UTILITY_ID='"+parent.UtilId+"' and";
-	}
-	if(document.getElementById("s1").selectedIndex==3)
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-		newa=",'7D' as C4"+
-				" from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+ 
-				" inner join  fwk_assettree b on a.parent_id=b.assettree_id"+ 
-				" inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
-				" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+  
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where b.assettreetype_id=2 and a.parent_id in"+ 
-				" (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+ 
-				" and T.dt_date >'"+LHour+"'"+
-				" and T.dt_date <'"+curT+"'"+ 
-				" and a.company_id='"+parent.compid+"'"+
-				" and  S.UTILITY_ID='"+parent.UtilId+"' and S.c_coretype='C'"+
-				" group by b.displayname,un.unitshort"+
-				" union"+
-				" select a.displayname,sum(s.UTILITY_QTY) as UTILITY_QTY,un.unitshort,'7D' as C4"+
-				" from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+  
-				" inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
-				" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID "+ 
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where a.parent_id='"+parent.AssetTree.selectedsection+"' and T.dt_date >'"+LHour+"'"+
-				" and T.dt_date <'"+curT+"'"+
-				" and a.company_id='"+parent.compid+"'"+
-				" and  S.UTILITY_ID='"+parent.UtilId+"' and";
-	}
-	if(document.getElementById("s1").selectedIndex==4)
-	{
-	
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-		newa=",'30D' as C4"+
-				" from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+ 
-				" inner join  fwk_assettree b on a.parent_id=b.assettree_id"+ 
-				" inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
-				" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+  
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where b.assettreetype_id=2 and a.parent_id in"+ 
-				" (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+ 
-				" and T.dt_date >'"+LHour+"'"+
-				" and T.dt_date <'"+curT+"'"+ 
-				" and a.company_id='"+parent.compid+"'"+
-				" and  S.UTILITY_ID='"+parent.UtilId+"' and S.c_coretype='C'"+
-				" group by b.displayname,un.unitshort"+
-				" union"+
-				" select a.displayname,sum(s.UTILITY_QTY) as UTILITY_QTY,un.unitshort,'30D' as C4"+
-				" from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+  
-				" inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
-				" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID "+ 
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where a.parent_id='"+parent.AssetTree.selectedsection+"' and T.dt_date >'"+LHour+"'"+
-				" and T.dt_date <'"+curT+"'"+
-				" and a.company_id='"+parent.compid+"'"+
-				" and  S.UTILITY_ID='"+parent.UtilId+"' and";
-	}
-	if(document.getElementById("s1").selectedIndex==5)
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
-		newa=",'365D' as C4"+
-				" from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+ 
-				" inner join  fwk_assettree b on a.parent_id=b.assettree_id"+ 
-				" inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
-				" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+  
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where b.assettreetype_id=2 and a.parent_id in"+ 
-				" (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"')"+ 
-				" and T.dt_date >'"+LHour+"'"+
-				" and T.dt_date <'"+curT+"'"+ 
-				" and a.company_id='"+parent.compid+"'"+
-				" and  S.UTILITY_ID='"+parent.UtilId+"' and S.c_coretype='C'"+
-				" group by b.displayname,un.unitshort"+
-				" union"+
-				" select a.displayname,sum(s.UTILITY_QTY) as UTILITY_QTY,un.unitshort,'365D' as C4"+
-				" from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+  
-				" inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
-				" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID "+ 
-				" inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-				" where a.parent_id='"+parent.AssetTree.selectedsection+"' and T.dt_date >'"+LHour+"'"+
-				" and T.dt_date <'"+curT+"'"+
-				" and a.company_id='"+parent.compid+"'"+
-				" and  S.UTILITY_ID='"+parent.UtilId+"' and";
-				
-	}
-	
-	
-	
-	
-	
-	
-	var cl1 = new String(location.href);
-	var targetURL1 = new String();
-	var tst1 = cl1.indexOf("&amp;newRPT");
-	if(  tst1 == -1 )
-	{
-		cl1 = cl1 + "&amp;newRPT=" + newa;
-	}
-	else
-	{
-		var ch1 = cl1.indexOf("&amp;newRPT=");
-		cl1 = cl1.substring(0, ch1) + "&amp;newRPT=" + newa;
-    }
-	window.location = cl1;
-	
-	}
-
-}
-
-
-
-document.getElementById('mytable').style.display = "none";
-
-function showhidetab()
-{
-    
-    if(document.getElementById("s2").selectedIndex==0)
-	{
-	
-            document.getElementById('mytable').style.display = "none";
-			document.getElementById('myChart').style.display = "block";
-	}
-	if(document.getElementById("s2").selectedIndex==1)
-	{
-	document.getElementById('mytable').style.display = "block";
-            document.getElementById('myChart').style.display = "none";
-	}		
-
-   
-}
-
-
-
-
-</script>
-
-
-
-
-<body>
-<head>
-
-</head>
-
-
-<table  border=1 style="width:300px" bgcolor="black">
-
-<tr>
-  
-  
-  
-  <td>
-  <select id=s2 title="Select report format" width=10 size=1 name=Characters2 onChange="showhidetab()";>
-	
-	<option value=K>Chart</option> 
-	<option value=L>Table</option> 
-	</select>
-</td>
-  
-  <td>
-  <select id=s1 size=1 title="Select Duration" name=Characters onChange="CheckDate()">
-<option value=F>--Duration--</option>
-<option value=F>Last Hour</option> 
-<option value=D>Last 24 Hour</option> 
-<option value=E>Last 7 Days</option>
-<option value=F>Last 30 Days</option>
-<option value=F>Last 365 Days</option>
-<option value=G>Specific Duration</option>
-</select>
-  </td>	
-  <td>
-   <b><font color="white">From:</font></b>
-  </td>
-  <td>
-  <input type="date" title="Select From Date" id="fromdate" disabled>
-  </input>
-  </td>
-  <td>
-    <b><font color="white">To:</font></b>
-  </td>
-  <td>
-  <input type="date" title="Select To Date" id="todate" disabled>
-  </td>
-  <td>
-  <button type="button" title="Click to view report" onClick="energydis()">Go</button>
-  </button>
-  </td>
-  
-  
-  
-  
-  
-
-</tr>
-
-</table>
-
-</body>
-
-
-
-
-
- 
-
-
-
-]]></text-property>
-                    </text>
-                </cell>
-            </row>
-        </grid>
         <grid id="390">
             <column id="391"/>
             <row id="392">
@@ -1401,7 +599,7 @@ else&#13;
 	}&#13;
 	else&#13;
 	{&#13;
-		row["C4"]='Energy Distribution '+row["C4"]+' in '+row["UNITSHORT"];&#13;
+		row["C4"]='Energy Distribution for the specified period in '+row["UNITSHORT"];&#13;
 	}&#13;
 	&#13;
 }</expression>
@@ -2399,6 +1597,12 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
             <property name="width">7.5625in</property>
             <expression name="bookmark" type="javascript">"myChart"</expression>
             <property name="dataSet">distribution</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">params["vb"].value=='G'</expression>
+                </structure>
+            </list-property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">DISPLAYNAME</property>
@@ -2435,6 +1639,12 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
         </extended-item>
         <grid id="367">
             <property name="canShrink">true</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">params["vb"].value=='C'</expression>
+                </structure>
+            </list-property>
             <expression name="bookmark" type="javascript">"mytable"</expression>
             <column id="368"/>
             <row id="369">
