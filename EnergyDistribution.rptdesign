@@ -198,7 +198,7 @@ false);*/]]></method>
     " where b.assettreetype_id=2 and a.parent_id in"+ 
    
  " (select assettree_id from fwk_assettree where PARENT_ID='"+params["UsrSecId"].value+"')"+ 
-    " and T.dt_date >'"+LHour+"'"+
+    " and T.dt_date >='"+LHour+"'"+
     " and T.dt_date <'"+curT+"'"+ 
     " and a.company_id='"+params["UsrCompId"].value+"'"+
     " and  S.UTILITY_ID='"+params["UtlId"].value+"' and S.c_coretype='C'"+
@@ -209,12 +209,19 @@ false);*/]]></method>
     " inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
     " inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID "+ 
     " inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-	" where a.parent_id='"+params["UsrSecId"].value+"' and T.dt_date >'"+LHour+"'"+
+	" where a.parent_id='"+params["UsrSecId"].value+"' and T.dt_date >='"+LHour+"'"+
     " and T.dt_date <'"+curT+"'"+
     " and a.company_id='"+params["UsrCompId"].value+"'"+
     " and  S.UTILITY_ID='"+params["UtlId"].value+"' and S.c_coretype='C'"+
-    " group by a.displayname,un.unitshort";
-
+    " group by a.displayname,un.unitshort"+
+	
+	" union select a.displayname,sum(s.UTILITY_QTY) as UTILITY_QTY,un.unitshort,'"+params["coltype"].value+"' as C4"+
+    " from ems_section_summary s"+
+    " inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
+    " inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
+    " inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID  inner join ems_unit UN on UN.unit_id=UT.unit_id"+
+    " where a.assettree_id='"+params["UsrSecId"].value+"' and T.dt_date >='"+LHour+"' and T.dt_date <'"+curT+"'"+
+    " and a.company_id='"+params["UsrCompId"].value+"' and  S.UTILITY_ID='"+params["UtlId"].value+"' and S.c_coretype='C' group by a.displayname,un.unitshort";
 
 ]]></method>
             <property name="dataSource">IrevealDS</property>

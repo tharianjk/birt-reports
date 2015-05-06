@@ -17,39 +17,49 @@
     <property name="Data Cube.EDISData Set.x">135</property>
     <property name="Data Cube.EDISData Set.y">80</property>
     <property name="units">in</property>
-    <method name="beforeFactory"><![CDATA[var mychart = this.getReportElement( "mychart" );
-mychart.setWidth("10");
-mychart.setHeight("5");]]></method>
+    <method name="beforeFactory"><![CDATA[//var mychart = this.getReportElement( "mychart" );
+//mychart.setWidth("10");
+//mychart.setHeight("5");
+
+var design_handle = reportContext.getReportRunnable().designHandle.getDesignHandle();
+
+if (params["vb"] == "C") 
+{
+    
+    design_handle.findElement("grd").drop();
+    
+} 
+else 
+{
+     design_handle.findElement("mychart").drop();
+     if(params["coltype"] == "7D" || params["coltype"] == "30D" || params["coltype"] == "365D" || params["coltype"] == "SD")
+     {
+     	design_handle.findElement("mn").drop();
+      	design_handle.findElement("hr").drop();
+     }
+     if(params["coltype"] == "30M" || params["coltype"] == "365M" || params["coltype"] == "SM")
+     {
+     	design_handle.findElement("dy").drop();
+      	design_handle.findElement("hr").drop();
+     }
+     if(params["coltype"] == "H" || params["coltype"] == "24H" || params["coltype"] == "7H" || params["coltype"] == "30H" || params["coltype"] == "365H" || params["coltype"] == "SH")
+     {
+     	design_handle.findElement("mn").drop();
+      	design_handle.findElement("dy").drop();
+     }
+  
+}]]></method>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <parameters>
-        <scalar-parameter name="newRPT" id="508">
-            <property name="hidden">true</property>
-            <property name="valueType">static</property>
-            <property name="isRequired">false</property>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
         <scalar-parameter name="UsrSecId" id="722">
-            <property name="hidden">true</property>
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -58,14 +68,11 @@ mychart.setHeight("5");]]></method>
             </structure>
         </scalar-parameter>
         <scalar-parameter name="typ" id="734">
-            <property name="hidden">true</property>
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -74,14 +81,55 @@ mychart.setHeight("5");]]></method>
             </structure>
         </scalar-parameter>
         <scalar-parameter name="UsrCompId" id="735">
-            <property name="hidden">true</property>
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="fromdate" id="746">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="todate" id="747">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="vb" id="748">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="coltype" id="749">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -117,6 +165,7 @@ mychart.setHeight("5");]]></method>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="EDISData Set" id="9">
+            <property name="nullsOrdering">nulls lowest</property>
             <list-property name="computedColumns">
                 <structure>
                     <property name="name">mn</property>
@@ -171,193 +220,12 @@ if(lastChar=='M')&#13;
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
             <structure name="cachedMetaData"/>
-            <method name="beforeOpen"><![CDATA[var currentTime = new Date()
-var month = currentTime.getMonth() + 1
-var day = currentTime.getDate()
-var year = currentTime.getFullYear()
-var currentTime = new Date()
-var hours = currentTime.getHours()
-var minutes = currentTime.getMinutes()
-var seconds=currentTime.getSeconds()
-//Last 7 days
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var month7 = Lastweek.getMonth() + 1
-var day7 = Lastweek.getDate()
-var year7 = Lastweek.getFullYear()
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var hours7 = Lastweek.getHours()
-var minutes7 = Lastweek.getMinutes()
-var seconds7=Lastweek.getSeconds()
-//Last 30days
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-
-var month30 = LastMonth.getMonth() + 1
-var day30= LastMonth.getDate()
-var year30= LastMonth.getFullYear()
-
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-var hours30 = LastMonth.getHours()
-var minutes30 = LastMonth.getMinutes()
-var seconds30=LastMonth.getSeconds()
-//last 365 days
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-
-var month365 = LastYear.getMonth() + 1
-var day365= LastYear.getDate()
-var year365= LastYear.getFullYear()
-
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-var hours365 = LastYear.getHours()
-var minutes365 = LastYear.getMinutes()
-var seconds365=LastYear.getSeconds()
-
-
-//last hour
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var monthL = hourago.getMonth() + 1
-var dayL= hourago.getDate()
-var yearL= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var hoursL = hourago.getHours()
-var minutesL = hourago.getMinutes()
-var secondsL=hourago.getSeconds()
-//last 24 hour
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var monthL24 = hourago.getMonth() + 1
-var dayL24= hourago.getDate()
-var yearL24= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var hoursL24 = hourago.getHours()
-var minutesL24 = hourago.getMinutes()
-var secondsL24=hourago.getSeconds()
-
-/////////Today
-if (minutes < 10){
-minutes = "0" + minutes
-}
-if (seconds < 10){
-seconds= "0" + seconds
-}
-
-if (month  < 10){
-month  = "0" + month 
-}
-if (day  < 10){
-day  = "0" + day 
-}
-if (hours  < 10){
-hours  = "0" + hours 
-}
-
-///Last 365
-if (minutes365 < 10){
-minutes365 = "0" + minutes365
-}
-if (seconds365 < 10){
-seconds365= "0" + seconds365
-}
-
-if (month365  < 10){
-month365  = "0" + month365 
-}
-if (day365  < 10){
-day365  = "0" + day365 
-}
-if (hours365  < 10){
-hours365  = "0" + hours365 
-}
-
-
-///Last 7 days
-if (minutes7 < 10){
-minutes7 = "0" + minutes7
-}
-if (seconds7 < 10){
-seconds7= "0" + seconds7
-}
-
-if (month7  < 10){
-month7  = "0" + month7 
-}
-if (day7  < 10){
-day7  = "0" + day7 
-}
-if (hours7  < 10){
-hours7  = "0" + hours7 
-}
-//last 30days
-if (minutes30 < 10){
-minutes30 = "0" + minutes30
-}
-if (seconds30 < 10){
-seconds30= "0" + seconds30
-}
-
-if (month30  < 10){
-month30  = "0" + month30 
-}
-if (day30  < 10){
-day30  = "0" + day30 
-}
-if (hours30  < 10){
-hours30  = "0" + hours30 
-}
-
-//last hour
-if (minutesL < 10){
-minutesL = "0" + minutesL
-}
-if (secondsL < 10){
-secondsL= "0" + secondsL
-}
-
-if (monthL  < 10){
-monthL  = "0" + monthL 
-}
-if (dayL  < 10){
-dayL  = "0" + dayL
-}
-if (hoursL  < 10){
-hoursL  = "0" + hoursL
-}
-//last 24 hour
-
-if (minutesL24 < 10){
-minutesL24 = "0" + minutesL24
-}
-if (secondsL24 < 10){
-secondsL24= "0" + secondsL24
-}
-
-if (monthL24  < 10){
-monthL24  = "0" + monthL24 
-}
-if (dayL24  < 10){
-dayL24  = "0" + dayL24
-}
-if (hoursL24  < 10){
-hoursL24  = "0" + hoursL24
-}
-
-curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-
-//2013-01-01 00:00:00
-if(params["newRPT"].value=="")
-{
+            <method name="beforeOpen"><![CDATA[
+	curT=params["todate"].value 
+	LHour=params["fromdate"].value
 	this.queryText = this.queryText +
 	
-	" ,'7D' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
+	" ,'"+params["coltype"].value+"' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
 	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
 	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
@@ -365,14 +233,14 @@ if(params["newRPT"].value=="")
 	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
 	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
 	" UNION"+
-	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'7D' as C5"+ 
+	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'"+params["coltype"].value+"' as C5"+ 
 	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
  	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
  	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
 	" where case '"+params["typ"].value+"' when 2 then a.parent_id='"+params["UsrSecId"].value+"' else a.assettree_id='"+params["UsrSecId"].value+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
 	" and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
 	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'7D'"+ 
+	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'"+params["coltype"].value+"'"+ 
 	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
 	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
 	" EUN.unit_id=EU.unit_id and case '"+params["typ"].value+"' when 2 then a.parent_id='"+params["UsrSecId"].value+"' else a.assettree_id='"+params["UsrSecId"].value+"' end and"+ 
@@ -382,47 +250,7 @@ if(params["newRPT"].value=="")
 	
 	
 
-	
-	
-	/*
-	
-    ",'7D' as C5 from ems_section_summary s"+
-    " inner join ems_utility EU on EU.utility_id=s.utility_id"+
-	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-	" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-	" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-	" where b.assettreetype_id=2 and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+params["UsrSecId"].value+"')"+
-	" and S.c_coretype='C'"+
-	" and d.DT_DATE>='"+LHour+"'"+
-	" and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+
-	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION"+
-	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4"+
-	",'7D' as C5"+
-	" from ems_section_summary s"+
-	" inner join ems_utility EU on EU.utility_id=s.utility_id"+
-	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id"+
-	" inner join ems_time_dim d on s.time_id=d.TIME_ID"+
-	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+
-	" inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-	" where case '"+params["typ"].value+"'"+
-	" when 2 then a.parent_id='"+params["UsrSecId"].value+"'"+
-	" else a.assettree_id='"+params["UsrSecId"].value+"' end and S.c_coretype='C'"+
-	" and d.DT_DATE>='"+LHour+"'"+
-	" and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+
-	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE ) tab"+
-	" order by C4 asc";*/
-	
-}
-else
-{
-
-
-this.queryText = this.queryText+params["newRPT"]+" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE) tab"+
-	" group by DISPLAYNAME,unitshort,DAY_ID,C4,C5 order by C4 asc";
-		
-}]]></method>
+	]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
             <xml-property name="queryText"><![CDATA[select DISPLAYNAME,sum(C2) C2,unitshort,DAY_ID,C4,C5 from (
@@ -526,156 +354,6 @@ select b.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID
         </oda-data-set>
     </data-sets>
     <cubes>
-        <tabular-cube name="DataCubeHour" id="509">
-            <property name="dimensions">
-                <tabular-dimension name="GroupD" id="510">
-                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy1" id="511">
-                            <property name="levels">
-                                <tabular-level name="DISPLAYNAME" id="512">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">DISPLAYNAME</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Group2" id="513">
-                    <property name="isTimeType">true</property>
-                    <property name="defaultHierarchy">NewTabularHierarchy4</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy4" id="514">
-                            <property name="levels">
-                                <tabular-level name="Hour" id="515">
-                                    <property name="dataType">integer</property>
-                                    <property name="dateTimeLevelType">hour</property>
-                                    <property name="dateTimeFormat">HH:mm:ss aaa</property>
-                                    <list-property name="attributes">
-                                        <structure>
-                                            <property name="name">DateTime</property>
-                                            <property name="dataType">date-time</property>
-                                        </structure>
-                                    </list-property>
-                                    <property name="columnName">C4</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-            </property>
-            <property name="measureGroups">
-                <tabular-measure-group name="Summary Field1" id="516">
-                    <property name="measures">
-                        <tabular-measure name="C21" id="517">
-                            <expression name="measureExpression" type="javascript">dataSetRow["C2"]</expression>
-                            <property name="dataType">decimal</property>
-                        </tabular-measure>
-                    </property>
-                </tabular-measure-group>
-            </property>
-            <property name="dataSet">EDISData Set</property>
-        </tabular-cube>
-        <tabular-cube name="DataCubeMonth" id="540">
-            <property name="dimensions">
-                <tabular-dimension name="GroupM" id="541">
-                    <property name="defaultHierarchy">NewTabularHierarchy</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy" id="542">
-                            <property name="levels">
-                                <tabular-level name="DISPLAYNAME" id="543">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">DISPLAYNAME</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Group" id="544">
-                    <property name="isTimeType">true</property>
-                    <property name="defaultHierarchy">NewTabularHierarchy3</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy3" id="545">
-                            <property name="levels">
-                                <tabular-level name="Month" id="546">
-                                    <property name="dataType">integer</property>
-                                    <property name="dateTimeLevelType">month</property>
-                                    <property name="dateTimeFormat">MMM yyyy</property>
-                                    <list-property name="attributes">
-                                        <structure>
-                                            <property name="name">DateTime</property>
-                                            <property name="dataType">date-time</property>
-                                        </structure>
-                                    </list-property>
-                                    <property name="columnName">C4</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-            </property>
-            <property name="measureGroups">
-                <tabular-measure-group name="Summary Field" id="547">
-                    <property name="measures">
-                        <tabular-measure name="C2" id="548">
-                            <expression name="measureExpression" type="javascript">dataSetRow["C2"]</expression>
-                            <property name="dataType">decimal</property>
-                        </tabular-measure>
-                    </property>
-                </tabular-measure-group>
-            </property>
-            <property name="dataSet">EDISData Set</property>
-        </tabular-cube>
-        <tabular-cube name="DataCubeDay" id="569">
-            <property name="dimensions">
-                <tabular-dimension name="GroupDay" id="570">
-                    <property name="defaultHierarchy">NewTabularHierarchy2</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy2" id="571">
-                            <property name="levels">
-                                <tabular-level name="DISPLAYNAME" id="572">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">DISPLAYNAME</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Group1" id="573">
-                    <property name="isTimeType">true</property>
-                    <property name="defaultHierarchy">NewTabularHierarchy6</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy6" id="574">
-                            <property name="levels">
-                                <tabular-level name="Day Of Year" id="575">
-                                    <property name="dataType">integer</property>
-                                    <property name="dateTimeLevelType">day-of-year</property>
-                                    <property name="dateTimeFormat">MMMM dd, yyyy</property>
-                                    <list-property name="attributes">
-                                        <structure>
-                                            <property name="name">DateTime</property>
-                                            <property name="dataType">date-time</property>
-                                        </structure>
-                                    </list-property>
-                                    <property name="columnName">C4</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-            </property>
-            <property name="measureGroups">
-                <tabular-measure-group name="Summary Field2" id="576">
-                    <property name="measures">
-                        <tabular-measure name="C22" id="577">
-                            <expression name="measureExpression" type="javascript">dataSetRow["C2"]</expression>
-                            <property name="dataType">decimal</property>
-                        </tabular-measure>
-                    </property>
-                </tabular-measure-group>
-            </property>
-            <property name="dataSet">EDISData Set</property>
-        </tabular-cube>
         <tabular-cube name="Data Cube" id="689">
             <property name="dimensions">
                 <tabular-dimension name="Group3" id="690">
@@ -700,6 +378,50 @@ select b.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID
                                 <tabular-level name="C4" id="695">
                                     <property name="dataType">date-time</property>
                                     <property name="levelType">dynamic</property>
+                                    <property name="columnName">C4</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Group2" id="750">
+                    <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy4</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy4" id="751">
+                            <property name="levels">
+                                <tabular-level name="Day Of Year" id="752">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">day-of-year</property>
+                                    <property name="dateTimeFormat">MMMM dd, yyyy</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">C4</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Group5" id="753">
+                    <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy7</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy7" id="754">
+                            <property name="levels">
+                                <tabular-level name="Month" id="755">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">month</property>
+                                    <property name="dateTimeFormat">MMMM yyyy</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
                                     <property name="columnName">C4</property>
                                 </tabular-level>
                             </property>
@@ -819,911 +541,6 @@ select b.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID
         <simple-master-page name="Simple MasterPage" id="2"/>
     </page-setup>
     <body>
-        <text id="506">
-            <list-property name="visibility">
-                <structure>
-                    <property name="format">doc</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">docx</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">pdf</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">xlsx</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">xls</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-            </list-property>
-            <property name="contentType">html</property>
-            <text-property name="content"><![CDATA[<script>
-
-var currentTime = new Date()
-var month = currentTime.getMonth() + 1
-var day = currentTime.getDate()
-var year = currentTime.getFullYear()
-var currentTime = new Date()
-var hours = currentTime.getHours()
-var minutes = currentTime.getMinutes()
-var seconds=currentTime.getSeconds()
-//Last 7 days
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var month7 = Lastweek.getMonth() + 1
-var day7 = Lastweek.getDate()
-var year7 = Lastweek.getFullYear()
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var hours7 = Lastweek.getHours()
-var minutes7 = Lastweek.getMinutes()
-var seconds7=Lastweek.getSeconds()
-//Last 30days
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-
-var month30 = LastMonth.getMonth() + 1
-var day30= LastMonth.getDate()
-var year30= LastMonth.getFullYear()
-
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-var hours30 = LastMonth.getHours()
-var minutes30 = LastMonth.getMinutes()
-var seconds30=LastMonth.getSeconds()
-//last 365 days
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-
-var month365 = LastYear.getMonth() + 1
-var day365= LastYear.getDate()
-var year365= LastYear.getFullYear()
-
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-var hours365 = LastYear.getHours()
-var minutes365 = LastYear.getMinutes()
-var seconds365=LastYear.getSeconds()
-
-
-//last hour
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var monthL = hourago.getMonth() + 1
-var dayL= hourago.getDate()
-var yearL= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var hoursL = hourago.getHours()
-var minutesL = hourago.getMinutes()
-var secondsL=hourago.getSeconds()
-//last 24 hour
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var monthL24 = hourago.getMonth() + 1
-var dayL24= hourago.getDate()
-var yearL24= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var hoursL24 = hourago.getHours()
-var minutesL24 = hourago.getMinutes()
-var secondsL24=hourago.getSeconds()
-
-/////////Today
-if (minutes < 10){
-minutes = "0" + minutes
-}
-if (seconds < 10){
-seconds= "0" + seconds
-}
-
-if (month  < 10){
-month  = "0" + month 
-}
-if (day  < 10){
-day  = "0" + day 
-}
-if (hours  < 10){
-hours  = "0" + hours 
-}
-
-///Last 365
-if (minutes365 < 10){
-minutes365 = "0" + minutes365
-}
-if (seconds365 < 10){
-seconds365= "0" + seconds365
-}
-
-if (month365  < 10){
-month365  = "0" + month365 
-}
-if (day365  < 10){
-day365  = "0" + day365 
-}
-if (hours365  < 10){
-hours365  = "0" + hours365 
-}
-
-
-///Last 7 days
-if (minutes7 < 10){
-minutes7 = "0" + minutes7
-}
-if (seconds7 < 10){
-seconds7= "0" + seconds7
-}
-
-if (month7  < 10){
-month7  = "0" + month7 
-}
-if (day7  < 10){
-day7  = "0" + day7 
-}
-if (hours7  < 10){
-hours7  = "0" + hours7 
-}
-//last 30days
-if (minutes30 < 10){
-minutes30 = "0" + minutes30
-}
-if (seconds30 < 10){
-seconds30= "0" + seconds30
-}
-
-if (month30  < 10){
-month30  = "0" + month30 
-}
-if (day30  < 10){
-day30  = "0" + day30 
-}
-if (hours30  < 10){
-hours30  = "0" + hours30 
-}
-
-//last hour
-if (minutesL < 10){
-minutesL = "0" + minutesL
-}
-if (secondsL < 10){
-secondsL= "0" + secondsL
-}
-
-if (monthL  < 10){
-monthL  = "0" + monthL 
-}
-if (dayL  < 10){
-dayL  = "0" + dayL
-}
-if (hoursL  < 10){
-hoursL  = "0" + hoursL
-}
-//last 24 hour
-
-if (minutesL24 < 10){
-minutesL24 = "0" + minutesL24
-}
-if (secondsL24 < 10){
-secondsL24= "0" + secondsL24
-}
-
-if (monthL24  < 10){
-monthL24  = "0" + monthL24 
-}
-if (dayL24  < 10){
-dayL24  = "0" + dayL24
-}
-if (hoursL24  < 10){
-hoursL24  = "0" + hoursL24
-}
-
-
-				document.getElementById('GridMain').style.display = "none";
-            	document.getElementById('mychart').style.display = "block";
-           
-if (parent.AssetTree.selectedsection === undefined)
-	{
-		parent.AssetTree.selectedsection = 0;
-	}
-if(parent.AssetTree.selectedtype === undefined)
-	{
-		parent.AssetTree.selectedtype = 0;
-	}		   
-document.onload=populate();
-
-function populate()
-{	//Function which sets the previously selected parameters for the report.
-	if(parent.selected_period_ndx==null || parent.selected_period_ndx==0)
-	{
-		parent.selected_period_ndx=3;
-	}
-	if(parent.selected_sum_ndx==null || parent.selected_sum_ndx==0)
-	{
-		parent.selected_sum_ndx=2;
-	}
-	document.getElementById("s1").selectedIndex=parent.selected_period_ndx;	
-	document.getElementById("s3").selectedIndex=parent.selected_sum_ndx;
-	if(document.getElementById("s1").selectedIndex==6)
-	{
-		if (document.getElementById("s1").selectedIndex==6)
-		{
-	
-			document.getElementById("fromdate").disabled=false;
-			document.getElementById("todate").disabled=false;
-				
-			document.getElementById("fromdate").value=parent.selected_fdate;
-			document.getElementById("todate").value=parent.selected_tdate;
-				
-				
-		}
-		else
-		{
-			document.getElementById("fromdate").value='';
-			document.getElementById("todate").value='';
-			document.getElementById("fromdate").disabled=true;
-			document.getElementById("todate").disabled=true;
-				
-		}
-			
-	}
-			
-			
-
-}
-	
-	
-	
-function energytrend()
-{
-	
-	parent.selected_period_ndx=document.getElementById("s1").selectedIndex;
-	parent.selected_sum_ndx=document.getElementById("s3").selectedIndex;
-	parent.selected_fdate=document.getElementById("fromdate").value;
-	parent.selected_tdate=document.getElementById("todate").value;
-
-	if(parent.AssetTree.selectedtype == 5)
-	{
-		alert ("Select Section/Asset/Location!");
-			return;
-	}
-	if(((document.getElementById("s1").selectedIndex==1) &amp;&amp; (document.getElementById("s3").selectedIndex==2))||
-		((document.getElementById("s1").selectedIndex==1) &amp;&amp; (document.getElementById("s3").selectedIndex==3)))
-	{
-	
-		alert ("Change the summarization method to Hour!");
-			return;
-	}
-	if(document.getElementById("s1").selectedIndex==2 &amp;&amp; document.getElementById("s3").selectedIndex>1)
-	{
-		alert ("Change the summarization method to Hour!");
-			return;
-	
-	}
-	if(document.getElementById("s1").selectedIndex==3 &amp;&amp; document.getElementById("s3").selectedIndex>2)
-	{
-		alert ("Change the summarization method to Hour/Day!");
-			return;
-	
-	}
-
-	if ((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==1)||
-		(document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==2)||
-		(document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==3)
-		)
-	{
-		if ((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("fromdate").value==''))
-		{
-			alert ("Enter a valid time period!");
-			return;
-		}
-		else if ((document.getElementById("s1").selectedIndex==6)&amp;&amp; (document.getElementById("todate").value==''))
-		{
-			alert ("Enter a valid time period!");
-			return;
-		}
-	
-		else
-		{
-			var d1 = Date.parse(document.getElementById("todate").value);
-			var d2 = Date.parse(document.getElementById("fromdate").value);
-			if (d1 < d2) 
-			{
-				alert ("To Date cannot be Greater than From Date!");
-				return;
-			}
-			else
-			{
-			//parent.AssetTree.selectedsection
-		
-				if((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
-				{	
-					curT=document.getElementById("todate").value+" 00:00:00";
-					LHour=document.getElementById("fromdate").value+" 00:00:00";
-					var Cfrom=document.getElementById("fromdate").value;
-					var Cto=document.getElementById("todate").value;
-					newa=",' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SH' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
-	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
-	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
-	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
-	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
-	" and S.c_coretype='C'"+ 
-	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION"+
-	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SH' as C5"+ 
-	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
- 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
- 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
-	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SH'"+ 
-	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
-	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
-	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
-	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
-	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
-					
-					
-				}
-				else if((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
-				{
-					curT=document.getElementById("todate").value+" 00:00:00";
-					LHour=document.getElementById("fromdate").value+" 00:00:00";
-					var Cfrom=document.getElementById("fromdate").value;
-					var Cto=document.getElementById("todate").value;
-					newa=",' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SD' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
-	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
-	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
-	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
-	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
-	" and S.c_coretype='C'"+ 
-	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION"+
-	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SD' as C5"+ 
-	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
- 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
- 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
-	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SD'"+ 
-	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
-	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
-	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
-	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
-	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
-					
-					
-				}
-				else if((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
-				{
-					curT=document.getElementById("todate").value+" 00:00:00";
-					LHour=document.getElementById("fromdate").value+" 00:00:00";
-					var Cfrom=document.getElementById("fromdate").value;
-					var Cto=document.getElementById("todate").value;
-					
-					newa=",' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SM' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
-	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
-	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
-	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
-	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
-	" and S.c_coretype='C'"+ 
-	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION"+
-	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SM' as C5"+ 
-	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
- 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
- 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
-	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,' Energy Usage Trend summarized by month from "+Cfrom+" to " +Cto+"SM'"+ 
-	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
-	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
-	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
-	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
-	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
-					
-		
-				}
-				else
-				{}
-			
-			}		
-		}
-
-	}
-	
-	
-	else if((document.getElementById("s1").selectedIndex==1) &amp;&amp; (document.getElementById("s3").selectedIndex==1)||
-		(document.getElementById("s1").selectedIndex==1) &amp;&amp; (document.getElementById("s3").selectedIndex==2)||
-		(document.getElementById("s1").selectedIndex==1) &amp;&amp; (document.getElementById("s3").selectedIndex==3)
-		)
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=yearL+ "-" + monthL + "-" + dayL+" "+hoursL+":"+minutesL+":"+secondsL;
-		
-		newa=",'H' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
-	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
-	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
-	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
-	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
-	" and S.c_coretype='C'"+ 
-	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION"+
-	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'H' as C5"+ 
-	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
- 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
- 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
-	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'H'"+ 
-	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
-	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
-	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
-	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
-	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
-	}
-	
-	else if((document.getElementById("s1").selectedIndex==2) &amp;&amp; (document.getElementById("s3").selectedIndex==1)||
-	(document.getElementById("s1").selectedIndex==2) &amp;&amp; (document.getElementById("s3").selectedIndex==2)||
-	(document.getElementById("s1").selectedIndex==2) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
-		
-		newa=",'24H' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
-	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
-	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
-	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
-	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
-	" and S.c_coretype='C'"+ 
-	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION"+
-	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'24H' as C5"+ 
-	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
- 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
- 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
-	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'24H'"+ 
-	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
-	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
-	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
-	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
-	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
-		
-	}
-	else if((document.getElementById("s1").selectedIndex==3) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-		
-		newa=",'7H' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
-	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
-	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
-	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
-	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
-	" and S.c_coretype='C'"+ 
-	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION"+
-	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'7H' as C5"+ 
-	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
- 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
- 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
-	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'7H'"+ 
-	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
-	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
-	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
-	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
-	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
-		
-	}
-	else if((document.getElementById("s1").selectedIndex==3) &amp;&amp; (document.getElementById("s3").selectedIndex==2)||
-	(document.getElementById("s1").selectedIndex==3) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-		
-		newa=",'7D' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
-	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
-	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
-	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
-	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
-	" and S.c_coretype='C'"+ 
-	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION"+
-	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'7D' as C5"+ 
-	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
- 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
- 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
-	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'7D'"+ 
-	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
-	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
-	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
-	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
-	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
-		
-	}
-	else if((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-		
-		newa=",'30H' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
-	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
-	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
-	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
-	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
-	" and S.c_coretype='C'"+ 
-	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION"+
-	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'30H' as C5"+ 
-	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
- 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
- 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
-	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'30H'"+ 
-	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
-	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
-	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
-	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
-	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
-		
-	}
-	else if((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-		
-		newa=",'30D' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
-	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
-	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
-	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
-	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
-	" and S.c_coretype='C'"+ 
-	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION"+
-	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'30D' as C5"+ 
-	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
- 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
- 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
-	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'30D'"+ 
-	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
-	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
-	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
-	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
-	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
-		
-	}
-	else if((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-		
-		newa=",'30M' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
-	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
-	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
-	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
-	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
-	" and S.c_coretype='C'"+ 
-	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION"+
-	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'30M' as C5"+ 
-	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
- 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
- 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
-	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'30M'"+ 
-	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
-	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
-	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
-	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
-	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
-		
-	}
-	else if((document.getElementById("s1").selectedIndex==5) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
-		
-		newa=",'365H' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
-	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
-	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
-	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
-	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
-	" and S.c_coretype='C'"+ 
-	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION"+
-	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'365H' as C5"+ 
-	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
- 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
- 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
-	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'365H'"+ 
-	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
-	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
-	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
-	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
-	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
-		
-	}
-	else if((document.getElementById("s1").selectedIndex==5) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
-		
-		newa=",'365D' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
-	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
-	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
-	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
-	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
-	" and S.c_coretype='C'"+ 
-	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION"+
-	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'365D' as C5"+ 
-	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
- 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
- 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
-	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'365D'"+ 
-	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
-	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
-	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
-	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
-	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
-		
-	}
-	else if((document.getElementById("s1").selectedIndex==5) &amp;&amp; (document.getElementById("s3").selectedIndex==3))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
-		
-		newa=",'365M' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
-	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
-	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
-	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
-	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+parent.AssetTree.selectedsection+"') "+
-	" and S.c_coretype='C'"+ 
-	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION"+
-	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'365M' as C5"+ 
-	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
- 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
- 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
-	" where case '"+parent.AssetTree.selectedtype+"' when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
-	" and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"+ 
-	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'365M'"+ 
-	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
-	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
-	" EUN.unit_id=EU.unit_id and case '"+parent.AssetTree.selectedtype+"'"+
-	" when 2 then a.parent_id='"+parent.AssetTree.selectedsection+"'"+
-	" else a.assettree_id='"+parent.AssetTree.selectedsection+"' end and"+ 
-	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+parent.compid+"'"; 
-	
-		
-		
-	}
-	else
-	{
-		alert("Select Duration/Summarize by option!");
-	}
-	var cl1 = new String(location.href);
-	var targetURL1 = new String();
-	var tst1 = cl1.indexOf("&amp;newRPT");
-	if(  tst1 == -1 )
-	{
-		cl1 = cl1 + "&amp;newRPT=" + newa;
-	}
-	else
-	{
-		var ch1 = cl1.indexOf("&amp;newRPT=");
-		cl1 = cl1.substring(0, ch1) + "&amp;newRPT=" + newa;
-    }
-	window.location = cl1;
-	
-}
-function CheckDate()
-{
-	if (document.getElementById("s1").selectedIndex==6)
-	{
-	
-				document.getElementById("fromdate").disabled=false;
-				document.getElementById("todate").disabled=false;
-				
-				
-	}
-	else
-	{
-				document.getElementById("fromdate").value='';
-				document.getElementById("todate").value='';
-				document.getElementById("fromdate").disabled=true;
-				document.getElementById("todate").disabled=true;
-				
-	}
-	
-
-}
-
-
-
-
-function showhidetab()
-{
-
-    
-    if(document.getElementById("s2").selectedIndex==0)
-	{
-				document.getElementById('mychart').style.display = "block";
-				document.getElementById('GridMain').style.display = "none";
-	}
-	if(document.getElementById("s2").selectedIndex==1)
-	{
-			
-            	document.getElementById('GridMain').style.display = "block";
-				document.getElementById('mychart').style.display = "none";
-          
-	}		
-	
-
-   
-}
-
-
-
-
-
-
-</script>
-
-
-
-
-<body>
-<head>
-
-</head>
-
-
-<table  border=1 style="width:300px" bgcolor="black">
-
-<tr>
-  
-  
-  
-  <td>
-  <select id=s2 width=10 title="Select Report Type" size=1 name=Characters2 onChange="showhidetab()";>
-	
-	<option value=K>Chart</option> 
-	<option value=L>Table</option> 
-	</select>
-</td>
-  
-  <td>
-  <select id=s1 title="Select Period" size=1 name=Characters onChange="CheckDate()">
-<option value=F>--Select Period--</option>
-<option value=F>Last Hour</option> 
-<option value=D>Last 24 Hour</option> 
-<option value=E>Last 7 Days</option>
-<option value=F>Last 30 Days</option>
-<option value=F>Last 365 Days</option>
-<option value=G>Specific Period</option>
-</select>
-  </td>	
-  
-  <td>
-  <select id=s3 title="Select Summarization Method" size=1 name=Characters3>
-<option value=F>--Summarize By--</option>
-<option value=F>Hour</option> 
-<option value=D>Day</option> 
-<option value=E>Month</option>
-
-</select>
-  </td>	
-  </td>	
-  <td>
-   <b><font color="white">From:</font></b>
-  </td>
-  <td>
-  <input type="date" title="Select From Date" id="fromdate" disabled>
-  </input>
-  </td>
-  <td>
-    <b><font color="white">To:</font></b>
-  </td>
-  <td>
-  <input type="date" title="Select To Date" id="todate" disabled>
-  </td>	
-  <td>
-  <button type="button" title="Generate Report" onClick="energytrend()">Go</button>
-  </button>
-  </td>
-  
-  
-  
-  
-
-</tr>
-
-</table>
-
-</body>
-
-
-
-
-
-
- 
-
-
-
-]]></text-property>
-        </text>
         <grid id="741">
             <column id="742"/>
             <row id="743">
@@ -1787,46 +604,23 @@ else if(row["C5"]=='365H')&#13;
 }&#13;
 else&#13;
 {&#13;
-	if(row["C5"]!=null)&#13;
+	if(row["C5"]=='SH')&#13;
 	{&#13;
-		var myString = row["C5"];&#13;
-		var stringLength = myString.length; &#13;
-		var lastChar = myString.charAt(stringLength - 2); &#13;
-		if(row["C5"]!='30M' &amp;&amp; row["C5"]!='365M')&#13;
-		{&#13;
-			if(lastChar!=null)&#13;
-			{&#13;
-				row["C5"]=row["C5"].substring(0, stringLength - 2)+' in '+row["UNITSHORT"];&#13;
-			}&#13;
-		}&#13;
+				row["C5"]='Energy Usage Trend for the specified period from '+params["fromdate"].value+' to '+params["todate"].value+' summarized by hour in '+row["UNITSHORT"];&#13;
+	}&#13;
+		&#13;
+	&#13;
+	&#13;
+	&#13;
+	if(row["C5"]=='SD')&#13;
+	{&#13;
+				row["C5"]='Energy Usage Trend for the specified period from '+params["fromdate"].value+' to '+params["todate"].value+' summarized by day in '+row["UNITSHORT"];&#13;
 	}&#13;
 	&#13;
-	if(row["C5"]!=null)&#13;
-	{&#13;
-		var myString = row["C5"];&#13;
-		var stringLength = myString.length; &#13;
-		var lastChar = myString.charAt(stringLength - 2); &#13;
-		if(row["C5"]!='30D' &amp;&amp; row["C5"]!='365D' &amp;&amp; row["C5"]!='7D')&#13;
-		{	&#13;
-			if(lastChar!=null)&#13;
-			{&#13;
-				row["C5"]=row["C5"].substring(0, stringLength - 2)+' in '+row["UNITSHORT"];&#13;
-			}&#13;
-		}&#13;
-	}&#13;
 	&#13;
-	if(row["C5"]!=null)&#13;
+	if(row["C5"]=='SM')&#13;
 	{&#13;
-		var myString = row["C5"];&#13;
-		var stringLength = myString.length; &#13;
-		var lastChar = myString.charAt(stringLength - 2); &#13;
-		if(row["C5"]!='H' &amp;&amp; row["C5"]!='24H' &amp;&amp; row["C5"]!='30H' &amp;&amp; row["C5"]!='365H' &amp;&amp; row["C5"]!='7H')&#13;
-		{&#13;
-			if(lastChar!=null)&#13;
-			{&#13;
-				row["C5"]=row["C5"].substring(0, stringLength - 2)+' in '+row["UNITSHORT"];&#13;
-			}&#13;
-		}&#13;
+				row["C5"]='Energy Usage Trend for the specified period from '+params["fromdate"].value+' to '+params["todate"].value+' summarized by month in '+row["UNITSHORT"];&#13;
 	}&#13;
 	if(row["C5"]==null || row["C5"]=='')&#13;
 	{&#13;
@@ -2118,7 +912,7 @@ if( series.getSeriesIdentifier() == &quot;Quantity Consumed&quot; )
 		}
 		else if(dataSet.getValues().length > 50)
 		{
- 			icsc.getChartInstance().getBlock().getBounds().setWidth(5800);
+ 			icsc.getChartInstance().getBlock().getBounds().setWidth(18800);
  			icsc.getChartInstance().getBlock().getBounds().setHeight(350);
 		}
 		else
@@ -3143,76 +1937,69 @@ else&#13;
             </list-property>
             <property name="style">NewStylef</property>
         </extended-item>
-        <grid id="603">
+        <grid name="grd" id="603">
             <property name="height">2.8333333333333335in</property>
             <expression name="bookmark" type="javascript">"GridMain"</expression>
             <column id="604"/>
             <row id="605">
                 <property name="height">2.8333333333333335in</property>
                 <cell id="606">
-                    <grid id="607">
+                    <grid name="dy" id="607">
                         <property name="canShrink">true</property>
-                        <property name="dataSet">EDISData Set</property>
-                        <list-property name="visibility">
-                            <structure>
-                                <property name="format">all</property>
-                                <expression name="valueExpr" type="javascript">(row["gridDay"]!='D')</expression>
-                            </structure>
-                        </list-property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">gridDay</property>
-                                <expression name="expression" type="javascript">dataSetRow["CUSD"]</expression>
-                                <property name="dataType">string</property>
-                                <property name="allowExport">false</property>
-                            </structure>
-                        </list-property>
                         <column id="608"/>
                         <row id="609">
                             <cell id="610">
-                                <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="578">
-                                    <property name="cube">DataCubeDay</property>
+                                <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="776">
+                                    <property name="cube">Data Cube</property>
                                     <property name="measures">
-                                        <extended-item extensionName="MeasureView" id="591">
-                                            <property name="measure">C22</property>
+                                        <extended-item extensionName="MeasureView" id="789">
+                                            <property name="measure">C23</property>
                                             <property name="detail">
-                                                <extended-item extensionName="AggregationCell" id="592">
-                                                    <property name="aggregationOnRow">Group1/Day Of Year</property>
-                                                    <property name="aggregationOnColumn">GroupDay/DISPLAYNAME</property>
+                                                <extended-item extensionName="AggregationCell" id="790">
+                                                    <property name="aggregationOnRow">Group2/Day Of Year</property>
+                                                    <property name="aggregationOnColumn">Group3/DISPLAYNAME</property>
                                                     <property name="content">
-                                                        <data id="593">
+                                                        <data id="791">
+                                                            <property name="style">crosstab-detail1</property>
+                                                            <property name="fontSize">12px</property>
                                                             <property name="textAlign">center</property>
-                                                            <property name="resultSetColumn">C22_Group1/Day Of Year_GroupDay/DISPLAYNAME</property>
+                                                            <property name="resultSetColumn">C23_Group2/Day Of Year_Group3/DISPLAYNAME</property>
                                                         </data>
                                                     </property>
-                                                    <property name="style">crosstab-detail1</property>
                                                 </extended-item>
                                             </property>
                                             <property name="header">
-                                                <extended-item extensionName="CrosstabCell" id="594">
+                                                <extended-item extensionName="CrosstabCell" id="792">
                                                     <property name="content">
-                                                        <label id="595">
-                                                            <property name="textAlign">center</property>
+                                                        <label id="793">
                                                             <text-property name="text"></text-property>
                                                         </label>
                                                     </property>
-                                                    <property name="style">crosstab-detail1</property>
                                                 </extended-item>
                                             </property>
                                         </extended-item>
                                     </property>
                                     <property name="rows">
-                                        <extended-item extensionName="CrosstabView" id="580">
+                                        <extended-item extensionName="CrosstabView" id="784">
                                             <property name="views">
-                                                <extended-item extensionName="DimensionView" id="581">
-                                                    <property name="dimension">Group1</property>
+                                                <extended-item extensionName="DimensionView" id="785">
+                                                    <property name="dimension">Group2</property>
                                                     <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View4" id="582">
-                                                            <property name="level">Group1/Day Of Year</property>
+                                                        <extended-item extensionName="LevelView" name="NewLevel View3" id="786">
+                                                            <property name="level">Group2/Day Of Year</property>
+                                                            <property name="sort">
+                                                                <sort-element>
+                                                                    <expression name="key" type="javascript">data["Day Of Year"]</expression>
+                                                                    <property name="direction">asc</property>
+                                                                    <property name="strength">-1</property>
+                                                                </sort-element>
+                                                            </property>
                                                             <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="583">
+                                                                <extended-item extensionName="CrosstabCell" id="787">
                                                                     <property name="content">
-                                                                        <data name="Day Of Year" id="584">
+                                                                        <data name="Day Of Year" id="788">
+                                                                            <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
                                                                             <property name="fontWeight">normal</property>
                                                                             <structure name="dateTimeFormat">
                                                                                 <property name="category">Custom</property>
@@ -3222,7 +2009,6 @@ else&#13;
                                                                             <property name="resultSetColumn">Day Of Year</property>
                                                                         </data>
                                                                     </property>
-                                                                    <property name="style">crosstab-detail1</property>
                                                                 </extended-item>
                                                             </property>
                                                         </extended-item>
@@ -3232,24 +2018,23 @@ else&#13;
                                         </extended-item>
                                     </property>
                                     <property name="columns">
-                                        <extended-item extensionName="CrosstabView" id="586">
+                                        <extended-item extensionName="CrosstabView" id="778">
                                             <property name="views">
-                                                <extended-item extensionName="DimensionView" id="587">
-                                                    <property name="dimension">GroupDay</property>
+                                                <extended-item extensionName="DimensionView" id="779">
+                                                    <property name="dimension">Group3</property>
                                                     <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View5" id="588">
-                                                            <property name="level">GroupDay/DISPLAYNAME</property>
+                                                        <extended-item extensionName="LevelView" name="NewLevel View2" id="780">
+                                                            <property name="level">Group3/DISPLAYNAME</property>
                                                             <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="589">
+                                                                <extended-item extensionName="CrosstabCell" id="781">
                                                                     <property name="content">
-                                                                        <data name="DISPLAYNAME2" id="590">
-                                                                            <property name="style">NewStylef</property>
-                                                                            <property name="fontWeight">normal</property>
+                                                                        <data name="DISPLAYNAME1" id="782">
+                                                                            <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
                                                                             <property name="textAlign">center</property>
                                                                             <property name="resultSetColumn">DISPLAYNAME</property>
                                                                         </data>
                                                                     </property>
-                                                                    <property name="style">crosstab-detail1</property>
                                                                 </extended-item>
                                                             </property>
                                                         </extended-item>
@@ -3259,45 +2044,43 @@ else&#13;
                                         </extended-item>
                                     </property>
                                     <property name="header">
-                                        <extended-item extensionName="CrosstabCell" id="596">
+                                        <extended-item extensionName="CrosstabCell" id="794">
                                             <property name="content">
-                                                <label id="597">
-                                                    <property name="textAlign">left</property>
-                                                    <text-property name="text"></text-property>
-                                                </label>
-                                            </property>
-                                            <property name="style">crosstab-detail1</property>
-                                        </extended-item>
-                                        <extended-item extensionName="CrosstabCell" id="579">
-                                            <property name="content">
-                                                <label id="585">
+                                                <label id="795">
+                                                    <property name="fontSize">12px</property>
                                                     <property name="textAlign">center</property>
-                                                    <text-property name="text">Day</text-property>
+                                                    <text-property name="text">Section Name</text-property>
                                                 </label>
                                             </property>
-                                            <property name="style">crosstab-detail1</property>
+                                        </extended-item>
+                                        <extended-item extensionName="CrosstabCell" id="777">
+                                            <property name="content">
+                                                <label id="783">
+                                                    <property name="fontSize">12px</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text">Day </text-property>
+                                                </label>
+                                            </property>
                                         </extended-item>
                                     </property>
-                                    <property name="canShrink">true</property>
-                                    <expression name="bookmark" type="javascript">"mytableday"</expression>
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Day Of Year</property>
-                                            <expression name="expression">dimension["Group1"]["Day Of Year"]["DateTime"]</expression>
-                                            <property name="dataType">date-time</property>
-                                        </structure>
-                                        <structure>
                                             <property name="name">DISPLAYNAME</property>
-                                            <expression name="expression">dimension["GroupDay"]["DISPLAYNAME"]</expression>
+                                            <expression name="expression">dimension["Group3"]["DISPLAYNAME"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                         <structure>
-                                            <property name="name">C22_Group1/Day Of Year_GroupDay/DISPLAYNAME</property>
-                                            <expression name="expression">measure["C22"]</expression>
+                                            <property name="name">Day Of Year</property>
+                                            <expression name="expression">dimension["Group2"]["Day Of Year"]["DateTime"]</expression>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">C23_Group2/Day Of Year_Group3/DISPLAYNAME</property>
+                                            <expression name="expression">measure["C23"]</expression>
                                             <property name="dataType">decimal</property>
                                             <simple-property-list name="aggregateOn">
-                                                <value>Group1/Day Of Year</value>
-                                                <value>GroupDay/DISPLAYNAME</value>
+                                                <value>Group2/Day Of Year</value>
+                                                <value>Group3/DISPLAYNAME</value>
                                             </simple-property-list>
                                             <property name="aggregateFunction">SUM</property>
                                         </structure>
@@ -3306,79 +2089,69 @@ else&#13;
                             </cell>
                         </row>
                     </grid>
-                    <grid id="611">
+                    <grid name="mn" id="611">
                         <property name="canShrink">true</property>
-                        <property name="dataSet">EDISData Set</property>
-                        <list-property name="visibility">
-                            <structure>
-                                <property name="format">all</property>
-                                <expression name="valueExpr" type="javascript">(row["gridM"]!='M')</expression>
-                            </structure>
-                        </list-property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">gridM</property>
-                                <expression name="expression" type="javascript">dataSetRow["CUSM"]</expression>
-                                <property name="dataType">string</property>
-                                <property name="allowExport">false</property>
-                            </structure>
-                        </list-property>
                         <column id="612"/>
                         <row id="613">
                             <cell id="614">
-                                <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="549">
-                                    <property name="cube">DataCubeMonth</property>
+                                <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="756">
+                                    <property name="cube">Data Cube</property>
                                     <property name="measures">
-                                        <extended-item extensionName="MeasureView" id="562">
-                                            <property name="measure">C2</property>
+                                        <extended-item extensionName="MeasureView" id="769">
+                                            <property name="measure">C23</property>
                                             <property name="detail">
-                                                <extended-item extensionName="AggregationCell" id="563">
-                                                    <property name="aggregationOnRow">Group/Month</property>
-                                                    <property name="aggregationOnColumn">GroupM/DISPLAYNAME</property>
+                                                <extended-item extensionName="AggregationCell" id="770">
+                                                    <property name="aggregationOnRow">Group5/Month</property>
+                                                    <property name="aggregationOnColumn">Group3/DISPLAYNAME</property>
                                                     <property name="content">
-                                                        <data id="564">
+                                                        <data id="771">
+                                                            <property name="style">crosstab-detail1</property>
                                                             <property name="textAlign">center</property>
-                                                            <property name="resultSetColumn">C2_Group/Month_GroupM/DISPLAYNAME</property>
+                                                            <property name="resultSetColumn">C23_Group5/Month_Group3/DISPLAYNAME</property>
                                                         </data>
                                                     </property>
-                                                    <property name="style">crosstab-detail1</property>
                                                 </extended-item>
                                             </property>
                                             <property name="header">
-                                                <extended-item extensionName="CrosstabCell" id="565">
+                                                <extended-item extensionName="CrosstabCell" id="772">
                                                     <property name="content">
-                                                        <label id="566">
-                                                            <property name="textAlign">center</property>
+                                                        <label id="773">
                                                             <text-property name="text"></text-property>
                                                         </label>
                                                     </property>
-                                                    <property name="style">crosstab-detail1</property>
                                                 </extended-item>
                                             </property>
                                         </extended-item>
                                     </property>
                                     <property name="rows">
-                                        <extended-item extensionName="CrosstabView" id="551">
+                                        <extended-item extensionName="CrosstabView" id="764">
                                             <property name="views">
-                                                <extended-item extensionName="DimensionView" id="552">
-                                                    <property name="dimension">Group</property>
+                                                <extended-item extensionName="DimensionView" id="765">
+                                                    <property name="dimension">Group5</property>
                                                     <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View2" id="553">
-                                                            <property name="level">Group/Month</property>
+                                                        <extended-item extensionName="LevelView" name="NewLevel View1" id="766">
+                                                            <property name="level">Group5/Month</property>
+                                                            <property name="sort">
+                                                                <sort-element>
+                                                                    <expression name="key" type="javascript">data["Month"]</expression>
+                                                                    <property name="direction">asc</property>
+                                                                    <property name="strength">-1</property>
+                                                                </sort-element>
+                                                            </property>
                                                             <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="554">
+                                                                <extended-item extensionName="CrosstabCell" id="767">
                                                                     <property name="content">
-                                                                        <data name="Month" id="555">
+                                                                        <data name="Month" id="768">
+                                                                            <property name="style">crosstab-detail1</property>
                                                                             <property name="fontWeight">normal</property>
                                                                             <structure name="dateTimeFormat">
                                                                                 <property name="category">Custom</property>
-                                                                                <property name="pattern">MMM yyyy</property>
+                                                                                <property name="pattern">MMMM yyyy</property>
                                                                             </structure>
                                                                             <property name="textAlign">center</property>
                                                                             <property name="resultSetColumn">Month</property>
                                                                         </data>
                                                                     </property>
-                                                                    <property name="style">crosstab-detail1</property>
                                                                 </extended-item>
                                                             </property>
                                                         </extended-item>
@@ -3388,23 +2161,22 @@ else&#13;
                                         </extended-item>
                                     </property>
                                     <property name="columns">
-                                        <extended-item extensionName="CrosstabView" id="557">
+                                        <extended-item extensionName="CrosstabView" id="758">
                                             <property name="views">
-                                                <extended-item extensionName="DimensionView" id="558">
-                                                    <property name="dimension">GroupM</property>
+                                                <extended-item extensionName="DimensionView" id="759">
+                                                    <property name="dimension">Group3</property>
                                                     <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View3" id="559">
-                                                            <property name="level">GroupM/DISPLAYNAME</property>
+                                                        <extended-item extensionName="LevelView" name="NewLevel View" id="760">
+                                                            <property name="level">Group3/DISPLAYNAME</property>
                                                             <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="560">
+                                                                <extended-item extensionName="CrosstabCell" id="761">
                                                                     <property name="content">
-                                                                        <data name="DISPLAYNAME1" id="561">
-                                                                            <property name="fontWeight">normal</property>
+                                                                        <data name="DISPLAYNAME" id="762">
+                                                                            <property name="style">crosstab-detail1</property>
                                                                             <property name="textAlign">center</property>
                                                                             <property name="resultSetColumn">DISPLAYNAME</property>
                                                                         </data>
                                                                     </property>
-                                                                    <property name="style">crosstab-detail1</property>
                                                                 </extended-item>
                                                             </property>
                                                         </extended-item>
@@ -3414,44 +2186,43 @@ else&#13;
                                         </extended-item>
                                     </property>
                                     <property name="header">
-                                        <extended-item extensionName="CrosstabCell" id="567">
+                                        <extended-item extensionName="CrosstabCell" id="774">
                                             <property name="content">
-                                                <label id="568">
-                                                    <text-property name="text"></text-property>
+                                                <label id="775">
+                                                    <property name="fontSize">12px</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text">Section Name</text-property>
                                                 </label>
                                             </property>
-                                            <property name="style">crosstab-detail1</property>
                                         </extended-item>
-                                        <extended-item extensionName="CrosstabCell" id="550">
+                                        <extended-item extensionName="CrosstabCell" id="757">
                                             <property name="content">
-                                                <label id="556">
+                                                <label id="763">
+                                                    <property name="fontSize">12px</property>
                                                     <property name="textAlign">center</property>
                                                     <text-property name="text">Month</text-property>
                                                 </label>
                                             </property>
-                                            <property name="style">crosstab-detail1</property>
                                         </extended-item>
                                     </property>
-                                    <property name="canShrink">true</property>
-                                    <expression name="bookmark" type="javascript">"mytablemonth"</expression>
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Month</property>
-                                            <expression name="expression">dimension["Group"]["Month"]["DateTime"]</expression>
-                                            <property name="dataType">date-time</property>
-                                        </structure>
-                                        <structure>
                                             <property name="name">DISPLAYNAME</property>
-                                            <expression name="expression">dimension["GroupM"]["DISPLAYNAME"]</expression>
+                                            <expression name="expression">dimension["Group3"]["DISPLAYNAME"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                         <structure>
-                                            <property name="name">C2_Group/Month_GroupM/DISPLAYNAME</property>
-                                            <expression name="expression">measure["C2"]</expression>
+                                            <property name="name">Month</property>
+                                            <expression name="expression">dimension["Group5"]["Month"]["DateTime"]</expression>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">C23_Group5/Month_Group3/DISPLAYNAME</property>
+                                            <expression name="expression">measure["C23"]</expression>
                                             <property name="dataType">decimal</property>
                                             <simple-property-list name="aggregateOn">
-                                                <value>Group/Month</value>
-                                                <value>GroupM/DISPLAYNAME</value>
+                                                <value>Group5/Month</value>
+                                                <value>Group3/DISPLAYNAME</value>
                                             </simple-property-list>
                                             <property name="aggregateFunction">SUM</property>
                                         </structure>
@@ -3460,37 +2231,23 @@ else&#13;
                             </cell>
                         </row>
                     </grid>
-                    <grid id="718">
+                    <grid name="hr" id="718">
                         <property name="canShrink">true</property>
-                        <property name="dataSet">EDISData Set</property>
-                        <list-property name="visibility">
-                            <structure>
-                                <property name="format">all</property>
-                                <expression name="valueExpr" type="javascript">(row["GridHour"]!='H')</expression>
-                            </structure>
-                        </list-property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">GridHour</property>
-                                <expression name="expression" type="javascript">dataSetRow["CUSH"]</expression>
-                                <property name="dataType">string</property>
-                                <property name="allowExport">false</property>
-                            </structure>
-                        </list-property>
                         <column id="719"/>
                         <row id="720">
                             <cell id="721">
-                                <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="698">
+                                <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="796">
                                     <property name="cube">Data Cube</property>
                                     <property name="measures">
-                                        <extended-item extensionName="MeasureView" id="711">
+                                        <extended-item extensionName="MeasureView" id="809">
                                             <property name="measure">C23</property>
                                             <property name="detail">
-                                                <extended-item extensionName="AggregationCell" id="712">
+                                                <extended-item extensionName="AggregationCell" id="810">
                                                     <property name="aggregationOnRow">Group4/C4</property>
                                                     <property name="aggregationOnColumn">Group3/DISPLAYNAME</property>
                                                     <property name="content">
-                                                        <data id="713">
+                                                        <data id="811">
+                                                            <property name="style">crosstab-detail1</property>
                                                             <property name="fontSize">12px</property>
                                                             <property name="textAlign">center</property>
                                                             <property name="resultSetColumn">C23_Group4/C4_Group3/DISPLAYNAME</property>
@@ -3499,25 +2256,23 @@ else&#13;
                                                 </extended-item>
                                             </property>
                                             <property name="header">
-                                                <extended-item extensionName="CrosstabCell" id="714">
+                                                <extended-item extensionName="CrosstabCell" id="812">
                                                     <property name="content">
-                                                        <label id="715">
-                                                            <property name="textAlign">center</property>
+                                                        <label id="813">
                                                             <text-property name="text"></text-property>
                                                         </label>
                                                     </property>
-                                                    <property name="style">crosstab-detail1</property>
                                                 </extended-item>
                                             </property>
                                         </extended-item>
                                     </property>
                                     <property name="rows">
-                                        <extended-item extensionName="CrosstabView" id="700">
+                                        <extended-item extensionName="CrosstabView" id="804">
                                             <property name="views">
-                                                <extended-item extensionName="DimensionView" id="701">
+                                                <extended-item extensionName="DimensionView" id="805">
                                                     <property name="dimension">Group4</property>
                                                     <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View6" id="702">
+                                                        <extended-item extensionName="LevelView" name="NewLevel View5" id="806">
                                                             <property name="level">Group4/C4</property>
                                                             <property name="sort">
                                                                 <sort-element>
@@ -3527,18 +2282,16 @@ else&#13;
                                                                 </sort-element>
                                                             </property>
                                                             <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="703">
+                                                                <extended-item extensionName="CrosstabCell" id="807">
                                                                     <property name="content">
-                                                                        <data name="C4" id="704">
+                                                                        <data name="C4" id="808">
+                                                                            <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
                                                                             <property name="fontWeight">normal</property>
-                                                                            <structure name="dateTimeFormat">
-                                                                                <property name="category">Unformatted</property>
-                                                                            </structure>
                                                                             <property name="textAlign">center</property>
                                                                             <property name="resultSetColumn">C4</property>
                                                                         </data>
                                                                     </property>
-                                                                    <property name="style">crosstab-detail1</property>
                                                                 </extended-item>
                                                             </property>
                                                         </extended-item>
@@ -3548,23 +2301,23 @@ else&#13;
                                         </extended-item>
                                     </property>
                                     <property name="columns">
-                                        <extended-item extensionName="CrosstabView" id="706">
+                                        <extended-item extensionName="CrosstabView" id="798">
                                             <property name="views">
-                                                <extended-item extensionName="DimensionView" id="707">
+                                                <extended-item extensionName="DimensionView" id="799">
                                                     <property name="dimension">Group3</property>
                                                     <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View7" id="708">
+                                                        <extended-item extensionName="LevelView" name="NewLevel View4" id="800">
                                                             <property name="level">Group3/DISPLAYNAME</property>
                                                             <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="709">
+                                                                <extended-item extensionName="CrosstabCell" id="801">
                                                                     <property name="content">
-                                                                        <data name="DISPLAYNAME3" id="710">
-                                                                            <property name="fontWeight">normal</property>
+                                                                        <data name="DISPLAYNAME2" id="802">
+                                                                            <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
                                                                             <property name="textAlign">center</property>
                                                                             <property name="resultSetColumn">DISPLAYNAME</property>
                                                                         </data>
                                                                     </property>
-                                                                    <property name="style">crosstab-detail1</property>
                                                                 </extended-item>
                                                             </property>
                                                         </extended-item>
@@ -3574,36 +2327,35 @@ else&#13;
                                         </extended-item>
                                     </property>
                                     <property name="header">
-                                        <extended-item extensionName="CrosstabCell" id="716">
+                                        <extended-item extensionName="CrosstabCell" id="814">
                                             <property name="content">
-                                                <label id="717">
+                                                <label id="815">
+                                                    <property name="fontSize">12px</property>
                                                     <property name="textAlign">center</property>
-                                                    <text-property name="text"></text-property>
+                                                    <text-property name="text">Section Name</text-property>
                                                 </label>
                                             </property>
-                                            <property name="style">crosstab-detail1</property>
                                         </extended-item>
-                                        <extended-item extensionName="CrosstabCell" id="699">
+                                        <extended-item extensionName="CrosstabCell" id="797">
                                             <property name="content">
-                                                <label id="705">
+                                                <label id="803">
+                                                    <property name="fontSize">12px</property>
                                                     <property name="textAlign">center</property>
                                                     <text-property name="text">Hour</text-property>
                                                 </label>
                                             </property>
-                                            <property name="style">crosstab-detail1</property>
                                         </extended-item>
                                     </property>
-                                    <property name="canShrink">true</property>
                                     <list-property name="boundDataColumns">
-                                        <structure>
-                                            <property name="name">C4</property>
-                                            <expression name="expression">dimension["Group4"]["C4"]</expression>
-                                            <property name="dataType">date-time</property>
-                                        </structure>
                                         <structure>
                                             <property name="name">DISPLAYNAME</property>
                                             <expression name="expression">dimension["Group3"]["DISPLAYNAME"]</expression>
                                             <property name="dataType">string</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">C4</property>
+                                            <expression name="expression">dimension["Group4"]["C4"]</expression>
+                                            <property name="dataType">date-time</property>
                                         </structure>
                                         <structure>
                                             <property name="name">C23_Group4/C4_Group3/DISPLAYNAME</property>
