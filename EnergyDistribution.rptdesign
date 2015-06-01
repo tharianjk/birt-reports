@@ -209,7 +209,7 @@ false);*/]]></method>
     " inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
     " inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID "+ 
     " inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-	" where a.parent_id='"+params["UsrSecId"].value+"' and T.dt_date >='"+LHour+"'"+
+	" where a.assettreetype_id <>2 and a.parent_id='"+params["UsrSecId"].value+"' and T.dt_date >='"+LHour+"'"+
     " and T.dt_date <'"+curT+"'"+
     " and a.company_id='"+params["UsrCompId"].value+"'"+
     " and  S.UTILITY_ID='"+params["UtlId"].value+"' and S.c_coretype='C'"+
@@ -220,7 +220,7 @@ false);*/]]></method>
     " inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
     " inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
     " inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID  inner join ems_unit UN on UN.unit_id=UT.unit_id"+
-    " where a.assettree_id='"+params["UsrSecId"].value+"' and T.dt_date >='"+LHour+"' and T.dt_date <'"+curT+"'"+
+    " where a.assettreetype_id <>2 and a.assettree_id  in (select PARENT_ID from ems_meter) and a.assettree_id='"+params["UsrSecId"].value+"' and T.dt_date >='"+LHour+"' and T.dt_date <'"+curT+"'"+
     " and a.company_id='"+params["UsrCompId"].value+"' and  S.UTILITY_ID='"+params["UtlId"].value+"' and S.c_coretype='C' group by a.displayname,un.unitshort";
 
 ]]></method>
