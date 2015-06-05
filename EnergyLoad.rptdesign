@@ -28,6 +28,17 @@ mychart.setHeight("5");
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="attrarr" id="236">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="8">
@@ -117,11 +128,11 @@ mychart.setHeight("5");
             <method name="beforeOpen"><![CDATA[if(params["newRPT"].value=="")
 {
 	this.queryText = this.queryText +
- 	",'30D' as C5,'single' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+ 	",'30D' as C5,'single' as C6,mt.METERNAME,UNITSHORT from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 	" inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id "+
 	" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
 	" inner join ems_unit un on un.unit_id=eat.unit_id"+
-	" where EML.tag_id=1000001 order by EML.dt_logdate Asc";
+	" where EML.tag_id=1000001 order by EML.DT_LOGDATE Asc";
  
 }
 else
@@ -129,7 +140,7 @@ else
 
 
 this.queryText = this.queryText +params["newRPT"]+
-" order by EML.dt_logdate Asc";
+" and EML.tag_id= "+params["attrarr"]+" order by EML.DT_LOGDATE Asc";
  
 }
 ]]></method>
@@ -221,8 +232,8 @@ else
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select   EML.tag_id,EML.N_reading,cast(EML.dt_logdate as datetime) as C3,
-EAT.Attribute]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select   EML.TAG_ID,EML.N_READING,cast(EML.DT_LOGDATE as datetime) as C3,
+EAT.ATTRIBUTE]]></xml-property>
         </oda-data-set>
     </data-sets>
     <cubes>
@@ -1419,11 +1430,11 @@ function logTrend()
 					LHour=document.getElementById("fromdate").value+" 00:00:00";
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
-					newa=",' Energy Load Trend from "+Cfrom+" to " +Cto+"' as C5,'"+parent.attrcnt+"' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+					newa=",' Energy Load Trend from "+Cfrom+" to " +Cto+"' as C5,'single' as C6,mt.METERNAME,UNITSHORT from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 					" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
 					"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
 					"EML.dt_logdate>'"+LHour+"'"+
-					" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+parent.attrarr+")"; 
+					" and EML.dt_logdate<'"+curT+"'"; 
 					 
 				}
 				
@@ -1437,52 +1448,52 @@ function logTrend()
 	{
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=yearL+ "-" + monthL + "-" + dayL+" "+hoursL+":"+minutesL+":"+secondsL;
-		newa=",'LH' as C5,'"+parent.attrcnt+"' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+		newa=",'LH' as C5,'single' as C6,mt.METERNAME,UNITSHORT  from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
 		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
-		" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+parent.attrarr+")"; 
+		" and EML.dt_logdate<'"+curT+"'"; 
 	}
 	if(document.getElementById("s1").selectedIndex==2)
 	{
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
-		newa=",'24H' as C5,'"+parent.attrcnt+"' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+		newa=",'24H' as C5,'single' as C6,mt.METERNAME,UNITSHORT  from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
 		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
-		" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+parent.attrarr+")"; 
+		" and EML.dt_logdate<'"+curT+"'"; 
 	}
 	if(document.getElementById("s1").selectedIndex==3)
 	{
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-		newa=",'7D' as C5,'"+parent.attrcnt+"' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+		newa=",'7D' as C5,'single' as C6,mt.METERNAME,UNITSHORT  from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
 		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
-		" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+parent.attrarr+")"; 
+		" and EML.dt_logdate<'"+curT+"'"; 
 	}
 	if(document.getElementById("s1").selectedIndex==4)
 	{
 	
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-		newa=",'30D' as C5,'"+parent.attrcnt+"' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+		newa=",'30D' as C5,'single' as C6,mt.METERNAME,UNITSHORT  from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
 		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
-		" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+parent.attrarr+")"; 
+		" and EML.dt_logdate<'"+curT+"'"; 
 	}
 	if(document.getElementById("s1").selectedIndex==5)
 	{
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
-		newa=",'365D' as C5,'"+parent.attrcnt+"' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
+		newa=",'365D' as C5,'single' as C6,mt.METERNAME,UNITSHORT  from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
 		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
-		" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+parent.attrarr+")"; 
+		" and EML.dt_logdate<'"+curT+"'"; 
 	}
 	var cl1 = new String(location.href);
 	var targetURL1 = new String();
