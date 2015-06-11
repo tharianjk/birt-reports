@@ -4,9 +4,20 @@
     <text-property name="title">Attribute Trend</text-property>
     <property name="units">in</property>
     <method name="beforeFactory"><![CDATA[var mychart = this.getReportElement( "mychart" );
+var design_handle = reportContext.getReportRunnable().designHandle.getDesignHandle();
 mychart.setWidth("5");
 mychart.setHeight("5");
-]]></method>
+
+
+
+
+if (params["newRPT"].value=="") 
+{
+     design_handle.findElement("hdr").drop();
+    design_handle.findElement("mychart").drop();
+    design_handle.findElement("tbl").drop();
+    
+} ]]></method>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
@@ -1596,7 +1607,7 @@ function showhidetab()
 
 ]]></text-property>
         </text>
-        <grid id="231">
+        <grid name="hdr" id="231">
             <property name="canShrink">true</property>
             <column id="232"/>
             <row id="233">
@@ -3409,7 +3420,7 @@ Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
                 </structure>
             </list-property>
         </extended-item>
-        <grid id="227">
+        <grid name="tbl" id="227">
             <property name="backgroundColor">#FFFFFF</property>
             <property name="canShrink">true</property>
             <expression name="bookmark" type="javascript">"mytable"</expression>
