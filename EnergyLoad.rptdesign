@@ -1,49 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
-    <text-property name="title">Quality Load Trend</text-property>
     <property name="units">in</property>
-    <method name="beforeFactory"><![CDATA[var mychart = this.getReportElement( "mychart" );
-var design_handle = reportContext.getReportRunnable().designHandle.getDesignHandle();
-mychart.setWidth("5");
-mychart.setHeight("5");
-
-
-
-if (params["newRPT"].value=="") 
-{
-     design_handle.findElement("hdr").drop();
-    design_handle.findElement("mychart").drop();
-    design_handle.findElement("tbl").drop();
-    
-} ]]></method>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <parameters>
-        <scalar-parameter name="newRPT" id="70">
-            <property name="hidden">true</property>
+        <scalar-parameter name="rpttype" id="10">
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
             <property name="controlType">text-box</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="attrarr" id="236">
+        <scalar-parameter name="grptype" id="11">
             <property name="valueType">static</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="dtfrm" id="12">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">date</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="dtto" id="13">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">date</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="tagid" id="14">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">integer</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
             <property name="controlType">text-box</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
@@ -51,7 +74,7 @@ if (params["newRPT"].value=="")
         </scalar-parameter>
     </parameters>
     <data-sources>
-        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="8">
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="7">
             <list-property name="privateDriverProperties">
                 <ex-property>
                     <name>metadataBidiFormatStr</name>
@@ -68,219 +91,308 @@ if (params["newRPT"].value=="")
                     <name>disabledContentBidiFormatStr</name>
                 </ex-property>
             </list-property>
-            <property name="odaDriverClass">org.hsqldb.jdbcDriver</property>
-            <property name="odaURL">jdbc:hsqldb:hsql://localhost/irevdb</property>
-            <property name="odaUser">sa</property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://127.0.0.1:3306/irevrms</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">d2VsY29tZQ==</encrypted-property>
             <property name="OdaConnProfileName">IrevealDS</property>
             <property name="OdaConnProfileStorePath">IrevealDsource</property>
         </oda-data-source>
     </data-sources>
     <data-sets>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="DataSetForTrendChart" id="9">
-            <list-property name="computedColumns">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet" name="Data Set" id="9">
+            <list-property name="columnHints"/>
+            <list-property name="parameters">
                 <structure>
-                    <property name="name">Uni</property>
-                    <expression name="expression">row["METERNAME"]+" - "+row["ATTRIBUTE"]</expression>
+                    <property name="name">rpttype</property>
+                    <property name="paramName">rpttype</property>
+                    <property name="nativeName">rpttype</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">1</property>
+                    <expression name="defaultValue" type="javascript">'m'</expression>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">grptype</property>
+                    <property name="paramName">grptype</property>
+                    <property name="nativeName">grptype</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">2</property>
+                    <expression name="defaultValue" type="javascript">'d'</expression>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">dtfrm</property>
+                    <property name="paramName">dtfrm</property>
+                    <property name="nativeName">dtfrm</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                    <property name="position">3</property>
+                    <expression name="defaultValue" type="javascript">'2014-01-01'</expression>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">dtto</property>
+                    <property name="paramName">dtto</property>
+                    <property name="nativeName">dtto</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                    <property name="position">4</property>
+                    <expression name="defaultValue" type="javascript">'2015-01-01'</expression>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">tagid</property>
+                    <property name="paramName">tagid</property>
+                    <property name="nativeName">tagid</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                    <property name="position">5</property>
+                    <expression name="defaultValue" type="javascript">71</expression>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
                 </structure>
             </list-property>
-            <list-property name="columnHints"/>
-            <list-property name="parameters"/>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
-                        <property name="name">TAG_ID</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
                         <property name="name">N_READING</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">3</property>
+                        <property name="position">2</property>
                         <property name="name">C3</property>
-                        <property name="dataType">date-time</property>
+                        <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">4</property>
+                        <property name="position">3</property>
                         <property name="name">ATTRIBUTE</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">5</property>
+                        <property name="position">4</property>
                         <property name="name">C5</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">6</property>
+                        <property name="position">5</property>
                         <property name="name">C6</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">7</property>
+                        <property name="position">6</property>
                         <property name="name">METERNAME</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">8</property>
+                        <property name="position">7</property>
                         <property name="name">UNITSHORT</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">9</property>
-                        <property name="name">Uni</property>
                         <property name="dataType">string</property>
                     </structure>
                 </list-property>
             </structure>
-            <method name="beforeOpen"><![CDATA[if(params["newRPT"].value=="")
-{
-	this.queryText = this.queryText +
- 	",'30D' as C5,'single' as C6,mt.METERNAME,UNITSHORT from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
-	" inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id "+
-	" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-	" inner join ems_unit un on un.unit_id=eat.unit_id"+
-	" where EML.tag_id=1000001 order by EML.DT_LOGDATE Asc";
- 
-}
-else
-{
-
-
-this.queryText = this.queryText +params["newRPT"]+
-" and EML.tag_id= "+params["attrarr"]+" order by EML.DT_LOGDATE Asc";
- 
-}
-]]></method>
-            <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("units", dataSetRow["UNITSHORT"]);
-reportContext.setPersistentGlobalVariable("s",dataSetRow["C6"]);
-//reportContext.setPersistentGlobalVariable("s",dataSetRow["vb"]);
-//reportContext.setPersistentGlobalVariable("s", row["vb"]);
-//reportContext.setParameterDisplayText("s",dataSetRow["vb"]);
-//console.write(3);
-//var n = dataSetRow["vb"].toString();
-//reportContext.setGlobalVariable("s",row["cnt"]);
-//reportContext.setParameterDisplayText("s",dataSetRow["cnt"])
-//reportContext.s
-/* if(row["C5"]=='7D')
-{
-reportContext.setPersistentGlobalVariable("Demographic", row["ATTRIBUTE"]+' for the Last 7 Days');
-}
-else if(row["C5"]=='365D')
-{
-reportContext.setPersistentGlobalVariable("Demographic", row["ATTRIBUTE"]+' for the Last 365 Days');
-}
-
-else if(row["C5"]=='30D')
-{
-reportContext.setPersistentGlobalVariable("Demographic", row["ATTRIBUTE"]+' for the Last 30 Days');
-}
-else if(row["C5"]=='LH')
-{
-reportContext.setPersistentGlobalVariable("Demographic", row["ATTRIBUTE"]+' for the Last 1 Hour');
-}
-else if(row["C5"]=='24H')
-{
-reportContext.setPersistentGlobalVariable("Demographic", row["ATTRIBUTE"]+' for Last 24 Hour');
-}
-else
-{
-
-	reportContext.setPersistentGlobalVariable("Demographic", row["ATTRIBUTE"]+" "+row["C5"]);
-}
- */]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">TAG_ID</property>
-                    <property name="nativeName">TAG_ID</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
                     <property name="name">N_READING</property>
                     <property name="nativeName">N_READING</property>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
-                    <property name="position">3</property>
+                    <property name="position">2</property>
                     <property name="name">C3</property>
                     <property name="nativeName">C3</property>
-                    <property name="dataType">date-time</property>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">4</property>
+                    <property name="position">3</property>
                     <property name="name">ATTRIBUTE</property>
                     <property name="nativeName">ATTRIBUTE</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">5</property>
+                    <property name="position">4</property>
                     <property name="name">C5</property>
                     <property name="nativeName">C5</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">6</property>
+                    <property name="position">5</property>
                     <property name="name">C6</property>
                     <property name="nativeName">C6</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">7</property>
+                    <property name="position">6</property>
                     <property name="name">METERNAME</property>
                     <property name="nativeName">METERNAME</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">8</property>
+                    <property name="position">7</property>
                     <property name="name">UNITSHORT</property>
                     <property name="nativeName">UNITSHORT</property>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select   EML.TAG_ID,EML.N_READING,cast(EML.DT_LOGDATE as datetime) as C3,
-EAT.ATTRIBUTE]]></xml-property>
+            <xml-property name="queryText"><![CDATA[{call spRpt_load(? ,?,?,?,?)}]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <DataSetParameters>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name>rpttype</design:name>
+            <design:position>1</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+          <design:precision>10</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name>grptype</design:name>
+            <design:position>2</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+          <design:precision>10</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name>dtfrm</design:name>
+            <design:position>3</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>91</design:nativeDataTypeCode>
+          <design:precision>10</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name>dtto</design:name>
+            <design:position>4</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>91</design:nativeDataTypeCode>
+          <design:precision>10</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name>tagid</design:name>
+            <design:position>5</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+          <design:precision>10</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+  </DataSetParameters>
+</model:DesignValues>]]></xml-property>
         </oda-data-set>
     </data-sets>
     <cubes>
-        <tabular-cube name="Data CubeTrend" id="150">
+        <tabular-cube name="Data Cube - Data Set" id="64">
             <property name="dimensions">
-                <tabular-dimension name="Group" id="151">
-                    <property name="defaultHierarchy">NewTabularHierarchy</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy" id="152">
-                            <property name="levels">
-                                <tabular-level name="METERNAME" id="153">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">METERNAME</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Group1" id="154">
+                <tabular-dimension name="Group" id="65">
+                    <property name="isTimeType">true</property>
                     <property name="defaultHierarchy">NewTabularHierarchy1</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy1" id="155">
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="66">
                             <property name="levels">
-                                <tabular-level name="ATTRIBUTE" id="156">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">ATTRIBUTE</property>
+                                <tabular-level name="Day Of Year" id="67">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">day-of-year</property>
+                                    <property name="dateTimeFormat">MMMM dd, yyyy</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">C3</property>
                                 </tabular-level>
                             </property>
                         </tabular-hierarchy>
                     </property>
                 </tabular-dimension>
-                <tabular-dimension name="Group2" id="157">
+                <tabular-dimension name="Group2" id="68">
                     <property name="defaultHierarchy">NewTabularHierarchy2</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy2" id="158">
+                        <tabular-hierarchy name="NewTabularHierarchy2" id="69">
                             <property name="levels">
-                                <tabular-level name="UNITSHORT" id="159">
+                                <tabular-level name="UNITSHORT" id="70">
                                     <property name="dataType">string</property>
                                     <property name="columnName">UNITSHORT</property>
                                 </tabular-level>
@@ -288,13 +400,13 @@ EAT.ATTRIBUTE]]></xml-property>
                         </tabular-hierarchy>
                     </property>
                 </tabular-dimension>
-                <tabular-dimension name="Group3" id="160">
+                <tabular-dimension name="Group1" id="71">
                     <property name="isTimeType">false</property>
-                    <property name="defaultHierarchy">NewTabularHierarchy4</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy3</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy4" id="161">
+                        <tabular-hierarchy name="NewTabularHierarchy3" id="72">
                             <property name="levels">
-                                <tabular-level name="C3" id="162">
+                                <tabular-level name="C3" id="73">
                                     <property name="dataType">date-time</property>
                                     <property name="columnName">C3</property>
                                 </tabular-level>
@@ -302,23 +414,35 @@ EAT.ATTRIBUTE]]></xml-property>
                         </tabular-hierarchy>
                     </property>
                 </tabular-dimension>
+                <tabular-dimension name="Group5" id="77">
+                    <property name="defaultHierarchy">NewTabularHierarchy5</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy5" id="78">
+                            <property name="levels">
+                                <tabular-level name="METERNAME" id="79">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">METERNAME</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
             </property>
             <property name="measureGroups">
-                <tabular-measure-group name="Summary Field" id="163">
+                <tabular-measure-group name="Summary Field" id="80">
                     <property name="measures">
-                        <tabular-measure name="N_READING" id="164">
+                        <tabular-measure name="N_READING" id="81">
                             <expression name="measureExpression" type="javascript">dataSetRow["N_READING"]</expression>
                             <property name="dataType">decimal</property>
                         </tabular-measure>
                     </property>
                 </tabular-measure-group>
             </property>
-            <property name="dataSet">DataSetForTrendChart</property>
+            <property name="dataSet">Data Set</property>
         </tabular-cube>
     </cubes>
     <styles>
         <style name="report" id="4">
-            <property name="backgroundColor">#C0C0C0</property>
             <property name="fontFamily">sans-serif</property>
             <property name="fontSize">10pt</property>
         </style>
@@ -350,1333 +474,97 @@ EAT.ATTRIBUTE]]></xml-property>
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">1pt</property>
         </style>
-        <style name="table-group-header-1" id="38">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontFamily">sans-serif</property>
-            <property name="fontSize">medium</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#FFFFE0</property>
-            <property name="borderBottomColor">#FFFFFF</property>
-            <property name="borderBottomStyle">double</property>
-            <property name="borderLeftColor">#FFFFFF</property>
-            <property name="borderRightColor">#FFFFFF</property>
-            <property name="borderTopColor">#FFFFFF</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">thin</property>
-        </style>
-        <style name="table-group-header-2" id="39">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontFamily">sans-serif</property>
-            <property name="fontSize">small</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#FFFFFF</property>
-            <property name="borderBottomStyle">double</property>
-            <property name="borderLeftColor">#FFFFFF</property>
-            <property name="borderRightColor">#FFFFFF</property>
-            <property name="borderTopColor">#FFFFFF</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">thin</property>
-        </style>
-        <style name="table-group-header-3" id="40">
-            <property name="backgroundColor">#BDD9E2</property>
-            <property name="fontFamily">sans-serif</property>
-            <property name="fontSize">small</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#FFFFFF</property>
-            <property name="borderBottomStyle">double</property>
-            <property name="borderLeftColor">#FFFFFF</property>
-            <property name="borderRightColor">#FFFFFF</property>
-            <property name="borderTopColor">#FFFFFF</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">thin</property>
-        </style>
-        <style name="table-header" id="41">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontFamily">sans-serif</property>
-            <property name="fontSize">x-small</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#FFFFE0</property>
-            <property name="borderBottomColor">#FFFFFF</property>
-            <property name="borderBottomStyle">double</property>
-            <property name="borderLeftColor">#FFFFFF</property>
-            <property name="borderRightColor">#FFFFFF</property>
-            <property name="borderTopColor">#FFFFFF</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">thin</property>
-        </style>
-        <style name="table-detail" id="42">
-            <property name="backgroundColor">#F0F3FD</property>
-            <property name="fontFamily">sans-serif</property>
-            <property name="fontSize">x-small</property>
-            <property name="color">#426E44</property>
-            <property name="borderBottomColor">#FFFFFF</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">thin</property>
-            <property name="borderLeftColor">#FFFFFF</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">thin</property>
-            <property name="borderRightColor">#FFFFFF</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">thin</property>
-            <property name="borderTopColor">#FFFFFF</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">thin</property>
-        </style>
-        <style name="table-cell" id="43">
-            <property name="backgroundColor">#F0F3FD</property>
-            <property name="fontFamily">sans-serif</property>
-            <property name="fontSize">x-small</property>
-            <property name="color">#426E44</property>
-            <property name="borderBottomColor">#FFFFFF</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">thin</property>
-            <property name="borderLeftColor">#FFFFFF</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">thin</property>
-            <property name="borderRightColor">#FFFFFF</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">thin</property>
-            <property name="borderTopColor">#FFFFFF</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">thin</property>
-        </style>
-        <style name="table-footer" id="44">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontFamily">sans-serif</property>
-            <property name="fontSize">x-small</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#FFFFE0</property>
-            <property name="borderBottomColor">#483D8B</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">thin</property>
-            <property name="borderLeftColor">#483D8B</property>
-            <property name="borderRightColor">#483D8B</property>
-            <property name="borderTopColor">#483D8B</property>
-            <property name="borderTopStyle">double</property>
-        </style>
-        <style name="crosstab-detail" id="45">
-            <property name="backgroundColor">#F0F3FD</property>
-            <property name="fontFamily">sans-serif</property>
-            <property name="fontSize">9px</property>
-            <property name="color">#000000</property>
-        </style>
-        <style name="crosstab-header" id="46">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontFamily">"Arial"</property>
-            <property name="fontSize">10px</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#000000</property>
-        </style>
-        <style name="crosstab-cell1" id="47">
-            <property name="borderBottomColor">#FFFFFF</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">thin</property>
-            <property name="borderLeftColor">#FFFFFF</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">thin</property>
-            <property name="borderRightColor">#FFFFFF</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">thin</property>
-            <property name="borderTopColor">#FFFFFF</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">thin</property>
-        </style>
-        <style name="table-group-header-11" id="49">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">12px</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#000000</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#000000</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#000000</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="marginTop">1em</property>
-            <property name="marginLeft">1em</property>
-            <property name="marginBottom">1em</property>
-            <property name="marginRight">1em</property>
-            <property name="paddingTop">0.5em</property>
-            <property name="paddingLeft">0.5em</property>
-            <property name="paddingBottom">0.5em</property>
-            <property name="paddingRight">0.5em</property>
-            <property name="textAlign">left</property>
-            <property name="width">100%</property>
-        </style>
-        <style name="table-group-header-21" id="50">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">100%</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#000000</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#000000</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#000000</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="marginTop">1em</property>
-            <property name="marginLeft">1em</property>
-            <property name="marginBottom">1em</property>
-            <property name="marginRight">1em</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-            <property name="width">100%</property>
-        </style>
-        <style name="table-group-header-31" id="51">
-            <property name="backgroundColor">#F0F3FD</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">100%</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#000000</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#000000</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#000000</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="marginTop">1em</property>
-            <property name="marginLeft">1em</property>
-            <property name="marginBottom">1em</property>
-            <property name="marginRight">1em</property>
-            <property name="paddingTop">0.5em</property>
-            <property name="paddingLeft">0.5em</property>
-            <property name="paddingBottom">0.5em</property>
-            <property name="paddingRight">0.5em</property>
-            <property name="textAlign">left</property>
-            <property name="width">100%</property>
-        </style>
-        <style name="table-header1" id="52">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontSize">12px</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#000000</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#000000</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#000000</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="marginTop">1em</property>
-            <property name="marginLeft">1em</property>
-            <property name="marginBottom">1em</property>
-            <property name="marginRight">1em</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-            <property name="width">100%</property>
-        </style>
-        <style name="table-detail1" id="53">
-            <property name="backgroundColor">#F0F3FD</property>
-            <property name="fontSize">10px</property>
-            <property name="color">#426E44</property>
-            <property name="borderBottomColor">#000000</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#000000</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#000000</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-            <property name="height">8px</property>
-        </style>
-        <style name="table-footer1" id="54">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">12px</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#FFFFE0</property>
-            <property name="borderBottomColor">#000000</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#000000</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#000000</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="marginTop">1em</property>
-            <property name="marginLeft">1em</property>
-            <property name="marginBottom">1em</property>
-            <property name="marginRight">1em</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-            <property name="width">100%</property>
-        </style>
-        <style name="table" id="55">
-            <property name="backgroundColor">#F0F3FD</property>
-            <property name="borderBottomColor">#000000</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#000000</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#000000</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-        </style>
-        <style name="crosstab-detail1" id="56">
-            <property name="backgroundColor">#F0F3FD</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">10px</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#01450F</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#01450F</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#01450F</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#01450F</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-        </style>
-        <style name="crosstab-header1" id="57">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">12px</property>
-            <property name="fontWeight">bold</property>
-            <property name="fontStyle">italic</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#01450F</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#01450F</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#01450F</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#01450F</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="marginTop">1em</property>
-            <property name="marginLeft">1em</property>
-            <property name="marginBottom">1em</property>
-            <property name="marginRight">1em</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-            <property name="width">100%</property>
-        </style>
-        <style name="crosstab-cell2" id="58">
-            <property name="backgroundColor">#E5F1F4</property>
-            <property name="fontSize">10px</property>
-            <property name="color">#FFFFFF</property>
-            <property name="borderBottomColor">#01450F</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#01450F</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#01450F</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#01450F</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-            <property name="height">6px</property>
-        </style>
-        <style name="crosstab-footer" id="59">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">12px</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#FFFFFF</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#FFFFFF</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#FFFFFF</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#FFFFFF</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="marginTop">1em</property>
-            <property name="marginLeft">1em</property>
-            <property name="marginBottom">1em</property>
-            <property name="marginRight">1em</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-            <property name="width">100%</property>
-        </style>
-        <style name="grid" id="61">
-            <property name="backgroundColor">#E5F1F4</property>
-            <property name="borderBottomColor">#7C9A82</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#7C9A82</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#7C9A82</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#7C9A82</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-        </style>
-        <style name="report1" id="62">
-            <property name="backgroundColor">#E5F1F4</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-        </style>
-        <style name="back" id="63">
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">small</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#01450F</property>
-        </style>
-        <style name="HideStyle" id="65"/>
-        <style name="NewStylechart" id="67"/>
-        <style name="table-group-header-12" id="135">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">12px</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#000000</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#000000</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#000000</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="marginTop">1em</property>
-            <property name="marginLeft">1em</property>
-            <property name="marginBottom">1em</property>
-            <property name="marginRight">1em</property>
-            <property name="paddingTop">0.5em</property>
-            <property name="paddingLeft">0.5em</property>
-            <property name="paddingBottom">0.5em</property>
-            <property name="paddingRight">0.5em</property>
-            <property name="textAlign">left</property>
-            <property name="width">100%</property>
-        </style>
-        <style name="table-group-header-22" id="136">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">100%</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#000000</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#000000</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#000000</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="marginTop">1em</property>
-            <property name="marginLeft">1em</property>
-            <property name="marginBottom">1em</property>
-            <property name="marginRight">1em</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-            <property name="width">100%</property>
-        </style>
-        <style name="table-group-header-32" id="137">
-            <property name="backgroundColor">#F0F3FD</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">100%</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#000000</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#000000</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#000000</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="marginTop">1em</property>
-            <property name="marginLeft">1em</property>
-            <property name="marginBottom">1em</property>
-            <property name="marginRight">1em</property>
-            <property name="paddingTop">0.5em</property>
-            <property name="paddingLeft">0.5em</property>
-            <property name="paddingBottom">0.5em</property>
-            <property name="paddingRight">0.5em</property>
-            <property name="textAlign">left</property>
-            <property name="width">100%</property>
-        </style>
-        <style name="table-header2" id="138">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontSize">12px</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#000000</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#000000</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#000000</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="marginTop">1em</property>
-            <property name="marginLeft">1em</property>
-            <property name="marginBottom">1em</property>
-            <property name="marginRight">1em</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-            <property name="width">100%</property>
-        </style>
-        <style name="table-detail2" id="139">
-            <property name="backgroundColor">#F0F3FD</property>
-            <property name="fontSize">10px</property>
-            <property name="color">#426E44</property>
-            <property name="borderBottomColor">#000000</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#000000</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#000000</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-            <property name="height">8px</property>
-        </style>
-        <style name="table-footer2" id="140">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">12px</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#FFFFE0</property>
-            <property name="borderBottomColor">#000000</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#000000</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#000000</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="marginTop">1em</property>
-            <property name="marginLeft">1em</property>
-            <property name="marginBottom">1em</property>
-            <property name="marginRight">1em</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-            <property name="width">100%</property>
-        </style>
-        <style name="table1" id="141">
-            <property name="backgroundColor">#F0F3FD</property>
-            <property name="borderBottomColor">#000000</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#000000</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#000000</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-        </style>
-        <style name="crosstab-detail2" id="142">
-            <property name="backgroundColor">#F0F3FD</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">10px</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#01450F</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#01450F</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#01450F</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#01450F</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-        </style>
-        <style name="crosstab-header2" id="143">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">12px</property>
-            <property name="fontWeight">bold</property>
-            <property name="fontStyle">italic</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#01450F</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#01450F</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#01450F</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#01450F</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="marginTop">1em</property>
-            <property name="marginLeft">1em</property>
-            <property name="marginBottom">1em</property>
-            <property name="marginRight">1em</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-            <property name="width">100%</property>
-        </style>
-        <style name="crosstab-cell3" id="144">
-            <property name="backgroundColor">#E5F1F4</property>
-            <property name="fontSize">10px</property>
-            <property name="color">#FFFFFF</property>
-            <property name="borderBottomColor">#01450F</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#01450F</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#01450F</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#01450F</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-            <property name="height">6px</property>
-        </style>
-        <style name="crosstab-footer1" id="145">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">12px</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#FFFFFF</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#FFFFFF</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#FFFFFF</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#FFFFFF</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="marginTop">1em</property>
-            <property name="marginLeft">1em</property>
-            <property name="marginBottom">1em</property>
-            <property name="marginRight">1em</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-            <property name="width">100%</property>
-        </style>
-        <style name="grid1" id="147">
-            <property name="backgroundColor">#E5F1F4</property>
-            <property name="borderBottomColor">#7C9A82</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#7C9A82</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#7C9A82</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#7C9A82</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-        </style>
-        <style name="report2" id="148">
-            <property name="backgroundColor">#E5F1F4</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-        </style>
-        <style name="back1" id="149">
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">small</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#01450F</property>
-        </style>
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
-            <property name="rightMargin">0in</property>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
         </simple-master-page>
     </page-setup>
     <body>
-        <text id="64">
-            <list-property name="visibility">
-                <structure>
-                    <property name="format">doc</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">docx</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">pdf</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">xls</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">xlsx</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-            </list-property>
-            <property name="allowExport">false</property>
-            <property name="contentType">html</property>
-            <text-property name="content"><![CDATA[<script>
-var currentTime = new Date()
-
-var month = currentTime.getMonth() + 1
-var day = currentTime.getDate()
-var year = currentTime.getFullYear()
-var currentTime = new Date()
-var hours = currentTime.getHours()
-var minutes = currentTime.getMinutes()
-var seconds=currentTime.getSeconds()
-//Last 7 days
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var month7 = Lastweek.getMonth() + 1
-var day7 = Lastweek.getDate()
-var year7 = Lastweek.getFullYear()
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var hours7 = Lastweek.getHours()
-var minutes7 = Lastweek.getMinutes()
-var seconds7=Lastweek.getSeconds()
-//Last 30days
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-
-var month30 = LastMonth.getMonth() + 1
-var day30= LastMonth.getDate()
-var year30= LastMonth.getFullYear()
-
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-var hours30 = LastMonth.getHours()
-var minutes30 = LastMonth.getMinutes()
-var seconds30=LastMonth.getSeconds()
-//last 365 days
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-
-var month365 = LastYear.getMonth() + 1
-var day365= LastYear.getDate()
-var year365= LastYear.getFullYear()
-
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-var hours365 = LastYear.getHours()
-var minutes365 = LastYear.getMinutes()
-var seconds365=LastYear.getSeconds()
-
-
-//last hour
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var monthL = hourago.getMonth() + 1
-var dayL= hourago.getDate()
-var yearL= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var hoursL = hourago.getHours()
-var minutesL = hourago.getMinutes()
-var secondsL=hourago.getSeconds()
-//last 24 hour
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var monthL24 = hourago.getMonth() + 1
-var dayL24= hourago.getDate()
-var yearL24= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var hoursL24 = hourago.getHours()
-var minutesL24 = hourago.getMinutes()
-var secondsL24=hourago.getSeconds()
-
-/////////Today
-if (minutes < 10){
-minutes = "0" + minutes
-}
-if (seconds < 10){
-seconds= "0" + seconds
-}
-
-if (month  < 10){
-month  = "0" + month 
-}
-if (day  < 10){
-day  = "0" + day 
-}
-if (hours  < 10){
-hours  = "0" + hours 
-}
-
-///Last 365
-if (minutes365 < 10){
-minutes365 = "0" + minutes365
-}
-if (seconds365 < 10){
-seconds365= "0" + seconds365
-}
-
-if (month365  < 10){
-month365  = "0" + month365 
-}
-if (day365  < 10){
-day365  = "0" + day365 
-}
-if (hours365  < 10){
-hours365  = "0" + hours365 
-}
-
-
-///Last 7 days
-if (minutes7 < 10){
-minutes7 = "0" + minutes7
-}
-if (seconds7 < 10){
-seconds7= "0" + seconds7
-}
-
-if (month7  < 10){
-month7  = "0" + month7 
-}
-if (day7  < 10){
-day7  = "0" + day7 
-}
-if (hours7  < 10){
-hours7  = "0" + hours7 
-}
-//last 30days
-if (minutes30 < 10){
-minutes30 = "0" + minutes30
-}
-if (seconds30 < 10){
-seconds30= "0" + seconds30
-}
-
-if (month30  < 10){
-month30  = "0" + month30 
-}
-if (day30  < 10){
-day30  = "0" + day30 
-}
-if (hours30  < 10){
-hours30  = "0" + hours30 
-}
-
-//last hour
-if (minutesL < 10){
-minutesL = "0" + minutesL
-}
-if (secondsL < 10){
-secondsL= "0" + secondsL
-}
-
-if (monthL  < 10){
-monthL  = "0" + monthL 
-}
-if (dayL  < 10){
-dayL  = "0" + dayL
-}
-if (hoursL  < 10){
-hoursL  = "0" + hoursL
-}
-//last 24 hour
-
-if (minutesL24 < 10){
-minutesL24 = "0" + minutesL24
-}
-if (secondsL24 < 10){
-secondsL24= "0" + secondsL24
-}
-
-if (monthL24  < 10){
-monthL24  = "0" + monthL24 
-}
-if (dayL24  < 10){
-dayL24  = "0" + dayL24
-}
-if (hoursL24  < 10){
-hoursL24  = "0" + hoursL24
-}
-
-
-if (parent.AssetTree.selectedsection === undefined)
-	{
-		parent.AssetTree.selectedsection = 0;
-	}
-if(parent.AssetTree.selectedtype === undefined)
-	{
-		parent.AssetTree.selectedtype = 0;
-	}
-	
-	if(parent.attrarr === undefined)
-	{
-		parent.attrarr = "0";
-	}
-	if(parent.attrcnt === undefined)
-	{
-		parent.attrcnt = "single";
-	}
-	
-document.onload=populate();
-
-function populate()
-{	//Function which sets the previously selected parameters for the report.
-	if(parent.selected_period_ndx==null || parent.selected_period_ndx==0)
-	{
-		parent.selected_period_ndx=0;
-	}
-	document.getElementById("s1").selectedIndex=parent.selected_period_ndx;	
-	if(document.getElementById("s1").selectedIndex==6)
-	{
-		if (document.getElementById("s1").selectedIndex==6)
-		{
-	
-			document.getElementById("fromdate").disabled=false;
-			document.getElementById("todate").disabled=false;
-				
-			document.getElementById("fromdate").value=parent.selected_fdate;
-			document.getElementById("todate").value=parent.selected_tdate;
-				
-				
-		}
-		else
-		{
-			document.getElementById("fromdate").value='';
-			document.getElementById("todate").value='';
-			document.getElementById("fromdate").disabled=true;
-			document.getElementById("todate").disabled=true;
-				
-		}
-			
-	}
-	
-}		
-	
-	
-	
-	
-function CheckDate()
-{
-	if (document.getElementById("s1").selectedIndex==6)
-	{
-	
-				document.getElementById("fromdate").disabled=false;
-				document.getElementById("todate").disabled=false;
-				
-				
-	}
-	else
-	{
-				document.getElementById("fromdate").value='';
-				document.getElementById("todate").value='';
-				document.getElementById("fromdate").disabled=true;
-				document.getElementById("todate").disabled=true;
-				
-	}
-	
-
-}
-
-
-function logTrend()
-{
-	parent.selected_period_ndx=document.getElementById("s1").selectedIndex;
-	parent.selected_fdate=document.getElementById("fromdate").value;
-	parent.selected_tdate=document.getElementById("todate").value;
-	if(parent.AssetTree.selectedtype == 5)
-	{
-		alert ("Select Section");
-			return;
-	}
-	if ((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("fromdate").value==''))
-		{
-			alert ("Enter a valid time period!");
-			return;
-		}
-		else if ((document.getElementById("s1").selectedIndex==6)&amp;&amp; (document.getElementById("todate").value==''))
-		{
-			alert ("Enter a valid time period!");
-			return;
-		}
-		else
-		{
-			
-			var d1 = Date.parse(document.getElementById("todate").value);
-			var d2 = Date.parse(document.getElementById("fromdate").value);
-			if (d1 < d2) 
-			{
-				alert ("To Date cannot be Greater than From Date!");
-				return;
-			}
-			else
-			{
-		
-				if((document.getElementById("s1").selectedIndex==6))
-				{	
-					curT=document.getElementById("todate").value+" 00:00:00";
-					LHour=document.getElementById("fromdate").value+" 00:00:00";
-					var Cfrom=document.getElementById("fromdate").value;
-					var Cto=document.getElementById("todate").value;
-					newa=",' Energy Load Trend from "+Cfrom+" to " +Cto+"' as C5,'single' as C6,mt.METERNAME,UNITSHORT from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
-					" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-					"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
-					"EML.dt_logdate>'"+LHour+"'"+
-					" and EML.dt_logdate<'"+curT+"'"; 
-					 
-				}
-				
-			
-			}	
-		
-		}
-
-
-	if(document.getElementById("s1").selectedIndex==1)
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=yearL+ "-" + monthL + "-" + dayL+" "+hoursL+":"+minutesL+":"+secondsL;
-		newa=",'LH' as C5,'single' as C6,mt.METERNAME,UNITSHORT  from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
-		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
-		"EML.dt_logdate>'"+LHour+"'"+
-		" and EML.dt_logdate<'"+curT+"'"; 
-	}
-	if(document.getElementById("s1").selectedIndex==2)
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
-		newa=",'24H' as C5,'single' as C6,mt.METERNAME,UNITSHORT  from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
-		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
-		"EML.dt_logdate>'"+LHour+"'"+
-		" and EML.dt_logdate<'"+curT+"'"; 
-	}
-	if(document.getElementById("s1").selectedIndex==3)
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-		newa=",'7D' as C5,'single' as C6,mt.METERNAME,UNITSHORT  from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
-		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
-		"EML.dt_logdate>'"+LHour+"'"+
-		" and EML.dt_logdate<'"+curT+"'"; 
-	}
-	if(document.getElementById("s1").selectedIndex==4)
-	{
-	
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-		newa=",'30D' as C5,'single' as C6,mt.METERNAME,UNITSHORT  from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
-		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
-		"EML.dt_logdate>'"+LHour+"'"+
-		" and EML.dt_logdate<'"+curT+"'"; 
-	}
-	if(document.getElementById("s1").selectedIndex==5)
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
-		newa=",'365D' as C5,'single' as C6,mt.METERNAME,UNITSHORT  from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
-		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
-		"EML.dt_logdate>'"+LHour+"'"+
-		" and EML.dt_logdate<'"+curT+"'"; 
-	}
-	var cl1 = new String(location.href);
-	var targetURL1 = new String();
-	var tst1 = cl1.indexOf("&amp;newRPT");
-	if(  tst1 == -1 )
-	{
-		cl1 = cl1 + "&amp;newRPT=" + newa;
-	}
-	else
-	{
-		var ch1 = cl1.indexOf("&amp;newRPT=");
-		cl1 = cl1.substring(0, ch1) + "&amp;newRPT=" + newa;
-    }
-	window.location = cl1;
-
-}
-
-document.getElementById('mytable').style.display = "none";
-function showhidetab()
-{
-    
-    if(document.getElementById("s2").selectedIndex==0)
-	{
-	
-            document.getElementById('mytable').style.display = "none";
-			document.getElementById('myChart').style.display = "block";
-	}
-	if(document.getElementById("s2").selectedIndex==1)
-	{
-	document.getElementById('mytable').style.display = "block";
-            document.getElementById('myChart').style.display = "none";
-	}		
-
-   
-}
-
-
-
-</script>
-
-
-
-
-<body>
-<head>
-
-</head>
-
-
-<table  border=1 style="width:300px" bgcolor="black">
-
-<tr>
-  
-  
-  
-  <td>
-  <select id=s2 width=10 size=1 title="Select Report Type" name=Characters2 onChange="showhidetab()";>
-	
-	<option value=K>Chart</option> 
-	<option value=L>Table</option> 
-	</select>
-</td>
-  
-  <td>
-  <select id=s1 size=1 title="Select Period" name=Characters onChange="CheckDate()";>
-<option value=F>--Select--</option>
-<option value=F>Last Hour</option> 
-<option value=D>Last 24 Hour</option> 
-<option value=E>Last 7 Days</option>
-<option value=F>Last 30 Days</option>
-<option value=F>Last 365 Days</option>
-<option value=G>Specific Period</option>
-</select>
-  </td>	
-  <td>
-   <b><font color="white">From:</font></b>
-  </td>
-  <td>
-  <input type="date" title="Select From Date" id="fromdate" disabled>
-  </input>
-  </td>
-  <td>
-    <b><font color="white">To:</font></b>
-  </td>
-  <td>
-  <input type="date" title="Select To Date" id="todate" disabled>
-  </td>
-  <td>
-  <button type="button" title="Generate Report" onClick="logTrend()">Go</button>
-  </button>
-  </td>
-  
-  
-  
-  
-  
-
-</tr>
-
-</table>
-
-</body>
-
-
-
-
-
- 
-
-
-
-]]></text-property>
-        </text>
-        <grid name="hdr" id="231">
+        <text-data id="82">
+            <property name="fontSize">10pt</property>
+            <property name="fontWeight">bold</property>
             <property name="canShrink">true</property>
-            <column id="232"/>
-            <row id="233">
-                <cell id="234">
-                    <text-data id="235">
-                        <property name="fontWeight">bold</property>
-                        <property name="dataSet">DataSetForTrendChart</property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">C5</property>
-                                <text-property name="displayName">C5</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["C5"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                            <structure>
-                                <property name="name">unit</property>
-                                <expression name="expression" type="javascript">dataSetRow["UNITSHORT"]</expression>
-                                <property name="dataType">string</property>
-                                <property name="allowExport">true</property>
-                            </structure>
-                        </list-property>
-                        <expression name="valueExpr">if(row["C5"]=='LH')&#13;
+            <expression name="valueExpr">if(params["rpttype"].value=='t' &amp;&amp; params["grptype"].value=='h')&#13;
 {&#13;
-	row["C5"]='Energy Load Trend for the last 1 Hour';&#13;
+	'Energy Load trend for last 24 hours summarized by Hour';&#13;
 }&#13;
-else if(row["C5"]=='24H')&#13;
+&#13;
+else if(params["rpttype"].value=='s' &amp;&amp; params["grptype"].value=='h')&#13;
 {&#13;
-	row["C5"]='Energy Load Trend for the last 24 Hour';&#13;
+	'Energy Load trend for last 7 Days summarized by Hour';&#13;
 }&#13;
-else if(row["C5"]=='7D')&#13;
+&#13;
+else if(params["rpttype"].value=='s' &amp;&amp; params["grptype"].value=='d')&#13;
 {&#13;
-	row["C5"]='Energy Load Trend for the last 7 days';&#13;
+	'Energy Load trend for last 7 Days summarized by Day';&#13;
 }&#13;
-else if(row["C5"]=='30D')&#13;
+&#13;
+else if(params["rpttype"].value=='d' &amp;&amp; params["grptype"].value=='h')&#13;
 {&#13;
-	row["C5"]='Energy Load Trend for the last 30 days ';&#13;
+	'Energy Load trend for last 30 Days summarized by Hour';&#13;
 }&#13;
-else if(row["C5"]=='365D')&#13;
+&#13;
+else if(params["rpttype"].value=='d' &amp;&amp; params["grptype"].value=='d')&#13;
 {&#13;
-	row["C5"]='Energy Load Trend for the last 365 days';&#13;
+	'Energy Load trend for last 30 Days summarized by Day';&#13;
 }&#13;
+&#13;
+else if(params["rpttype"].value=='m' &amp;&amp; params["grptype"].value=='h')&#13;
+{&#13;
+	'Energy Load trend for last 365 Days summarized by Hour';&#13;
+}&#13;
+&#13;
+else if(params["rpttype"].value=='m' &amp;&amp; params["grptype"].value=='d')&#13;
+{&#13;
+	'Energy Load trend for last 365 Days summarized by Day';&#13;
+}&#13;
+&#13;
+else if(params["rpttype"].value=='m' &amp;&amp; params["grptype"].value=='m')&#13;
+{&#13;
+	'Energy Load trend for last 365 Days summarized by Month';&#13;
+}&#13;
+&#13;
+else if(params["rpttype"].value=='g' &amp;&amp; params["grptype"].value=='h')&#13;
+{&#13;
+	'Energy Load trend for the specified period summarized by Hour';&#13;
+}&#13;
+&#13;
+else if(params["rpttype"].value=='g' &amp;&amp; params["grptype"].value=='d')&#13;
+{&#13;
+	'Energy Load trend for the specified period summarized by Day';&#13;
+}&#13;
+&#13;
+else if(params["rpttype"].value=='g' &amp;&amp; params["grptype"].value=='m')&#13;
+{&#13;
+	'Energy Load trend for the specified period summarized by Month';&#13;
+}&#13;
+&#13;
+else if(params["rpttype"].value=='t' &amp;&amp; params["grptype"].value=='w')&#13;
+{&#13;
+	'Energy Load trend for the last 24 Hours';&#13;
+}&#13;
+else if(params["rpttype"].value=='s' &amp;&amp; params["grptype"].value=='w')&#13;
+{&#13;
+	'Energy Load trend for the last 7 Days';&#13;
+}&#13;
+else if(params["rpttype"].value=='d' &amp;&amp; params["grptype"].value=='w')&#13;
+{&#13;
+	'Energy Load trend for the last 30 Days';&#13;
+}&#13;
+&#13;
 else&#13;
 {&#13;
-	&#13;
-	if(row["C5"]==null || row["C5"]=='')&#13;
-	{&#13;
-		row["C5"]="No Data to display";&#13;
-	}&#13;
-	else&#13;
-	{&#13;
-		row["C5"]=row["C5"];&#13;
-	}&#13;
+	'Energy Load trend for the Specified period';&#13;
 }</expression>
-                        <property name="contentType">html</property>
-                    </text-data>
-                </cell>
-            </row>
-        </grid>
-        <extended-item extensionName="Chart" name="mychart" id="7">
+            <property name="contentType">html</property>
+        </text-data>
+        <extended-item extensionName="Chart" name="mychart" id="61">
             <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -1711,6 +599,9 @@ else&#13;
         <Visible>false</Visible>
       </Outline>
       <Visible>false</Visible>
+      <Cursor>
+        <Type>Auto</Type>
+      </Cursor>
       <Label>
         <Caption>
           <Value>Trend Chart </Value>
@@ -1953,21 +844,6 @@ else&#13;
   </Block>
   <Dimension>Two_Dimensional</Dimension>
   <Script>&#xD;
-		&#xD;
-function beforeDrawAxisTitle( axis, label, icsc )&#xD;
-{&#xD;
-var localcount1;&#xD;
-localcount1=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;s&quot;);&#xD;
-//for y axis unit &#xD;
-importPackage(Packages.org.eclipse.birt.chart.model.attribute);&#xD;
-if(localcount1==&quot;single&quot;)&#xD;
-		{&#xD;
-   if(axis.getType() == AxisType.LINEAR_LITERAL)&#xD;
-   {&#xD;
-   title=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;units&quot;);&#xD;
-        label.getCaption().setValue(title);&#xD;
-   }}&#xD;
-}&#xD;
 &#xD;
 	function beforeGeneration( chart, icsc ) &#xD;
 	{ &#xD;
@@ -1975,11 +851,7 @@ if(localcount1==&quot;single&quot;)&#xD;
 		importPackage(Packages.org.eclipse.birt.chart.model.data.impl);&#xD;
 		importPackage(Packages.org.eclipse.birt.chart.model.attribute);&#xD;
 		importPackage(Packages.org.eclipse.birt.chart.model.attribute.impl);&#xD;
-		var localcount2;&#xD;
-		localcount2=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;s&quot;);&#xD;
 		&#xD;
-		if(localcount2==&quot;single&quot;)&#xD;
-		{&#xD;
 		var chart = icsc.getChartInstance();&#xD;
 		var yAxis = chart.getAxes().get(0).getAssociatedAxes().get(0);&#xD;
 		var min_value = icsc.getExternalContext().getScriptable().getGlobalVariable(&quot;minimum&quot;);&#xD;
@@ -2010,7 +882,7 @@ if(localcount1==&quot;single&quot;)&#xD;
 			max_ml.getLineAttributes().getColor().set(185,95,59);&#xD;
 			max_ml.getLineAttributes().setThickness(1);&#xD;
 		&#xD;
-	}}&#xD;
+	}&#xD;
 	&#xD;
 &#xD;
 } &#xD;
@@ -2113,7 +985,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
       <Bottom>10.0</Bottom>
       <Right>10.0</Right>
     </Insets>
-    <Visible>false</Visible>
+    <Visible>true</Visible>
   </EmptyMessage>
   <Axes>
     <Type>Text</Type>
@@ -2145,6 +1017,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
           <Green>0</Green>
           <Blue>0</Blue>
         </Color>
+        <Visible>false</Visible>
       </Outline>
       <Insets>
         <Top>0.0</Top>
@@ -2159,7 +1032,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
       <Type>Linear</Type>
       <Title>
         <Caption>
-          <Value></Value>
+          <Value>KVA</Value>
           <Font>
             <Size>14.0</Size>
             <Bold>true</Bold>
@@ -2197,7 +1070,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions ZOrder="10">
         <Query>
-          <Definition>row[&quot;Uni&quot;]</Definition>
+          <Definition>row[&quot;ATTRIBUTE&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -3220,18 +2093,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
           <Visible>false</Visible>
         </Label>
         <DataDefinition>
-          <Definition>if(row[&quot;C5&quot;]=='LH')&#xD;
-{&#xD;
-Formatter.format(row[&quot;C3&quot;],'hh:mm:ss a')&#xD;
-}&#xD;
-else if(row[&quot;C5&quot;]=='24H')&#xD;
-{&#xD;
-Formatter.format(row[&quot;C3&quot;],'hh:mm:ss a')&#xD;
-}&#xD;
-else &#xD;
-{&#xD;
-Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
-}</Definition>
+          <Definition>row[&quot;C3&quot;]</Definition>
         </DataDefinition>
         <SeriesIdentifier></SeriesIdentifier>
         <DataPoint>
@@ -3245,14 +2107,11 @@ Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingUnit>Minutes</GroupingUnit>
+        <GroupingUnit>Years</GroupingUnit>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
-      <Sorting>Ascending</Sorting>
-      <SortKey>
-        <Definition>row[&quot;ATTRIBUTE&quot;]</Definition>
-      </SortKey>
+      <SortKey/>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
     <LineAttributes>
@@ -3381,13 +2240,8 @@ Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
             <property name="height">4.083in</property>
             <property name="width">7.99in</property>
             <expression name="bookmark" type="javascript">"myChart"</expression>
-            <property name="dataSet">DataSetForTrendChart</property>
+            <property name="dataSet">Data Set</property>
             <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">TAG_ID</property>
-                    <expression name="expression" type="javascript">dataSetRow["TAG_ID"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
                 <structure>
                     <property name="name">N_READING</property>
                     <expression name="expression" type="javascript">dataSetRow["N_READING"]</expression>
@@ -3396,7 +2250,7 @@ Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
                 <structure>
                     <property name="name">C3</property>
                     <expression name="expression" type="javascript">dataSetRow["C3"]</expression>
-                    <property name="dataType">date-time</property>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">ATTRIBUTE</property>
@@ -3423,234 +2277,7 @@ Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
                     <expression name="expression" type="javascript">dataSetRow["UNITSHORT"]</expression>
                     <property name="dataType">string</property>
                 </structure>
-                <structure>
-                    <property name="name">Uni</property>
-                    <expression name="expression" type="javascript">dataSetRow["Uni"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
             </list-property>
         </extended-item>
-        <grid name="tbl" id="227">
-            <property name="backgroundColor">#FFFFFF</property>
-            <property name="canShrink">true</property>
-            <expression name="bookmark" type="javascript">"mytable"</expression>
-            <column id="228"/>
-            <row id="229">
-                <cell id="230">
-                    <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="165">
-                        <property name="cube">Data CubeTrend</property>
-                        <property name="measures">
-                            <extended-item extensionName="MeasureView" id="190">
-                                <property name="measure">N_READING</property>
-                                <property name="detail">
-                                    <extended-item extensionName="AggregationCell" id="191">
-                                        <property name="aggregationOnRow">Group3/C3</property>
-                                        <property name="aggregationOnColumn">Group2/UNITSHORT</property>
-                                        <property name="content">
-                                            <data id="192">
-                                                <property name="style">crosstab-detail1</property>
-                                                <property name="fontSize">11px</property>
-                                                <property name="textAlign">center</property>
-                                                <property name="resultSetColumn">N_READING_Group3/C3_Group2/UNITSHORT</property>
-                                            </data>
-                                        </property>
-                                    </extended-item>
-                                </property>
-                                <property name="header">
-                                    <extended-item extensionName="CrosstabCell" id="193">
-                                        <property name="content">
-                                            <label id="194">
-                                                <property name="fontSize">12px</property>
-                                                <property name="textAlign">center</property>
-                                                <text-property name="text">Reading</text-property>
-                                            </label>
-                                        </property>
-                                    </extended-item>
-                                </property>
-                            </extended-item>
-                        </property>
-                        <property name="rows">
-                            <extended-item extensionName="CrosstabView" id="167">
-                                <property name="views">
-                                    <extended-item extensionName="DimensionView" id="168">
-                                        <property name="dimension">Group3</property>
-                                        <property name="levels">
-                                            <extended-item extensionName="LevelView" name="NewLevel View" id="169">
-                                                <property name="level">Group3/C3</property>
-                                                <property name="member">
-                                                    <extended-item extensionName="CrosstabCell" id="170">
-                                                        <property name="content">
-                                                            <data name="C3" id="171">
-                                                                <property name="style">crosstab-detail1</property>
-                                                                <property name="fontSize">11px</property>
-                                                                <property name="fontWeight">normal</property>
-                                                                <property name="textAlign">center</property>
-                                                                <property name="resultSetColumn">C3</property>
-                                                            </data>
-                                                        </property>
-                                                    </extended-item>
-                                                </property>
-                                            </extended-item>
-                                        </property>
-                                    </extended-item>
-                                </property>
-                            </extended-item>
-                        </property>
-                        <property name="columns">
-                            <extended-item extensionName="CrosstabView" id="173">
-                                <property name="views">
-                                    <extended-item extensionName="DimensionView" id="174">
-                                        <property name="dimension">Group</property>
-                                        <property name="levels">
-                                            <extended-item extensionName="LevelView" name="NewLevel View1" id="175">
-                                                <property name="level">Group/METERNAME</property>
-                                                <property name="member">
-                                                    <extended-item extensionName="CrosstabCell" id="176">
-                                                        <property name="content">
-                                                            <data name="METERNAME" id="177">
-                                                                <property name="style">crosstab-detail1</property>
-                                                                <property name="fontSize">11px</property>
-                                                                <property name="fontWeight">normal</property>
-                                                                <property name="textAlign">center</property>
-                                                                <property name="resultSetColumn">METERNAME</property>
-                                                            </data>
-                                                        </property>
-                                                    </extended-item>
-                                                </property>
-                                            </extended-item>
-                                        </property>
-                                    </extended-item>
-                                    <extended-item extensionName="DimensionView" id="178">
-                                        <property name="dimension">Group1</property>
-                                        <property name="levels">
-                                            <extended-item extensionName="LevelView" name="NewLevel View2" id="179">
-                                                <property name="level">Group1/ATTRIBUTE</property>
-                                                <property name="member">
-                                                    <extended-item extensionName="CrosstabCell" id="180">
-                                                        <property name="content">
-                                                            <data name="ATTRIBUTE" id="182">
-                                                                <property name="style">crosstab-detail1</property>
-                                                                <property name="fontSize">11px</property>
-                                                                <property name="fontWeight">normal</property>
-                                                                <property name="textAlign">center</property>
-                                                                <property name="resultSetColumn">ATTRIBUTE</property>
-                                                            </data>
-                                                        </property>
-                                                    </extended-item>
-                                                </property>
-                                            </extended-item>
-                                        </property>
-                                    </extended-item>
-                                    <extended-item extensionName="DimensionView" id="184">
-                                        <property name="dimension">Group2</property>
-                                        <property name="levels">
-                                            <extended-item extensionName="LevelView" name="NewLevel View3" id="185">
-                                                <property name="level">Group2/UNITSHORT</property>
-                                                <property name="member">
-                                                    <extended-item extensionName="CrosstabCell" id="186">
-                                                        <property name="content">
-                                                            <data name="UNITSHORT" id="188">
-                                                                <property name="style">crosstab-detail1</property>
-                                                                <property name="fontSize">11px</property>
-                                                                <property name="fontWeight">normal</property>
-                                                                <property name="textAlign">center</property>
-                                                                <property name="resultSetColumn">UNITSHORT</property>
-                                                            </data>
-                                                        </property>
-                                                    </extended-item>
-                                                </property>
-                                            </extended-item>
-                                        </property>
-                                    </extended-item>
-                                </property>
-                            </extended-item>
-                        </property>
-                        <property name="header">
-                            <extended-item extensionName="CrosstabCell" id="181">
-                                <property name="content">
-                                    <label id="183">
-                                        <property name="fontSize">12px</property>
-                                        <property name="textAlign">center</property>
-                                        <text-property name="text">Meter</text-property>
-                                    </label>
-                                </property>
-                            </extended-item>
-                            <extended-item extensionName="CrosstabCell" id="187">
-                                <property name="content">
-                                    <label id="189">
-                                        <property name="fontSize">12px</property>
-                                        <property name="textAlign">center</property>
-                                        <text-property name="text">Tag </text-property>
-                                    </label>
-                                </property>
-                            </extended-item>
-                            <extended-item extensionName="CrosstabCell" id="195">
-                                <property name="content">
-                                    <label id="196">
-                                        <property name="fontSize">12px</property>
-                                        <property name="textAlign">center</property>
-                                        <text-property name="text">Unit</text-property>
-                                    </label>
-                                </property>
-                            </extended-item>
-                            <extended-item extensionName="CrosstabCell" id="166">
-                                <property name="content">
-                                    <label id="172">
-                                        <property name="fontSize">12px</property>
-                                        <property name="textAlign">center</property>
-                                        <text-property name="text">Log Time</text-property>
-                                    </label>
-                                </property>
-                            </extended-item>
-                        </property>
-                        <property name="canShrink">true</property>
-                        <expression name="bookmark" type="javascript">"mytable"</expression>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">C3</property>
-                                <expression name="expression">dimension["Group3"]["C3"]</expression>
-                                <property name="dataType">date-time</property>
-                            </structure>
-                            <structure>
-                                <property name="name">METERNAME</property>
-                                <expression name="expression">dimension["Group"]["METERNAME"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                            <structure>
-                                <property name="name">ATTRIBUTE</property>
-                                <expression name="expression">dimension["Group1"]["ATTRIBUTE"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                            <structure>
-                                <property name="name">UNITSHORT</property>
-                                <expression name="expression">dimension["Group2"]["UNITSHORT"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                            <structure>
-                                <property name="name">N_READING_Group3/C3_Group2/UNITSHORT</property>
-                                <expression name="expression">measure["N_READING"]</expression>
-                                <property name="dataType">decimal</property>
-                                <simple-property-list name="aggregateOn">
-                                    <value>Group3/C3</value>
-                                    <value>Group2/UNITSHORT</value>
-                                </simple-property-list>
-                                <property name="aggregateFunction">SUM</property>
-                            </structure>
-                            <structure>
-                                <property name="name">max</property>
-                                <property name="dataType">integer</property>
-                                <property name="aggregateFunction">MAX</property>
-                                <list-property name="arguments">
-                                    <structure>
-                                        <property name="name">Expression</property>
-                                        <expression name="value" type="javascript">measure["N_READING"]</expression>
-                                    </structure>
-                                </list-property>
-                            </structure>
-                        </list-property>
-                    </extended-item>
-                </cell>
-            </row>
-        </grid>
     </body>
 </report>
