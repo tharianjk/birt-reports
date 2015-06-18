@@ -160,7 +160,7 @@ LHour=params["fromdate"].value
 ]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
-            <xml-property name="queryText"><![CDATA[select  sourcename,sum(round(NormalCost,2)) NormalCost,sum(NormalQty) NormalQty,sum(round(OffpeakCost,2)) OffpeakCost,sum(OffpeakQty) OffpeakQty,sum(round(PeakCost,2)) PeakCost,sum(PeakQty) PeakQty ,dtdate,unitshort,C7 from (
+            <xml-property name="queryText"><![CDATA[select  SOURCENAME,sum(round(NormalCost,2)) NORMALCOST,sum(NormalQty) NORMALQTY,sum(round(OffpeakCost,2)) OFFPEAKCOST,sum(OffpeakQty) OFFPEAKQTY,sum(round(PeakCost,2)) PEAKCOST,sum(PeakQty) PEAKQTY ,DTDATE,UNITSHORT,C7 from (
 select sourcename,
 case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty)*V.N_COST else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION)*V.N_COST end NormalCost,
 case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION) end NormalQty,0 OffpeakCost,0 OffpeakQty,0 PeakCost,0 PeakQty
