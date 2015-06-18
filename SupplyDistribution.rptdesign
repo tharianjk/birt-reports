@@ -311,7 +311,7 @@ if(params["newRPT"].value=="")
 " where T.dt_date >'"+LHour+"'"+
 " and T.dt_date <'"+curT+"'"+
 " and a.company_id ='"+params["UsrCompId"].value+"'"+
-" group by src.sourcename,un.unitshort";
+" group by src.SOURCENAME,un.UNITSHORT";
 	
 	
 	
@@ -320,7 +320,7 @@ if(params["newRPT"].value=="")
 else
 {
 	this.queryText = this.queryText+params["newRPT"].value+
-	" group by src.sourcename,un.unitshort";
+	" group by src.SOURCENAME,un.UNITSHORT";
 }]]></method>
             <method name="onFetch"><![CDATA[if(row["C4"]=='7D')
 {
@@ -375,7 +375,7 @@ reportContext.setPersistentGlobalVariable("Demographic", row["UNITSHORT"]+' '+ro
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select src.sourcename as DISPLAYNAME,sum(s.UTILITY_QTY) as UTILITY_QTY,un.unitshort]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select src.SOURCENAME as DISPLAYNAME,sum(s.UTILITY_QTY) as UTILITY_QTY,un.UNITSHORT]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>

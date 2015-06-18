@@ -191,18 +191,18 @@ if(params["newRPT"].value=="")
 			" inner join ems_source src on sec.source_id = src.source_id"+
 			" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
 			" inner join ems_unit UN on UN.unit_id=UT.unit_id where"+ 
-			" d.DT_DATE>='2015-03-30 00:00:00'and d.DT_DATE<'2015-03-31 00:00:00' and src.source_id='10001' group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
+			" d.DT_DATE>='2015-03-30 00:00:00'and d.DT_DATE<'2015-03-31 00:00:00' and src.source_id='10001' group by src.sourcename,DAY_ID,d.DT_DATE, un.UNITSHORT"+
 			" UNION"+
-			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.unitshort ,'7H' as C6"+
+			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.UNITSHORT ,'7H' as C6"+
 			" from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , fwk_section sec, ems_source  src where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id and sec.source_id ='10001'"+ 
-			" and d.DT_DATE>='2015-03-30 00:00:00' and d.DT_DATE<'2015-03-31 00:00:00' group by src.sourcename ,EUN.unitshort,DAY_ID,d.DT_DATE) tab group by DISPLAYNAME,DAY_ID,C4,unitshort,C6 order by C4 asc";
+			" and d.DT_DATE>='2015-03-30 00:00:00' and d.DT_DATE<'2015-03-31 00:00:00' group by src.sourcename ,EUN.UNITSHORT,DAY_ID,d.DT_DATE) tab group by DISPLAYNAME,DAY_ID,C4,unitshort,C6 order by C4 asc";
 
 }
 else
 {
 
 
-this.queryText = this.queryText+params["newRPT"]+" group by src.sourcename ,EUN.unitshort,DAY_ID,d.DT_DATE) tab group by DISPLAYNAME,DAY_ID,C4,unitshort,C6 order by C4 asc";
+this.queryText = this.queryText+params["newRPT"]+" group by src.sourcename ,EUN.UNITSHORT,DAY_ID,d.DT_DATE) tab group by DISPLAYNAME,DAY_ID,C4,UNITSHORT,C6 order by C4 asc";
 	
 }]]></method>
             <property name="dataSource">IrevealDS</property>
@@ -244,9 +244,9 @@ this.queryText = this.queryText+params["newRPT"]+" group by src.sourcename ,EUN.
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select DISPLAYNAME,sum(C2) C2,DAY_ID,C4,unitshort,C6 from (
+            <xml-property name="queryText"><![CDATA[select DISPLAYNAME,sum(C2) C2,DAY_ID,C4,UNITSHORT,C6 from (
 select src.sourcename DISPLAYNAME,sum(utility_qty) C2, d.DAY_ID ,cast(d.DT_DATE as datetime) C4,
-un.unitshort]]></xml-property>
+un.UNITSHORT]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -666,11 +666,7 @@ un.unitshort]]></xml-property>
         </style>
     </styles>
     <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2">
-            <page-footer>
-                
-            </page-footer>
-        </simple-master-page>
+        <simple-master-page name="Simple MasterPage" id="2"/>
     </page-setup>
     <body>
         <text id="506">
