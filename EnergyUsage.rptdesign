@@ -245,7 +245,7 @@ if(lastChar=='M')&#13;
 	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
 	" EUN.unit_id=EU.unit_id and case '"+params["typ"].value+"' when 2 then a.parent_id='"+params["UsrSecId"].value+"' else a.assettree_id='"+params["UsrSecId"].value+"' end and"+ 
 	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
-	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE) tab"+
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE) as tab"+
 	" group by DISPLAYNAME,unitshort,DAY_ID,C4,C5 order by C4 asc";
 	
 	
@@ -253,7 +253,7 @@ if(lastChar=='M')&#13;
 	]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
-            <xml-property name="queryText"><![CDATA[select DISPLAYNAME,sum(C2) C2,unitshort,DAY_ID,C4,C5 from (
+            <xml-property name="queryText"><![CDATA[select DISPLAYNAME,sum(C2) C2,UNITSHORT,DAY_ID,C4,C5 from (
 select b.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID
 ,cast(d.dt_date as datetime) as C4]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -917,7 +917,7 @@ if( series.getSeriesIdentifier() == &quot;Quantity Consumed&quot; )
 		}
 		else
 		{
-			icsc.getChartInstance().getBlock().getBounds().setWidth(800);
+			icsc.getChartInstance().getBlock().getBounds().setWidth(500);
  			icsc.getChartInstance().getBlock().getBounds().setHeight(350);
 		}
 	}
