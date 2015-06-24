@@ -345,7 +345,7 @@ this.queryText = this.queryText+params["newRPT"]+" and ad.PARENT_ID in (select f
 }]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
-            <xml-property name="queryText"><![CDATA[select typ,unitshort,sum(supplyqty) supplyqty,sum(demandqty) demandqty,cast(dt_date as datetime) dt_date]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select TYP,UNITSHORT,sum(supplyqty) as SUPPLYQTY,sum(demandqty) as DEMANDQTY,cast(dt_date as datetime) as DT_DATE]]></xml-property>
         </oda-data-set>
     </data-sets>
     <cubes>
