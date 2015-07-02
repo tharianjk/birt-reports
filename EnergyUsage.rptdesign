@@ -905,7 +905,7 @@ function afterDataSetFilled( series, dataSet, icsc )
 {
 if( series.getSeriesIdentifier() == &quot;Quantity Consumed&quot; )
 	{
-		if( dataSet.getValues().length > 30 &amp;&amp; dataSet.getValues().length&lt;50)
+		if( dataSet.getValues().length > 31 &amp;&amp; dataSet.getValues().length&lt;50)
 		{
  			icsc.getChartInstance().getBlock().getBounds().setWidth(3800);
  			icsc.getChartInstance().getBlock().getBounds().setHeight(350);
@@ -917,8 +917,16 @@ if( series.getSeriesIdentifier() == &quot;Quantity Consumed&quot; )
 		}
 		else
 		{
-			icsc.getChartInstance().getBlock().getBounds().setWidth(500);
+			if(dataSet.getValues().length > 10)
+			{
+ 			icsc.getChartInstance().getBlock().getBounds().setWidth(1000);
  			icsc.getChartInstance().getBlock().getBounds().setHeight(350);
+			}
+			else
+			{
+			 icsc.getChartInstance().getBlock().getBounds().setWidth(500);
+ 			 icsc.getChartInstance().getBlock().getBounds().setHeight(350); 
+ 			}
 		}
 	}
 }

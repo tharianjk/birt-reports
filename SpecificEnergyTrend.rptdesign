@@ -88,55 +88,7 @@ if(lastChar=='M')&#13;
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">PRODUCT</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">DTE</property>
-                        <property name="dataType">date</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">EN_QTY</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">PR_QTY</property>
-                        <property name="dataType">float</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">SPE</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">OPT</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">CUSD</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">CUSM</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">9</property>
-                        <property name="name">RowCount</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                </list-property>
-            </structure>
+            <structure name="cachedMetaData"/>
             <method name="beforeOpen"><![CDATA[/*
 
 var currentTime = new Date()
@@ -325,7 +277,7 @@ if(params["newRPT"].value=="")
 {
 	this.queryText = this.queryText +
 	
-	",'D' opt from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
+	",'D' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
 	"pr.product,avg(p.n_prodqty/cast((p.dt_to - p.dt_from) as decimal)) pr_qty"+
 " from ems_production_log p, ems_time_dim t, ems_product pr"+
 " where t.dt_date between p.dt_from and p.dt_to"+
@@ -340,13 +292,13 @@ if(params["newRPT"].value=="")
 " inner join ems_section_summary s on a.assettree_id=s.ASSETTREE_ID"+
 " inner join ems_time_dim t on t.TIME_ID=s.TIME_ID"+
 " where p.product = 'Pr'"+
-" group by p.product_id,p.product, t.year_id, t.month_id, t.day_id ) sum_energy"+
+" group by p.product_id,p.product, t.year_id, t.month_id, t.day_id ) as sum_energy"+
 " where sum_prod.year_id = sum_energy.year_id"+
 " and sum_prod.month_id = sum_energy.month_id"+
 " and sum_prod.day_id = sum_energy.day_id"+
 " and sum_prod.product_id = sum_energy.product_id"+
 " and sum_prod.product= sum_energy.product"+
-" order by cast(sum_prod.year_id+'-'+sum_prod.month_id+'-'+sum_prod.day_id as date) asc";
+" order by cast(sum_prod.year_id+'-'+sum_prod.month_id+'-'+sum_prod.day_id as DATE) asc";
 
 }
 else
@@ -360,49 +312,12 @@ this.queryText = this.queryText+params["newRPT"]+
 " and sum_prod.day_id = sum_energy.day_id"+
 " and sum_prod.product_id = sum_energy.product_id"+
 " and sum_prod.product= sum_energy.product"+
-" order by cast(sum_prod.year_id+'-'+sum_prod.month_id+'-'+sum_prod.day_id as date) asc";
+" order by cast(sum_prod.year_id+'-'+sum_prod.month_id+'-'+sum_prod.day_id as DATE) asc";
  
 }]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">PRODUCT</property>
-                    <property name="nativeName">PRODUCT</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">DTE</property>
-                    <property name="nativeName">DTE</property>
-                    <property name="dataType">date</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">EN_QTY</property>
-                    <property name="nativeName">EN_QTY</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">PR_QTY</property>
-                    <property name="nativeName">PR_QTY</property>
-                    <property name="dataType">float</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">SPE</property>
-                    <property name="nativeName">SPE</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
-                    <property name="name">OPT</property>
-                    <property name="nativeName">OPT</property>
-                    <property name="dataType">string</property>
-                </structure>
-            </list-property>
-            <xml-property name="queryText"><![CDATA[select sum_prod.product,cast(sum_prod.year_id+'-'+sum_prod.month_id+'-'+sum_prod.day_id as date) dte, sum_energy.en_qty, sum_prod.pr_qty, sum_energy.en_qty/sum_prod.pr_qty spe
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[select sum_prod.product as PRODUCT,cast(sum_prod.year_id+'-'+sum_prod.month_id+'-'+sum_prod.day_id as DATE) as DTE, sum_energy.en_qty as EN_QTY, sum_prod.pr_qty as PR_QTY, sum_energy.en_qty/sum_prod.pr_qty as SPE
 ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1141,7 +1056,7 @@ function SpecificEnergyTrend()
 					LHour=document.getElementById("fromdate").value+" 00:00:00";
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
-					newa=",' Specific Energy Trend summarized by Day from "+Cfrom+" to " +Cto+" in KWHSD' opt from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
+					newa=",' Specific Energy Trend summarized by Day from "+Cfrom+" to " +Cto+" in KWHSD' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
 					" pr.product,avg(p.n_prodqty/cast((p.dt_to - p.dt_from) as decimal)) pr_qty"+
 					" from ems_production_log p, ems_time_dim t, ems_product pr"+
 					" where t.dt_date between p.dt_from and p.dt_to"+
@@ -1162,7 +1077,7 @@ function SpecificEnergyTrend()
 					LHour=document.getElementById("fromdate").value+" 00:00:00";
 					var Cfrom=document.getElementById("fromdate").value;
 					var Cto=document.getElementById("todate").value;
-					newa=",' Specific Energy Trend summarized by Month from "+Cfrom+" to " +Cto+" in KWHSM' opt from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
+					newa=",' Specific Energy Trend summarized by Month from "+Cfrom+" to " +Cto+" in KWHSM' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
 					" pr.product,avg(p.n_prodqty/cast((p.dt_to - p.dt_from) as decimal)) pr_qty"+
 					" from ems_production_log p, ems_time_dim t, ems_product pr"+
 					" where t.dt_date between p.dt_from and p.dt_to"+
@@ -1194,7 +1109,7 @@ function SpecificEnergyTrend()
 		
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-		newa=",'7D' opt from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
+		newa=",'7D' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
 					" pr.product,avg(p.n_prodqty/cast((p.dt_to - p.dt_from) as decimal)) pr_qty"+
 					" from ems_production_log p, ems_time_dim t, ems_product pr"+
 					" where t.dt_date between p.dt_from and p.dt_to"+
@@ -1217,7 +1132,7 @@ function SpecificEnergyTrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 		
-		newa=",'30D' opt from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
+		newa=",'30D' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
 					" pr.product,avg(p.n_prodqty/cast((p.dt_to - p.dt_from) as decimal)) pr_qty"+
 					" from ems_production_log p, ems_time_dim t, ems_product pr"+
 					" where t.dt_date between p.dt_from and p.dt_to"+
@@ -1239,7 +1154,7 @@ function SpecificEnergyTrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 		
-		newa=",'30M' opt from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
+		newa=",'30M' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
 					" pr.product,avg(p.n_prodqty/cast((p.dt_to - p.dt_from) as decimal)) pr_qty"+
 					" from ems_production_log p, ems_time_dim t, ems_product pr"+
 					" where t.dt_date between p.dt_from and p.dt_to"+
@@ -1261,7 +1176,7 @@ function SpecificEnergyTrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 		
-		newa=",'365D' opt from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
+		newa=",'365D' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
 					" pr.product,avg(p.n_prodqty/cast((p.dt_to - p.dt_from) as decimal)) pr_qty"+
 					" from ems_production_log p, ems_time_dim t, ems_product pr"+
 					" where t.dt_date between p.dt_from and p.dt_to"+
@@ -1282,7 +1197,7 @@ function SpecificEnergyTrend()
 		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 		
-		newa=",'365M' opt from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
+		newa=",'365M' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
 					" pr.product,avg(p.n_prodqty/cast((p.dt_to - p.dt_from) as decimal)) pr_qty"+
 					" from ems_production_log p, ems_time_dim t, ems_product pr"+
 					" where t.dt_date between p.dt_from and p.dt_to"+

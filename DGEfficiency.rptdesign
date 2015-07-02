@@ -270,13 +270,13 @@ if(params["newRPT"].value=="")
 		/*" and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"'"+*/
 		" group by V.asset_id,t.dt_date,assetname,attributeshort,utility,company_id) tab where company_id='"+params["UsrCompId"].value+"'"+
 		" and asset_id=100001"+
-		" group by dt_date,ASSETNAME)  tab1 where outqty>0 and inqty>0";	
+		" group by dt_date,ASSETNAME) as tab1 where outqty>0 and inqty>0";	
 		
 }
 else
 {
 	
-	this.queryText = this.queryText+params["newRPT"]+"group by dt_date,ASSETNAME)  tab1 where outqty>0 and inqty>0";
+	this.queryText = this.queryText+params["newRPT"]+"group by dt_date,ASSETNAME) as tab1 where outqty>0 and inqty>0";
 
 }		
 			
@@ -289,7 +289,7 @@ else
 			]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
-            <xml-property name="queryText"><![CDATA[select dt_date,ASSETNAME,outqty/inqty eff]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select DT_DATE,ASSETNAME,outqty/inqty as EFF]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>

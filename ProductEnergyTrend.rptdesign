@@ -147,55 +147,7 @@ if(lastChar=='H')&#13;
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">PRODUCT</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">QTY</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">C3</property>
-                        <property name="dataType">date-time</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">C4</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">cus</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">cusD</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">cusM</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">nodatacount</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">9</property>
-                        <property name="name">specificHour</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                </list-property>
-            </structure>
+            <structure name="cachedMetaData"/>
             <method name="beforeOpen"><![CDATA[
 var currentTime = new Date()
 
@@ -408,33 +360,8 @@ this.queryText = this.queryText+params["newRPT"]+" group by product,t.dt_date "+
  
 }]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">PRODUCT</property>
-                    <property name="nativeName">PRODUCT</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">QTY</property>
-                    <property name="nativeName">QTY</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">C3</property>
-                    <property name="nativeName">C3</property>
-                    <property name="dataType">date-time</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">C4</property>
-                    <property name="nativeName">C4</property>
-                    <property name="dataType">string</property>
-                </structure>
-            </list-property>
-            <xml-property name="queryText"><![CDATA[select product, sum(UTILITY_QTY*A.N_ALLOCATION/100) as QTY,cast(t.dt_date as datetime) as C3]]></xml-property>
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[select PRODUCT, sum(UTILITY_QTY*A.N_ALLOCATION/100) as QTY,cast(t.dt_date as datetime) as C3]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
