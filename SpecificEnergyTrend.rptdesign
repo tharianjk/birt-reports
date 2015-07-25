@@ -1007,7 +1007,7 @@ function SpecificEnergyTrend()
 	parent.selected_tdate=document.getElementById("todate").value;
 
 	var productId=parent.prodid_arr[document.getElementById("Product").selectedIndex-1];
-	if(parent.AssetTree.selectedtype == 5)
+	if(parent.assettree_selectedtype == 5)
 	{
 		alert ("Select Section/Asset/Location!");
 			return;

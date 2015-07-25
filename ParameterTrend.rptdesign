@@ -1312,13 +1312,13 @@ hoursL24  = "0" + hoursL24
 }
 
 
-if (parent.AssetTree.selectedsection === undefined)
+if (parent.assettree_selectedsection === undefined)
 	{
-		parent.AssetTree.selectedsection = 0;
+		parent.assettree_selectedsection = 0;
 	}
-if(parent.AssetTree.selectedtype === undefined)
+if(parent.assettree_selectedtype === undefined)
 	{
-		parent.AssetTree.selectedtype = 0;
+		parent.assettree_selectedtype = 0;
 	}
 	
 	if(parent.attrarr === undefined)
@@ -1396,7 +1396,7 @@ function logTrend()
 	parent.selected_period_ndx=document.getElementById("s1").selectedIndex;
 	parent.selected_fdate=document.getElementById("fromdate").value;
 	parent.selected_tdate=document.getElementById("todate").value;
-	if(parent.AssetTree.selectedtype < 5)
+	if(parent.assettree_selectedtype < 5)
 	{
 		alert ("Select Attribute from the Asset-Tree!");
 			return;
