@@ -280,7 +280,7 @@ LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds3
 if(params["newRPT"].value=="")
 {
 	this.queryText = this.queryText +",'30D' AS C4 FROM VW_BILLTIME_SOURCE V INNER JOIN EMS_SOURCE SUP ON V.SOURCE_ID = SUP.SOURCE_ID"+
-	" INNER JOIN FWK_SECTION S ON V.SOURCE_ID=S.SOURCE_ID"+ 
+	" INNER JOIN vw_assetsection S ON V.SOURCE_ID=S.SOURCE_ID"+ 
 	" INNER JOIN EMS_SECTION_SUMMARY SU ON SU.ASSETTREE_ID=S.SECTION_ID"+
 	" INNER JOIN EMS_TIME_DIM T ON SU.TIME_ID=T.TIME_ID AND T.HR_ID=V.HR_ID"+
 	" INNER JOIN EMS_UTILITY UT ON UT.UTILITY_ID=SU.UTILITY_ID"+
@@ -624,7 +624,7 @@ curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 if(params["newRPT1"].value=="")
 {
-	this.queryText = this.queryText +",'30D' AS C4 FROM VW_BILLTIME_SOURCE V INNER JOIN FWK_SECTION S ON V.SOURCE_ID=S.SOURCE_ID INNER JOIN EMS_SOURCE SUP ON V.SOURCE_ID = SUP.SOURCE_ID"+
+	this.queryText = this.queryText +",'30D' AS C4 FROM VW_BILLTIME_SOURCE V INNER JOIN vw_assetsection S ON V.SOURCE_ID=S.SOURCE_ID INNER JOIN EMS_SOURCE SUP ON V.SOURCE_ID = SUP.SOURCE_ID"+
 				" INNER JOIN EMS_SECTION_SUMMARY SU ON SU.ASSETTREE_ID=S.SECTION_ID INNER JOIN EMS_TIME_DIM T"+
 				" ON SU.TIME_ID=T.TIME_ID AND T.HR_ID=V.HR_ID INNER JOIN EMS_UTILITY UT ON UT.UTILITY_ID=SU.UTILITY_ID INNER JOIN EMS_UNIT UN ON UN.UNIT_ID=UT.UNIT_ID WHERE T.DT_DATE >='"+LHour+"' and t.dt_date <'"+curT+"' AND V.SOURCE_ID='10001' AND SUP.COMPANY_ID='1'"+
 				" GROUP BY TIMEPERIOD,V.N_COST,UN.UNITSHORT,NF_FRACTION,NT_FRACTION";
@@ -1287,7 +1287,7 @@ function costdis()
 				LHour=document.getElementById("fromdate").value+" 00:00:00";
 				var Cfrom=document.getElementById("fromdate").value;
 				var Cto=document.getElementById("todate").value;
-				newa1=",' Cost distribution from "+Cfrom+" to " +Cto+" ' as C4 from vw_billtime_source v inner join fwk_section s on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
+				newa1=",' Cost distribution from "+Cfrom+" to " +Cto+" ' as C4 from vw_billtime_source v inner join vw_assetsection s on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
 				" inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t"+
 				" on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"'";
 				
@@ -1305,7 +1305,7 @@ function costdis()
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
-				newa1=",'24H' as C4 from vw_billtime_source v inner join fwk_section s on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
+				newa1=",'24H' as C4 from vw_billtime_source v inner join vw_assetsection s on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
 				" inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t"+
 				" on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"'";
 			}
@@ -1313,7 +1313,7 @@ function costdis()
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-				newa1=",'7D' as C4 from vw_billtime_source v inner join fwk_section s on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
+				newa1=",'7D' as C4 from vw_billtime_source v inner join vw_assetsection s on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
 				" inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t"+
 				" on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"'";
 			}
@@ -1321,7 +1321,7 @@ function costdis()
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-				newa1=",'30D' as C4 from vw_billtime_source v inner join fwk_section s on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
+				newa1=",'30D' as C4 from vw_billtime_source v inner join vw_assetsection s on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
 				" inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t"+
 				" on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"'";
 			}
@@ -1329,7 +1329,7 @@ function costdis()
 			{
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
-				newa1=",'365D' as C4 from vw_billtime_source v inner join fwk_section s on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
+				newa1=",'365D' as C4 from vw_billtime_source v inner join vw_assetsection s on v.source_id=s.source_id inner join ems_source sup on v.source_id = sup.source_id"+
 				" inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t"+
 				" on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where t.dt_date >='"+LHour+"' and t.dt_date <'"+curT+"' and v.source_id='"+sourceId+"' and sup.company_id='"+parent.compid+"'";
 				
@@ -1386,7 +1386,7 @@ function costdis()
 				var Cfrom=document.getElementById("fromdate").value;
 				var Cto=document.getElementById("todate").value;
 				newa=",' Cost distribution from "+Cfrom+" to " +Cto+" ' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+ 
+					" inner join vw_assetsection s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
@@ -1407,7 +1407,7 @@ function costdis()
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
 				newa=",'24H' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+ 
+					" inner join vw_assetsection s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
@@ -1420,7 +1420,7 @@ function costdis()
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
 				newa=",'7D' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+ 
+					" inner join vw_assetsection s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
@@ -1432,7 +1432,7 @@ function costdis()
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 				newa=",'30D' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+ 
+					" inner join vw_assetsection s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
@@ -1444,7 +1444,7 @@ function costdis()
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 				newa=",'365D' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+ 
+					" inner join vw_assetsection s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
@@ -1503,7 +1503,7 @@ function costdis()
 				var Cfrom=document.getElementById("fromdate").value;
 				var Cto=document.getElementById("todate").value;
 				newa=",' Cost distribution from "+Cfrom+" to " +Cto+" ' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+ 
+					" inner join vw_assetsection s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
@@ -1524,7 +1524,7 @@ function costdis()
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
 				newa=",'24H' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+ 
+					" inner join vw_assetsection s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
@@ -1537,7 +1537,7 @@ function costdis()
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
 				newa=",'7D' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+ 
+					" inner join vw_assetsection s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
@@ -1549,7 +1549,7 @@ function costdis()
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 				newa=",'30D' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+ 
+					" inner join vw_assetsection s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
@@ -1561,7 +1561,7 @@ function costdis()
 				curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 				LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 				newa=",'365D' as C4 from vw_billtime_source v inner join ems_source sup on v.source_id = sup.source_id"+
-					" inner join fwk_section s on v.source_id=s.source_id"+ 
+					" inner join vw_assetsection s on v.source_id=s.source_id"+ 
 					" inner join ems_section_summary su on su.assettree_id=s.section_id"+
 					" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
 					" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
