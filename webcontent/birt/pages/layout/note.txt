@@ -1,0 +1,5 @@
+
+Copy the jsp files in this folder to the location given below
+
+
+apache-tomee-1.6.0.2\webapps\birt-viewer\webcontent\birt\pages\layout

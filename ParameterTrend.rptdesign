@@ -131,7 +131,7 @@ if (params["newRPT"].value=="")
  	",'30D' as C5,'single' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 	" inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id "+
 	" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-	" inner join ems_unit un on un.unit_id=eat.unit_id"+
+	" left join ems_unit un on eat.unit_id=un.unit_id"+
 	" where EML.tag_id=1000001 order by EML.dt_logdate Asc";
  
 }
@@ -1312,13 +1312,13 @@ hoursL24  = "0" + hoursL24
 }
 
 
-if (parent.assettree_selectedsection === undefined)
+if (parent.AssetTree.selectedsection === undefined)
 	{
-		parent.assettree_selectedsection = 0;
+		parent.AssetTree.selectedsection = 0;
 	}
-if(parent.assettree_selectedtype === undefined)
+if(parent.AssetTree.selectedtype === undefined)
 	{
-		parent.assettree_selectedtype = 0;
+		parent.AssetTree.selectedtype = 0;
 	}
 	
 	if(parent.attrarr === undefined)
@@ -1396,7 +1396,7 @@ function logTrend()
 	parent.selected_period_ndx=document.getElementById("s1").selectedIndex;
 	parent.selected_fdate=document.getElementById("fromdate").value;
 	parent.selected_tdate=document.getElementById("todate").value;
-	if(parent.assettree_selectedtype < 5)
+	if(parent.AssetTree.selectedtype < 5)
 	{
 		alert ("Select Attribute from the Asset-Tree!");
 			return;
@@ -1432,7 +1432,7 @@ function logTrend()
 					var Cto=document.getElementById("todate").value;
 					newa=",' Attribute Trend from "+Cfrom+" to " +Cto+"' as C5,'"+parent.attrcnt+"' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 					" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-					"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
+					"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id left join ems_unit un on eat.unit_id=un.unit_id where "+
 					"EML.dt_logdate>'"+LHour+"'"+
 					" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+parent.attrarr+")"; 
 					 
@@ -1450,7 +1450,7 @@ function logTrend()
 		LHour=yearL+ "-" + monthL + "-" + dayL+" "+hoursL+":"+minutesL+":"+secondsL;
 		newa=",'LH' as C5,'"+parent.attrcnt+"' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
+		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id left join ems_unit un on eat.unit_id=un.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
 		" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+parent.attrarr+")"; 
 	}
@@ -1460,7 +1460,7 @@ function logTrend()
 		LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
 		newa=",'24H' as C5,'"+parent.attrcnt+"' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
+		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id left join ems_unit un on eat.unit_id=un.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
 		" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+parent.attrarr+")"; 
 	}
@@ -1470,7 +1470,7 @@ function logTrend()
 		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
 		newa=",'7D' as C5,'"+parent.attrcnt+"' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
+		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id left join ems_unit un on eat.unit_id=un.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
 		" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+parent.attrarr+")"; 
 	}
@@ -1481,7 +1481,7 @@ function logTrend()
 		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
 		newa=",'30D' as C5,'"+parent.attrcnt+"' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
+		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id left join ems_unit un on eat.unit_id=un.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
 		" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+parent.attrarr+")"; 
 	}
@@ -1491,7 +1491,7 @@ function logTrend()
 		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
 		newa=",'365D' as C5,'"+parent.attrcnt+"' as C6,mt.metername,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 		" inner join ems_meter mt on mt.meter_id=etg.meter_id "+
-		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
+		"inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id left join ems_unit un on eat.unit_id=un.unit_id where "+
 		"EML.dt_logdate>'"+LHour+"'"+
 		" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+parent.attrarr+")"; 
 	}
