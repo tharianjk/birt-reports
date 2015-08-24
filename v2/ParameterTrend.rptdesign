@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
-    <text-property name="title">Attribute Trend</text-property>
+    <text-property name="title">Tag Analysis</text-property>
     <property name="units">in</property>
     <method name="beforeFactory"><![CDATA[var mychart = this.getReportElement( "mychart" );
 var design_handle = reportContext.getReportRunnable().designHandle.getDesignHandle();
@@ -1300,27 +1300,27 @@ EAT.Attribute]]></xml-property>
                         </list-property>
                         <expression name="valueExpr">if(params["coltype"].value=='LH')&#13;
 {&#13;
-	'Attribute Trend for the last 1 Hour';&#13;
+	'Tag Analysis for the last 1 Hour';&#13;
 }&#13;
 else if(params["coltype"].value=='24H')&#13;
 {&#13;
-	'Attribute Trend for the last 24 Hour';&#13;
+	'Tag Analysis for the last 24 Hour';&#13;
 }&#13;
 else if(params["coltype"].value=='7D')&#13;
 {&#13;
-	'Attribute Trend for the last 7 days';&#13;
+	'Tag Analysis for the last 7 days';&#13;
 }&#13;
 else if(params["coltype"].value=='30D')&#13;
 {&#13;
-	'Attribute Trend for the last 30 days ';&#13;
+	'Tag Analysis for the last 30 days ';&#13;
 }&#13;
 else if(params["coltype"].value=='365D')&#13;
 {&#13;
-	'Attribute Trend for the last 365 days';&#13;
+	'Tag Analysis for the last 365 days';&#13;
 }&#13;
 else&#13;
 {&#13;
-	'Attribute Trend from '+params["fromdate"].value+ " to "+params["todate"].value;&#13;
+	'Tag Analysis from '+params["fromdate"].value+ " to "+params["todate"].value;&#13;
 	&#13;
 }</expression>
                         <property name="contentType">html</property>
