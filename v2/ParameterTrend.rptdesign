@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
-    <text-property name="title">Attribute Trend</text-property>
+    <text-property name="title">Trend Report</text-property>
     <property name="units">in</property>
     <method name="beforeFactory"><![CDATA[var mychart = this.getReportElement( "mychart" );
 var design_handle = reportContext.getReportRunnable().designHandle.getDesignHandle();
@@ -108,6 +108,28 @@ mychart.setHeight("5");
             </structure>
         </scalar-parameter>
         <scalar-parameter name="attrctype" id="291">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="seclst" id="292">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="rptHeader" id="293">
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -307,7 +329,7 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C5,'"+params
 " inner join fwk_assettree mt on mt.assettree_id=eml.assettree_id "+
 " inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
 " EML.dt_logdate>'"+LHour+"'"+
-" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+params["atrlst"].value+")  order by EML.dt_logdate Asc";
+" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+params["atrlst"].value+") and EML.assettree_id in ("+params["seclst"].value+")  order by EML.dt_logdate Asc";
 	
 	
 	
@@ -1300,27 +1322,27 @@ EAT.Attribute]]></xml-property>
                         </list-property>
                         <expression name="valueExpr">if(params["coltype"].value=='LH')&#13;
 {&#13;
-	'Attribute Trend for the last 1 Hour';&#13;
+	params["rptHeader"].value+' for the last 1 Hour';&#13;
 }&#13;
 else if(params["coltype"].value=='24H')&#13;
 {&#13;
-	'Attribute Trend for the last 24 Hour';&#13;
+	params["rptHeader"].value+' for the last 24 Hour';&#13;
 }&#13;
 else if(params["coltype"].value=='7D')&#13;
 {&#13;
-	'Attribute Trend for the last 7 days';&#13;
+	params["rptHeader"].value+' for the last 7 days';&#13;
 }&#13;
 else if(params["coltype"].value=='30D')&#13;
 {&#13;
-	'Attribute Trend for the last 30 days ';&#13;
+	params["rptHeader"].value+' for the last 30 days ';&#13;
 }&#13;
 else if(params["coltype"].value=='365D')&#13;
 {&#13;
-	'Attribute Trend for the last 365 days';&#13;
+	params["rptHeader"].value+' for the last 365 days';&#13;
 }&#13;
 else&#13;
 {&#13;
-	'Attribute Trend from '+params["fromdate"].value+ " to "+params["todate"].value;&#13;
+	params["rptHeader"].value+"  from "+params["fromdate"].value+ " to "+params["todate"].value;&#13;
 	&#13;
 }</expression>
                         <property name="contentType">html</property>
