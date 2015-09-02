@@ -327,7 +327,7 @@ LHour=params["fromdate"].value
 this.queryText = this.queryText +",'"+params["coltype"].value+"' as C5,'"+params["attrctype"].value+"' as C6"+
 ",mt.displayname,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 " inner join fwk_assettree mt on mt.assettree_id=eml.assettree_id "+
-" inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id inner join ems_unit un on un.unit_id=eat.unit_id where "+
+" inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id left join ems_unit un on eat.unit_id=un.unit_id where "+
 " EML.dt_logdate>'"+LHour+"'"+
 " and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+params["atrlst"].value+") and EML.assettree_id in ("+params["seclst"].value+")  order by EML.dt_logdate Asc";
 	
