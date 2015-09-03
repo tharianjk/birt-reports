@@ -1883,7 +1883,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
   <Interactivity/>
   <EmptyMessage>
     <Caption>
-      <Value>This chart contains no data.</Value>
+      <Value>This Chart Contains no data for the specified period</Value>
       <Font>
         <Alignment>
           <horizontalAlignment>Center</horizontalAlignment>
@@ -1912,7 +1912,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
       <Bottom>10.0</Bottom>
       <Right>10.0</Right>
     </Insets>
-    <Visible>false</Visible>
+    <Visible>true</Visible>
   </EmptyMessage>
   <Axes>
     <Type>Text</Type>
