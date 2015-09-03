@@ -3241,7 +3241,7 @@ Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
             <list-property name="visibility">
                 <structure>
                     <property name="format">all</property>
-                    <expression name="valueExpr" type="javascript">params["vb"].value=='C'</expression>
+                    <expression name="valueExpr" type="javascript">params["vb"].value=='G'</expression>
                 </structure>
             </list-property>
             <expression name="bookmark" type="javascript">"mytable"</expression>
