@@ -109,6 +109,17 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="AssetTreeId" id="151">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="8">
@@ -192,27 +203,30 @@
 
 	this.queryText = this.queryText +
 	",'"+params["coltype"].value+"'  as C5 from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID"+
-    " join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID"+
-    " left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-    " where ss.C_CORETYPE = 'P'  and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
-    " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
-    " group by un.UNITSHORT , ad.DISPLAYNAME union Select 'Demand' typ,unitshort,sum(ss.UTILITY_QTY) qty,displayname,'"+params["coltype"].value+"'  as C5"+ 
-    " from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
-    " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
-    " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-    " where ss.C_CORETYPE = 'C'  and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"' and ad.PARENT_ID in (select"+ 
-    " fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2) group by un.UNITSHORT , ad.DISPLAYNAME"+ 
-	" union select 'Waste' typ,unitshort,sum(supqty-demqty) qty,displayname,'"+params["coltype"].value+"'  as C5 from (select unitshort,sum(ss.UTILITY_QTY) supqty,0 demqty,displayname"+   
-    " from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
-    " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
-    " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID where ss.C_CORETYPE = 'P'  and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
-    " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
-    " group by un.UNITSHORT , ad.DISPLAYNAME union Select unitshort,0 supqty,sum(ss.UTILITY_QTY) demqty,displayname"+
-    " from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
-    " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-    " where ss.C_CORETYPE = 'C'  and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"' and ad.PARENT_ID in (select"+ 
-    " fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2) group by un.UNITSHORT , ad.DISPLAYNAME ) as tab group by unitshort,displayname";
-
+     " join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID"+
+     " left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
+     " where ss.C_CORETYPE = 'P'  and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"' and (ad.assettree_id = '"+params["AssetTreeId"].value+"' or"+ 
+     " ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2))"+
+     " group by un.UNITSHORT , ad.DISPLAYNAME"+ 
+	 " union Select 'Demand' typ,unitshort,sum(ss.UTILITY_QTY) qty,displayname,'"+params["coltype"].value+"'  as C5"+
+     " from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
+     " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
+     " left join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
+     " where ss.C_CORETYPE = 'C'  and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"' and (ad.assettree_id = '"+params["AssetTreeId"].value+"' or"+ 
+     " ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2))"+
+     " group by un.UNITSHORT , ad.DISPLAYNAME"+
+     " union select 'Waste' typ,unitshort,sum(supqty-demqty) qty,displayname,'"+params["coltype"].value+"'  as C5 from (select unitshort,sum(ss.UTILITY_QTY) supqty,0 demqty,displayname"+ 
+     " from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
+     " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
+     " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID where ss.C_CORETYPE = 'P'  and company_id='"+params["UsrCompId"].value+"'"+
+     " and dt_date>='"+LHour+"' and dt_date<'"+curT+"' and (ad.assettree_id = '"+params["AssetTreeId"].value+"' or "+
+     " ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2))"+
+     " group by un.UNITSHORT , ad.DISPLAYNAME union Select unitshort,0 supqty,sum(ss.UTILITY_QTY) demqty,displayname"+
+     " from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
+     " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
+     " where ss.C_CORETYPE = 'C'  and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"' and (ad.assettree_id = '"+params["AssetTreeId"].value+"' or"+ 
+     " ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2))"+
+     " group by un.UNITSHORT , ad.DISPLAYNAME ) as tab group by unitshort,DISPLAYNAME";
 
 
 
