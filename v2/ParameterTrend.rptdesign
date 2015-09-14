@@ -329,7 +329,7 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C5,'"+params
 " inner join fwk_assettree mt on mt.assettree_id=eml.assettree_id "+
 " inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id left join ems_unit un on eat.unit_id=un.unit_id where "+
 " EML.dt_logdate>'"+LHour+"'"+
-" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+params["atrlst"].value+") and EML.assettree_id in ("+params["seclst"].value+")  order by EML.dt_logdate Asc";
+" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+params["atrlst"].value+") and EML.assettree_id in ("+params["seclst"].value+")  order by cast(EML.dt_logdate as datetime) Asc";
 	
 	
 	
@@ -3021,11 +3021,11 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
         <DataDefinition>
           <Definition>if(row[&quot;C5&quot;]=='LH')&#xD;
 {&#xD;
-Formatter.format(row[&quot;C3&quot;],'hh:mm:ss a')&#xD;
+Formatter.format(row[&quot;C3&quot;],'HH:mm:ss ')&#xD;
 }&#xD;
 else if(row[&quot;C5&quot;]=='24H')&#xD;
 {&#xD;
-Formatter.format(row[&quot;C3&quot;],'hh:mm:ss a')&#xD;
+Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
 }&#xD;
 else &#xD;
 {&#xD;
