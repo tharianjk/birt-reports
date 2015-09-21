@@ -221,7 +221,7 @@
      " group by un.UNITSHORT , ad.DISPLAYNAME union Select unitshort,0 supqty,sum(ss.UTILITY_QTY) demqty,displayname"+
      " from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
      " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
-     " where ss.C_CORETYPE = 'C'  and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"' and ad.assettree_id = '"+params["AssetTreeId"].value+"' "+    
+     " where ss.C_CORETYPE = 'C'  and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"' and ad.parent_id = '"+params["AssetTreeId"].value+"' "+    
      " group by un.UNITSHORT , ad.DISPLAYNAME ) as tab group by unitshort,DISPLAYNAME";
 
 
@@ -1540,7 +1540,7 @@ else&#13;
             <list-property name="visibility">
                 <structure>
                     <property name="format">all</property>
-                    <expression name="valueExpr" type="javascript">params["vb"].value=='G'</expression>
+                    <expression name="valueExpr" type="javascript">params["vb"].value=='C'</expression>
                 </structure>
             </list-property>
             <list-property name="boundDataColumns">
