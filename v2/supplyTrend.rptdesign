@@ -190,7 +190,7 @@ if(params["newRPT"].value=="")
 			" inner join vw_assetsection sec on s.assettree_id = sec.section_id"+
 			" inner join ems_source src on sec.source_id = src.source_id"+
 			" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
-			" inner join ems_unit UN on UN.unit_id=UT.unit_id where"+ 
+			" inner join ems_unit UN on UN.unit_id=UT.unit_id where s.c_coretype='P' and "+ 
 			" d.DT_DATE>='2015-03-30 00:00:00'and d.DT_DATE<'2015-03-31 00:00:00' and src.source_id='10001' group by src.sourcename,DAY_ID,d.DT_DATE, un.UNITSHORT"+
 			" UNION"+
 			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.UNITSHORT ,'7H' as C6"+
@@ -1213,7 +1213,7 @@ function energytrend()
 			" inner join vw_assetsection sec on s.assettree_id = sec.section_id"+
 			" inner join ems_source src on sec.source_id = src.source_id"+
 			" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
-			" inner join ems_unit UN on UN.unit_id=UT.unit_id where d.DT_DATE>='"+LHour+"'"+
+			" inner join ems_unit UN on UN.unit_id=UT.unit_id where s.c_coretype='P' and d.DT_DATE>='"+LHour+"'"+
 			" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
 			" UNION"+
 			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.unitshort ,'365D' as C6"+
@@ -1229,7 +1229,7 @@ function energytrend()
 			" inner join vw_assetsection sec on s.assettree_id = sec.section_id"+
 			" inner join ems_source src on sec.source_id = src.source_id"+
 			" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
-			" inner join ems_unit UN on UN.unit_id=UT.unit_id where d.DT_DATE>='"+LHour+"'"+
+			" inner join ems_unit UN on UN.unit_id=UT.unit_id where s.c_coretype='P' and  d.DT_DATE>='"+LHour+"'"+
 			" and d.DT_DATE<'"+curT+"' and src.source_id='"+sourceId+"' group by src.sourcename,DAY_ID,d.DT_DATE, un.unitshort"+
 			" UNION"+
 			" select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.unitshort ,'365M' as C6"+
