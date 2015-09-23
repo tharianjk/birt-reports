@@ -153,7 +153,7 @@ LHour=params["fromdate"].value
  " join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
  " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
  " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
- " where ss.C_CORETYPE = 'P'  and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+ " where ss.C_CORETYPE = 'P' and ad.b_rollup='TRUE' and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
  " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2) group by dt_date,un.UNITSHORT"+   
  " union Select dt_date,unitshort,0 supply_qty,sum(ss.UTILITY_QTY) demand_qty, 0 waste_qty from ems_section_summary ss"+
  " join ems_time_dim d ON ss.TIME_ID = d.TIME_ID"+ 
@@ -168,14 +168,14 @@ LHour=params["fromdate"].value
  " join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
  " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
  " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
- " where ss.C_CORETYPE = 'P'  and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+ " where ss.C_CORETYPE = 'P' and ad.b_rollup='TRUE' and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
  " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
  " group by dt_date,un.UNITSHORT union Select dt_date,unitshort,0 supqty,sum(ss.UTILITY_QTY) demqty "+
  " from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
  " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID"+
  " left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
  " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
- " where ss.C_CORETYPE = 'C'  and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"' and ad.PARENT_ID in (select"+ 
+ " where ss.C_CORETYPE = 'C' and ad.b_rollup='TRUE' and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"' and ad.PARENT_ID in (select"+ 
  " fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
  " group by dt_date,un.UNITSHORT  ) as tab group by dt_date,unitshort union"+ 
  " select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty"+ 
