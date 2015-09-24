@@ -171,6 +171,17 @@
                         </structure>
                     </list-property>
                 </structure>
+                <structure>
+                    <property name="name">total</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value">row["QTY"]</expression>
+                        </structure>
+                    </list-property>
+                </structure>
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
@@ -205,6 +216,11 @@
                         <property name="position">6</property>
                         <property name="name">rowc</property>
                         <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">total</property>
+                        <property name="dataType">float</property>
                     </structure>
                 </list-property>
             </structure>
@@ -902,7 +918,7 @@ else&#13;
         <Green>0</Green>
         <Blue>0</Blue>
       </Color>
-      <Visible>true</Visible>
+      <Visible>false</Visible>
     </Outline>
     <Visible>true</Visible>
   </Block>
@@ -924,7 +940,7 @@ else&#13;
 		icsc.getExternalContext().getScriptable().setGlobalVariable(&quot;MaxSliceValue1&quot;, mmax1);&#xD;
 		&#xD;
 	}&#xD;
-	icsc.getChartInstance().getBlock().getBounds().setWidth(400);&#xD;
+	icsc.getChartInstance().getBlock().getBounds().setWidth(800);&#xD;
  	icsc.getChartInstance().getBlock().getBounds().setHeight(300);&#xD;
 	&#xD;
 }&#xD;
@@ -989,20 +1005,20 @@ else&#13;
     <SeriesPalette>
       <Entries xsi:type="attribute:ColorDefinition">
         <Transparency>255</Transparency>
-        <Red>154</Red>
-        <Green>204</Green>
-        <Blue>0</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>153</Red>
+        <Red>0</Red>
         <Green>204</Green>
         <Blue>255</Blue>
       </Entries>
       <Entries xsi:type="attribute:ColorDefinition">
         <Transparency>255</Transparency>
-        <Red>154</Red>
-        <Green>50</Green>
+        <Red>180</Red>
+        <Green>41</Green>
+        <Blue>77</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>164</Red>
+        <Green>98</Green>
         <Blue>0</Blue>
       </Entries>
       <Entries xsi:type="attribute:ColorDefinition">
@@ -1181,20 +1197,20 @@ else&#13;
       <SeriesPalette>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
-          <Red>154</Red>
-          <Green>204</Green>
-          <Blue>0</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>153</Red>
+          <Red>0</Red>
           <Green>204</Green>
           <Blue>255</Blue>
         </Entries>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
-          <Red>154</Red>
-          <Green>50</Green>
+          <Red>180</Red>
+          <Green>41</Green>
+          <Blue>77</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>164</Red>
+          <Green>98</Green>
           <Blue>0</Blue>
         </Entries>
         <Entries xsi:type="attribute:ColorDefinition">
@@ -1543,9 +1559,9 @@ else&#13;
 ]]></xml-property>
             <property name="outputFormat">SVG</property>
             <property name="inheritColumns">true</property>
-            <property name="canShrink">true</property>
-            <property name="height">3.521in</property>
-            <property name="width">3.615in</property>
+            <property name="canShrink">false</property>
+            <property name="height">3.01in</property>
+            <property name="width">7.927083333333333in</property>
             <expression name="bookmark" type="javascript">"myChart"</expression>
             <property name="dataSet">DemandDistribution</property>
             <list-property name="visibility">
