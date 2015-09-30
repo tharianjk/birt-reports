@@ -84,6 +84,17 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="UtlId" id="420">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="7">
@@ -187,6 +198,7 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4 from ems_
 " where s.c_coretype='P' and T.dt_date >'"+LHour+"'"+
 " and T.dt_date <'"+curT+"'"+
 " and a.company_id ='"+params["UsrCompId"].value+"'"+
+" and s.UTILITY_ID='"+params["UtlId"].value+"'"+
 " group by src.SOURCENAME,un.UNITSHORT";
 	
 ]]></method>

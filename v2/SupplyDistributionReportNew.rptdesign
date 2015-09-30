@@ -173,6 +173,7 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4"+
 " LEFT join ems_unit UN on ATR.unit_id=UN.unit_id"+
 " where T.dt_date >='"+LHour+"' and T.dt_date <'"+curT+"'"+
 " and a.company_id ='"+params["UsrCompId"].value+"'"+ 
+" and  s.UTILITY_ID='"+params["UtlId"].value+"'"+
 " and (a.parent_id  = '"+params["UsrSecId"].value+"' or a.parent_id in (select assettree_id from fwk_assettree where assettreetype_id=2 and assettree_id='"+params["UsrSecId"].value+"'))  and s.c_coretype='P'"+ 
 " group by DISPLAYNAME, un.UNITSHORT";
 ]]></method>

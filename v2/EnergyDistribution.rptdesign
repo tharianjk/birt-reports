@@ -197,7 +197,7 @@ false);*/]]></method>
 	" where a.parent_id='"+params["UsrSecId"].value+"' and T.dt_date >='"+LHour+"'"+
     " and T.dt_date <'"+curT+"'"+
     " and a.company_id='"+params["UsrCompId"].value+"'"+
-    " and  S.UTILITY_ID='"+params["UtlId"].value+"' and S.c_coretype='C'"+
+    " and  s.UTILITY_ID='"+params["UtlId"].value+"' and S.c_coretype='C'"+
     " group by a.displayname,un.unitshort";
 
 ]]></method>

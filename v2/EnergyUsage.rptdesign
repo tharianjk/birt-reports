@@ -137,6 +137,17 @@ else
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="UtlId" id="816">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="8">
@@ -230,7 +241,7 @@ if(lastChar=='M')&#13;
 	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
 	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
 	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+params["UsrSecId"].value+"') and S.c_coretype='C'"+ 
-	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
+	" and  s.UTILITY_ID='"+params["UtlId"].value+"' and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
 	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
 	" UNION"+
 	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'"+params["coltype"].value+"' as C5"+ 
@@ -238,13 +249,13 @@ if(lastChar=='M')&#13;
  	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
  	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
 	" where case '"+params["typ"].value+"' when 2 then a.parent_id='"+params["UsrSecId"].value+"' else a.assettree_id='"+params["UsrSecId"].value+"' end and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
-	" and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
+	" and d.DT_DATE<'"+curT+"' and  s.UTILITY_ID='"+params["UtlId"].value+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
 	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
 	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'"+params["coltype"].value+"'"+ 
 	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
 	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
 	" EUN.unit_id=EU.unit_id and case '"+params["typ"].value+"' when 2 then a.parent_id='"+params["UsrSecId"].value+"' else a.assettree_id='"+params["UsrSecId"].value+"' end and"+ 
-	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
+	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and  s.UTILITY_ID='"+params["UtlId"].value+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
 	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE) as tab"+
 	" group by DISPLAYNAME,unitshort,DAY_ID,C4,C5 order by C4 asc";
 	
