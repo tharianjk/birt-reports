@@ -3025,11 +3025,7 @@ Formatter.format(row[&quot;C3&quot;],'HH:mm:ss ')&#xD;
 }&#xD;
 else if(row[&quot;C5&quot;]=='24H')&#xD;
 {&#xD;
-<<<<<<< HEAD
-Formatter.format(row[&quot;C3&quot;],'HH:mm:ss ')&#xD;
-=======
 Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
->>>>>>> 6b4b4f798f1250d47a65228ec2ee8d413411dd40
 }&#xD;
 else &#xD;
 {&#xD;
