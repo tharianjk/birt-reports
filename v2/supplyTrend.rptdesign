@@ -260,7 +260,7 @@ this.queryText = this.queryText +
 	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and  s.UTILITY_ID='"+params["UtlId"].value+"' and src.source_id='"+params["SrcId"].value+"' group by src.sourcename,DAY_ID,d.DT_DATE, un.UNITSHORT"+
 	" UNION select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.UNITSHORT ,'"+params["coltype"].value+"' as C6"+
 	" from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , vw_assetsection sec, ems_source  src where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id and sec.source_id ='"+params["SrcId"].value+"'"+ 
-	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and  s.UTILITY_ID='"+params["UtlId"].value+"' group by src.sourcename ,EUN.UNITSHORT,DAY_ID,d.DT_DATE) tab group by DISPLAYNAME,DAY_ID,C4,unitshort,C6 order by C4 asc";
+	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and  m.UTILITY_ID='"+params["UtlId"].value+"' group by src.sourcename ,EUN.UNITSHORT,DAY_ID,d.DT_DATE) tab group by DISPLAYNAME,DAY_ID,C4,unitshort,C6 order by C4 asc";
 
 
 

@@ -255,7 +255,7 @@ if(lastChar=='M')&#13;
 	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
 	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
 	" EUN.unit_id=EU.unit_id and case '"+params["typ"].value+"' when 2 then a.parent_id='"+params["UsrSecId"].value+"' else a.assettree_id='"+params["UsrSecId"].value+"' end and"+ 
-	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and  s.UTILITY_ID='"+params["UtlId"].value+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
+	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and  m.UTILITY_ID='"+params["UtlId"].value+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
 	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE) as tab"+
 	" group by DISPLAYNAME,unitshort,DAY_ID,C4,C5 order by C4 asc";
 	
