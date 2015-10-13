@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
-    <text-property name="title">Trend Report</text-property>
+    <text-property name="title">Alert Log Trend Report</text-property>
     <property name="units">in</property>
     <method name="beforeFactory"><![CDATA[var mychart = this.getReportElement( "mychart" );
 var design_handle = reportContext.getReportRunnable().designHandle.getDesignHandle();
@@ -344,8 +344,8 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C5,'"+params
 ",mt.displayname,unitshort from fwk_alert_log_details EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 " inner join fwk_assettree mt on mt.assettree_id=eml.assettree_id "+
 " inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id left join ems_unit un on eat.unit_id=un.unit_id where "+
-" EML.log_id='"+LogID+"' and EML.dt_logdate>'"+LHour+"'"+
-" and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+params["atrlst"].value+") order by cast(EML.dt_logdate as datetime) Asc";
+" EML.log_id='"+LogID+"' and EML.dt_logdate>='"+LHour+"'"+
+" and EML.dt_logdate<='"+curT+"' and EML.tag_id in ("+params["atrlst"].value+") order by cast(EML.dt_logdate as datetime) Asc";
 	
 	
 	
