@@ -42,6 +42,7 @@ mychart.setHeight("5");
             </structure>
         </scalar-parameter>
         <scalar-parameter name="horizontal" id="237">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -53,6 +54,7 @@ mychart.setHeight("5");
             </structure>
         </scalar-parameter>
         <scalar-parameter name="coltype" id="286">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -64,6 +66,7 @@ mychart.setHeight("5");
             </structure>
         </scalar-parameter>
         <scalar-parameter name="fromdate" id="287">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -75,6 +78,7 @@ mychart.setHeight("5");
             </structure>
         </scalar-parameter>
         <scalar-parameter name="todate" id="288">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -86,6 +90,7 @@ mychart.setHeight("5");
             </structure>
         </scalar-parameter>
         <scalar-parameter name="vb" id="289">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -97,6 +102,7 @@ mychart.setHeight("5");
             </structure>
         </scalar-parameter>
         <scalar-parameter name="atrlst" id="290">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -108,6 +114,7 @@ mychart.setHeight("5");
             </structure>
         </scalar-parameter>
         <scalar-parameter name="attrctype" id="291">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -119,6 +126,7 @@ mychart.setHeight("5");
             </structure>
         </scalar-parameter>
         <scalar-parameter name="seclst" id="292">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -130,6 +138,19 @@ mychart.setHeight("5");
             </structure>
         </scalar-parameter>
         <scalar-parameter name="rptHeader" id="293">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="mkrline" id="294">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -239,6 +260,11 @@ m=m+1;&#13;
                         </structure>
                     </list-property>
                 </structure>
+                <structure>
+                    <property name="name">mkrline</property>
+                    <expression name="expression">params["mkrline"].value</expression>
+                    <property name="dataType">integer</property>
+                </structure>
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
@@ -319,6 +345,11 @@ m=m+1;&#13;
                         <property name="name">cnt</property>
                         <property name="dataType">integer</property>
                     </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">mkrline</property>
+                        <property name="dataType">integer</property>
+                    </structure>
                 </list-property>
             </structure>
             <method name="beforeOpen"><![CDATA[curT=params["todate"].value 
@@ -335,8 +366,10 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C5,'"+params
 	
 ]]></method>
             <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("units", dataSetRow["UNITSHORT"]);
-reportContext.setPersistentGlobalVariable("s",dataSetRow["C6"]);
+reportContext.setPersistentGlobalVariable("scount",dataSetRow["C6"]);
 reportContext.setPersistentGlobalVariable("hori",dataSetRow["horizontal"]);
+
+reportContext.setPersistentGlobalVariable("mkrline2",params["mkrline"].value);
 
 //reportContext.setPersistentGlobalVariable("s",dataSetRow["vb"]);
 //reportContext.setPersistentGlobalVariable("s", row["vb"]);
@@ -1388,6 +1421,7 @@ else&#13;
                     <label id="269">
                         <property name="fontWeight">bold</property>
                         <property name="color">#FF0000</property>
+                        <property name="textAlign">justify</property>
                         <text-property name="text">Maximum Reading:</text-property>
                     </label>
                 </cell>
@@ -1415,6 +1449,7 @@ else&#13;
                     <label id="284">
                         <property name="fontWeight">bold</property>
                         <property name="color">#008000</property>
+                        <property name="textAlign">justify</property>
                         <text-property name="text">  Average Reading:</text-property>
                     </label>
                 </cell>
@@ -1442,6 +1477,7 @@ else&#13;
                     <label id="285">
                         <property name="fontWeight">bold</property>
                         <property name="color">#0000FF</property>
+                        <property name="textAlign">justify</property>
                         <text-property name="text">  Minimum Reading:</text-property>
                     </label>
                 </cell>
@@ -1743,18 +1779,21 @@ else&#13;
 		&#xD;
 function beforeDrawAxisTitle( axis, label, icsc )&#xD;
 {&#xD;
-var localcount1;&#xD;
-localcount1=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;s&quot;);&#xD;
-//for y axis unit &#xD;
-importPackage(Packages.org.eclipse.birt.chart.model.attribute);&#xD;
-if(localcount1==&quot;single&quot;)&#xD;
-		{&#xD;
-   if(axis.getType() == AxisType.LINEAR_LITERAL)&#xD;
-   {&#xD;
-   title=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;units&quot;);&#xD;
-        label.getCaption().setValue(title);&#xD;
-   }}&#xD;
+	var localcount1;&#xD;
+	localcount1=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;scount&quot;);&#xD;
+	//for y axis unit &#xD;
+	importPackage(Packages.org.eclipse.birt.chart.model.attribute);&#xD;
+	if(localcount1==&quot;single&quot;)&#xD;
+	{&#xD;
+   		if(axis.getType() == AxisType.LINEAR_LITERAL)&#xD;
+   		{&#xD;
+   			title=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;units&quot;);&#xD;
+        	label.getCaption().setValue(title);&#xD;
+   		}&#xD;
+   	}&#xD;
 }&#xD;
+&#xD;
+&#xD;
 &#xD;
 	function beforeGeneration( chart, icsc ) &#xD;
 	{ &#xD;
@@ -1762,46 +1801,84 @@ if(localcount1==&quot;single&quot;)&#xD;
 		importPackage(Packages.org.eclipse.birt.chart.model.data.impl);&#xD;
 		importPackage(Packages.org.eclipse.birt.chart.model.attribute);&#xD;
 		importPackage(Packages.org.eclipse.birt.chart.model.attribute.impl);&#xD;
+		&#xD;
 		var localcount2;&#xD;
-		localcount2=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;s&quot;);&#xD;
+		localcount2=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;scount&quot;);&#xD;
 		&#xD;
 		if(localcount2==&quot;single&quot;)&#xD;
 		{&#xD;
-		var chart = icsc.getChartInstance();&#xD;
-		var yAxis = chart.getAxes().get(0).getAssociatedAxes().get(0);&#xD;
-		var min_value = icsc.getExternalContext().getScriptable().getGlobalVariable(&quot;minimum&quot;);&#xD;
-		var avg_value = icsc.getExternalContext().getScriptable().getGlobalVariable(&quot;average&quot;);&#xD;
-		var max_value = icsc.getExternalContext().getScriptable().getGlobalVariable(&quot;maximum&quot;);&#xD;
-		if(min_value!=null ||avg_value!=null ||max_value!=null)&#xD;
+			var chart = icsc.getChartInstance();&#xD;
+			var yAxis = chart.getAxes().get(0).getAssociatedAxes().get(0);&#xD;
+			var min_value = icsc.getExternalContext().getScriptable().getGlobalVariable(&quot;minimum&quot;);&#xD;
+			var avg_value = icsc.getExternalContext().getScriptable().getGlobalVariable(&quot;average&quot;);&#xD;
+			var max_value = icsc.getExternalContext().getScriptable().getGlobalVariable(&quot;maximum&quot;);&#xD;
+			var mkr_line2 = icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;mkrline2&quot;);&#xD;
+			var mkr_line =parseFloat(mkr_line2);&#xD;
+		if(mkr_line!=-1)&#xD;
 		{&#xD;
-			min_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(min_value));&#xD;
-			//min_ml.getLabel().getCaption().setValue(&quot;      Min: &quot; + parseFloat(min_value).toFixed(2));             // parseInt&#xD;
-			//min_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
-			//min_ml.getLabel().getCaption().getFont().setSize(14);&#xD;
-			min_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(63,59,185));&#xD;
-			min_ml.getLineAttributes().getColor().set(63,59,185);   //185,95,59&#xD;
-			min_ml.getLineAttributes().setThickness(1);&#xD;
-			&#xD;
-			avg_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(avg_value));&#xD;
-			//avg_ml.getLabel().getCaption().setValue(&quot;      Avg: &quot; + parseFloat(avg_value).toFixed(2));&#xD;
-			//avg_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
-			//avg_ml.getLabel().getCaption().getFont().setSize(14);&#xD;
-			avg_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(59,185,95));&#xD;
-			avg_ml.getLineAttributes().getColor().set(59,185,95);&#xD;
-			avg_ml.getLineAttributes().setThickness(1);&#xD;
-			&#xD;
-			max_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(max_value));&#xD;
-			//max_ml.getLabel().getCaption().setValue(&quot;      Max: &quot; + parseFloat(max_value).toFixed(2));            // parseInt&#xD;
-			//max_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
-			//max_ml.getLabel().getCaption().getFont().setSize(14);&#xD;
-			max_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(245,12,12));&#xD;
-			max_ml.getLineAttributes().getColor().set(245,12,12);&#xD;
-			max_ml.getLineAttributes().setThickness(1);&#xD;
+			if(mkr_line>max_value)&#xD;
+			{&#xD;
+				yscale = yAxis.getScale();&#xD;
+				yscale.setMax( NumberDataElementImpl.create(mkr_line) );&#xD;
+				yAxis.setScale(yscale);&#xD;
+				&#xD;
+			}&#xD;
+			else&#xD;
+			{&#xD;
+				yscale = yAxis.getScale();&#xD;
+				yscale.setMax( NumberDataElementImpl.create(max_value) );&#xD;
+				yAxis.setScale(yscale);&#xD;
+			}&#xD;
+			mkr_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(mkr_line));&#xD;
+				mkr_ml.getLabel().getCaption().setValue(&quot;      Threshold Limit: &quot; + parseFloat(mkr_line).toFixed(2));             // parseInt&#xD;
+				//min_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
+				//min_ml.getLabel().getCaption().getFont().setSize(14);&#xD;
+				mkr_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(184,26,84));&#xD;
+				mkr_ml.getLineAttributes().getColor().set(184,26,84);   //185,95,59&#xD;
+				mkr_ml.getLineAttributes().setStyle(LineStyle.SOLID_LITERAL);&#xD;
+				mkr_ml.getLineAttributes().setThickness(3);&#xD;
+		}&#xD;
 		&#xD;
-	}}&#xD;
-	&#xD;
+			if(min_value!=null ||avg_value!=null ||max_value!=null)&#xD;
+			{&#xD;
+				&#xD;
 &#xD;
-} &#xD;
+&#xD;
+				/*LineStyle has&#xD;
+				DASH_DOTTED_LITERAL&#xD;
+				DASHED_LITERAL&#xD;
+				DOTTED_LITERAL&#xD;
+				SOLID_LITERAL*/&#xD;
+			&#xD;
+				min_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(min_value));&#xD;
+				min_ml.getLabel().getCaption().setValue(parseFloat(min_value).toFixed(2));             // parseInt&#xD;
+				//min_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
+				//min_ml.getLabel().getCaption().getFont().setSize(14);&#xD;
+				min_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(63,59,185));&#xD;
+				min_ml.getLineAttributes().getColor().set(63,59,185);   //185,95,59&#xD;
+				min_ml.getLineAttributes().setThickness(1);&#xD;
+			&#xD;
+				avg_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(avg_value));&#xD;
+				avg_ml.getLabel().getCaption().setValue(parseFloat(avg_value).toFixed(2));&#xD;
+				//avg_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
+				//avg_ml.getLabel().getCaption().getFont().setSize(14);&#xD;
+				avg_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(59,185,95));&#xD;
+				avg_ml.getLineAttributes().getColor().set(59,185,95);&#xD;
+				avg_ml.getLineAttributes().setThickness(1);&#xD;
+			&#xD;
+				max_ml = MarkerLineImpl.create(yAxis, NumberDataElementImpl.create(max_value));&#xD;
+				max_ml.getLabel().getCaption().setValue(parseFloat(max_value).toFixed(2));            // parseInt&#xD;
+				//max_ml.getLabel().getCaption().getFont().setName(&quot;Arial&quot;);&#xD;
+				//max_ml.getLabel().getCaption().getFont().setSize(14);&#xD;
+				max_ml.getLabel().getCaption().setColor( ColorDefinitionImpl.create(245,12,12));&#xD;
+				max_ml.getLineAttributes().getColor().set(245,12,12);&#xD;
+				max_ml.getLineAttributes().setThickness(1);&#xD;
+		&#xD;
+			}&#xD;
+		}&#xD;
+	 &#xD;
+&#xD;
+	} &#xD;
 function afterDataSetFilled( series, dataSet, icsc )&#xD;
 {&#xD;
 	if( series.getSeriesIdentifier() == &quot;Series 1&quot; )&#xD;
@@ -1830,7 +1907,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
 	}&#xD;
 	else&#xD;
 	{&#xD;
-		icsc.getChartInstance().getBlock().getBounds().setWidth(900);&#xD;
+		icsc.getChartInstance().getBlock().getBounds().setWidth(700);&#xD;
  		icsc.getChartInstance().getBlock().getBounds().setHeight(330);&#xD;
 	&#xD;
 	}&#xD;
@@ -1854,10 +1931,10 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
         		if (list[i] > theMax) theMax = list[i];&#xD;
     		}&#xD;
  		&#xD;
-    icsc.getExternalContext().getScriptable().setGlobalVariable(&quot;minimum&quot;,theMin);&#xD;
-    icsc.getExternalContext().getScriptable().setGlobalVariable(&quot;average&quot;,(total/items));&#xD;
-    icsc.getExternalContext().getScriptable().setGlobalVariable(&quot;maximum&quot;,theMax);&#xD;
-    }&#xD;
+    		icsc.getExternalContext().getScriptable().setGlobalVariable(&quot;minimum&quot;,theMin);&#xD;
+    		icsc.getExternalContext().getScriptable().setGlobalVariable(&quot;average&quot;,(total/items));&#xD;
+    		icsc.getExternalContext().getScriptable().setGlobalVariable(&quot;maximum&quot;,theMax);&#xD;
+    	}&#xD;
     }&#xD;
     &#xD;
     &#xD;
