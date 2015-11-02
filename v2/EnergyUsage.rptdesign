@@ -1434,7 +1434,11 @@ if( series.getSeriesIdentifier() == &quot;Quantity Consumed&quot; )
         </TickAttributes>
       </MinorGrid>
       <Scale>
+        <Min xsi:type="data:NumberDataElement">
+          <Value>0.0</Value>
+        </Min>
         <MinorGridsPerUnit>5</MinorGridsPerUnit>
+        <AutoExpand>true</AutoExpand>
       </Scale>
       <Origin>
         <Type>Min</Type>
