@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
+    <text-property name="title">Electricity Bill</text-property>
     <list-property name="propertyBindings">
         <structure>
             <property name="name">queryText</property>
@@ -1145,10 +1146,10 @@ var tens = Array("", "", "TWENTY", "THIRTY", "FOURTY", "FIFTY", "SIXTY","SEVENTY
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[SELECT A.BILL_ID,  SUM(KWHNUNIT) KWHNUNIT, SUM(KWHNRATE) KWHNRATE, SUM(KWHNAMT) KWHNAMT,  SUM(KWHPUNIT) KWHPUNIT, SUM(KWHPRATE) KWHPRATE, SUM(KWHPAMT) KWHPAMT, SUM(KWHOUNIT) KWHOUNIT, SUM(KWHORATE) KWHORATE, SUM(KWHOAMT) KWHOAMT,
- KVAEXCESSUNIT, KVAEXCESSRATE, KVAEXCESSAMT, BILLKVA, BILLKVARATE,NDEMAND,KVANUNIT,KVAPUNIT,KVAOUNIT,
-    BILLKAVAMT, NREC_KWHNORMAL, NREC_KWHPEAK,NREC_KWHOFFPEAK,NREC_KVANORMAL,NREC_KVAPEAK,NREC_KVAOFFPEAK, NREC_PF,PFPENUNIT, PFINCUNIT,PFPENRATE, PFINCRATE,PFPENAMT, PFINCAMT,
+ KVAEXCESSUNIT as KVAEXCESSUNIT, KVAEXCESSRATE as KVAEXCESSRATE, KVAEXCESSAMT as KVAEXCESSAMT, BILLKVA as BILLKVA, BILLKVARATE as BILLKVARATE,NDEMAND as NDEMAND,KVANUNIT as KVANUNIT,KVAPUNIT as KVAPUNIT,KVAOUNIT as KVAOUNIT,
+    BILLKAVAMT as BILLKAVAMT, NREC_KWHNORMAL as NREC_KWHNORMAL, NREC_KWHPEAK as NREC_KWHPEAK,NREC_KWHOFFPEAK as NREC_KWHOFFPEAK,NREC_KVANORMAL as NREC_KVANORMAL,NREC_KVAPEAK as NREC_KVAPEAK,NREC_KVAOFFPEAK as NREC_KVAOFFPEAK, NREC_PF as NREC_PF,PFPENUNIT as PFPENUNIT, PFINCUNIT as PFINCUNIT,PFPENRATE as PFPENRATE, PFINCRATE as PFINCRATE,PFPENAMT as PFPENAMT, PFINCAMT as PFINCAMT,
  SUM(DUTYUNIT) DUTYUNIT, SUM(DUTYRATE) DUTYRATE, SUM(DUTYAMT) DUTYAMT,SUM(COMCHARGEUNIT) COMCHARGEUNIT, SUM(COMCHARGERATE) COMCHARGERATE, SUM(COMCHARGEAMT) COMCHARGEAMT,  SUM(FUELUNIT) FUELUNIT,SUM( FUELRATE) FUELRATE, SUM(FUELAMT) FUELAMT,
- NKWHQUOTA,CASE WHEN NREC_KWHPEAK+NREC_KWHOFFPEAK+NREC_KWHNORMAL- NKWHQUOTA >0 THEN NREC_KWHPEAK+NREC_KWHOFFPEAK+NREC_KWHNORMAL- NKWHQUOTA ELSE 0 END EXCESSUNIT, NKWHEXCESSRATE EXCESSRATE, NKWHQUOTA*NKWHEXCESSRATE EXCESSAMT,SUM(SURCHARGEUNIT) SURCHARGEUNIT, SUM(SURCHARGERATE) SURCHARGERATE, SUM(SURCHARGEAMT) SURCHARGEAMT
+ NKWHQUOTA as NKWHQUOTA,CASE WHEN NREC_KWHPEAK+NREC_KWHOFFPEAK+NREC_KWHNORMAL- NKWHQUOTA >0 THEN NREC_KWHPEAK+NREC_KWHOFFPEAK+NREC_KWHNORMAL- NKWHQUOTA ELSE 0 END EXCESSUNIT, NKWHEXCESSRATE EXCESSRATE, NKWHQUOTA*NKWHEXCESSRATE EXCESSAMT,SUM(SURCHARGEUNIT) SURCHARGEUNIT, SUM(SURCHARGERATE) SURCHARGERATE, SUM(SURCHARGEAMT) SURCHARGEAMT
 FROM VW_BILLKWH A LEFT JOIN VW_BILLKVA B ON A.BILL_ID=B.BILL_ID
 LEFT JOIN VW_BILLPF C ON A.BILL_ID=C.BILL_ID
 LEFT JOIN VW_BILLOTHERS D ON A.BILL_ID=D.BILL_ID
@@ -2409,7 +2410,7 @@ WHERE EBILL.BILL_ID=?
                             <property name="dataType">date</property>
                         </structure>
                     </list-property>
-                    <expression name="valueExpr">"Statement of Account from "+row["DTSTART"]+" to "+row["DTEND"]</expression>
+                    <expression name="valueExpr">"Statement of Account from "+Formatter.format(row["DTSTART"],'dd/MMM/yyyy')+" to "+Formatter.format(row["DTEND"],'dd/MMM/yyyy')</expression>
                     <property name="contentType">html</property>
                 </text-data>
             </page-header>
@@ -2488,7 +2489,7 @@ WHERE EBILL.BILL_ID=?
                                         <structure>
                                             <property name="name">DTBILL</property>
                                             <text-property name="displayName">DTBILL</text-property>
-                                            <expression name="expression" type="javascript">"Date:"+dataSetRow["DTBILL"]</expression>
+                                            <expression name="expression" type="javascript">"Date:"+Formatter.format(dataSetRow["DTBILL"],'dd/MMM/yyyy')</expression>
                                             <property name="dataType">string</property>
                                             <property name="allowExport">true</property>
                                         </structure>
@@ -2702,7 +2703,7 @@ WHERE EBILL.BILL_ID=?
                                         <structure>
                                             <property name="name">DTCONNECTION</property>
                                             <text-property name="displayName">DTCONNECTION</text-property>
-                                            <expression name="expression" type="javascript">"Date of Connection:  "+dataSetRow["DTCONNECTION"]</expression>
+                                            <expression name="expression" type="javascript">"Date of Connection:  "+Formatter.format(dataSetRow["DTCONNECTION"],'dd/MMM/yyyy')</expression>
                                             <property name="dataType">string</property>
                                             <property name="allowExport">true</property>
                                         </structure>
