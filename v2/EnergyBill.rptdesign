@@ -2,20 +2,6 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
     <text-property name="title">Electricity Bill</text-property>
-    <list-property name="propertyBindings">
-        <structure>
-            <property name="name">queryText</property>
-            <property name="id">405</property>
-        </structure>
-        <structure>
-            <property name="name">queryTimeOut</property>
-            <property name="id">405</property>
-        </structure>
-        <structure>
-            <property name="name">rowFetchSize</property>
-            <property name="id">405</property>
-        </structure>
-    </list-property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
@@ -465,8 +451,8 @@ var tens = Array("", "", "TWENTY", "THIRTY", "FOURTY", "FIFTY", "SIXTY","SEVENTY
                 <structure>
                     <property name="columnName">NKWHEXCESSRATE</property>
                     <property name="analysis">measure</property>
-                    <text-property name="displayName">EXCESSRATE</text-property>
-                    <text-property name="heading">EXCESSRATE</text-property>
+                    <text-property name="displayName">NKWHEXCESSRATE</text-property>
+                    <text-property name="heading">NKWHEXCESSRATE</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">EXCESSAMT</property>
@@ -1149,14 +1135,14 @@ var tens = Array("", "", "TWENTY", "THIRTY", "FOURTY", "FIFTY", "SIXTY","SEVENTY
  KVAEXCESSUNIT as KVAEXCESSUNIT, KVAEXCESSRATE as KVAEXCESSRATE, KVAEXCESSAMT as KVAEXCESSAMT, BILLKVA as BILLKVA, BILLKVARATE as BILLKVARATE,NDEMAND as NDEMAND,KVANUNIT as KVANUNIT,KVAPUNIT as KVAPUNIT,KVAOUNIT as KVAOUNIT,
     BILLKAVAMT as BILLKAVAMT, NREC_KWHNORMAL as NREC_KWHNORMAL, NREC_KWHPEAK as NREC_KWHPEAK,NREC_KWHOFFPEAK as NREC_KWHOFFPEAK,NREC_KVANORMAL as NREC_KVANORMAL,NREC_KVAPEAK as NREC_KVAPEAK,NREC_KVAOFFPEAK as NREC_KVAOFFPEAK, NREC_PF as NREC_PF,PFPENUNIT as PFPENUNIT, PFINCUNIT as PFINCUNIT,PFPENRATE as PFPENRATE, PFINCRATE as PFINCRATE,PFPENAMT as PFPENAMT, PFINCAMT as PFINCAMT,
  SUM(DUTYUNIT) DUTYUNIT, SUM(DUTYRATE) DUTYRATE, SUM(DUTYAMT) DUTYAMT,SUM(COMCHARGEUNIT) COMCHARGEUNIT, SUM(COMCHARGERATE) COMCHARGERATE, SUM(COMCHARGEAMT) COMCHARGEAMT,  SUM(FUELUNIT) FUELUNIT,SUM( FUELRATE) FUELRATE, SUM(FUELAMT) FUELAMT,
- NKWHQUOTA as NKWHQUOTA,CASE WHEN NREC_KWHPEAK+NREC_KWHOFFPEAK+NREC_KWHNORMAL- NKWHQUOTA >0 THEN NREC_KWHPEAK+NREC_KWHOFFPEAK+NREC_KWHNORMAL- NKWHQUOTA ELSE 0 END EXCESSUNIT, NKWHEXCESSRATE as EXCESSRATE, NKWHQUOTA*NKWHEXCESSRATE as EXCESSAMT,SUM(SURCHARGEUNIT) as SURCHARGEUNIT, SUM(SURCHARGERATE) as SURCHARGERATE, SUM(SURCHARGEAMT) as SURCHARGEAMT
+ NKWHQUOTA as NKWHQUOTA,CASE WHEN NREC_KWHPEAK+NREC_KWHOFFPEAK+NREC_KWHNORMAL- NKWHQUOTA >0 THEN NREC_KWHPEAK+NREC_KWHOFFPEAK+NREC_KWHNORMAL- NKWHQUOTA ELSE 0 END EXCESSUNIT, NKWHEXCESSRATE as NKWHEXCESSRATE, NKWHQUOTA*NKWHEXCESSRATE as EXCESSAMT,SUM(SURCHARGEUNIT) as SURCHARGEUNIT, SUM(SURCHARGERATE) as SURCHARGERATE, SUM(SURCHARGEAMT) as SURCHARGEAMT
 FROM VW_BILLKWH A LEFT JOIN VW_BILLKVA B ON A.BILL_ID=B.BILL_ID
 LEFT JOIN VW_BILLPF C ON A.BILL_ID=C.BILL_ID
 LEFT JOIN VW_BILLOTHERS D ON A.BILL_ID=D.BILL_ID
 WHERE A.BILL_ID=?
 GROUP BY A.BILL_ID, PFPENUNIT, PFINCUNIT,PFPENRATE, PFINCRATE,PFPENAMT, PFINCAMT,KVAEXCESSUNIT, KVAEXCESSRATE, KVAEXCESSAMT, BILLKVA, BILLKVARATE,
     BILLKAVAMT, NREC_KWHNORMAL, NREC_KWHPEAK,NREC_KWHOFFPEAK,NREC_KVANORMAL,NREC_KVAPEAK,NREC_KVAOFFPEAK,KVANUNIT,KVAPUNIT,KVAOUNIT, NREC_PF,NDEMAND,
-NKWHQUOTA,EXCESSRATE,EXCESSAMT;
+NKWHQUOTA,NKWHEXCESSRATE,EXCESSAMT;
 ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
