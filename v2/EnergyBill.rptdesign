@@ -2377,35 +2377,74 @@ WHERE EBILL.BILL_ID=?
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <page-header>
-                <text-data id="761">
-                    <property name="style">Font</property>
-                    <property name="fontWeight">bold</property>
-                    <property name="textAlign">center</property>
-                    <property name="dataSet">EBILCONSDSET</property>
-                    <list-property name="boundDataColumns">
-                        <structure>
-                            <property name="name">DTSTART</property>
-                            <text-property name="displayName">DTSTART</text-property>
-                            <expression name="expression" type="javascript">dataSetRow["DTSTART"]</expression>
-                            <property name="dataType">date</property>
-                        </structure>
-                        <structure>
-                            <property name="name">DTEND</property>
-                            <text-property name="displayName">DTEND</text-property>
-                            <expression name="expression" type="javascript">dataSetRow["DTEND"]</expression>
-                            <property name="dataType">date</property>
-                        </structure>
-                    </list-property>
-                    <expression name="valueExpr">"Statement of Account from "+Formatter.format(row["DTSTART"],'dd/MMM/yyyy')+" to "+Formatter.format(row["DTEND"],'dd/MMM/yyyy')</expression>
-                    <property name="contentType">html</property>
-                </text-data>
+                <grid id="1266">
+                    <property name="backgroundColor">white</property>
+                    <property name="borderBottomStyle">none</property>
+                    <property name="borderLeftStyle">none</property>
+                    <property name="borderRightStyle">none</property>
+                    <property name="borderTopStyle">none</property>
+                    <property name="canShrink">true</property>
+                    <column id="1267"/>
+                    <row id="1268">
+                        <cell id="1269">
+                            <text id="1285">
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<html>
+<body>
+<style>
+.outer{
+  text-align: center;
+}
+.outer img{
+  display: inline-block;
+}
+</style>
+<table>
+<tr>
+<td>
+<div class="outer">
+
+<img src="\img\BillLogo.png" height="50px" width="200px" align="baseline" name="myimage">
+
+</div>
+</td>
+</tr>
+</table>
+</body>
+</html>]]></text-property>
+                            </text>
+                        </cell>
+                    </row>
+                    <row id="1270">
+                        <cell id="1271">
+                            <text-data id="1281">
+                                <property name="style">Font</property>
+                                <property name="backgroundColor">#E1E1E1</property>
+                                <property name="fontSize">12pt</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="textAlign">center</property>
+                                <property name="dataSet">EBILCONSDSET</property>
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">DTSTART</property>
+                                        <text-property name="displayName">DTSTART</text-property>
+                                        <expression name="expression" type="javascript">dataSetRow["DTSTART"]</expression>
+                                        <property name="dataType">date</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">DTEND</property>
+                                        <text-property name="displayName">DTEND</text-property>
+                                        <expression name="expression" type="javascript">dataSetRow["DTEND"]</expression>
+                                        <property name="dataType">date</property>
+                                    </structure>
+                                </list-property>
+                                <expression name="valueExpr">"Statement of Account from "+Formatter.format(row["DTSTART"],'dd/MMM/yyyy')+" to "+Formatter.format(row["DTEND"],'dd/MMM/yyyy')</expression>
+                                <property name="contentType">html</property>
+                            </text-data>
+                        </cell>
+                    </row>
+                </grid>
             </page-header>
-            <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
-            </page-footer>
         </simple-master-page>
     </page-setup>
     <body>
