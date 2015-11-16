@@ -36,8 +36,14 @@
             <list-property name="computedColumns">
                 <structure>
                     <property name="name">RNo</property>
-                    <property name="dataType">integer</property>
-                    <property name="aggregateFunction">COUNT</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">RUNNINGSUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value">1</expression>
+                        </structure>
+                    </list-property>
                 </structure>
             </list-property>
             <list-property name="columnHints">
@@ -103,7 +109,7 @@
                     <structure>
                         <property name="position">6</property>
                         <property name="name">RNo</property>
-                        <property name="dataType">integer</property>
+                        <property name="dataType">float</property>
                     </structure>
                 </list-property>
             </structure>
