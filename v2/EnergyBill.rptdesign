@@ -2373,6 +2373,16 @@ WHERE EBILL.BILL_ID=?
             <property name="fontFamily">"Times New Roman"</property>
             <property name="fontSize">11pt</property>
         </style>
+        <style name="FullBorderStyle" id="1297">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+        </style>
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
@@ -2383,11 +2393,13 @@ WHERE EBILL.BILL_ID=?
                     <property name="borderLeftStyle">none</property>
                     <property name="borderRightStyle">none</property>
                     <property name="borderTopStyle">none</property>
-                    <property name="canShrink">true</property>
-                    <column id="1267"/>
-                    <row id="1268">
-                        <cell id="1269">
+                    <property name="textAlign">center</property>
+                    <property name="canShrink">false</property>
+                    <column id="1300"/>
+                    <row id="1304">
+                        <cell id="1306">
                             <text id="1285">
+                                <property name="textAlign">left</property>
                                 <property name="contentType">html</property>
                                 <text-property name="content"><![CDATA[<html>
 <body>
@@ -2415,8 +2427,8 @@ WHERE EBILL.BILL_ID=?
                             </text>
                         </cell>
                     </row>
-                    <row id="1270">
-                        <cell id="1271">
+                    <row id="1268">
+                        <cell id="1298">
                             <text-data id="1281">
                                 <property name="style">Font</property>
                                 <property name="backgroundColor">#E1E1E1</property>
@@ -2473,6 +2485,7 @@ WHERE EBILL.BILL_ID=?
                             <cell id="284">
                                 <data id="722">
                                     <property name="style">Font</property>
+                                    <property name="fontWeight">bold</property>
                                     <property name="dataSet">EBILCONSDSET</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
@@ -2492,12 +2505,13 @@ WHERE EBILL.BILL_ID=?
                             <cell id="286">
                                 <data id="723">
                                     <property name="style">Font</property>
+                                    <property name="fontWeight">bold</property>
                                     <property name="dataSet">EBILCONSDSET</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">STMTNO</property>
                                             <text-property name="displayName">STMTNO</text-property>
-                                            <expression name="expression" type="javascript">"Stmnt.No: "+dataSetRow["STMTNO"]</expression>
+                                            <expression name="expression" type="javascript">"Statement No: "+dataSetRow["STMTNO"]</expression>
                                             <property name="dataType">string</property>
                                             <property name="allowExport">true</property>
                                         </structure>
@@ -2508,6 +2522,7 @@ WHERE EBILL.BILL_ID=?
                             <cell id="287">
                                 <data id="753">
                                     <property name="style">Font</property>
+                                    <property name="fontWeight">bold</property>
                                     <property name="textAlign">left</property>
                                     <property name="dataSet">EBILCONSDSET</property>
                                     <list-property name="boundDataColumns">
@@ -2603,6 +2618,7 @@ WHERE EBILL.BILL_ID=?
                                         <cell id="265">
                                             <data id="742">
                                                 <property name="style">Font</property>
+                                                <property name="fontWeight">bold</property>
                                                 <structure name="numberFormat">
                                                     <property name="category">Custom</property>
                                                     <property name="pattern">########0.00</property>
@@ -2632,6 +2648,7 @@ WHERE EBILL.BILL_ID=?
                                         <cell id="268">
                                             <data id="740">
                                                 <property name="style">Font</property>
+                                                <property name="fontWeight">bold</property>
                                                 <structure name="numberFormat">
                                                     <property name="category">Custom</property>
                                                     <property name="pattern">########0.00</property>
@@ -2661,6 +2678,7 @@ WHERE EBILL.BILL_ID=?
                                         <cell id="271">
                                             <data id="749">
                                                 <property name="style">Font</property>
+                                                <property name="fontWeight">bold</property>
                                                 <structure name="numberFormat">
                                                     <property name="category">Custom</property>
                                                     <property name="pattern">########0.00</property>
@@ -2690,6 +2708,7 @@ WHERE EBILL.BILL_ID=?
                                         <cell id="274">
                                             <data id="719">
                                                 <property name="style">Font</property>
+                                                <property name="fontWeight">bold</property>
                                                 <structure name="numberFormat">
                                                     <property name="category">Custom</property>
                                                     <property name="pattern">########0.00</property>
@@ -2723,6 +2742,7 @@ WHERE EBILL.BILL_ID=?
                             <cell id="310">
                                 <data id="725">
                                     <property name="style">Font</property>
+                                    <property name="fontWeight">bold</property>
                                     <property name="dataSet">EBILCONSDSET</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
@@ -2741,12 +2761,13 @@ WHERE EBILL.BILL_ID=?
                             <cell id="313">
                                 <data id="726">
                                     <property name="style">Font</property>
+                                    <property name="fontWeight">bold</property>
                                     <property name="dataSet">EBILCONSDSET</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">TYPESHORT</property>
                                             <text-property name="displayName">TYPESHORT</text-property>
-                                            <expression name="expression" type="javascript">"Tariff: "+dataSetRow["TYPESHORT"]</expression>
+                                            <expression name="expression" type="javascript">"Tariff Type: "+dataSetRow["TYPESHORT"]</expression>
                                             <property name="dataType">string</property>
                                             <property name="allowExport">true</property>
                                         </structure>
@@ -2819,6 +2840,7 @@ WHERE EBILL.BILL_ID=?
                             <cell id="226">
                                 <data id="736">
                                     <property name="style">Font</property>
+                                    <property name="fontWeight">bold</property>
                                     <property name="textAlign">center</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
@@ -2835,6 +2857,7 @@ WHERE EBILL.BILL_ID=?
                             <cell id="227">
                                 <data id="737">
                                     <property name="style">Font</property>
+                                    <property name="fontWeight">bold</property>
                                     <property name="textAlign">center</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
@@ -2851,6 +2874,7 @@ WHERE EBILL.BILL_ID=?
                             <cell id="228">
                                 <data id="738">
                                     <property name="style">Font</property>
+                                    <property name="fontWeight">bold</property>
                                     <property name="textAlign">center</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
@@ -2909,6 +2933,7 @@ WHERE EBILL.BILL_ID=?
                             <cell id="241">
                                 <data id="743">
                                     <property name="style">Font</property>
+                                    <property name="fontWeight">bold</property>
                                     <property name="textAlign">center</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
@@ -2925,6 +2950,7 @@ WHERE EBILL.BILL_ID=?
                             <cell id="242">
                                 <data id="744">
                                     <property name="style">Font</property>
+                                    <property name="fontWeight">bold</property>
                                     <property name="textAlign">center</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
@@ -2941,6 +2967,7 @@ WHERE EBILL.BILL_ID=?
                             <cell id="243">
                                 <data id="745">
                                     <property name="style">Font</property>
+                                    <property name="fontWeight">bold</property>
                                     <property name="textAlign">center</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
@@ -2966,6 +2993,7 @@ WHERE EBILL.BILL_ID=?
                             <cell id="249">
                                 <data id="739">
                                     <property name="style">Font</property>
+                                    <property name="fontWeight">bold</property>
                                     <property name="textAlign">left</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
@@ -2995,22 +3023,24 @@ WHERE EBILL.BILL_ID=?
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">thin</property>
             <column id="177"/>
-            <row id="178">
-                <cell id="179">
-                    <grid id="142">
-                        <column id="144"/>
-                        <column id="146"/>
-                        <row id="147">
-                            <cell id="149">
+            <row id="182">
+                <cell id="183">
+                    <grid id="161">
+                        <column id="162"/>
+                        <column id="163"/>
+                        <column id="164"/>
+                        <row id="1293">
+                            <cell id="1294">
                                 <data id="752">
                                     <property name="style">Font</property>
+                                    <property name="fontWeight">bold</property>
                                     <property name="textAlign">left</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">NKWHQUOTA</property>
                                             <text-property name="displayName">NKWHQUOTA</text-property>
-                                            <expression name="expression" type="javascript">"Monthly Quota(KWh): "+dataSetRow["NKWHQUOTA"]</expression>
+                                            <expression name="expression" type="javascript">"Monthly Quota(Kwh): "+dataSetRow["NKWHQUOTA"]</expression>
                                             <property name="dataType">string</property>
                                             <property name="allowExport">true</property>
                                         </structure>
@@ -3018,9 +3048,10 @@ WHERE EBILL.BILL_ID=?
                                     <property name="resultSetColumn">NKWHQUOTA</property>
                                 </data>
                             </cell>
-                            <cell id="151">
+                            <cell id="1295">
                                 <data id="751">
                                     <property name="style">Font</property>
+                                    <property name="fontWeight">bold</property>
                                     <property name="textAlign">left</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
@@ -3035,28 +3066,21 @@ WHERE EBILL.BILL_ID=?
                                     <property name="resultSetColumn">EXCESSUNIT</property>
                                 </data>
                             </cell>
-                        </row>
-                    </grid>
-                </cell>
-            </row>
-            <row id="180">
-                <cell id="181">
-                    <grid id="154">
-                        <column id="156"/>
-                        <row id="157">
-                            <cell id="159">
+                            <cell id="1296">
                                 <data id="709">
                                     <property name="style">Font</property>
+                                    <property name="fontWeight">bold</property>
                                     <structure name="stringFormat">
                                         <property name="category">Custom</property>
                                     </structure>
                                     <property name="textAlign">left</property>
+                                    <property name="canShrink">true</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">TotalEnergyConsumption</property>
                                             <text-property name="displayName">TotalEnergyConsumption</text-property>
-                                            <expression name="expression" type="javascript">"Total Energy Consumption (kwh) :"+dataSetRow["TotalEnergyConsumption"]</expression>
+                                            <expression name="expression" type="javascript">"Total Energy Consumption (Kwh) :"+dataSetRow["TotalEnergyConsumption"]</expression>
                                             <property name="dataType">string</property>
                                             <property name="allowExport">true</property>
                                         </structure>
@@ -3065,34 +3089,30 @@ WHERE EBILL.BILL_ID=?
                                 </data>
                             </cell>
                         </row>
-                    </grid>
-                </cell>
-            </row>
-            <row id="182">
-                <cell id="183">
-                    <grid id="161">
-                        <column id="162"/>
-                        <column id="163"/>
-                        <column id="164"/>
+                        <row id="1289">
+                            <cell id="1290"/>
+                            <cell id="1291"/>
+                            <cell id="1292"/>
+                        </row>
                         <row id="169">
                             <cell id="170">
                                 <label id="173">
                                     <property name="style">Font</property>
-                                    <property name="textAlign">center</property>
+                                    <property name="textAlign">left</property>
                                     <text-property name="text">Normal</text-property>
                                 </label>
                             </cell>
                             <cell id="171">
                                 <label id="174">
                                     <property name="style">Font</property>
-                                    <property name="textAlign">center</property>
+                                    <property name="textAlign">left</property>
                                     <text-property name="text">Peak</text-property>
                                 </label>
                             </cell>
                             <cell id="172">
                                 <label id="175">
                                     <property name="style">Font</property>
-                                    <property name="textAlign">center</property>
+                                    <property name="textAlign">left</property>
                                     <text-property name="text">Off Peak</text-property>
                                 </label>
                             </cell>
@@ -3101,7 +3121,8 @@ WHERE EBILL.BILL_ID=?
                             <cell id="166">
                                 <data id="755">
                                     <property name="style">Font</property>
-                                    <property name="textAlign">center</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="textAlign">left</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
@@ -3117,7 +3138,8 @@ WHERE EBILL.BILL_ID=?
                             <cell id="167">
                                 <data id="756">
                                     <property name="style">Font</property>
-                                    <property name="textAlign">center</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="textAlign">left</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
@@ -3133,7 +3155,8 @@ WHERE EBILL.BILL_ID=?
                             <cell id="168">
                                 <data id="757">
                                     <property name="style">Font</property>
-                                    <property name="textAlign">center</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="textAlign">left</property>
                                     <property name="dataSet">EBILL</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
@@ -3160,10 +3183,18 @@ WHERE EBILL.BILL_ID=?
             <property name="borderRightWidth">thin</property>
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">thin</property>
-            <column id="8"/>
-            <column id="9"/>
-            <column id="10"/>
-            <column id="11"/>
+            <column id="8">
+                <property name="style">FullBorderStyle</property>
+            </column>
+            <column id="9">
+                <property name="style">FullBorderStyle</property>
+            </column>
+            <column id="10">
+                <property name="style">FullBorderStyle</property>
+            </column>
+            <column id="11">
+                <property name="style">FullBorderStyle</property>
+            </column>
             <row id="12">
                 <cell id="13">
                     <label id="137">
@@ -3186,7 +3217,7 @@ WHERE EBILL.BILL_ID=?
                         <property name="style">Font</property>
                         <property name="fontWeight">bold</property>
                         <property name="textAlign">right</property>
-                        <text-property name="text">Rate(Rs.)</text-property>
+                        <text-property name="text">Rate(INR)</text-property>
                     </label>
                 </cell>
                 <cell id="16">
@@ -3194,7 +3225,7 @@ WHERE EBILL.BILL_ID=?
                         <property name="style">Font</property>
                         <property name="fontWeight">bold</property>
                         <property name="textAlign">right</property>
-                        <text-property name="text">Amount(Rs.)</text-property>
+                        <text-property name="text">Amount(INR)</text-property>
                     </label>
                 </cell>
             </row>
