@@ -487,6 +487,31 @@ var tens = Array("", "", "TWENTY", "THIRTY", "FOURTY", "FIFTY", "SIXTY","SEVENTY
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                     <property name="position">1</property>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">param_2</property>
+                    <property name="paramName">BILLID</property>
+                    <property name="dataType">integer</property>
+                    <property name="position">2</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">param_3</property>
+                    <property name="paramName">BILLID</property>
+                    <property name="dataType">integer</property>
+                    <property name="position">3</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">param_4</property>
+                    <property name="paramName">BILLID</property>
+                    <property name="dataType">integer</property>
+                    <property name="position">4</property>
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
                 </structure>
@@ -1142,7 +1167,7 @@ var tens = Array("", "", "TWENTY", "THIRTY", "FOURTY", "FIFTY", "SIXTY","SEVENTY
  0 as PFINCRATE,0 as PFPENAMT, 0 as PFINCAMT,
  0 AS DUTYUNIT, 0 AS DUTYRATE, 0 AS DUTYAMT,0 AS COMCHARGEUNIT, 0 AS COMCHARGERATE, 0 AS COMCHARGEAMT,  0 AS FUELUNIT, 0 AS FUELRATE, 0 AS FUELAMT,
  0 as NKWHQUOTA,0 as EXCESSUNIT, 0 as NKWHEXCESSRATE, 0 as EXCESSAMT,0 as SURCHARGEUNIT, 0 as SURCHARGERATE, 0 as SURCHARGEAMT
-FROM VW_BILLKWH A 
+FROM VW_BILLKWH A where A.bill_id=?
 UNION 
 select bill_id, 0 AS KWHNUNIT, 0 AS KWHNRATE, 0 AS KWHNAMT,  0 AS KWHPUNIT, 0 AS KWHPRATE, 0 AS KWHPAMT, 0 AS KWHOUNIT, 0 AS KWHORATE, 0 AS KWHOAMT,
  KVAEXCESSUNIT as KVAEXCESSUNIT, KVAEXCESSRATE as KVAEXCESSRATE, KVAEXCESSAMT as KVAEXCESSAMT, BILLKVA as BILLKVA, BILLKVARATE as BILLKVARATE,
@@ -1153,14 +1178,14 @@ NREC_KVANORMAL as NREC_KVANORMAL,NREC_KVAPEAK as NREC_KVAPEAK,NREC_KVAOFFPEAK as
  0 AS DUTYUNIT, 0 AS DUTYRATE, 0 AS DUTYAMT,0 AS COMCHARGEUNIT, 0 AS COMCHARGERATE, 0 AS COMCHARGEAMT,  0 AS FUELUNIT, 0 AS FUELRATE, 0 AS FUELAMT,
  NKWHQUOTA as NKWHQUOTA,CASE WHEN NREC_KWHPEAK+NREC_KWHOFFPEAK+NREC_KWHNORMAL- NKWHQUOTA >0 THEN NREC_KWHPEAK+NREC_KWHOFFPEAK+NREC_KWHNORMAL- NKWHQUOTA ELSE 0 END EXCESSUNIT, 
 NKWHEXCESSRATE as NKWHEXCESSRATE, NKWHQUOTA*NKWHEXCESSRATE as EXCESSAMT,0 as SURCHARGEUNIT, 0 as SURCHARGERATE, 0 as SURCHARGEAMT
-FROM VW_BILLKVA A 
+FROM VW_BILLKVA A where A.bill_id=?
 UNION 
 SELECT DISTINCT A.BILL_ID,  0 AS KWHNUNIT, 0 AS KWHNRATE, 0 AS KWHNAMT,  0 AS KWHPUNIT, 0 AS KWHPRATE, 0 AS KWHPAMT, 0 AS KWHOUNIT, 0 AS KWHORATE, 0 AS KWHOAMT,
  0 as KVAEXCESSUNIT, 0 as KVAEXCESSRATE, 0 as KVAEXCESSAMT, 0 as BILLKVA, 0 as BILLKVARATE,0 as NDEMAND,0 as KVANUNIT,0 as KVAPUNIT,0 as KVAOUNIT,
     0 as BILLKAVAMT, 0 as NREC_KWHNORMAL, 0 as NREC_KWHPEAK,0 as NREC_KWHOFFPEAK,0 as NREC_KVANORMAL,0 as NREC_KVAPEAK,0 as NREC_KVAOFFPEAK, 0 as NREC_PF,PFPENUNIT as PFPENUNIT, PFINCUNIT as PFINCUNIT,PFPENRATE as PFPENRATE, PFINCRATE as PFINCRATE,PFPENAMT as PFPENAMT, PFINCAMT as PFINCAMT,
  0 AS DUTYUNIT, 0 AS DUTYRATE, 0 AS DUTYAMT,0 AS COMCHARGEUNIT, 0 AS COMCHARGERATE, 0 AS COMCHARGEAMT,  0 AS FUELUNIT, 0 AS FUELRATE, 0 AS FUELAMT,
  0 as NKWHQUOTA, 0 AS EXCESSUNIT, 0 as NKWHEXCESSRATE, 0 as EXCESSAMT,0 as SURCHARGEUNIT, 0 as SURCHARGERATE, 0 as SURCHARGEAMT
-FROM VW_BILLPF A 
+FROM VW_BILLPF A where A.bill_id=?
 UNION 
 SELECT DISTINCT A.BILL_ID,    0 AS KWHNUNIT, 0 AS KWHNRATE, 0 AS KWHNAMT,  0 AS KWHPUNIT, 0 AS KWHPRATE, 0 AS KWHPAMT, 0 AS KWHOUNIT, 0 AS KWHORATE, 0 AS KWHOAMT,
  0 as KVAEXCESSUNIT, 0 as KVAEXCESSRATE, 0 as KVAEXCESSAMT, 0 as BILLKVA, 0 as BILLKVARATE,0 as NDEMAND,0 as KVANUNIT,0 as KVAPUNIT,0 as KVAOUNIT,
@@ -1168,10 +1193,7 @@ SELECT DISTINCT A.BILL_ID,    0 AS KWHNUNIT, 0 AS KWHNRATE, 0 AS KWHNAMT,  0 AS 
 0 as PFPENUNIT, 0 as PFINCUNIT,0 as PFPENRATE, 0 as PFINCRATE,0 as PFPENAMT, 0 as PFINCAMT,
  DUTYUNIT AS DUTYUNIT, DUTYRATE AS DUTYRATE, DUTYAMT AS DUTYAMT,COMCHARGEUNIT AS COMCHARGEUNIT, COMCHARGERATE AS COMCHARGERATE, COMCHARGEAMT AS COMCHARGEAMT,  FUELUNIT AS FUELUNIT, FUELRATE AS FUELRATE, FUELAMT AS FUELAMT,
  0 as NKWHQUOTA, 0 AS EXCESSUNIT, 0 as NKWHEXCESSRATE, 0 as EXCESSAMT,SURCHARGEUNIT as SURCHARGEUNIT, SURCHARGERATE as SURCHARGERATE, SURCHARGEAMT as SURCHARGEAMT
-FROM VW_BILLOTHERS A ) AS Tab where bill_id=? ;
-
-
-]]></xml-property>
+FROM VW_BILLOTHERS A where A.bill_id=?) AS Tab group by bill_id]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
