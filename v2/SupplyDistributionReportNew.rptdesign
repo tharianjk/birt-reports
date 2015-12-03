@@ -1131,14 +1131,32 @@ else&#13;
                     <data id="529">
                         <property name="fontWeight">bold</property>
                         <property name="textAlign">center</property>
+                        <property name="dataSet">distribution</property>
                         <list-property name="boundDataColumns">
                             <structure>
-                                <property name="name">ntitle</property>
-                                <expression name="expression" type="javascript">params["ntitle"]</expression>
+                                <property name="name">DISPLAYNAME</property>
+                                <text-property name="displayName">DISPLAYNAME</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["DISPLAYNAME"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
+                            <structure>
+                                <property name="name">Column Binding</property>
+                                <expression name="expression" type="javascript">if(params["ntitle"].value=='' || params["ntitle"].value==null)&#13;
+{&#13;
+if(dataSetRow["CHILDCOUNT"]>1)&#13;
+{params["testparam"].value=''}&#13;
+else{&#13;
+"TOD based distribution for : "+dataSetRow["DISPLAYNAME"]}&#13;
+}&#13;
+else&#13;
+{&#13;
+params["ntitle"].value&#13;
+}</expression>
+                                <property name="dataType">string</property>
+                                <property name="allowExport">true</property>
+                            </structure>
                         </list-property>
-                        <property name="resultSetColumn">ntitle</property>
+                        <property name="resultSetColumn">Column Binding</property>
                     </data>
                 </cell>
             </row>
