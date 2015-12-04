@@ -126,6 +126,21 @@ false);*/]]></method>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
+                <value type="constant">TOID</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="psecid" id="530">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
                 <value type="constant"></value>
             </simple-property-list>
             <list-property name="selectionList"/>
@@ -248,7 +263,7 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4,a.ASSETTR
 " where T.dt_date >='"+LHour+"' and T.dt_date <'"+curT+"'"+
 " and a.company_id ='"+params["UsrCompId"].value+"'"+ 
 " and  s.UTILITY_ID='"+params["UtlId"].value+"'"+
-" and (a.parent_id  = '"+params["UsrSecId"].value+"' or a.parent_id in (select a.assettree_id from fwk_assettree where assettreetype_id=2 and a.assettree_id='"+params["UsrSecId"].value+"'))  and s.c_coretype='P'"+ 
+" and (a.parent_id  = '"+params["psecid"].value+"' or a.parent_id in (select a.assettree_id from fwk_assettree where assettreetype_id=2 and a.assettree_id='"+params["psecid"].value+"'))  and s.c_coretype='P'"+ 
 " group by DISPLAYNAME, un.UNITSHORT,a.ASSETTREE_ID";
 ]]></method>
             <property name="dataSource">IrevealDS</property>
@@ -1132,6 +1147,13 @@ else&#13;
                         <property name="fontWeight">bold</property>
                         <property name="textAlign">center</property>
                         <property name="dataSet">distribution</property>
+                        <list-property name="visibility">
+                            <structure>
+                                <property name="format">all</property>
+                                <expression name="valueExpr" type="javascript">if((params["UsrSecId"].value==params["psecid"].value)&amp;&amp;(params["UsrSecId"].value==params["testparam"].value))&#13;
+{true}</expression>
+                            </structure>
+                        </list-property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">DISPLAYNAME</property>
@@ -1143,13 +1165,17 @@ else&#13;
                                 <property name="name">Column Binding</property>
                                 <expression name="expression" type="javascript">if(params["ntitle"].value=='' || params["ntitle"].value==null)&#13;
 {&#13;
-if(dataSetRow["CHILDCOUNT"]>1)&#13;
-{params["testparam"].value=''}&#13;
-else{&#13;
-"TOD based distribution for : "+dataSetRow["DISPLAYNAME"]}&#13;
-}&#13;
+	if(dataSetRow["CHILDCOUNT"]>1)&#13;
+	{&#13;
+		params["testparam"].value=''&#13;
+	}&#13;
+	else&#13;
+	{&#13;
+		"TOD based distribution for+ : "+dataSetRow["DISPLAYNAME"]}&#13;
+	}&#13;
 else&#13;
 {&#13;
+&#13;
 params["ntitle"].value&#13;
 }</expression>
                                 <property name="dataType">string</property>
@@ -2008,7 +2034,8 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
             &lt;simple-property-list name=&quot;expression&quot;>
                 &lt;value type=&quot;javascript&quot;>if(row[&quot;CHILDCOUNT&quot;]&amp;lt;=1)&amp;#13;
 {&amp;#13;
-params[&quot;UsrSecId&quot;].value&amp;#13;
+//params[&quot;psecid&quot;].value&amp;#13;
+row[&quot;ASSETTREE_ID&quot;]&amp;#13;
 &amp;#13;
 &amp;#13;
 &amp;#13;
@@ -2016,7 +2043,8 @@ params[&quot;UsrSecId&quot;].value&amp;#13;
 else&amp;#13;
 {&amp;#13;
 &amp;#13;
-row[&quot;ASSETTREE_ID&quot;]&amp;#13;
+//row[&quot;ASSETTREE_ID&quot;]&amp;#13;
+params[&quot;psecid&quot;].value&amp;#13;
 &amp;#13;
 &amp;#13;
 }&lt;/value>
@@ -2077,6 +2105,12 @@ row[&quot;ASSETTREE_ID&quot;]&amp;#13;
             &lt;property name=&quot;paramName&quot;>ntitle&lt;/property>
             &lt;simple-property-list name=&quot;expression&quot;>
                 &lt;value type=&quot;javascript&quot;>row[&quot;DISPLAYNAME&quot;]=&quot;TOD based distribution for : &quot;+row[&quot;DISPLAYNAME&quot;]&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>psecid&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>params[&quot;psecid&quot;].value&lt;/value>
             &lt;/simple-property-list>
         &lt;/structure>
     &lt;/list-property>
@@ -2237,7 +2271,8 @@ row[&quot;ASSETTREE_ID&quot;]&amp;#13;
                                         <simple-property-list name="expression">
                                             <value type="javascript">if(row["CHILDCOUNT"]&lt;=1)&#13;
 {&#13;
-params["UsrSecId"].value&#13;
+//params["psecid"].value&#13;
+row["ASSETTREE_ID"]&#13;
 &#13;
 &#13;
 &#13;
@@ -2245,7 +2280,8 @@ params["UsrSecId"].value&#13;
 else&#13;
 {&#13;
 &#13;
-row["ASSETTREE_ID"]&#13;
+//row["ASSETTREE_ID"]&#13;
+params["psecid"].value&#13;
 &#13;
 &#13;
 }</value>
@@ -2306,6 +2342,12 @@ row["ASSETTREE_ID"]&#13;
                                         <property name="paramName">ntitle</property>
                                         <simple-property-list name="expression">
                                             <value type="javascript">row["DISPLAYNAME"]="TOD based distribution for : "+row["DISPLAYNAME"]</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">psecid</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">params["psecid"].value</value>
                                         </simple-property-list>
                                     </structure>
                                 </list-property>
