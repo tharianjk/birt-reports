@@ -11,11 +11,14 @@ false);*/]]></method>
     <property name="imageDPI">96</property>
     <parameters>
         <scalar-parameter name="UsrSecId" id="356">
-            <property name="hidden">true</property>
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -24,11 +27,14 @@ false);*/]]></method>
             </structure>
         </scalar-parameter>
         <scalar-parameter name="UsrCompId" id="375">
-            <property name="hidden">true</property>
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">1</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -37,11 +43,14 @@ false);*/]]></method>
             </structure>
         </scalar-parameter>
         <scalar-parameter name="UtlId" id="384">
-            <property name="hidden">true</property>
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">1</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -50,10 +59,13 @@ false);*/]]></method>
             </structure>
         </scalar-parameter>
         <scalar-parameter name="fromdate" id="409">
-            <property name="hidden">true</property>
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2014-11-04 00:00:00</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -62,10 +74,13 @@ false);*/]]></method>
             </structure>
         </scalar-parameter>
         <scalar-parameter name="todate" id="410">
-            <property name="hidden">true</property>
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2015-11-04 00:00:00</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -74,10 +89,13 @@ false);*/]]></method>
             </structure>
         </scalar-parameter>
         <scalar-parameter name="coltype" id="411">
-            <property name="hidden">true</property>
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">30D</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -86,10 +104,73 @@ false);*/]]></method>
             </structure>
         </scalar-parameter>
         <scalar-parameter name="vb" id="412">
-            <property name="hidden">true</property>
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">C</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="IDParam" id="426">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">0</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="explode" id="428">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="BreakdownTitle" id="429">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="FirstTitle" id="431">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -175,11 +256,21 @@ false);*/]]></method>
                     </structure>
                     <structure>
                         <property name="position">5</property>
-                        <property name="name">rcount</property>
+                        <property name="name">ASSETTREE_ID</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
                         <property name="position">6</property>
+                        <property name="name">CHILDCOUNT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">rcount</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
                         <property name="name">total</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -189,7 +280,8 @@ false);*/]]></method>
 	curT=params["todate"].value
 	LHour=params["fromdate"].value
 	
-	this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4"+	
+	this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4,a.assettree_id as ASSETTREE_ID,"+	
+	"(select count(*) from fwk_assettree where parent_id=a.assettree_id)  as CHILDCOUNT "+
     " from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+  
     " inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
     " inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID "+ 
@@ -198,7 +290,232 @@ false);*/]]></method>
     " and T.dt_date <'"+curT+"'"+
     " and a.company_id='"+params["UsrCompId"].value+"'"+
     " and  s.UTILITY_ID='"+params["UtlId"].value+"' and S.c_coretype='C'"+
-    " group by a.displayname,un.unitshort";
+    " group by a.displayname,un.unitshort,a.assettree_id";
+
+]]></method>
+            <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("explode",params["explode"].value);]]></method>
+            <property name="dataSource">IrevealDS</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">DISPLAYNAME</property>
+                    <property name="nativeName">DISPLAYNAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">UTILITY_QTY</property>
+                    <property name="nativeName">UTILITY_QTY</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">UNITSHORT</property>
+                    <property name="nativeName">UNITSHORT</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">C4</property>
+                    <property name="nativeName">C4</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">ASSETTREE_ID</property>
+                    <property name="nativeName">ASSETTREE_ID</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">CHILDCOUNT</property>
+                    <property name="nativeName">CHILDCOUNT</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select a.displayname,sum(s.UTILITY_QTY) as UTILITY_QTY,un.unitshort]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DISPLAYNAME</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>DISPLAYNAME</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DISPLAYNAME</design:label>
+            <design:formattingHints>
+              <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>QTY</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>3</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>QTY</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>QTY</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DT</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>26</design:precision>
+            <design:scale>6</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>DT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DT</design:label>
+            <design:formattingHints>
+              <design:displaySize>26</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>C4</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>C4</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>C4</design:label>
+            <design:formattingHints>
+              <design:displaySize>2</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="distributionSecondDSet" id="427">
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">rcount</property>
+                    <property name="dataType">integer</property>
+                    <property name="aggregateFunction">RUNNINGCOUNT</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value">row["UTILITY_QTY"]</expression>
+                        </structure>
+                    </list-property>
+                </structure>
+                <structure>
+                    <property name="name">total</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value">row["UTILITY_QTY"]</expression>
+                        </structure>
+                    </list-property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints"/>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">DISPLAYNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">UTILITY_QTY</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">UNITSHORT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">C4</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">ASSETTREE_ID</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">CHILDCOUNT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">rcount</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">total</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <method name="beforeOpen"><![CDATA[
+	curT=params["todate"].value
+	LHour=params["fromdate"].value
+	
+	this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4,a.assettree_id as ASSETTREE_ID,"+	
+	"(select count(*) from fwk_assettree where parent_id=a.assettree_id)  as CHILDCOUNT "+
+    " from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+  
+    " inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
+    " inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID "+ 
+    " inner join ems_unit UN on UN.unit_id=UT.unit_id"+
+	" where a.parent_id='"+params["IDParam"].value+"' and T.dt_date >='"+LHour+"'"+
+    " and T.dt_date <'"+curT+"'"+
+    " and a.company_id='"+params["UsrCompId"].value+"'"+
+    " and  s.UTILITY_ID='"+params["UtlId"].value+"' and S.c_coretype='C'"+
+    " group by a.displayname,un.unitshort,a.assettree_id";
 
 ]]></method>
             <property name="dataSource">IrevealDS</property>
@@ -226,6 +543,18 @@ false);*/]]></method>
                     <property name="name">C4</property>
                     <property name="nativeName">C4</property>
                     <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">ASSETTREE_ID</property>
+                    <property name="nativeName">ASSETTREE_ID</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">CHILDCOUNT</property>
+                    <property name="nativeName">CHILDCOUNT</property>
+                    <property name="dataType">decimal</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select a.displayname,sum(s.UTILITY_QTY) as UTILITY_QTY,un.unitshort]]></xml-property>
@@ -640,8 +969,26 @@ else&#13;
                 </cell>
             </row>
         </grid>
-        <extended-item extensionName="Chart" id="9">
-            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithoutAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+        <grid id="420">
+            <property name="canShrink">true</property>
+            <column id="421"/>
+            <column id="422"/>
+            <row id="423">
+                <cell id="424">
+                    <data id="432">
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">FirstTitle</property>
+                                <expression name="expression" type="javascript">params["FirstTitle"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">FirstTitle</property>
+                    </data>
+                    <extended-item extensionName="Chart" id="9">
+                        <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithoutAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Pie Chart</Type>
   <SubType>Standard</SubType>
@@ -940,7 +1287,7 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
 		}&#xD;
 		else&#xD;
 		{*/&#xD;
-			icsc.getChartInstance().getBlock().getBounds().setWidth(800);&#xD;
+			icsc.getChartInstance().getBlock().getBounds().setWidth(400);&#xD;
  			icsc.getChartInstance().getBlock().getBounds().setHeight(300);&#xD;
 		&#xD;
 	}&#xD;
@@ -1458,9 +1805,113 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
             </Value>
           </Action>
         </Triggers>
+        <Triggers>
+          <Condition>onclick</Condition>
+          <Action>
+            <Type>URL_Redirect</Type>
+            <Value xsi:type="attribute:MultiURLValues">
+              <URLValues>
+                <Label>
+                  <Caption>
+                    <Value>LINK</Value>
+                  </Caption>
+                </Label>
+                <BaseUrl>&lt;structure>
+    &lt;property name=&quot;linkType&quot;>drill-through&lt;/property>
+    &lt;property name=&quot;reportName&quot;>EnergyDistribution.rptdesign&lt;/property>
+    &lt;property name=&quot;targetWindow&quot;>_self&lt;/property>
+    &lt;property name=&quot;targetFileType&quot;>report-design&lt;/property>
+    &lt;list-property name=&quot;paramBindings&quot;>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>UsrSecId&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>params[&quot;UsrSecId&quot;].value&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>UsrCompId&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>params[&quot;UsrCompId&quot;].value&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>UtlId&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>params[&quot;UtlId&quot;].value&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>fromdate&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>params[&quot;fromdate&quot;].value&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>todate&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>params[&quot;todate&quot;].value&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>coltype&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>params[&quot;coltype&quot;].value&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>vb&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>params[&quot;vb&quot;].value&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>IDParam&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>row[&quot;ASSETTREE_ID&quot;]&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>explode&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>row[&quot;UTILITY_QTY&quot;]&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>BreakdownTitle&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>if(row[&quot;CHILDCOUNT&quot;]!=0)&amp;#13;
+{&quot;Usage Distribution Of : &quot;+row[&quot;DISPLAYNAME&quot;]}&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+    &lt;/list-property>
+&lt;/structure>
+</BaseUrl>
+                <BaseParameterName></BaseParameterName>
+                <ValueParameterName></ValueParameterName>
+                <SeriesParameterName></SeriesParameterName>
+              </URLValues>
+              <PropertiesMap>
+                <Key>MenuItem</Key>
+                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
+              </PropertiesMap>
+              <PropertiesMap>
+                <Key>Menu</Key>
+                <Value>zIndex:99999;backgroundColor:#FAFFF8;width:auto;height:auto;border:1px solid #333333;filter:progid:DXImageTransform.Microsoft.Shadow(Color:#333333,Direction=120,strength=5)</Value>
+              </PropertiesMap>
+              <PropertiesMap>
+                <Key>OnMouseOut</Key>
+                <Value>backgroundColor:#FAFFF8;color:#000000</Value>
+              </PropertiesMap>
+              <PropertiesMap>
+                <Key>OnMouseOver</Key>
+                <Value>backgroundColor:#245DDB;color:#FFFFFF</Value>
+              </PropertiesMap>
+            </Value>
+          </Action>
+        </Triggers>
         <Translucent>false</Translucent>
         <Explosion>13</Explosion>
-        <ExplosionExpression>valueData == this.getGlobalVariable(&quot;MaxSliceValue&quot; )</ExplosionExpression>
+        <ExplosionExpression>valueData ==this.getPersistentGlobalVariable(&quot;explode&quot; )</ExplosionExpression>
         <Title>
           <Caption>
             <Value></Value>
@@ -1501,7 +1952,7 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
           <Thickness>1</Thickness>
           <Visible>true</Visible>
         </LeaderLineAttributes>
-        <LeaderLineLength>10.0</LeaderLineLength>
+        <LeaderLineLength>5.0</LeaderLineLength>
         <SliceOutline>
           <Transparency>0</Transparency>
           <Red>255</Red>
@@ -1575,52 +2026,1333 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
   <MinSlicePercent>false</MinSlicePercent>
 </model:ChartWithoutAxes>
 ]]></xml-property>
-            <property name="outputFormat">SVG</property>
-            <property name="inheritColumns">true</property>
-            <property name="height">3.0104166666666665in</property>
-            <property name="width">7.5625in</property>
-            <expression name="bookmark" type="javascript">"myChart"</expression>
-            <property name="dataSet">distribution</property>
-            <list-property name="visibility">
-                <structure>
-                    <property name="format">all</property>
-                    <expression name="valueExpr" type="javascript">params["vb"].value=='G'</expression>
-                </structure>
-            </list-property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">DISPLAYNAME</property>
-                    <expression name="expression" type="javascript">dataSetRow["DISPLAYNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">UTILITY_QTY</property>
-                    <expression name="expression" type="javascript">dataSetRow["UTILITY_QTY"]</expression>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="name">UNITSHORT</property>
-                    <expression name="expression" type="javascript">dataSetRow["UNITSHORT"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">C4</property>
-                    <expression name="expression" type="javascript">dataSetRow["C4"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">rcount</property>
-                    <expression name="expression" type="javascript">dataSetRow["rcount"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">total</property>
-                    <expression name="expression" type="javascript">dataSetRow["total"]</expression>
-                    <property name="dataType">float</property>
-                </structure>
-            </list-property>
-            <property name="allowExport">false</property>
-        </extended-item>
+                        <property name="outputFormat">SVG</property>
+                        <list-property name="action">
+                            <structure>
+                                <property name="targetWindow">_self</property>
+                                <property name="linkType">drill-through</property>
+                                <property name="targetFileType">report-design</property>
+                                <property name="reportName">EnergyDistribution.rptdesign</property>
+                                <list-property name="paramBindings">
+                                    <structure>
+                                        <property name="paramName">UsrSecId</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">params["UsrSecId"].value</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">UsrCompId</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">params["UsrCompId"].value</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">UtlId</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">params["UtlId"].value</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">fromdate</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">params["fromdate"].value</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">todate</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">params["todate"].value</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">coltype</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">params["coltype"].value</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">vb</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">params["vb"].value</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">IDParam</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">row["ASSETTREE_ID"]</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">explode</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">row["UTILITY_QTY"]</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">BreakdownTitle</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">if(row["CHILDCOUNT"]!=0)&#13;
+{"Usage Distribution Of : "+row["DISPLAYNAME"]}</value>
+                                        </simple-property-list>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                        </list-property>
+                        <property name="inheritColumns">true</property>
+                        <property name="height">3.0104166666666665in</property>
+                        <property name="width">3.885in</property>
+                        <expression name="bookmark" type="javascript">"myChart"</expression>
+                        <property name="dataSet">distribution</property>
+                        <list-property name="visibility">
+                            <structure>
+                                <property name="format">all</property>
+                                <expression name="valueExpr" type="javascript">params["vb"].value=='G'</expression>
+                            </structure>
+                        </list-property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">DISPLAYNAME</property>
+                                <expression name="expression" type="javascript">dataSetRow["DISPLAYNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">UTILITY_QTY</property>
+                                <expression name="expression" type="javascript">dataSetRow["UTILITY_QTY"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                            <structure>
+                                <property name="name">UNITSHORT</property>
+                                <expression name="expression" type="javascript">dataSetRow["UNITSHORT"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">C4</property>
+                                <expression name="expression" type="javascript">dataSetRow["C4"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ASSETTREE_ID</property>
+                                <expression name="expression" type="javascript">dataSetRow["ASSETTREE_ID"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CHILDCOUNT</property>
+                                <expression name="expression" type="javascript">dataSetRow["CHILDCOUNT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                            <structure>
+                                <property name="name">rcount</property>
+                                <expression name="expression" type="javascript">dataSetRow["rcount"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">total</property>
+                                <expression name="expression" type="javascript">dataSetRow["total"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                        </list-property>
+                        <property name="allowExport">false</property>
+                    </extended-item>
+                </cell>
+                <cell id="425">
+                    <data id="430">
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">BreakdownTitle</property>
+                                <expression name="expression" type="javascript">params["BreakdownTitle"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">BreakdownTitle</property>
+                    </data>
+                    <extended-item extensionName="Chart" id="413">
+                        <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithoutAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+  <Version>2.6.1</Version>
+  <Type>Pie Chart</Type>
+  <SubType>Standard</SubType>
+  <Block>
+    <Children xsi:type="layout:TitleBlock">
+      <Bounds>
+        <Left>0.0</Left>
+        <Top>0.0</Top>
+        <Width>0.0</Width>
+        <Height>0.0</Height>
+      </Bounds>
+      <Insets>
+        <Top>3.0</Top>
+        <Left>3.0</Left>
+        <Bottom>3.0</Bottom>
+        <Right>3.0</Right>
+      </Insets>
+      <Row>-1</Row>
+      <Column>-1</Column>
+      <Rowspan>-1</Rowspan>
+      <Columnspan>-1</Columnspan>
+      <Outline>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Color>
+        <Visible>false</Visible>
+      </Outline>
+      <Visible>false</Visible>
+      <Label>
+        <Caption>
+          <Font>
+            <Size>10.0</Size>
+            <Bold>true</Bold>
+            <Alignment>
+              <horizontalAlignment>Center</horizontalAlignment>
+              <verticalAlignment>Center</verticalAlignment>
+            </Alignment>
+          </Font>
+        </Caption>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>2.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>3.0</Right>
+        </Insets>
+        <Visible>true</Visible>
+      </Label>
+    </Children>
+    <Children xsi:type="layout:Plot">
+      <Bounds>
+        <Left>0.0</Left>
+        <Top>0.0</Top>
+        <Width>0.0</Width>
+        <Height>0.0</Height>
+      </Bounds>
+      <Insets>
+        <Top>3.0</Top>
+        <Left>3.0</Left>
+        <Bottom>3.0</Bottom>
+        <Right>3.0</Right>
+      </Insets>
+      <Row>-1</Row>
+      <Column>-1</Column>
+      <Rowspan>-1</Rowspan>
+      <Columnspan>-1</Columnspan>
+      <Outline>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Color>
+        <Visible>false</Visible>
+      </Outline>
+      <Visible>true</Visible>
+      <HorizontalSpacing>5</HorizontalSpacing>
+      <VerticalSpacing>5</VerticalSpacing>
+      <ClientArea>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>0</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>0.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>0.0</Right>
+        </Insets>
+      </ClientArea>
+    </Children>
+    <Children xsi:type="layout:Legend">
+      <Bounds>
+        <Left>0.0</Left>
+        <Top>0.0</Top>
+        <Width>0.0</Width>
+        <Height>0.0</Height>
+      </Bounds>
+      <Insets>
+        <Top>3.0</Top>
+        <Left>3.0</Left>
+        <Bottom>3.0</Bottom>
+        <Right>3.0</Right>
+      </Insets>
+      <Row>-1</Row>
+      <Column>-1</Column>
+      <Rowspan>-1</Rowspan>
+      <Columnspan>-1</Columnspan>
+      <Outline>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Color>
+        <Visible>false</Visible>
+      </Outline>
+      <Visible>true</Visible>
+      <ClientArea>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>0</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </Outline>
+        <Insets>
+          <Top>2.0</Top>
+          <Left>2.0</Left>
+          <Bottom>2.0</Bottom>
+          <Right>2.0</Right>
+        </Insets>
+      </ClientArea>
+      <Text>
+        <Value></Value>
+        <Font>
+          <Alignment/>
+        </Font>
+      </Text>
+      <Orientation>Vertical</Orientation>
+      <Direction>Top_Bottom</Direction>
+      <Separator>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Color>
+        <Visible>true</Visible>
+      </Separator>
+      <Position>Right</Position>
+      <ItemType>Categories</ItemType>
+      <Title>
+        <Caption>
+          <Value></Value>
+          <Font>
+            <Alignment/>
+          </Font>
+        </Caption>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>2.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>3.0</Right>
+        </Insets>
+        <Visible>false</Visible>
+      </Title>
+      <TitlePosition>Above</TitlePosition>
+    </Children>
+    <Bounds>
+      <Left>0.0</Left>
+      <Top>0.0</Top>
+      <Width>212.0</Width>
+      <Height>130.0</Height>
+    </Bounds>
+    <Insets>
+      <Top>3.0</Top>
+      <Left>3.0</Left>
+      <Bottom>3.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Row>-1</Row>
+    <Column>-1</Column>
+    <Rowspan>-1</Rowspan>
+    <Columnspan>-1</Columnspan>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+      <Visible>false</Visible>
+    </Outline>
+    <Visible>true</Visible>
+    <Cursor>
+      <Type>Auto</Type>
+    </Cursor>
+  </Block>
+  <Dimension>Two_Dimensional_With_Depth</Dimension>
+  <Script>&#xD;
+&#xD;
+&#xD;
+function afterDataSetFilled(series, dataSet, icsc)&#xD;
+{&#xD;
+&#xD;
+	importPackage( Packages.java.io );&#xD;
+	importPackage( Packages.org.eclipse.birt.chart.model.type.impl );&#xD;
+	importPackage( Packages.org.eclipse.birt.chart.util);&#xD;
+	importPackage( Packages.java.util );&#xD;
+	ps = PluginSettings.instance( );&#xD;
+	&#xD;
+	if( series.getClass() == PieSeriesImpl ){&#xD;
+	&#xD;
+		dsp = ps.getDataSetProcessor( series.getClass() );&#xD;
+		//dataset max&#xD;
+		var mmax = dsp.getMaximum( dataSet );	&#xD;
+		icsc.getExternalContext().getScriptable().setGlobalVariable(&quot;MaxSliceValue&quot;, mmax);&#xD;
+		&#xD;
+	}else{&#xD;
+		&#xD;
+	}&#xD;
+	if( series.getSeriesIdentifier() == &quot;Series 1&quot; )&#xD;
+	{&#xD;
+		/*if( dataSet.getValues().length > 5 &amp;&amp; dataSet.getValues().length&lt;10)&#xD;
+		{&#xD;
+ 			icsc.getChartInstance().getBlock().getBounds().setWidth(1200);&#xD;
+ 			icsc.getChartInstance().getBlock().getBounds().setHeight(350);&#xD;
+		}&#xD;
+		else if(dataSet.getValues().length > 10)&#xD;
+		{&#xD;
+ 			icsc.getChartInstance().getBlock().getBounds().setWidth(1600);&#xD;
+ 			icsc.getChartInstance().getBlock().getBounds().setHeight(350);&#xD;
+		}&#xD;
+		else&#xD;
+		{*/&#xD;
+			icsc.getChartInstance().getBlock().getBounds().setWidth(400);&#xD;
+ 			icsc.getChartInstance().getBlock().getBounds().setHeight(300);&#xD;
+		&#xD;
+	}&#xD;
+&#xD;
+		&#xD;
+&#xD;
+}&#xD;
+&#xD;
+</Script>
+  <Units>Points</Units>
+  <SeriesThickness>10.0</SeriesThickness>
+  <GridColumnCount>0</GridColumnCount>
+  <ExtendedProperties>
+    <Name>enable.area.alt</Name>
+    <Value>false</Value>
+  </ExtendedProperties>
+  <SampleData>
+    <BaseSampleData>
+      <DataSetRepresentation>'A','B','C','D','E'</DataSetRepresentation>
+    </BaseSampleData>
+    <OrthogonalSampleData>
+      <DataSetRepresentation>6,4,12,8,10</DataSetRepresentation>
+      <SeriesDefinitionIndex>0</SeriesDefinitionIndex>
+    </OrthogonalSampleData>
+  </SampleData>
+  <Interactivity/>
+  <EmptyMessage>
+    <Caption>
+      <Value>This chart contains no data.</Value>
+      <Font>
+        <Alignment>
+          <horizontalAlignment>Center</horizontalAlignment>
+          <verticalAlignment>Center</verticalAlignment>
+        </Alignment>
+      </Font>
+    </Caption>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>64</Transparency>
+      <Red>127</Red>
+      <Green>127</Green>
+      <Blue>127</Blue>
+    </Background>
+    <Outline>
+      <Color>
+        <Transparency>128</Transparency>
+        <Red>127</Red>
+        <Green>127</Green>
+        <Blue>127</Blue>
+      </Color>
+      <Visible>true</Visible>
+    </Outline>
+    <Insets>
+      <Top>10.0</Top>
+      <Left>10.0</Left>
+      <Bottom>10.0</Bottom>
+      <Right>10.0</Right>
+    </Insets>
+    <Visible>false</Visible>
+  </EmptyMessage>
+  <SeriesDefinitions>
+    <Query>
+      <Definition></Definition>
+    </Query>
+    <SeriesPalette>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>179</Green>
+        <Blue>223</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>242</Red>
+        <Green>88</Green>
+        <Blue>106</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>232</Red>
+        <Green>172</Green>
+        <Blue>57</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>255</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>64</Red>
+        <Green>128</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>128</Green>
+        <Blue>192</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>170</Red>
+        <Green>85</Green>
+        <Blue>85</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>128</Green>
+        <Blue>0</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>192</Red>
+        <Green>192</Green>
+        <Blue>192</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>255</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>192</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>7</Red>
+        <Green>146</Green>
+        <Blue>94</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>128</Green>
+        <Blue>255</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>128</Green>
+        <Blue>192</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>255</Green>
+        <Blue>255</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>128</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>128</Green>
+        <Blue>192</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>0</Green>
+        <Blue>255</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>64</Green>
+        <Blue>64</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>128</Green>
+        <Blue>64</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>80</Red>
+        <Green>240</Green>
+        <Blue>120</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>64</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>0</Green>
+        <Blue>64</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>0</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>128</Green>
+        <Blue>64</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>128</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>128</Green>
+        <Blue>255</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>64</Green>
+        <Blue>0</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>255</Green>
+        <Blue>255</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>128</Green>
+        <Blue>0</Blue>
+      </Entries>
+    </SeriesPalette>
+    <SeriesDefinitions>
+      <Query>
+        <Definition></Definition>
+        <Grouping>
+          <GroupingUnit>Years</GroupingUnit>
+          <GroupType>Text</GroupType>
+        </Grouping>
+      </Query>
+      <SeriesPalette>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>179</Green>
+          <Blue>223</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>242</Red>
+          <Green>88</Green>
+          <Blue>106</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>232</Red>
+          <Green>172</Green>
+          <Blue>57</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>255</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>64</Red>
+          <Green>128</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>170</Red>
+          <Green>85</Green>
+          <Blue>85</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>0</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>192</Red>
+          <Green>192</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>192</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>7</Red>
+          <Green>146</Green>
+          <Blue>94</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>128</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>128</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>0</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>64</Green>
+          <Blue>64</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>64</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>80</Red>
+          <Green>240</Green>
+          <Blue>120</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>64</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>0</Green>
+          <Blue>64</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>0</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>64</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>64</Green>
+          <Blue>0</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>0</Blue>
+        </Entries>
+      </SeriesPalette>
+      <Series xsi:type="type:PieSeries">
+        <Visible>true</Visible>
+        <Label>
+          <Caption>
+            <Value></Value>
+            <Font>
+              <Alignment/>
+            </Font>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>false</Visible>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>true</Visible>
+        </Label>
+        <DataDefinition>
+          <Definition>row[&quot;UTILITY_QTY&quot;]</Definition>
+          <Grouping>
+            <Enabled>true</Enabled>
+            <GroupType>Text</GroupType>
+            <AggregateExpression>First</AggregateExpression>
+          </Grouping>
+        </DataDefinition>
+        <SeriesIdentifier>Series 1</SeriesIdentifier>
+        <DataPoint>
+          <Components>
+            <Type>Orthogonal_Value</Type>
+          </Components>
+          <Separator>, </Separator>
+        </DataPoint>
+        <LabelPosition>Outside</LabelPosition>
+        <Stacked>false</Stacked>
+        <Triggers>
+          <Condition>onmouseover</Condition>
+          <Action>
+            <Type>Show_Tooltip</Type>
+            <Value xsi:type="attribute:TooltipValue">
+              <Text>row[&quot;UTILITY_QTY&quot;] +&quot; &quot;+row[&quot;UNITSHORT&quot;]</Text>
+              <Delay>200</Delay>
+            </Value>
+          </Action>
+        </Triggers>
+        <Triggers>
+          <Condition>onmousemove</Condition>
+          <Action>
+            <Type>Highlight</Type>
+            <Value xsi:type="attribute:SeriesValue">
+              <Name></Name>
+            </Value>
+          </Action>
+        </Triggers>
+        <Triggers>
+          <Condition>onclick</Condition>
+          <Action>
+            <Type>URL_Redirect</Type>
+            <Value xsi:type="attribute:MultiURLValues">
+              <URLValues>
+                <Label>
+                  <Caption>
+                    <Value>LINK2</Value>
+                  </Caption>
+                </Label>
+                <BaseUrl>&lt;structure>
+    &lt;property name=&quot;linkType&quot;>drill-through&lt;/property>
+    &lt;property name=&quot;reportName&quot;>EnergyDistribution.rptdesign&lt;/property>
+    &lt;property name=&quot;targetWindow&quot;>_self&lt;/property>
+    &lt;property name=&quot;targetFileType&quot;>report-design&lt;/property>
+    &lt;list-property name=&quot;paramBindings&quot;>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>UsrSecId&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>if(row[&quot;CHILDCOUNT&quot;]==0)&amp;#13;
+{params[&quot;IDParam&quot;].value}&amp;#13;
+else&amp;#13;
+{&amp;#13;
+row[&quot;ASSETTREE_ID&quot;]&amp;#13;
+&amp;#13;
+}&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>UsrCompId&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>params[&quot;UsrCompId&quot;].value&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>UtlId&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>params[&quot;UtlId&quot;].value&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>fromdate&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>params[&quot;fromdate&quot;].value&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>todate&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>params[&quot;todate&quot;].value&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>coltype&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>params[&quot;coltype&quot;].value&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>vb&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>params[&quot;vb&quot;].value&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>IDParam&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>//row[&quot;ASSETTREE_ID&quot;]&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>explode&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>row[&quot;UTILITY_QTY&quot;]&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>FirstTitle&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>if(row[&quot;CHILDCOUNT&quot;]==0)&amp;#13;
+{&amp;#13;
+params[&quot;FirstTitle&quot;].value=params[&quot;BreakdownTitle&quot;].value&amp;#13;
+}&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+    &lt;/list-property>
+&lt;/structure>
+</BaseUrl>
+                <BaseParameterName></BaseParameterName>
+                <ValueParameterName></ValueParameterName>
+                <SeriesParameterName></SeriesParameterName>
+              </URLValues>
+              <PropertiesMap>
+                <Key>MenuItem</Key>
+                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
+              </PropertiesMap>
+              <PropertiesMap>
+                <Key>Menu</Key>
+                <Value>zIndex:99999;backgroundColor:#FAFFF8;width:auto;height:auto;border:1px solid #333333;filter:progid:DXImageTransform.Microsoft.Shadow(Color:#333333,Direction=120,strength=5)</Value>
+              </PropertiesMap>
+              <PropertiesMap>
+                <Key>OnMouseOut</Key>
+                <Value>backgroundColor:#FAFFF8;color:#000000</Value>
+              </PropertiesMap>
+              <PropertiesMap>
+                <Key>OnMouseOver</Key>
+                <Value>backgroundColor:#245DDB;color:#FFFFFF</Value>
+              </PropertiesMap>
+            </Value>
+          </Action>
+        </Triggers>
+        <Translucent>false</Translucent>
+        <Explosion>0</Explosion>
+        <ExplosionExpression>valueData == this.getGlobalVariable(&quot;MaxSliceValue&quot; )</ExplosionExpression>
+        <Title>
+          <Caption>
+            <Value></Value>
+            <Font>
+              <Size>16.0</Size>
+              <Bold>true</Bold>
+              <Alignment/>
+            </Font>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>false</Visible>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>false</Visible>
+        </Title>
+        <TitlePosition>Below</TitlePosition>
+        <LeaderLineAttributes>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Visible>true</Visible>
+        </LeaderLineAttributes>
+        <LeaderLineLength>5.0</LeaderLineLength>
+        <SliceOutline>
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </SliceOutline>
+        <Ratio>1.0</Ratio>
+        <Rotation>0.0</Rotation>
+        <InnerRadius>0.0</InnerRadius>
+      </Series>
+      <Grouping>
+        <GroupType>Text</GroupType>
+        <AggregateExpression>Sum</AggregateExpression>
+      </Grouping>
+    </SeriesDefinitions>
+    <Series>
+      <Visible>true</Visible>
+      <Label>
+        <Caption>
+          <Value></Value>
+          <Font>
+            <Alignment/>
+          </Font>
+        </Caption>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>2.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>3.0</Right>
+        </Insets>
+        <Visible>false</Visible>
+      </Label>
+      <DataDefinition>
+        <Definition>row[&quot;DISPLAYNAME&quot;]</Definition>
+      </DataDefinition>
+      <SeriesIdentifier></SeriesIdentifier>
+      <DataPoint>
+        <Components>
+          <Type>Orthogonal_Value</Type>
+        </Components>
+        <Separator>, </Separator>
+      </DataPoint>
+      <LabelPosition>Outside</LabelPosition>
+      <Stacked>false</Stacked>
+    </Series>
+    <Grouping>
+      <Enabled>true</Enabled>
+      <GroupingUnit>Years</GroupingUnit>
+      <GroupType>Text</GroupType>
+      <AggregateExpression>Sum</AggregateExpression>
+    </Grouping>
+  </SeriesDefinitions>
+  <MinSlice>0.0</MinSlice>
+  <MinSlicePercent>false</MinSlicePercent>
+  <Coverage>0.6</Coverage>
+</model:ChartWithoutAxes>
+]]></xml-property>
+                        <property name="outputFormat">SVG</property>
+                        <list-property name="action">
+                            <structure>
+                                <property name="targetWindow">_self</property>
+                                <property name="linkType">drill-through</property>
+                                <property name="targetFileType">report-design</property>
+                                <property name="reportName">EnergyDistribution.rptdesign</property>
+                                <list-property name="paramBindings">
+                                    <structure>
+                                        <property name="paramName">UsrSecId</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">if(row["CHILDCOUNT"]==0)&#13;
+{params["IDParam"].value}&#13;
+else&#13;
+{&#13;
+row["ASSETTREE_ID"]&#13;
+&#13;
+}</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">UsrCompId</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">params["UsrCompId"].value</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">UtlId</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">params["UtlId"].value</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">fromdate</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">params["fromdate"].value</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">todate</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">params["todate"].value</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">coltype</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">params["coltype"].value</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">vb</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">params["vb"].value</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">IDParam</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">//row["ASSETTREE_ID"]</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">explode</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">row["UTILITY_QTY"]</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">FirstTitle</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">if(row["CHILDCOUNT"]==0)&#13;
+{&#13;
+params["FirstTitle"].value=params["BreakdownTitle"].value&#13;
+}</value>
+                                        </simple-property-list>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                        </list-property>
+                        <property name="inheritColumns">true</property>
+                        <property name="height">3.0104166666666665in</property>
+                        <property name="width">3.885in</property>
+                        <expression name="bookmark" type="javascript">"myChart"</expression>
+                        <property name="dataSet">distributionSecondDSet</property>
+                        <list-property name="visibility">
+                            <structure>
+                                <property name="format">all</property>
+                                <expression name="valueExpr" type="javascript">params["vb"].value=='G'</expression>
+                            </structure>
+                        </list-property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">DISPLAYNAME</property>
+                                <expression name="expression" type="javascript">dataSetRow["DISPLAYNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">UTILITY_QTY</property>
+                                <expression name="expression" type="javascript">dataSetRow["UTILITY_QTY"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                            <structure>
+                                <property name="name">UNITSHORT</property>
+                                <expression name="expression" type="javascript">dataSetRow["UNITSHORT"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">C4</property>
+                                <expression name="expression" type="javascript">dataSetRow["C4"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ASSETTREE_ID</property>
+                                <expression name="expression" type="javascript">dataSetRow["ASSETTREE_ID"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CHILDCOUNT</property>
+                                <expression name="expression" type="javascript">dataSetRow["CHILDCOUNT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                            <structure>
+                                <property name="name">rcount</property>
+                                <expression name="expression" type="javascript">dataSetRow["rcount"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">total</property>
+                                <expression name="expression" type="javascript">dataSetRow["total"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                        </list-property>
+                        <property name="allowExport">false</property>
+                    </extended-item>
+                </cell>
+            </row>
+        </grid>
         <grid id="367">
             <property name="canShrink">true</property>
             <list-property name="visibility">
