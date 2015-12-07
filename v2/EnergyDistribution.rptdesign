@@ -1167,7 +1167,7 @@ else&#13;
         </Color>
         <Visible>true</Visible>
       </Separator>
-      <Position>Right</Position>
+      <Position>Below</Position>
       <ItemType>Categories</ItemType>
       <Title>
         <Caption>
@@ -2347,7 +2347,7 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
         </Color>
         <Visible>true</Visible>
       </Separator>
-      <Position>Right</Position>
+      <Position>Below</Position>
       <ItemType>Categories</ItemType>
       <Title>
         <Caption>
