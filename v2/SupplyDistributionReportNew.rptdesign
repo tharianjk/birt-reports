@@ -150,6 +150,21 @@ false);*/]]></method>
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="explode" id="531">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="7">
@@ -266,6 +281,7 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4,a.ASSETTR
 " and (a.parent_id  = '"+params["psecid"].value+"' or a.parent_id in (select a.assettree_id from fwk_assettree where assettreetype_id=2 and a.assettree_id='"+params["psecid"].value+"'))  and s.c_coretype='P'"+ 
 " group by DISPLAYNAME, un.UNITSHORT,a.ASSETTREE_ID";
 ]]></method>
+            <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("explode",params["explode"].value);]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet">
                 <structure>
@@ -2113,6 +2129,12 @@ row[&quot;ASSETTREE_ID&quot;]&amp;#13;
                 &lt;value type=&quot;javascript&quot;>params[&quot;psecid&quot;].value&lt;/value>
             &lt;/simple-property-list>
         &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>explode&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>row[&quot;UTILITY_QTY&quot;]&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
     &lt;/list-property>
 &lt;/structure>
 </BaseUrl>
@@ -2142,7 +2164,7 @@ row[&quot;ASSETTREE_ID&quot;]&amp;#13;
         </Triggers>
         <Translucent>false</Translucent>
         <Explosion>13</Explosion>
-        <ExplosionExpression>valueData == this.getGlobalVariable(&quot;MaxSliceValue&quot; )</ExplosionExpression>
+        <ExplosionExpression>valueData ==this.getPersistentGlobalVariable(&quot;explode&quot; )</ExplosionExpression>
         <Title>
           <Caption>
             <Value></Value>
@@ -2348,6 +2370,12 @@ row["ASSETTREE_ID"]&#13;
                                         <property name="paramName">psecid</property>
                                         <simple-property-list name="expression">
                                             <value type="javascript">params["psecid"].value</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">explode</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">row["UTILITY_QTY"]</value>
                                         </simple-property-list>
                                     </structure>
                                 </list-property>
