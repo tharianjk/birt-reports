@@ -121,6 +121,17 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="todassettreeid" id="515">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="7">
@@ -419,7 +430,7 @@ LHour=params["fromdate"].value
 this.queryText = this.queryText +",'30D' AS C4 FROM VW_BILLTIME_SOURCE V INNER JOIN vw_assetsection S ON V.SOURCE_ID=S.SOURCE_ID INNER JOIN EMS_SOURCE SUP ON V.SOURCE_ID = SUP.SOURCE_ID"+
 " INNER JOIN EMS_SECTION_SUMMARY SU ON SU.ASSETTREE_ID=S.SECTION_ID INNER JOIN EMS_TIME_DIM T"+
 " ON SU.TIME_ID=T.TIME_ID AND T.HR_ID=V.HR_ID INNER JOIN EMS_UTILITY UT ON UT.UTILITY_ID=SU.UTILITY_ID INNER JOIN EMS_UNIT UN ON UN.UNIT_ID=UT.UNIT_ID WHERE T.DT_DATE >='"+LHour+"' and t.dt_date <'"+curT+"' AND V.SOURCE_ID='"+params["sourceid"].value+"' AND SUP.COMPANY_ID='"+params["UsrCompId"].value+"'"+
-" GROUP BY TIMEPERIOD,V.N_COST,UN.UNITSHORT,NF_FRACTION,NT_FRACTION";
+" and SU.assettree_id='"+params["todassettreeid"].value+"' GROUP BY TIMEPERIOD,V.N_COST,UN.UNITSHORT,NF_FRACTION,NT_FRACTION";
 	
 	
 ]]></method>
@@ -1787,6 +1798,12 @@ else&#13;
                 &lt;value type=&quot;javascript&quot;>row[&quot;QTY&quot;]&lt;/value>
             &lt;/simple-property-list>
         &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>todassettreeid&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>params[&quot;assettreeid&quot;].value&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
     &lt;/list-property>
 &lt;/structure>
 </BaseUrl>
@@ -1794,6 +1811,10 @@ else&#13;
                 <ValueParameterName></ValueParameterName>
                 <SeriesParameterName></SeriesParameterName>
               </URLValues>
+              <PropertiesMap>
+                <Key>MenuItem</Key>
+                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
+              </PropertiesMap>
               <PropertiesMap>
                 <Key>Menu</Key>
                 <Value>zIndex:99999;backgroundColor:#FAFFF8;width:auto;height:auto;border:1px solid #333333;filter:progid:DXImageTransform.Microsoft.Shadow(Color:#333333,Direction=120,strength=5)</Value>
@@ -1805,10 +1826,6 @@ else&#13;
               <PropertiesMap>
                 <Key>OnMouseOver</Key>
                 <Value>backgroundColor:#245DDB;color:#FFFFFF</Value>
-              </PropertiesMap>
-              <PropertiesMap>
-                <Key>MenuItem</Key>
-                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
               </PropertiesMap>
             </Value>
           </Action>
@@ -1977,6 +1994,12 @@ else&#13;
                                         <property name="paramName">explode</property>
                                         <simple-property-list name="expression">
                                             <value type="javascript">row["QTY"]</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">todassettreeid</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">params["assettreeid"].value</value>
                                         </simple-property-list>
                                     </structure>
                                 </list-property>
