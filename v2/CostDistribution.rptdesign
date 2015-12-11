@@ -799,7 +799,7 @@ else if(params["coltype"].value=='30D')&#13;
 &#13;
 else if(params["coltype"].value=='365D')&#13;
 {&#13;
-'Cost Distribution for the last 364 days in '+row["UNITSHORT"];&#13;
+'Cost Distribution for the last 365 days in '+row["UNITSHORT"];&#13;
 }&#13;
 &#13;
 else&#13;
