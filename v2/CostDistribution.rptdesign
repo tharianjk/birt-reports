@@ -14,9 +14,6 @@
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">1</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -28,9 +25,6 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">2</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -42,9 +36,6 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">2014-12-25 11:50:43</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -56,9 +47,6 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">2015-12-25 11:50:43</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -70,9 +58,6 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">30D</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -84,9 +69,6 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">C</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -449,14 +431,14 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
             <method name="beforeOpen"><![CDATA[
 curT=params["todate"].value
 LHour=params["fromdate"].value
-this.queryText = this.queryText +",'"+params["coltype"].value+"' AS C4 FROM VW_BILLTIME_SOURCE V INNER JOIN vw_assetsection S ON V.SOURCE_ID=S.SOURCE_ID INNER JOIN EMS_SOURCE SUP"+
-" ON V.SOURCE_ID = SUP.SOURCE_ID"+
-" INNER JOIN EMS_SECTION_SUMMARY SU ON SU.ASSETTREE_ID=S.SECTION_ID"+ 
+this.queryText = this.queryText +",'"+params["coltype"].value+"' AS C4 FROM VW_BILLTIME_SOURCE V"+ 
+" INNER JOIN EMS_SOURCE SUP ON V.SOURCE_ID = SUP.SOURCE_ID"+ 
+" INNER JOIN EMS_SOURCE_SUMMARY SU ON SU.SOURCE_ID=SUP.SOURCE_ID"+
 " INNER JOIN EMS_TIME_DIM T ON SU.TIME_ID=T.TIME_ID AND T.HR_ID=V.HR_ID"+ 
-" INNER JOIN EMS_UTILITY UT ON UT.UTILITY_ID=SU.UTILITY_ID"+
+" INNER JOIN EMS_UTILITY UT ON UT.UTILITY_ID=SUP.UTILITY_ID"+
 " INNER JOIN EMS_ATTRIBUTE A ON UT.ATTRIBUTE_ID=A.ATTRIBUTE_ID"+ 
-" INNER JOIN EMS_UNIT UN ON A.UNIT_ID=UN.UNIT_ID"+ 
-" INNER JOIN FWK_ASSETTREE AE ON SU.ASSETTREE_ID=AE.ASSETTREE_ID"+ 
+" INNER JOIN EMS_UNIT UN ON A.UNIT_ID=UN.UNIT_ID INNER JOIN FWK_ASSETTREE AE"+
+" ON SU.ASSETTREE_ID=AE.ASSETTREE_ID"+
 " WHERE T.DT_DATE >='"+LHour+"' and t.dt_date <'"+curT+"'"+ 
 " AND V.SOURCE_ID='"+params["sourceid"].value+"' AND SUP.COMPANY_ID='"+params["UsrCompId"].value+"' and (su.assettree_id='"+params["todassettreeid"].value+"' or AE.PARENT_ID IN (SELECT ASSETTREE_ID FROM FWK_ASSETTREE WHERE ASSETTREETYPE_ID =2 and ASSETTREE_ID='"+params["todassettreeid"].value+"'))"+
 " GROUP BY TIMEPERIOD,V.N_COST,UN.UNITSHORT,NF_FRACTION,NT_FRACTION";]]></method>
