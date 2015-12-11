@@ -916,7 +916,8 @@ function afterDataSetFilled( series, dataSet, icsc )
 {
 if( series.getSeriesIdentifier() == &quot;Quantity Consumed&quot; )
 	{
-	icsc.getChartInstance().getBlock().getBounds().setWidth(1000);
+	
+			icsc.getChartInstance().getBlock().getBounds().setWidth(3800);
  			icsc.getChartInstance().getBlock().getBounds().setHeight(350);
 		/*if( dataSet.getValues().length > 31 &amp;&amp; dataSet.getValues().length&lt;50)
 		{
