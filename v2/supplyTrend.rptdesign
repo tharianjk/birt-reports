@@ -17,32 +17,47 @@
     <property name="Data Cube.EDISData Set.x">135</property>
     <property name="Data Cube.EDISData Set.y">80</property>
     <property name="units">in</property>
-    <method name="beforeFactory"><![CDATA[var mychart = this.getReportElement( "mychart" );
-mychart.setWidth("10");
-mychart.setHeight("5");]]></method>
+    <method name="beforeFactory"><![CDATA[//var mychart = this.getReportElement( "mychart" );
+//mychart.setWidth("10");
+//mychart.setHeight("5");
+
+var design_handle = reportContext.getReportRunnable().designHandle.getDesignHandle();
+
+if (params["vb"] == "C") 
+{
+    
+    design_handle.findElement("grd").drop();
+    
+} 
+else 
+{
+     design_handle.findElement("mychart").drop();
+     if(params["coltype"] == "7D" || params["coltype"] == "30D" || params["coltype"] == "365D" || params["coltype"] == "SD")
+     {
+     	design_handle.findElement("mn").drop();
+      	design_handle.findElement("hr").drop();
+     }
+     if(params["coltype"] == "30M" || params["coltype"] == "365M" || params["coltype"] == "SM")
+     {
+     	design_handle.findElement("dy").drop();
+      	design_handle.findElement("hr").drop();
+     }
+     if(params["coltype"] == "H" || params["coltype"] == "24H" || params["coltype"] == "7H" || params["coltype"] == "30H" || params["coltype"] == "365H" || params["coltype"] == "SH")
+     {
+     	design_handle.findElement("mn").drop();
+      	design_handle.findElement("dy").drop();
+     }
+  
+}]]></method>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <parameters>
-        <scalar-parameter name="newRPT" id="508">
-            <property name="hidden">true</property>
+        <scalar-parameter name="UsrSecId" id="722">
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="fromdate" id="961">
-            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
@@ -52,8 +67,10 @@ mychart.setHeight("5");]]></method>
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="todate" id="962">
+        <scalar-parameter name="typ" id="734">
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
@@ -63,8 +80,10 @@ mychart.setHeight("5");]]></method>
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="coltype" id="963">
+        <scalar-parameter name="UsrCompId" id="735">
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
@@ -74,7 +93,7 @@ mychart.setHeight("5");]]></method>
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="vb" id="964">
+        <scalar-parameter name="fromdate" id="746">
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -85,7 +104,7 @@ mychart.setHeight("5");]]></method>
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="SrcId" id="965">
+        <scalar-parameter name="todate" id="747">
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -96,7 +115,29 @@ mychart.setHeight("5");]]></method>
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="UtlId" id="966">
+        <scalar-parameter name="vb" id="748">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="coltype" id="749">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="UtlId" id="816">
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -135,10 +176,11 @@ mychart.setHeight("5");]]></method>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="EDISData Set" id="9">
+            <property name="nullsOrdering">nulls lowest</property>
             <list-property name="computedColumns">
                 <structure>
                     <property name="name">mn</property>
-                    <expression name="expression">row["C6"]</expression>
+                    <expression name="expression">row["C5"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -154,161 +196,77 @@ mychart.setHeight("5");]]></method>
                 </structure>
                 <structure>
                     <property name="name">CUSH</property>
-                    <expression name="expression">var myString = row["C6"];&#13;
+                    <expression name="expression">var myString = row["C5"];&#13;
 var stringLength = myString.length; &#13;
 var lastChar = myString.charAt(stringLength - 1); &#13;
 if(lastChar=='H')&#13;
 {&#13;
-	row["C6"]=lastChar;&#13;
+	row["C5"]=lastChar;&#13;
 }</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">CUSD</property>
-                    <expression name="expression">var myString = row["C6"];&#13;
+                    <expression name="expression">var myString = row["C5"];&#13;
 var stringLength = myString.length; &#13;
 var lastChar = myString.charAt(stringLength - 1); &#13;
 if(lastChar=='D')&#13;
 {&#13;
-	row["C6"]=lastChar;&#13;
+	row["C5"]=lastChar;&#13;
 }</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">CUSM</property>
-                    <expression name="expression">var myString = row["C6"];&#13;
+                    <expression name="expression">var myString = row["C5"];&#13;
 var stringLength = myString.length; &#13;
 var lastChar = myString.charAt(stringLength - 1); &#13;
 if(lastChar=='M')&#13;
 {&#13;
-	row["C6"]=lastChar;&#13;
+	row["C5"]=lastChar;&#13;
 }</expression>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">DISPLAYNAME</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">C2</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">DAY_ID</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">C4</property>
-                        <property name="dataType">date-time</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">UNITSHORT</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">C6</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">mn</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">RwCount</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">9</property>
-                        <property name="name">CUSH</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">10</property>
-                        <property name="name">CUSD</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">11</property>
-                        <property name="name">CUSM</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                </list-property>
-            </structure>
+            <structure name="cachedMetaData"/>
             <method name="beforeOpen"><![CDATA[
-curT=params["todate"].value
-LHour=params["fromdate"].value
+	curT=params["todate"].value 
+	LHour=params["fromdate"].value
+	this.queryText = this.queryText +
+	
+	" ,'"+params["coltype"].value+"' as C5 from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id "+
+	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d"+
+	" on s.time_id=d.TIME_ID inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID"+ 
+	" inner join fwk_assettree b on a.parent_id=b.assettree_id where b.assettreetype_id=2"+ 
+	" and a.parent_id in (select assettree_id from fwk_assettree where PARENT_ID='"+params["UsrSecId"].value+"') and S.c_coretype='P'"+ 
+	" and  s.UTILITY_ID='"+params["UtlId"].value+"' and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
+	" group by b.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION"+
+	" select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'"+params["coltype"].value+"' as C5"+ 
+	" from ems_section_summary s inner join ems_utility EU on EU.utility_id=s.utility_id"+
+ 	" inner join ems_unit EUN on EUN.unit_id=EU.unit_id inner join ems_time_dim d on s.time_id=d.TIME_ID"+ 
+ 	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID inner join fwk_assettree b on a.parent_id=b.assettree_id"+
+	" where case '"+params["typ"].value+"' when 2 then a.parent_id='"+params["UsrSecId"].value+"' else a.assettree_id='"+params["UsrSecId"].value+"' end and S.c_coretype='P' and d.DT_DATE>='"+LHour+"'"+ 
+	" and d.DT_DATE<'"+curT+"' and  s.UTILITY_ID='"+params["UtlId"].value+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+	" UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'"+params["coltype"].value+"'"+ 
+	" as C5 from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN"+
+	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and"+ 
+	" EUN.unit_id=EU.unit_id and case '"+params["typ"].value+"' when 2 then a.parent_id='"+params["UsrSecId"].value+"' else a.assettree_id='"+params["UsrSecId"].value+"' end and"+ 
+	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and  m.UTILITY_ID='"+params["UtlId"].value+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE) as tab"+
+	" group by DISPLAYNAME,unitshort,DAY_ID,C4,C5 order by C4 asc";
+	
+	
 
-this.queryText = this.queryText +
-",'"+params["coltype"].value+"' C6 from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
-	" inner join vw_assetsection sec on s.assettree_id = sec.section_id"+
-	" inner join ems_source src on sec.source_id = src.source_id"+
-	" inner join EMS_TIME_DIM d ON S.TIME_ID=d.TIME_ID inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
-	" inner join ems_unit UN on UN.unit_id=UT.unit_id where s.c_coretype='P' and "+ 
-	" d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and  s.UTILITY_ID='"+params["UtlId"].value+"' and src.source_id='"+params["SrcId"].value+"' group by src.sourcename,DAY_ID,d.DT_DATE, un.UNITSHORT"+
-	" UNION select src.sourcename DISPLAYNAME, 0 as C2,DAY_ID,cast(d.dt_date as datetime) as C4,EUN.UNITSHORT ,'"+params["coltype"].value+"' as C6"+
-	" from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , vw_assetsection sec, ems_source  src where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id and sec.source_id ='"+params["SrcId"].value+"'"+ 
-	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and  m.UTILITY_ID='"+params["UtlId"].value+"' group by src.sourcename ,EUN.UNITSHORT,DAY_ID,d.DT_DATE) tab group by DISPLAYNAME,DAY_ID,C4,unitshort,C6 order by C4 asc";
-
-
-
-
-
-]]></method>
+	]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">DISPLAYNAME</property>
-                    <property name="nativeName">DISPLAYNAME</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">C2</property>
-                    <property name="nativeName">C2</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">DAY_ID</property>
-                    <property name="nativeName">DAY_ID</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">C4</property>
-                    <property name="nativeName">C4</property>
-                    <property name="dataType">date-time</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">UNITSHORT</property>
-                    <property name="nativeName">UNITSHORT</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
-                    <property name="name">C6</property>
-                    <property name="nativeName">C6</property>
-                    <property name="dataType">string</property>
-                </structure>
-            </list-property>
-            <xml-property name="queryText"><![CDATA[select DISPLAYNAME,sum(C2) C2,DAY_ID,C4,UNITSHORT,C6 from (
-select src.sourcename DISPLAYNAME,sum(utility_qty) C2, d.DAY_ID ,cast(d.DT_DATE as datetime) C4,
-un.UNITSHORT]]></xml-property>
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[select DISPLAYNAME,sum(C2) C2,UNITSHORT,DAY_ID,C4,C5 from (
+select b.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID
+,cast(d.dt_date as datetime) as C4]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -407,143 +365,14 @@ un.UNITSHORT]]></xml-property>
         </oda-data-set>
     </data-sets>
     <cubes>
-        <tabular-cube name="DataCubeMonth" id="540">
-            <property name="dimensions">
-                <tabular-dimension name="GroupM" id="541">
-                    <property name="isTimeType">false</property>
-                    <property name="defaultHierarchy">NewTabularHierarchy</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy" id="542">
-                            <property name="levels">
-                                <tabular-level name="DISPLAYNAME" id="892">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">DISPLAYNAME</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Group" id="544">
-                    <property name="isTimeType">true</property>
-                    <property name="defaultHierarchy">NewTabularHierarchy3</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy3" id="545">
-                            <property name="levels">
-                                <tabular-level name="Month" id="546">
-                                    <property name="dataType">integer</property>
-                                    <property name="dateTimeLevelType">month</property>
-                                    <property name="dateTimeFormat">MMM yyyy</property>
-                                    <list-property name="attributes">
-                                        <structure>
-                                            <property name="name">DateTime</property>
-                                            <property name="dataType">date-time</property>
-                                        </structure>
-                                    </list-property>
-                                    <property name="columnName">C4</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Group5" id="849">
-                    <property name="defaultHierarchy">NewTabularHierarchy4</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy4" id="850">
-                            <property name="levels">
-                                <tabular-level name="UNITSHORT" id="851">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">UNITSHORT</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-            </property>
-            <property name="measureGroups">
-                <tabular-measure-group name="Summary Field" id="547">
-                    <property name="measures">
-                        <tabular-measure name="C2" id="548">
-                            <expression name="measureExpression" type="javascript">dataSetRow["C2"]</expression>
-                            <property name="dataType">decimal</property>
-                        </tabular-measure>
-                    </property>
-                </tabular-measure-group>
-            </property>
-            <property name="dataSet">EDISData Set</property>
-        </tabular-cube>
-        <tabular-cube name="DataCubeDay" id="569">
-            <property name="dimensions">
-                <tabular-dimension name="GroupDay" id="570">
-                    <property name="isTimeType">false</property>
-                    <property name="defaultHierarchy">NewTabularHierarchy2</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy2" id="571">
-                            <property name="levels">
-                                <tabular-level name="DISPLAYNAME" id="893">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">DISPLAYNAME</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Group1" id="573">
-                    <property name="isTimeType">true</property>
-                    <property name="defaultHierarchy">NewTabularHierarchy6</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy6" id="574">
-                            <property name="levels">
-                                <tabular-level name="Day Of Year" id="575">
-                                    <property name="dataType">integer</property>
-                                    <property name="dateTimeLevelType">day-of-year</property>
-                                    <property name="dateTimeFormat">MMMM dd, yyyy</property>
-                                    <list-property name="attributes">
-                                        <structure>
-                                            <property name="name">DateTime</property>
-                                            <property name="dataType">date-time</property>
-                                        </structure>
-                                    </list-property>
-                                    <property name="columnName">C4</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Group6" id="858">
-                    <property name="defaultHierarchy">NewTabularHierarchy7</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy7" id="859">
-                            <property name="levels">
-                                <tabular-level name="UNITSHORT" id="860">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">UNITSHORT</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-            </property>
-            <property name="measureGroups">
-                <tabular-measure-group name="Summary Field2" id="576">
-                    <property name="measures">
-                        <tabular-measure name="C22" id="577">
-                            <expression name="measureExpression" type="javascript">dataSetRow["C2"]</expression>
-                            <property name="dataType">decimal</property>
-                        </tabular-measure>
-                    </property>
-                </tabular-measure-group>
-            </property>
-            <property name="dataSet">EDISData Set</property>
-        </tabular-cube>
         <tabular-cube name="Data Cube" id="689">
             <property name="dimensions">
                 <tabular-dimension name="Group3" id="690">
-                    <property name="isTimeType">false</property>
                     <property name="defaultHierarchy">NewTabularHierarchy5</property>
                     <property name="hierarchies">
                         <tabular-hierarchy name="NewTabularHierarchy5" id="691">
                             <property name="levels">
-                                <tabular-level name="DISPLAYNAME" id="891">
+                                <tabular-level name="DISPLAYNAME" id="692">
                                     <property name="dataType">string</property>
                                     <property name="columnName">DISPLAYNAME</property>
                                 </tabular-level>
@@ -566,14 +395,45 @@ un.UNITSHORT]]></xml-property>
                         </tabular-hierarchy>
                     </property>
                 </tabular-dimension>
-                <tabular-dimension name="Group2" id="839">
-                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                <tabular-dimension name="Group2" id="750">
+                    <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy4</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy1" id="840">
+                        <tabular-hierarchy name="NewTabularHierarchy4" id="751">
                             <property name="levels">
-                                <tabular-level name="UNITSHORT" id="841">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">UNITSHORT</property>
+                                <tabular-level name="Day Of Year" id="752">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">day-of-year</property>
+                                    <property name="dateTimeFormat">MMMM dd, yyyy</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">C4</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Group5" id="753">
+                    <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy7</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy7" id="754">
+                            <property name="levels">
+                                <tabular-level name="Month" id="755">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">month</property>
+                                    <property name="dateTimeFormat">MMMM yyyy</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">C4</property>
                                 </tabular-level>
                             </property>
                         </tabular-hierarchy>
@@ -583,7 +443,7 @@ un.UNITSHORT]]></xml-property>
             <property name="measureGroups">
                 <tabular-measure-group name="Summary Field3" id="696">
                     <property name="measures">
-                        <tabular-measure name="C21" id="940">
+                        <tabular-measure name="C23" id="697">
                             <expression name="measureExpression" type="javascript">dataSetRow["C2"]</expression>
                             <property name="dataType">decimal</property>
                         </tabular-measure>
@@ -594,20 +454,62 @@ un.UNITSHORT]]></xml-property>
         </tabular-cube>
     </cubes>
     <styles>
-        <style name="crosstab-detail" id="867">
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="NewStyledd" id="493">
+            <property name="canShrink">true</property>
+            <property name="height">100%</property>
+            <property name="width">100%</property>
+        </style>
+        <style name="NewStylef" id="505">
+            <property name="canShrink">true</property>
+            <property name="height">100%</property>
+            <property name="width">100%</property>
+        </style>
+        <style name="crosstab-detail" id="598">
             <property name="backgroundColor">#F0F3FD</property>
             <property name="fontFamily">sans-serif</property>
             <property name="fontSize">9px</property>
             <property name="color">#000000</property>
         </style>
-        <style name="crosstab-header" id="868">
+        <style name="crosstab-header" id="599">
             <property name="backgroundColor">#AEC0B1</property>
             <property name="fontFamily">"Arial"</property>
             <property name="fontSize">10px</property>
             <property name="fontWeight">bold</property>
             <property name="color">#000000</property>
         </style>
-        <style name="crosstab-cell" id="869">
+        <style name="crosstab-cell1" id="600">
             <property name="borderBottomColor">#FFFFFF</property>
             <property name="borderBottomStyle">solid</property>
             <property name="borderBottomWidth">thin</property>
@@ -621,200 +523,119 @@ un.UNITSHORT]]></xml-property>
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">thin</property>
         </style>
-        <style name="crosstab-detail1" id="870">
-            <property name="backgroundColor">#F0F3FD</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">10px</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#01450F</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#01450F</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#01450F</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#01450F</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-        </style>
-        <style name="crosstab-header1" id="871">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">12px</property>
-            <property name="fontWeight">bold</property>
-            <property name="fontStyle">italic</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#01450F</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#01450F</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#01450F</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#01450F</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="marginTop">1em</property>
-            <property name="marginLeft">1em</property>
-            <property name="marginBottom">1em</property>
-            <property name="marginRight">1em</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-            <property name="width">100%</property>
-        </style>
-        <style name="crosstab-cell1" id="872">
-            <property name="backgroundColor">#E5F1F4</property>
-            <property name="fontSize">10px</property>
-            <property name="color">#FFFFFF</property>
-            <property name="borderBottomColor">#01450F</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#01450F</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#01450F</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#01450F</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
-            <property name="height">6px</property>
-        </style>
-        <style name="crosstab-footer" id="873">
-            <property name="backgroundColor">#AEC0B1</property>
-            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
-            <property name="fontSize">12px</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#000000</property>
+        <style name="chart" id="601">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">small</property>
             <property name="borderBottomColor">#FFFFFF</property>
             <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
+            <property name="borderBottomWidth">thin</property>
             <property name="borderLeftColor">#FFFFFF</property>
             <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
+            <property name="borderLeftWidth">thin</property>
             <property name="borderRightColor">#FFFFFF</property>
             <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
+            <property name="borderRightWidth">thin</property>
             <property name="borderTopColor">#FFFFFF</property>
             <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
-            <property name="marginTop">1em</property>
-            <property name="marginLeft">1em</property>
-            <property name="marginBottom">1em</property>
-            <property name="marginRight">1em</property>
-            <property name="paddingTop">0.2em</property>
-            <property name="paddingLeft">0.2em</property>
-            <property name="paddingBottom">0.2em</property>
-            <property name="paddingRight">0.2em</property>
-            <property name="textAlign">left</property>
+            <property name="borderTopWidth">thin</property>
             <property name="width">100%</property>
+        </style>
+        <style name="crosstab-detail1" id="602">
+            <property name="backgroundColor">#F0F3FD</property>
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">12px</property>
+            <property name="color">#000000</property>
+            <property name="canShrink">true</property>
         </style>
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2"/>
     </page-setup>
     <body>
-        <grid id="834">
-            <property name="canShrink">true</property>
-            <column id="835"/>
-            <row id="836">
-                <cell id="837">
-                    <text-data id="838">
+        <grid id="741">
+            <column id="742"/>
+            <row id="743">
+                <cell id="744">
+                    <text-data id="745">
                         <property name="fontWeight">bold</property>
                         <property name="dataSet">EDISData Set</property>
                         <list-property name="boundDataColumns">
                             <structure>
-                                <property name="name">C6</property>
-                                <text-property name="displayName">C6</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["C6"]</expression>
+                                <property name="name">C5</property>
+                                <text-property name="displayName">C5</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["C5"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
-                                <property name="name">unit</property>
+                                <property name="name">UNITSHORT</property>
+                                <text-property name="displayName">UNITSHORT</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["UNITSHORT"]</expression>
                                 <property name="dataType">string</property>
-                                <property name="allowExport">true</property>
                             </structure>
                         </list-property>
-                        <expression name="valueExpr">if(row["C6"]=='H')&#13;
+                        <expression name="valueExpr">if(row["C5"]=='H')&#13;
 {&#13;
-	row["C6"]='Supply Trend for the last 1 Hour in :'+row["unit"];&#13;
+	row["C5"]='Supply Trend for the last 1 Hour in '+row["UNITSHORT"];&#13;
 }&#13;
-else if(row["C6"]=='24H')&#13;
+else if(row["C5"]=='24H')&#13;
 {&#13;
-	row["C6"]='Supply Trend for the last 24 Hour in :'+row["unit"];&#13;
+	row["C5"]='Supply Trend for the last 24 Hour in'+row["UNITSHORT"];&#13;
 }&#13;
-else if(row["C6"]=='7H')&#13;
+else if(row["C5"]=='7H')&#13;
 {&#13;
-	row["C6"]='Supply Trend for the last 7 days Summarized by Hour in :'+row["unit"];&#13;
+	row["C5"]='Supply Trend for the last 7 days Summarized by Hour in '+row["UNITSHORT"];&#13;
 }&#13;
-else if(row["C6"]=='7D')&#13;
+else if(row["C5"]=='7D')&#13;
 {&#13;
-	row["C6"]='Supply Trend for the last 7 days Summarized by Day in :'+row["unit"];&#13;
+	row["C5"]='Supply Trend for the last 7 days Summarized by Day in '+row["UNITSHORT"];&#13;
 }&#13;
-else if(row["C6"]=='30H')&#13;
+else if(row["C5"]=='30H')&#13;
 {&#13;
-	row["C6"]='Supply Trend for the last 30 days Summarized by Hour in :'+row["unit"];&#13;
+	row["C5"]='Supply Trend for the last 30 days Summarized by Hour in'+row["UNITSHORT"];&#13;
 }&#13;
-else if(row["C6"]=='30D')&#13;
+else if(row["C5"]=='30D')&#13;
 {&#13;
-	row["C6"]='Supply Trend for the last 30 days Summarized by Day in :'+row["unit"];&#13;
+	row["C5"]='Supply Trend for the last 30 days Summarized by Day in '+row["UNITSHORT"];&#13;
 }&#13;
-else if(row["C6"]=='30M')&#13;
+else if(row["C5"]=='30M')&#13;
 {&#13;
-	row["C6"]='Supply Trend for the last 30 days Summarized by Month in :'+row["unit"];&#13;
+	row["C5"]='Supply Trend for the last 30 days Summarized by Month in '+row["UNITSHORT"];&#13;
 }&#13;
-else if(row["C6"]=='365D')&#13;
+else if(row["C5"]=='365D')&#13;
 {&#13;
-	row["C6"]='Supply Trend for the last 365 days Summarized by Day in :'+row["unit"];&#13;
+	row["C5"]='Energy Usage Trend for the last 365 days Summarized by Day in '+row["UNITSHORT"];&#13;
 }&#13;
-else if(row["C6"]=='365M')&#13;
+else if(row["C5"]=='365M')&#13;
 {&#13;
-	row["C6"]='Supply Trend for the last 365 days Summarized by Month in :'+row["unit"];&#13;
+	row["C5"]='Supply Trend for the last 365 days Summarized by Month in '+row["UNITSHORT"];&#13;
 }&#13;
-else if(row["C6"]=='365H')&#13;
+else if(row["C5"]=='365H')&#13;
 {&#13;
-	row["C6"]='Supply Trend for the last 365 days Summarized by Hour in :'+row["unit"];&#13;
+	row["C5"]='Supply Trend for the last 365 days Summarized by Hour in '+row["UNITSHORT"];&#13;
 }&#13;
-else if(row["C6"]=='SH')&#13;
-{&#13;
-	row["C6"]='Supply Trend for the Specified Period from '+params["fromdate"].value+' to '+params["todate"].value+' Summarized by Hour in :'+row["unit"];&#13;
-}&#13;
-else if(row["C6"]=='SD')&#13;
-{&#13;
-	row["C6"]='Supply Trend for the Specified Period from '+params["fromdate"].value+' to '+params["todate"].value+' Summarized by Day in :'+row["unit"];&#13;
-}&#13;
-else if(row["C6"]=='SM')&#13;
-{&#13;
-	row["C6"]='Supply Trend for the Specified Period from '+params["fromdate"].value+' to '+params["todate"].value+' Summarized by Month in :'+row["unit"];&#13;
-}&#13;
-&#13;
-&#13;
 else&#13;
 {&#13;
-	&#13;
-	&#13;
-	&#13;
-	if(row["C6"]==null || row["C6"]=='')&#13;
+	if(row["C5"]=='SH')&#13;
 	{&#13;
-		row["C6"]="No Data to display";&#13;
+				row["C5"]='Supply Trend for the specified period from '+params["fromdate"].value+' to '+params["todate"].value+' summarized by hour in '+row["UNITSHORT"];&#13;
+	}&#13;
+		&#13;
+	&#13;
+	&#13;
+	&#13;
+	if(row["C5"]=='SD')&#13;
+	{&#13;
+				row["C5"]='Supply Trend for the specified period from '+params["fromdate"].value+' to '+params["todate"].value+' summarized by day in '+row["UNITSHORT"];&#13;
+	}&#13;
+	&#13;
+	&#13;
+	if(row["C5"]=='SM')&#13;
+	{&#13;
+				row["C5"]='Supply Trend for the specified period from '+params["fromdate"].value+' to '+params["todate"].value+' summarized by month in '+row["UNITSHORT"];&#13;
+	}&#13;
+	if(row["C5"]==null || row["C5"]=='')&#13;
+	{&#13;
+		row["C5"]="No Data to display";&#13;
 	}&#13;
 	&#13;
 }</expression>
@@ -1093,22 +914,31 @@ else&#13;
   <Script>
 function afterDataSetFilled( series, dataSet, icsc )
 {
-if( series.getSeriesIdentifier() == &quot;Series 1&quot; )
+if( series.getSeriesIdentifier() == &quot;Quantity Consumed&quot; )
 	{
-		if( dataSet.getValues().length > 30 &amp;&amp; dataSet.getValues().length&lt;50)
+	
+		if( dataSet.getValues().length > 31 &amp;&amp; dataSet.getValues().length&lt;50)
 		{
  			icsc.getChartInstance().getBlock().getBounds().setWidth(3800);
  			icsc.getChartInstance().getBlock().getBounds().setHeight(350);
 		}
 		else if(dataSet.getValues().length > 50)
 		{
- 			icsc.getChartInstance().getBlock().getBounds().setWidth(5800);
+ 			icsc.getChartInstance().getBlock().getBounds().setWidth(18800);
  			icsc.getChartInstance().getBlock().getBounds().setHeight(350);
 		}
 		else
 		{
-			icsc.getChartInstance().getBlock().getBounds().setWidth(800);
+			if(dataSet.getValues().length > 10)
+			{
+ 			icsc.getChartInstance().getBlock().getBounds().setWidth(1000);
  			icsc.getChartInstance().getBlock().getBounds().setHeight(350);
+			}
+			else
+			{
+			 icsc.getChartInstance().getBlock().getBounds().setWidth(500);
+ 			 icsc.getChartInstance().getBlock().getBounds().setHeight(350); 
+ 			}
 		}
 	}
 }
@@ -1167,7 +997,7 @@ if( series.getSeriesIdentifier() == &quot;Series 1&quot; )
     <Type>Text</Type>
     <Title>
       <Caption>
-        <Value>Period</Value>
+        <Value>mn</Value>
         <Font>
           <Size>14.0</Size>
           <Bold>true</Bold>
@@ -1199,14 +1029,14 @@ if( series.getSeriesIdentifier() == &quot;Series 1&quot; )
         <Bottom>0.0</Bottom>
         <Right>3.0</Right>
       </Insets>
-      <Visible>true</Visible>
+      <Visible>false</Visible>
     </Title>
     <TitlePosition>Below</TitlePosition>
     <AssociatedAxes>
       <Type>Linear</Type>
       <Title>
         <Caption>
-          <Value>KWH</Value>
+          <Value>Y-Axis Title</Value>
           <Font>
             <Size>14.0</Size>
             <Bold>true</Bold>
@@ -1238,12 +1068,12 @@ if( series.getSeriesIdentifier() == &quot;Series 1&quot; )
           <Bottom>0.0</Bottom>
           <Right>3.0</Right>
         </Insets>
-        <Visible>true</Visible>
+        <Visible>false</Visible>
       </Title>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>row[&quot;DISPLAYNAME&quot;]</Definition>
+          <Definition></Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -1477,7 +1307,7 @@ if( series.getSeriesIdentifier() == &quot;Series 1&quot; )
               <AggregateExpression>Sum</AggregateExpression>
             </Grouping>
           </DataDefinition>
-          <SeriesIdentifier>Series 1</SeriesIdentifier>
+          <SeriesIdentifier>Quantity Consumed</SeriesIdentifier>
           <DataPoint>
             <Components>
               <Type>Orthogonal_Value</Type>
@@ -1848,21 +1678,25 @@ if( series.getSeriesIdentifier() == &quot;Series 1&quot; )
           <Visible>false</Visible>
         </Label>
         <DataDefinition>
-          <Definition>if((row[&quot;C6&quot;]=='H')||(row[&quot;C6&quot;]=='24H')||(row[&quot;C6&quot;]=='7H')||(row[&quot;C6&quot;]=='365H')||(row[&quot;C6&quot;]=='30H'))&#xD;
+          <Definition>if((row[&quot;C5&quot;]=='7H')||(row[&quot;C5&quot;]=='365H')||(row[&quot;C5&quot;]=='30H'))&#xD;
 {&#xD;
 	Formatter.format(row[&quot;C4&quot;],'dd/MMM/yyyy hh:mm:ss a')&#xD;
 }&#xD;
-else if((row[&quot;C6&quot;]=='7D')||(row[&quot;C6&quot;]=='30D')||(row[&quot;C6&quot;]=='365D'))&#xD;
+else if((row[&quot;C5&quot;]=='H')||(row[&quot;C5&quot;]=='24H'))&#xD;
+{&#xD;
+Formatter.format(row[&quot;C4&quot;],'hh:mm:ss a')&#xD;
+}&#xD;
+else if((row[&quot;C5&quot;]=='7D')||(row[&quot;C5&quot;]=='30D')||(row[&quot;C5&quot;]=='365D'))&#xD;
 {&#xD;
 	Formatter.format(row[&quot;C4&quot;],'dd/MMM/yyyy')&#xD;
 }&#xD;
-else if((row[&quot;C6&quot;]=='30M')||(row[&quot;C6&quot;]=='365M'))&#xD;
+else if((row[&quot;C5&quot;]=='30M')||(row[&quot;C5&quot;]=='365M'))&#xD;
 {&#xD;
 	Formatter.format(row[&quot;C4&quot;],'MMM')&#xD;
 }&#xD;
 else&#xD;
 {&#xD;
-	var myString = row[&quot;C6&quot;];&#xD;
+	var myString = row[&quot;C5&quot;];&#xD;
 	var stringLength = myString.length; &#xD;
 	var lastChar = myString.charAt(stringLength - 1); &#xD;
 	if(lastChar=='H')&#xD;
@@ -2036,18 +1870,12 @@ else&#xD;
 ]]></xml-property>
             <property name="outputFormat">JPG</property>
             <property name="inheritColumns">true</property>
-            <property name="canShrink">false</property>
+            <property name="canShrink">true</property>
             <property name="overflow">hidden</property>
             <property name="height">0.9583333333333334in</property>
             <property name="width">7.614583333333333in</property>
             <expression name="bookmark" type="javascript">"mychart"</expression>
             <property name="dataSet">EDISData Set</property>
-            <list-property name="visibility">
-                <structure>
-                    <property name="format">all</property>
-                    <expression name="valueExpr" type="javascript">params["vb"].value=='T'</expression>
-                </structure>
-            </list-property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">DISPLAYNAME</property>
@@ -2066,17 +1894,43 @@ else&#xD;
                 </structure>
                 <structure>
                     <property name="name">C4</property>
-                    <expression name="expression" type="javascript">dataSetRow["C4"]</expression>
+                    <expression name="expression" type="javascript">dataSetRow["C4"]&#13;
+/*if((row["C5"]=='H')||(row["C5"]=='24H')||(row["C5"]=='7H')||(row["C5"]=='365H')||(row["C5"]=='30H'))&#13;
+{&#13;
+	Formatter.format(dataSetRow["C4"],'dd/MM/yyyy hh:mm:ss a')&#13;
+}&#13;
+else if((row["C5"]=='7D')||(row["C5"]=='30D')||(row["C5"]=='365D'))&#13;
+{&#13;
+	Formatter.format(dataSetRow["C4"],'dd/MM/yyyy')&#13;
+}&#13;
+else if((row["C5"]=='30M')||(row["C5"]=='365M'))&#13;
+{&#13;
+	Formatter.format(dataSetRow["C4"],'dd/MM/yyyy')&#13;
+}&#13;
+else&#13;
+{&#13;
+	var myString = row["C5"];&#13;
+	var stringLength = myString.length; &#13;
+	var lastChar = myString.charAt(stringLength - 1); &#13;
+	if(lastChar=='H')&#13;
+	{&#13;
+		Formatter.format(dataSetRow["C4"],'dd/MM/yyyy hh:mm:ss a')&#13;
+	}&#13;
+	else if(lastChar=='D')&#13;
+	{&#13;
+		Formatter.format(dataSetRow["C4"],'dd/MM/yyyy')&#13;
+	}&#13;
+	else&#13;
+	{&#13;
+		Formatter.format(dataSetRow["C4"],'dd/MM/yyyy')&#13;
+	}&#13;
+}*/</expression>
                     <property name="dataType">date-time</property>
+                    <property name="allowExport">true</property>
                 </structure>
                 <structure>
-                    <property name="name">UNITSHORT</property>
-                    <expression name="expression" type="javascript">dataSetRow["UNITSHORT"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">C6</property>
-                    <expression name="expression" type="javascript">dataSetRow["C6"]</expression>
+                    <property name="name">C5</property>
+                    <expression name="expression" type="javascript">dataSetRow["C5"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -2105,66 +1959,44 @@ else&#xD;
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
+            <property name="style">NewStylef</property>
         </extended-item>
-        <grid id="603">
+        <grid name="grd" id="603">
             <property name="height">2.8333333333333335in</property>
-            <list-property name="visibility">
-                <structure>
-                    <property name="format">all</property>
-                    <expression name="valueExpr" type="javascript">params["vb"].value=='C'</expression>
-                </structure>
-            </list-property>
             <expression name="bookmark" type="javascript">"GridMain"</expression>
             <column id="604"/>
             <row id="605">
                 <property name="height">2.8333333333333335in</property>
                 <cell id="606">
-                    <grid id="607">
+                    <grid name="dy" id="607">
                         <property name="canShrink">true</property>
-                        <property name="dataSet">EDISData Set</property>
-                        <list-property name="visibility">
-                            <structure>
-                                <property name="format">all</property>
-                                <expression name="valueExpr" type="javascript">(row["gridDay"]!='D')</expression>
-                            </structure>
-                        </list-property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">gridDay</property>
-                                <expression name="expression" type="javascript">dataSetRow["CUSD"]</expression>
-                                <property name="dataType">string</property>
-                                <property name="allowExport">false</property>
-                            </structure>
-                        </list-property>
                         <column id="608"/>
                         <row id="609">
                             <cell id="610">
-                                <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="578">
-                                    <property name="cube">DataCubeDay</property>
+                                <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="776">
+                                    <property name="cube">Data Cube</property>
                                     <property name="measures">
-                                        <extended-item extensionName="MeasureView" id="954">
-                                            <property name="measure">C22</property>
+                                        <extended-item extensionName="MeasureView" id="789">
+                                            <property name="measure">C23</property>
                                             <property name="detail">
-                                                <extended-item extensionName="AggregationCell" id="955">
-                                                    <property name="aggregationOnRow">Group1/Day Of Year</property>
-                                                    <property name="aggregationOnColumn">Group6/UNITSHORT</property>
+                                                <extended-item extensionName="AggregationCell" id="790">
+                                                    <property name="aggregationOnRow">Group2/Day Of Year</property>
+                                                    <property name="aggregationOnColumn">Group3/DISPLAYNAME</property>
                                                     <property name="content">
-                                                        <data id="956">
+                                                        <data id="791">
                                                             <property name="style">crosstab-detail1</property>
                                                             <property name="fontSize">12px</property>
                                                             <property name="textAlign">center</property>
-                                                            <property name="resultSetColumn">C22_Group1/Day Of Year_Group6/UNITSHORT</property>
+                                                            <property name="resultSetColumn">C23_Group2/Day Of Year_Group3/DISPLAYNAME</property>
                                                         </data>
                                                     </property>
                                                 </extended-item>
                                             </property>
                                             <property name="header">
-                                                <extended-item extensionName="CrosstabCell" id="957">
+                                                <extended-item extensionName="CrosstabCell" id="792">
                                                     <property name="content">
-                                                        <label id="958">
-                                                            <property name="fontSize">12px</property>
-                                                            <property name="textAlign">center</property>
-                                                            <text-property name="text">Consumption</text-property>
+                                                        <label id="793">
+                                                            <text-property name="text"></text-property>
                                                         </label>
                                                     </property>
                                                 </extended-item>
@@ -2172,17 +2004,24 @@ else&#xD;
                                         </extended-item>
                                     </property>
                                     <property name="rows">
-                                        <extended-item extensionName="CrosstabView" id="580">
+                                        <extended-item extensionName="CrosstabView" id="784">
                                             <property name="views">
-                                                <extended-item extensionName="DimensionView" id="581">
-                                                    <property name="dimension">Group1</property>
+                                                <extended-item extensionName="DimensionView" id="785">
+                                                    <property name="dimension">Group2</property>
                                                     <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View4" id="582">
-                                                            <property name="level">Group1/Day Of Year</property>
+                                                        <extended-item extensionName="LevelView" name="NewLevel View3" id="786">
+                                                            <property name="level">Group2/Day Of Year</property>
+                                                            <property name="sort">
+                                                                <sort-element>
+                                                                    <expression name="key" type="javascript">data["Day Of Year"]</expression>
+                                                                    <property name="direction">asc</property>
+                                                                    <property name="strength">-1</property>
+                                                                </sort-element>
+                                                            </property>
                                                             <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="583">
+                                                                <extended-item extensionName="CrosstabCell" id="787">
                                                                     <property name="content">
-                                                                        <data name="Day Of Year" id="584">
+                                                                        <data name="Day Of Year" id="788">
                                                                             <property name="style">crosstab-detail1</property>
                                                                             <property name="fontSize">12px</property>
                                                                             <property name="fontWeight">normal</property>
@@ -2203,17 +2042,17 @@ else&#xD;
                                         </extended-item>
                                     </property>
                                     <property name="columns">
-                                        <extended-item extensionName="CrosstabView" id="586">
+                                        <extended-item extensionName="CrosstabView" id="778">
                                             <property name="views">
-                                                <extended-item extensionName="DimensionView" id="948">
-                                                    <property name="dimension">GroupDay</property>
+                                                <extended-item extensionName="DimensionView" id="779">
+                                                    <property name="dimension">Group3</property>
                                                     <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View7" id="949">
-                                                            <property name="level">GroupDay/DISPLAYNAME</property>
+                                                        <extended-item extensionName="LevelView" name="NewLevel View2" id="780">
+                                                            <property name="level">Group3/DISPLAYNAME</property>
                                                             <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="950">
+                                                                <extended-item extensionName="CrosstabCell" id="781">
                                                                     <property name="content">
-                                                                        <data name="DISPLAYNAME2" id="952">
+                                                                        <data name="DISPLAYNAME1" id="782">
                                                                             <property name="style">crosstab-detail1</property>
                                                                             <property name="fontSize">12px</property>
                                                                             <property name="textAlign">center</property>
@@ -2225,83 +2064,47 @@ else&#xD;
                                                         </extended-item>
                                                     </property>
                                                 </extended-item>
-                                                <extended-item extensionName="DimensionView" id="861">
-                                                    <property name="dimension">Group6</property>
-                                                    <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View8" id="862">
-                                                            <property name="level">Group6/UNITSHORT</property>
-                                                            <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="863">
-                                                                    <property name="content">
-                                                                        <data name="UNITSHORT2" id="865">
-                                                                            <property name="style">crosstab-detail1</property>
-                                                                            <property name="fontSize">12px</property>
-                                                                            <property name="textAlign">center</property>
-                                                                            <property name="resultSetColumn">UNITSHORT</property>
-                                                                        </data>
-                                                                    </property>
-                                                                </extended-item>
-                                                            </property>
-                                                        </extended-item>
-                                                    </property>
-                                                </extended-item>
                                             </property>
                                         </extended-item>
                                     </property>
                                     <property name="header">
-                                        <extended-item extensionName="CrosstabCell" id="951">
+                                        <extended-item extensionName="CrosstabCell" id="794">
                                             <property name="content">
-                                                <label id="953">
+                                                <label id="795">
                                                     <property name="fontSize">12px</property>
                                                     <property name="textAlign">center</property>
-                                                    <text-property name="text">Source  Name</text-property>
+                                                    <text-property name="text">Section Name</text-property>
                                                 </label>
                                             </property>
                                         </extended-item>
-                                        <extended-item extensionName="CrosstabCell" id="959">
+                                        <extended-item extensionName="CrosstabCell" id="777">
                                             <property name="content">
-                                                <label id="960">
+                                                <label id="783">
                                                     <property name="fontSize">12px</property>
                                                     <property name="textAlign">center</property>
-                                                    <text-property name="text">Unit</text-property>
-                                                </label>
-                                            </property>
-                                        </extended-item>
-                                        <extended-item extensionName="CrosstabCell" id="579">
-                                            <property name="content">
-                                                <label id="585">
-                                                    <property name="fontSize">12px</property>
-                                                    <property name="textAlign">center</property>
-                                                    <text-property name="text">Day</text-property>
+                                                    <text-property name="text">Day </text-property>
                                                 </label>
                                             </property>
                                         </extended-item>
                                     </property>
-                                    <property name="canShrink">true</property>
-                                    <expression name="bookmark" type="javascript">"mytableday"</expression>
                                     <list-property name="boundDataColumns">
                                         <structure>
+                                            <property name="name">DISPLAYNAME</property>
+                                            <expression name="expression">dimension["Group3"]["DISPLAYNAME"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                        <structure>
                                             <property name="name">Day Of Year</property>
-                                            <expression name="expression">dimension["Group1"]["Day Of Year"]["DateTime"]</expression>
+                                            <expression name="expression">dimension["Group2"]["Day Of Year"]["DateTime"]</expression>
                                             <property name="dataType">date-time</property>
                                         </structure>
                                         <structure>
-                                            <property name="name">UNITSHORT</property>
-                                            <expression name="expression">dimension["Group6"]["UNITSHORT"]</expression>
-                                            <property name="dataType">string</property>
-                                        </structure>
-                                        <structure>
-                                            <property name="name">DISPLAYNAME</property>
-                                            <expression name="expression">dimension["GroupDay"]["DISPLAYNAME"]</expression>
-                                            <property name="dataType">string</property>
-                                        </structure>
-                                        <structure>
-                                            <property name="name">C22_Group1/Day Of Year_Group6/UNITSHORT</property>
-                                            <expression name="expression">measure["C22"]</expression>
+                                            <property name="name">C23_Group2/Day Of Year_Group3/DISPLAYNAME</property>
+                                            <expression name="expression">measure["C23"]</expression>
                                             <property name="dataType">decimal</property>
                                             <simple-property-list name="aggregateOn">
-                                                <value>Group1/Day Of Year</value>
-                                                <value>Group6/UNITSHORT</value>
+                                                <value>Group2/Day Of Year</value>
+                                                <value>Group3/DISPLAYNAME</value>
                                             </simple-property-list>
                                             <property name="aggregateFunction">SUM</property>
                                         </structure>
@@ -2310,52 +2113,34 @@ else&#xD;
                             </cell>
                         </row>
                     </grid>
-                    <grid id="611">
+                    <grid name="mn" id="611">
                         <property name="canShrink">true</property>
-                        <property name="dataSet">EDISData Set</property>
-                        <list-property name="visibility">
-                            <structure>
-                                <property name="format">all</property>
-                                <expression name="valueExpr" type="javascript">(row["gridM"]!='M')</expression>
-                            </structure>
-                        </list-property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">gridM</property>
-                                <expression name="expression" type="javascript">dataSetRow["CUSM"]</expression>
-                                <property name="dataType">string</property>
-                                <property name="allowExport">false</property>
-                            </structure>
-                        </list-property>
                         <column id="612"/>
                         <row id="613">
                             <cell id="614">
-                                <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="549">
-                                    <property name="cube">DataCubeMonth</property>
+                                <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="756">
+                                    <property name="cube">Data Cube</property>
                                     <property name="measures">
-                                        <extended-item extensionName="MeasureView" id="904">
-                                            <property name="measure">C2</property>
+                                        <extended-item extensionName="MeasureView" id="769">
+                                            <property name="measure">C23</property>
                                             <property name="detail">
-                                                <extended-item extensionName="AggregationCell" id="905">
-                                                    <property name="aggregationOnRow">Group/Month</property>
-                                                    <property name="aggregationOnColumn">Group5/UNITSHORT</property>
+                                                <extended-item extensionName="AggregationCell" id="770">
+                                                    <property name="aggregationOnRow">Group5/Month</property>
+                                                    <property name="aggregationOnColumn">Group3/DISPLAYNAME</property>
                                                     <property name="content">
-                                                        <data id="906">
+                                                        <data id="771">
                                                             <property name="style">crosstab-detail1</property>
-                                                            <property name="fontSize">12px</property>
                                                             <property name="textAlign">center</property>
-                                                            <property name="resultSetColumn">C2_Group/Month_Group5/UNITSHORT</property>
+                                                            <property name="resultSetColumn">C23_Group5/Month_Group3/DISPLAYNAME</property>
                                                         </data>
                                                     </property>
                                                 </extended-item>
                                             </property>
                                             <property name="header">
-                                                <extended-item extensionName="CrosstabCell" id="907">
+                                                <extended-item extensionName="CrosstabCell" id="772">
                                                     <property name="content">
-                                                        <label id="908">
-                                                            <property name="fontSize">12px</property>
-                                                            <property name="textAlign">center</property>
-                                                            <text-property name="text">Consumption</text-property>
+                                                        <label id="773">
+                                                            <text-property name="text"></text-property>
                                                         </label>
                                                     </property>
                                                 </extended-item>
@@ -2363,23 +2148,29 @@ else&#xD;
                                         </extended-item>
                                     </property>
                                     <property name="rows">
-                                        <extended-item extensionName="CrosstabView" id="551">
+                                        <extended-item extensionName="CrosstabView" id="764">
                                             <property name="views">
-                                                <extended-item extensionName="DimensionView" id="900">
-                                                    <property name="dimension">Group</property>
+                                                <extended-item extensionName="DimensionView" id="765">
+                                                    <property name="dimension">Group5</property>
                                                     <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View2" id="901">
-                                                            <property name="level">Group/Month</property>
+                                                        <extended-item extensionName="LevelView" name="NewLevel View1" id="766">
+                                                            <property name="level">Group5/Month</property>
+                                                            <property name="sort">
+                                                                <sort-element>
+                                                                    <expression name="key" type="javascript">data["Month"]</expression>
+                                                                    <property name="direction">asc</property>
+                                                                    <property name="strength">-1</property>
+                                                                </sort-element>
+                                                            </property>
                                                             <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="902">
+                                                                <extended-item extensionName="CrosstabCell" id="767">
                                                                     <property name="content">
-                                                                        <data name="Month" id="903">
+                                                                        <data name="Month" id="768">
                                                                             <property name="style">crosstab-detail1</property>
-                                                                            <property name="fontSize">12px</property>
                                                                             <property name="fontWeight">normal</property>
                                                                             <structure name="dateTimeFormat">
                                                                                 <property name="category">Custom</property>
-                                                                                <property name="pattern">MMM yyyy</property>
+                                                                                <property name="pattern">MMMM yyyy</property>
                                                                             </structure>
                                                                             <property name="textAlign">center</property>
                                                                             <property name="resultSetColumn">Month</property>
@@ -2394,41 +2185,20 @@ else&#xD;
                                         </extended-item>
                                     </property>
                                     <property name="columns">
-                                        <extended-item extensionName="CrosstabView" id="557">
+                                        <extended-item extensionName="CrosstabView" id="758">
                                             <property name="views">
-                                                <extended-item extensionName="DimensionView" id="894">
-                                                    <property name="dimension">GroupM</property>
+                                                <extended-item extensionName="DimensionView" id="759">
+                                                    <property name="dimension">Group3</property>
                                                     <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View3" id="895">
-                                                            <property name="level">GroupM/DISPLAYNAME</property>
+                                                        <extended-item extensionName="LevelView" name="NewLevel View" id="760">
+                                                            <property name="level">Group3/DISPLAYNAME</property>
                                                             <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="896">
+                                                                <extended-item extensionName="CrosstabCell" id="761">
                                                                     <property name="content">
-                                                                        <data name="DISPLAYNAME" id="898">
+                                                                        <data name="DISPLAYNAME" id="762">
                                                                             <property name="style">crosstab-detail1</property>
-                                                                            <property name="fontSize">12px</property>
                                                                             <property name="textAlign">center</property>
                                                                             <property name="resultSetColumn">DISPLAYNAME</property>
-                                                                        </data>
-                                                                    </property>
-                                                                </extended-item>
-                                                            </property>
-                                                        </extended-item>
-                                                    </property>
-                                                </extended-item>
-                                                <extended-item extensionName="DimensionView" id="852">
-                                                    <property name="dimension">Group5</property>
-                                                    <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View1" id="853">
-                                                            <property name="level">Group5/UNITSHORT</property>
-                                                            <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="854">
-                                                                    <property name="content">
-                                                                        <data name="UNITSHORT1" id="856">
-                                                                            <property name="style">crosstab-detail1</property>
-                                                                            <property name="fontSize">12px</property>
-                                                                            <property name="textAlign">center</property>
-                                                                            <property name="resultSetColumn">UNITSHORT</property>
                                                                         </data>
                                                                     </property>
                                                                 </extended-item>
@@ -2440,27 +2210,18 @@ else&#xD;
                                         </extended-item>
                                     </property>
                                     <property name="header">
-                                        <extended-item extensionName="CrosstabCell" id="897">
+                                        <extended-item extensionName="CrosstabCell" id="774">
                                             <property name="content">
-                                                <label id="899">
+                                                <label id="775">
                                                     <property name="fontSize">12px</property>
                                                     <property name="textAlign">center</property>
-                                                    <text-property name="text">Source Name</text-property>
+                                                    <text-property name="text">Section Name</text-property>
                                                 </label>
                                             </property>
                                         </extended-item>
-                                        <extended-item extensionName="CrosstabCell" id="909">
+                                        <extended-item extensionName="CrosstabCell" id="757">
                                             <property name="content">
-                                                <label id="910">
-                                                    <property name="fontSize">12px</property>
-                                                    <property name="textAlign">center</property>
-                                                    <text-property name="text">Unit</text-property>
-                                                </label>
-                                            </property>
-                                        </extended-item>
-                                        <extended-item extensionName="CrosstabCell" id="550">
-                                            <property name="content">
-                                                <label id="556">
+                                                <label id="763">
                                                     <property name="fontSize">12px</property>
                                                     <property name="textAlign">center</property>
                                                     <text-property name="text">Month</text-property>
@@ -2468,31 +2229,24 @@ else&#xD;
                                             </property>
                                         </extended-item>
                                     </property>
-                                    <property name="canShrink">true</property>
-                                    <expression name="bookmark" type="javascript">"mytablemonth"</expression>
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">UNITSHORT</property>
-                                            <expression name="expression">dimension["Group5"]["UNITSHORT"]</expression>
-                                            <property name="dataType">string</property>
-                                        </structure>
-                                        <structure>
                                             <property name="name">DISPLAYNAME</property>
-                                            <expression name="expression">dimension["GroupM"]["DISPLAYNAME"]</expression>
+                                            <expression name="expression">dimension["Group3"]["DISPLAYNAME"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                         <structure>
                                             <property name="name">Month</property>
-                                            <expression name="expression">dimension["Group"]["Month"]["DateTime"]</expression>
+                                            <expression name="expression">dimension["Group5"]["Month"]["DateTime"]</expression>
                                             <property name="dataType">date-time</property>
                                         </structure>
                                         <structure>
-                                            <property name="name">C2_Group/Month_Group5/UNITSHORT</property>
-                                            <expression name="expression">measure["C2"]</expression>
+                                            <property name="name">C23_Group5/Month_Group3/DISPLAYNAME</property>
+                                            <expression name="expression">measure["C23"]</expression>
                                             <property name="dataType">decimal</property>
                                             <simple-property-list name="aggregateOn">
-                                                <value>Group/Month</value>
-                                                <value>Group5/UNITSHORT</value>
+                                                <value>Group5/Month</value>
+                                                <value>Group3/DISPLAYNAME</value>
                                             </simple-property-list>
                                             <property name="aggregateFunction">SUM</property>
                                         </structure>
@@ -2501,52 +2255,35 @@ else&#xD;
                             </cell>
                         </row>
                     </grid>
-                    <grid id="718">
+                    <grid name="hr" id="718">
                         <property name="canShrink">true</property>
-                        <property name="dataSet">EDISData Set</property>
-                        <list-property name="visibility">
-                            <structure>
-                                <property name="format">all</property>
-                                <expression name="valueExpr" type="javascript">(row["GridHour"]!='H')</expression>
-                            </structure>
-                        </list-property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">GridHour</property>
-                                <expression name="expression" type="javascript">dataSetRow["CUSH"]</expression>
-                                <property name="dataType">string</property>
-                                <property name="allowExport">false</property>
-                            </structure>
-                        </list-property>
                         <column id="719"/>
                         <row id="720">
                             <cell id="721">
-                                <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="698">
+                                <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="796">
                                     <property name="cube">Data Cube</property>
                                     <property name="measures">
-                                        <extended-item extensionName="MeasureView" id="941">
-                                            <property name="measure">C21</property>
+                                        <extended-item extensionName="MeasureView" id="809">
+                                            <property name="measure">C23</property>
                                             <property name="detail">
-                                                <extended-item extensionName="AggregationCell" id="942">
+                                                <extended-item extensionName="AggregationCell" id="810">
                                                     <property name="aggregationOnRow">Group4/C4</property>
-                                                    <property name="aggregationOnColumn">Group2/UNITSHORT</property>
+                                                    <property name="aggregationOnColumn">Group3/DISPLAYNAME</property>
                                                     <property name="content">
-                                                        <data id="943">
+                                                        <data id="811">
                                                             <property name="style">crosstab-detail1</property>
                                                             <property name="fontSize">12px</property>
                                                             <property name="textAlign">center</property>
-                                                            <property name="resultSetColumn">C21_Group4/C4_Group2/UNITSHORT</property>
+                                                            <property name="resultSetColumn">C23_Group4/C4_Group3/DISPLAYNAME</property>
                                                         </data>
                                                     </property>
                                                 </extended-item>
                                             </property>
                                             <property name="header">
-                                                <extended-item extensionName="CrosstabCell" id="944">
+                                                <extended-item extensionName="CrosstabCell" id="812">
                                                     <property name="content">
-                                                        <label id="945">
-                                                            <property name="fontSize">12px</property>
-                                                            <property name="textAlign">center</property>
-                                                            <text-property name="text">Consumption</text-property>
+                                                        <label id="813">
+                                                            <text-property name="text"></text-property>
                                                         </label>
                                                     </property>
                                                 </extended-item>
@@ -2554,17 +2291,24 @@ else&#xD;
                                         </extended-item>
                                     </property>
                                     <property name="rows">
-                                        <extended-item extensionName="CrosstabView" id="700">
+                                        <extended-item extensionName="CrosstabView" id="804">
                                             <property name="views">
-                                                <extended-item extensionName="DimensionView" id="936">
+                                                <extended-item extensionName="DimensionView" id="805">
                                                     <property name="dimension">Group4</property>
                                                     <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View6" id="937">
+                                                        <extended-item extensionName="LevelView" name="NewLevel View5" id="806">
                                                             <property name="level">Group4/C4</property>
+                                                            <property name="sort">
+                                                                <sort-element>
+                                                                    <expression name="key" type="javascript">data["C4"]</expression>
+                                                                    <property name="direction">asc</property>
+                                                                    <property name="strength">-1</property>
+                                                                </sort-element>
+                                                            </property>
                                                             <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="938">
+                                                                <extended-item extensionName="CrosstabCell" id="807">
                                                                     <property name="content">
-                                                                        <data name="C4" id="939">
+                                                                        <data name="C4" id="808">
                                                                             <property name="style">crosstab-detail1</property>
                                                                             <property name="fontSize">12px</property>
                                                                             <property name="fontWeight">normal</property>
@@ -2581,17 +2325,17 @@ else&#xD;
                                         </extended-item>
                                     </property>
                                     <property name="columns">
-                                        <extended-item extensionName="CrosstabView" id="706">
+                                        <extended-item extensionName="CrosstabView" id="798">
                                             <property name="views">
-                                                <extended-item extensionName="DimensionView" id="925">
+                                                <extended-item extensionName="DimensionView" id="799">
                                                     <property name="dimension">Group3</property>
                                                     <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View" id="926">
+                                                        <extended-item extensionName="LevelView" name="NewLevel View4" id="800">
                                                             <property name="level">Group3/DISPLAYNAME</property>
                                                             <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="927">
+                                                                <extended-item extensionName="CrosstabCell" id="801">
                                                                     <property name="content">
-                                                                        <data name="DISPLAYNAME1" id="928">
+                                                                        <data name="DISPLAYNAME2" id="802">
                                                                             <property name="style">crosstab-detail1</property>
                                                                             <property name="fontSize">12px</property>
                                                                             <property name="textAlign">center</property>
@@ -2603,51 +2347,22 @@ else&#xD;
                                                         </extended-item>
                                                     </property>
                                                 </extended-item>
-                                                <extended-item extensionName="DimensionView" id="930">
-                                                    <property name="dimension">Group2</property>
-                                                    <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View5" id="931">
-                                                            <property name="level">Group2/UNITSHORT</property>
-                                                            <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="932">
-                                                                    <property name="content">
-                                                                        <data name="UNITSHORT" id="934">
-                                                                            <property name="style">crosstab-detail1</property>
-                                                                            <property name="fontSize">12px</property>
-                                                                            <property name="textAlign">center</property>
-                                                                            <property name="resultSetColumn">UNITSHORT</property>
-                                                                        </data>
-                                                                    </property>
-                                                                </extended-item>
-                                                            </property>
-                                                        </extended-item>
-                                                    </property>
-                                                </extended-item>
                                             </property>
                                         </extended-item>
                                     </property>
                                     <property name="header">
-                                        <extended-item extensionName="CrosstabCell" id="699">
+                                        <extended-item extensionName="CrosstabCell" id="814">
                                             <property name="content">
-                                                <label id="929">
+                                                <label id="815">
                                                     <property name="fontSize">12px</property>
                                                     <property name="textAlign">center</property>
-                                                    <text-property name="text">Source Name</text-property>
+                                                    <text-property name="text">Section Name</text-property>
                                                 </label>
                                             </property>
                                         </extended-item>
-                                        <extended-item extensionName="CrosstabCell" id="946">
+                                        <extended-item extensionName="CrosstabCell" id="797">
                                             <property name="content">
-                                                <label id="947">
-                                                    <property name="fontSize">12px</property>
-                                                    <property name="textAlign">center</property>
-                                                    <text-property name="text">Unit</text-property>
-                                                </label>
-                                            </property>
-                                        </extended-item>
-                                        <extended-item extensionName="CrosstabCell" id="933">
-                                            <property name="content">
-                                                <label id="935">
+                                                <label id="803">
                                                     <property name="fontSize">12px</property>
                                                     <property name="textAlign">center</property>
                                                     <text-property name="text">Hour</text-property>
@@ -2655,16 +2370,10 @@ else&#xD;
                                             </property>
                                         </extended-item>
                                     </property>
-                                    <property name="canShrink">true</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">DISPLAYNAME</property>
                                             <expression name="expression">dimension["Group3"]["DISPLAYNAME"]</expression>
-                                            <property name="dataType">string</property>
-                                        </structure>
-                                        <structure>
-                                            <property name="name">UNITSHORT</property>
-                                            <expression name="expression">dimension["Group2"]["UNITSHORT"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                         <structure>
@@ -2673,12 +2382,12 @@ else&#xD;
                                             <property name="dataType">date-time</property>
                                         </structure>
                                         <structure>
-                                            <property name="name">C21_Group4/C4_Group2/UNITSHORT</property>
-                                            <expression name="expression">measure["C21"]</expression>
+                                            <property name="name">C23_Group4/C4_Group3/DISPLAYNAME</property>
+                                            <expression name="expression">measure["C23"]</expression>
                                             <property name="dataType">decimal</property>
                                             <simple-property-list name="aggregateOn">
                                                 <value>Group4/C4</value>
-                                                <value>Group2/UNITSHORT</value>
+                                                <value>Group3/DISPLAYNAME</value>
                                             </simple-property-list>
                                             <property name="aggregateFunction">SUM</property>
                                         </structure>
