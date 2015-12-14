@@ -274,7 +274,7 @@ false);*/]]></method>
 	" where a.parent_id='"+params["UsrSecId"].value+"' and T.dt_date >='"+LHour+"'"+
     " and T.dt_date <'"+curT+"'"+
     " and a.company_id='"+params["UsrCompId"].value+"'"+
-    " and  s.UTILITY_ID='"+params["UtlId"].value+"' and S.c_coretype='C'"+
+    " and a.b_rollup='true' and  s.UTILITY_ID='"+params["UtlId"].value+"' and S.c_coretype='C'"+
     " group by a.displayname,un.unitshort,a.assettree_id";
 
 ]]></method>
@@ -499,7 +499,7 @@ false);*/]]></method>
 	" where a.parent_id='"+params["IDParam"].value+"' and T.dt_date >='"+LHour+"'"+
     " and T.dt_date <'"+curT+"'"+
     " and a.company_id='"+params["UsrCompId"].value+"'"+
-    " and  s.UTILITY_ID='"+params["UtlId"].value+"' and S.c_coretype='C'"+
+    " and a.b_rollup='true' and  s.UTILITY_ID='"+params["UtlId"].value+"' and S.c_coretype='C'"+
     " group by a.displayname,un.unitshort,a.assettree_id";
 
 ]]></method>
@@ -1876,10 +1876,6 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
                 <SeriesParameterName></SeriesParameterName>
               </URLValues>
               <PropertiesMap>
-                <Key>MenuItem</Key>
-                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
-              </PropertiesMap>
-              <PropertiesMap>
                 <Key>Menu</Key>
                 <Value>zIndex:99999;backgroundColor:#FAFFF8;width:auto;height:auto;border:1px solid #333333;filter:progid:DXImageTransform.Microsoft.Shadow(Color:#333333,Direction=120,strength=5)</Value>
               </PropertiesMap>
@@ -1890,6 +1886,10 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
               <PropertiesMap>
                 <Key>OnMouseOver</Key>
                 <Value>backgroundColor:#245DDB;color:#FFFFFF</Value>
+              </PropertiesMap>
+              <PropertiesMap>
+                <Key>MenuItem</Key>
+                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
               </PropertiesMap>
             </Value>
           </Action>
@@ -2009,6 +2009,7 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
   </SeriesDefinitions>
   <MinSlice>0.0</MinSlice>
   <MinSlicePercent>false</MinSlicePercent>
+  <Coverage>0.5</Coverage>
 </model:ChartWithoutAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
@@ -3064,10 +3065,6 @@ params[&quot;FirstTitle&quot;].value=params[&quot;BreakdownTitle&quot;].value&am
                 <SeriesParameterName></SeriesParameterName>
               </URLValues>
               <PropertiesMap>
-                <Key>MenuItem</Key>
-                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
-              </PropertiesMap>
-              <PropertiesMap>
                 <Key>Menu</Key>
                 <Value>zIndex:99999;backgroundColor:#FAFFF8;width:auto;height:auto;border:1px solid #333333;filter:progid:DXImageTransform.Microsoft.Shadow(Color:#333333,Direction=120,strength=5)</Value>
               </PropertiesMap>
@@ -3078,6 +3075,10 @@ params[&quot;FirstTitle&quot;].value=params[&quot;BreakdownTitle&quot;].value&am
               <PropertiesMap>
                 <Key>OnMouseOver</Key>
                 <Value>backgroundColor:#245DDB;color:#FFFFFF</Value>
+              </PropertiesMap>
+              <PropertiesMap>
+                <Key>MenuItem</Key>
+                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
               </PropertiesMap>
             </Value>
           </Action>
@@ -3197,7 +3198,7 @@ params[&quot;FirstTitle&quot;].value=params[&quot;BreakdownTitle&quot;].value&am
   </SeriesDefinitions>
   <MinSlice>0.0</MinSlice>
   <MinSlicePercent>false</MinSlicePercent>
-  <Coverage>0.6</Coverage>
+  <Coverage>0.5</Coverage>
 </model:ChartWithoutAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
