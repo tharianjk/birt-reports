@@ -1758,7 +1758,7 @@ if(localcount1==&quot;single&quot;)&#xD;
 &#xD;
 	function beforeGeneration( chart, icsc ) &#xD;
 	{ &#xD;
-		importPackage(Packages.org.eclipse.birt.chart.model.component.impl);&#xD;
+		/*importPackage(Packages.org.eclipse.birt.chart.model.component.impl);&#xD;
 		importPackage(Packages.org.eclipse.birt.chart.model.data.impl);&#xD;
 		importPackage(Packages.org.eclipse.birt.chart.model.attribute);&#xD;
 		importPackage(Packages.org.eclipse.birt.chart.model.attribute.impl);&#xD;
@@ -1798,7 +1798,7 @@ if(localcount1==&quot;single&quot;)&#xD;
 			max_ml.getLineAttributes().getColor().set(245,12,12);&#xD;
 			max_ml.getLineAttributes().setThickness(1);&#xD;
 		&#xD;
-	}}&#xD;
+	}}*/&#xD;
 	&#xD;
 &#xD;
 } &#xD;
@@ -1835,7 +1835,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
 	&#xD;
 	}&#xD;
 	&#xD;
-	if( series.getSeriesIdentifier() == &quot;Series 1&quot;)&#xD;
+	/*if( series.getSeriesIdentifier() == &quot;Series 1&quot;)&#xD;
 	{&#xD;
     &#xD;
   	&#xD;
@@ -1858,7 +1858,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
     icsc.getExternalContext().getScriptable().setGlobalVariable(&quot;average&quot;,(total/items));&#xD;
     icsc.getExternalContext().getScriptable().setGlobalVariable(&quot;maximum&quot;,theMax);&#xD;
     }&#xD;
-    }&#xD;
+    }*/&#xD;
     &#xD;
     &#xD;
 }</Script>
@@ -2283,6 +2283,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
+        <SortKey/>
       </SeriesDefinitions>
       <Orientation>Vertical</Orientation>
       <LineAttributes>
@@ -3050,7 +3051,7 @@ Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;ATTRIBUTE&quot;]</Definition>
+        <Definition>row[&quot;C3&quot;]</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
