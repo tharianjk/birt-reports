@@ -8,14 +8,14 @@
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <parameters>
-        <scalar-parameter name="newRPT" id="241">
-            <property name="hidden">true</property>
+        <scalar-parameter name="UsrSecId" id="241">
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant"></value>
+                <value type="constant">2</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -25,13 +25,13 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="UsrCompId" id="401">
-            <property name="hidden">true</property>
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant"></value>
+                <value type="constant">1</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -44,6 +44,9 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2014-12-25 11:50:43</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -55,6 +58,9 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2015-12-25 11:50:43</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -66,6 +72,9 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">30D</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -77,6 +86,9 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">C</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -88,6 +100,9 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">1</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -187,20 +202,16 @@
 curT=params["todate"].value
 LHour=params["fromdate"].value
 
-this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4 from ems_section_summary s"+
-" inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
-" inner join vw_assetsection sec on s.assettree_id = sec.section_id"+
-" inner join ems_source src on sec.source_id = src.source_id"+
+this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4"+
+" from ems_source_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
+" inner join ems_source src on s.source_id = src.source_id"+
 " inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
-" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
+" inner join ems_utility UT on UT.UTILITY_ID=src.UTILITY_ID"+
 " inner join ems_Attribute ATR on UT.attribute_id=ATR.ATTRIBUTE_ID"+
 " LEFT join ems_unit UN on ATR.unit_id=UN.unit_id"+
-" where s.c_coretype='P' and T.dt_date >'"+LHour+"'"+
-" and T.dt_date <'"+curT+"'"+
-" and a.company_id ='"+params["UsrCompId"].value+"'"+
-" and s.UTILITY_ID='"+params["UtlId"].value+"'"+
+" where (A.PARENT_id in (select assettree_id from fwk_assettree"+
+" where assettreetype_id=2 and assettree_id='"+params["UsrSecId"].value+"') or s.assettree_id='"+params["UsrSecId"].value+"') and T.dt_date >='"+LHour+"' and T.dt_date <'"+curT+"' and a.company_id ='"+params["UsrCompId"].value+"' and src.UTILITY_ID='"+params["UtlId"].value+"'"+
 " group by src.SOURCENAME,un.UNITSHORT";
-	
 ]]></method>
             <method name="onFetch"><![CDATA[if(row["C4"]=='7D')
 {
