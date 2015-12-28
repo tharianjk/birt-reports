@@ -20,7 +20,7 @@ false);*/]]></method>
             <property name="hidden">false</property>
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
-            <property name="dataType">string</property>
+            <property name="dataType">integer</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -106,7 +106,7 @@ false);*/]]></method>
         <scalar-parameter name="IDParam" id="426">
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
-            <property name="dataType">string</property>
+            <property name="dataType">integer</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">0</value>
@@ -796,6 +796,12 @@ else&#13;
         </grid>
         <grid id="420">
             <property name="canShrink">true</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">params["vb"].value=='T'</expression>
+                </structure>
+            </list-property>
             <column id="421"/>
             <column id="422"/>
             <row id="423">
@@ -1716,6 +1722,10 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
                 <SeriesParameterName></SeriesParameterName>
               </URLValues>
               <PropertiesMap>
+                <Key>MenuItem</Key>
+                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
+              </PropertiesMap>
+              <PropertiesMap>
                 <Key>Menu</Key>
                 <Value>zIndex:99999;backgroundColor:#FAFFF8;width:auto;height:auto;border:1px solid #333333;filter:progid:DXImageTransform.Microsoft.Shadow(Color:#333333,Direction=120,strength=5)</Value>
               </PropertiesMap>
@@ -1726,10 +1736,6 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
               <PropertiesMap>
                 <Key>OnMouseOver</Key>
                 <Value>backgroundColor:#245DDB;color:#FFFFFF</Value>
-              </PropertiesMap>
-              <PropertiesMap>
-                <Key>MenuItem</Key>
-                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
               </PropertiesMap>
             </Value>
           </Action>
@@ -1849,7 +1855,7 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
   </SeriesDefinitions>
   <MinSlice>0.0</MinSlice>
   <MinSlicePercent>false</MinSlicePercent>
-  <Coverage>0.5</Coverage>
+  <Coverage>0.7</Coverage>
 </model:ChartWithoutAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
@@ -2905,6 +2911,10 @@ params[&quot;FirstTitle&quot;].value=params[&quot;BreakdownTitle&quot;].value&am
                 <SeriesParameterName></SeriesParameterName>
               </URLValues>
               <PropertiesMap>
+                <Key>MenuItem</Key>
+                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
+              </PropertiesMap>
+              <PropertiesMap>
                 <Key>Menu</Key>
                 <Value>zIndex:99999;backgroundColor:#FAFFF8;width:auto;height:auto;border:1px solid #333333;filter:progid:DXImageTransform.Microsoft.Shadow(Color:#333333,Direction=120,strength=5)</Value>
               </PropertiesMap>
@@ -2915,10 +2925,6 @@ params[&quot;FirstTitle&quot;].value=params[&quot;BreakdownTitle&quot;].value&am
               <PropertiesMap>
                 <Key>OnMouseOver</Key>
                 <Value>backgroundColor:#245DDB;color:#FFFFFF</Value>
-              </PropertiesMap>
-              <PropertiesMap>
-                <Key>MenuItem</Key>
-                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
               </PropertiesMap>
             </Value>
           </Action>
@@ -3038,7 +3044,7 @@ params[&quot;FirstTitle&quot;].value=params[&quot;BreakdownTitle&quot;].value&am
   </SeriesDefinitions>
   <MinSlice>0.0</MinSlice>
   <MinSlicePercent>false</MinSlicePercent>
-  <Coverage>0.5</Coverage>
+  <Coverage>0.7</Coverage>
 </model:ChartWithoutAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
