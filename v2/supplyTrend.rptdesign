@@ -1678,7 +1678,7 @@ if( series.getSeriesIdentifier() == &quot;Quantity Consumed&quot; )
           <Visible>false</Visible>
         </Label>
         <DataDefinition>
-          <Definition>if((row[&quot;C5&quot;]=='7H')||(row[&quot;C5&quot;]=='365H')||(row[&quot;C5&quot;]=='30H'))&#xD;
+          <Definition>if((row[&quot;C5&quot;]=='7H')||(row[&quot;C5&quot;]=='365H')||(row[&quot;C5&quot;]=='30H')||(row[&quot;C5&quot;]=='SH'))&#xD;
 {&#xD;
 	Formatter.format(row[&quot;C4&quot;],'dd/MMM/yyyy hh:mm:ss a')&#xD;
 }&#xD;
@@ -1686,11 +1686,11 @@ else if((row[&quot;C5&quot;]=='H')||(row[&quot;C5&quot;]=='24H'))&#xD;
 {&#xD;
 Formatter.format(row[&quot;C4&quot;],'hh:mm:ss a')&#xD;
 }&#xD;
-else if((row[&quot;C5&quot;]=='7D')||(row[&quot;C5&quot;]=='30D')||(row[&quot;C5&quot;]=='365D'))&#xD;
+else if((row[&quot;C5&quot;]=='7D')||(row[&quot;C5&quot;]=='30D')||(row[&quot;C5&quot;]=='365D')||(row[&quot;C5&quot;]=='SD'))&#xD;
 {&#xD;
 	Formatter.format(row[&quot;C4&quot;],'dd/MMM/yyyy')&#xD;
 }&#xD;
-else if((row[&quot;C5&quot;]=='30M')||(row[&quot;C5&quot;]=='365M'))&#xD;
+else if((row[&quot;C5&quot;]=='30M')||(row[&quot;C5&quot;]=='365M')||(row[&quot;C5&quot;]=='SM'))&#xD;
 {&#xD;
 	Formatter.format(row[&quot;C4&quot;],'MMM')&#xD;
 }&#xD;
