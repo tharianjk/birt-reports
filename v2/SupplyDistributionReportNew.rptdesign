@@ -16,6 +16,9 @@ false);*/]]></method>
             <property name="isRequired">true</property>
             <property name="dataType">integer</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">5</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -30,7 +33,7 @@ false);*/]]></method>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant"></value>
+                <value type="constant">1</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -46,7 +49,7 @@ false);*/]]></method>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant"></value>
+                <value type="constant">1</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -61,6 +64,9 @@ false);*/]]></method>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2014-01-01 00:00:00</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -74,6 +80,9 @@ false);*/]]></method>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2016-01-01 00:00:00</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -87,6 +96,9 @@ false);*/]]></method>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">30D</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -256,11 +268,16 @@ false);*/]]></method>
                     </structure>
                     <structure>
                         <property name="position">7</property>
-                        <property name="name">rcount</property>
+                        <property name="name">PARENT_ID</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
                         <property name="position">8</property>
+                        <property name="name">rcount</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
                         <property name="name">total</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -272,7 +289,7 @@ false);*/]]></method>
 	
 
 this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4,a.ASSETTREE_ID as ASSETTREE_ID,"+	
-" (select count(*) from fwk_assettree where parent_id=a.assettree_id)  as CHILDCOUNT from ems_section_summary s"+
+" (select count(1) from fwk_assettree fa inner join ems_section_summary fs on fa.assettree_id=fs.assettree_id and fs.c_coretype='P' where parent_id=a.assettree_id)  as CHILDCOUNT,A.PARENT_ID from ems_section_summary s"+
 " inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
 " inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
 " inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
@@ -282,7 +299,7 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4,a.ASSETTR
 " and a.company_id ='"+params["UsrCompId"].value+"'"+ 
 " and  s.UTILITY_ID='"+params["UtlId"].value+"'"+
 " and (a.parent_id  = '"+params["UsrSecId"].value+"' or a.parent_id in (select a.assettree_id from fwk_assettree where assettreetype_id=2 and a.assettree_id='"+params["UsrSecId"].value+"'))  and s.c_coretype='P'"+ 
-" group by DISPLAYNAME, un.UNITSHORT,a.ASSETTREE_ID";
+" group by DISPLAYNAME, un.UNITSHORT,a.ASSETTREE_ID,A.PARENT_ID";
 ]]></method>
             <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("explode",params["explode"].value);]]></method>
             <property name="dataSource">IrevealDS</property>
@@ -322,6 +339,12 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4,a.ASSETTR
                     <property name="name">CHILDCOUNT</property>
                     <property name="nativeName">CHILDCOUNT</property>
                     <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">PARENT_ID</property>
+                    <property name="nativeName">PARENT_ID</property>
+                    <property name="dataType">integer</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select  DISPLAYNAME,sum(s.UTILITY_QTY) as UTILITY_QTY,un.UNITSHORT]]></xml-property>
@@ -1166,13 +1189,6 @@ else&#13;
                         <property name="fontWeight">bold</property>
                         <property name="textAlign">center</property>
                         <property name="dataSet">distribution</property>
-                        <list-property name="visibility">
-                            <structure>
-                                <property name="format">all</property>
-                                <expression name="valueExpr" type="javascript">if((params["UsrSecId"].value==params["psecid"].value)&amp;&amp;(params["UsrSecId"].value==params["testparam"].value))&#13;
-{true}</expression>
-                            </structure>
-                        </list-property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">DISPLAYNAME</property>
@@ -2051,21 +2067,15 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
         &lt;structure>
             &lt;property name=&quot;paramName&quot;>UsrSecId&lt;/property>
             &lt;simple-property-list name=&quot;expression&quot;>
-                &lt;value type=&quot;javascript&quot;>if(row[&quot;CHILDCOUNT&quot;]&amp;lt;=1)&amp;#13;
+                &lt;value type=&quot;javascript&quot;>if(row[&quot;CHILDCOUNT&quot;]==0)&amp;#13;
 {&amp;#13;
-//params[&quot;psecid&quot;].value&amp;#13;
+&amp;#13;
+		row[&quot;PARENT_ID&quot;]&amp;#13;
+	}&amp;#13;
+	else&amp;#13;
+	{&amp;#13;
 row[&quot;ASSETTREE_ID&quot;]&amp;#13;
-&amp;#13;
-&amp;#13;
-&amp;#13;
-}&amp;#13;
-else&amp;#13;
-{&amp;#13;
-&amp;#13;
-//row[&quot;ASSETTREE_ID&quot;]&amp;#13;
-params[&quot;UsrSecId&quot;].value&amp;#13;
-&amp;#13;
-&amp;#13;
+///row[&quot;PARENT_ID&quot;]&amp;#13;
 }&lt;/value>
             &lt;/simple-property-list>
         &lt;/structure>
@@ -2110,7 +2120,13 @@ params[&quot;UsrSecId&quot;].value&amp;#13;
             &lt;simple-property-list name=&quot;expression&quot;>
                 &lt;value type=&quot;javascript&quot;>if(row[&quot;CHILDCOUNT&quot;]&amp;lt;=1)&amp;#13;
 {&amp;#13;
-row[&quot;ASSETTREE_ID&quot;]&amp;#13;
+&amp;#13;
+if(row[&quot;CHILDCOUNT&quot;]&amp;lt;1)&amp;#13;
+	{&amp;#13;
+		row[&quot;PARENT_ID&quot;]&amp;#13;
+	}&amp;#13;
+	else{&amp;#13;
+row[&quot;ASSETTREE_ID&quot;]}&amp;#13;
 &amp;#13;
 &amp;#13;
 }&amp;#13;
@@ -2123,7 +2139,7 @@ row[&quot;ASSETTREE_ID&quot;]&amp;#13;
         &lt;structure>
             &lt;property name=&quot;paramName&quot;>ntitle&lt;/property>
             &lt;simple-property-list name=&quot;expression&quot;>
-                &lt;value type=&quot;javascript&quot;>row[&quot;DISPLAYNAME&quot;]=&quot;TOD based distribution for : &quot;+row[&quot;DISPLAYNAME&quot;]&lt;/value>
+                &lt;value type=&quot;javascript&quot;>&quot;TOD based distribution for : &quot;+row[&quot;DISPLAYNAME&quot;]&lt;/value>
             &lt;/simple-property-list>
         &lt;/structure>
         &lt;structure>
@@ -2294,21 +2310,15 @@ row[&quot;ASSETTREE_ID&quot;]&amp;#13;
                                     <structure>
                                         <property name="paramName">UsrSecId</property>
                                         <simple-property-list name="expression">
-                                            <value type="javascript">if(row["CHILDCOUNT"]&lt;=1)&#13;
+                                            <value type="javascript">if(row["CHILDCOUNT"]==0)&#13;
 {&#13;
-//params["psecid"].value&#13;
+&#13;
+		row["PARENT_ID"]&#13;
+	}&#13;
+	else&#13;
+	{&#13;
 row["ASSETTREE_ID"]&#13;
-&#13;
-&#13;
-&#13;
-}&#13;
-else&#13;
-{&#13;
-&#13;
-//row["ASSETTREE_ID"]&#13;
-params["UsrSecId"].value&#13;
-&#13;
-&#13;
+///row["PARENT_ID"]&#13;
 }</value>
                                         </simple-property-list>
                                     </structure>
@@ -2353,7 +2363,13 @@ params["UsrSecId"].value&#13;
                                         <simple-property-list name="expression">
                                             <value type="javascript">if(row["CHILDCOUNT"]&lt;=1)&#13;
 {&#13;
-row["ASSETTREE_ID"]&#13;
+&#13;
+if(row["CHILDCOUNT"]&lt;1)&#13;
+	{&#13;
+		row["PARENT_ID"]&#13;
+	}&#13;
+	else{&#13;
+row["ASSETTREE_ID"]}&#13;
 &#13;
 &#13;
 }&#13;
@@ -2366,7 +2382,7 @@ row["ASSETTREE_ID"]&#13;
                                     <structure>
                                         <property name="paramName">ntitle</property>
                                         <simple-property-list name="expression">
-                                            <value type="javascript">row["DISPLAYNAME"]="TOD based distribution for : "+row["DISPLAYNAME"]</value>
+                                            <value type="javascript">"TOD based distribution for : "+row["DISPLAYNAME"]</value>
                                         </simple-property-list>
                                     </structure>
                                     <structure>
@@ -2425,6 +2441,11 @@ row["ASSETTREE_ID"]&#13;
                                 <property name="name">CHILDCOUNT</property>
                                 <expression name="expression" type="javascript">dataSetRow["CHILDCOUNT"]</expression>
                                 <property name="dataType">decimal</property>
+                            </structure>
+                            <structure>
+                                <property name="name">PARENT_ID</property>
+                                <expression name="expression" type="javascript">dataSetRow["PARENT_ID"]</expression>
+                                <property name="dataType">integer</property>
                             </structure>
                             <structure>
                                 <property name="name">rcount</property>
