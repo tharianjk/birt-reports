@@ -16,9 +16,6 @@ false);*/]]></method>
             <property name="isRequired">true</property>
             <property name="dataType">integer</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">5</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -33,7 +30,7 @@ false);*/]]></method>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">1</value>
+                <value type="constant"></value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -49,7 +46,7 @@ false);*/]]></method>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">1</value>
+                <value type="constant"></value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -64,9 +61,6 @@ false);*/]]></method>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">2014-01-01 00:00:00</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -80,9 +74,6 @@ false);*/]]></method>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">2016-01-01 00:00:00</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -96,9 +87,6 @@ false);*/]]></method>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">30D</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -123,11 +111,8 @@ false);*/]]></method>
             <property name="hidden">false</property>
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
-            <property name="dataType">string</property>
+            <property name="dataType">integer</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -288,19 +273,18 @@ false);*/]]></method>
 	LHour=params["fromdate"].value
 	
 
-this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4,a.ASSETTREE_ID as ASSETTREE_ID,"+	
-" (select count(1) from fwk_assettree fa inner join ems_section_summary fs on fa.assettree_id=fs.assettree_id and fs.c_coretype='P' where parent_id=a.assettree_id)  as CHILDCOUNT,A.PARENT_ID from ems_section_summary s"+
-" inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
-" inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
-" inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID"+
+this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4,a.ASSETTREE_ID as ASSETTREE_ID, (select count(1)"+
+" from fwk_assettree fa inner join ems_source_summary fs on fa.assettree_id=fs.assettree_id where parent_id=a.assettree_id)  as CHILDCOUNT,A.PARENT_ID "+
+" from ems_source_summary s "+
+" inner join fwk_assettree a on s.assettree_id=a.assettree_id "+
+" inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID "+
+" inner join ems_source soc on s.source_id=soc.source_id"+ 
+" inner join ems_utility UT on UT.UTILITY_ID=soc.UTILITY_ID "+
 " inner join ems_Attribute  ATR on UT.attribute_id=ATR.ATTRIBUTE_ID"+
-" LEFT join ems_unit UN on ATR.unit_id=UN.unit_id"+
-" where T.dt_date >='"+LHour+"' and T.dt_date <'"+curT+"'"+
-" and a.company_id ='"+params["UsrCompId"].value+"'"+ 
-" and  s.UTILITY_ID='"+params["UtlId"].value+"'"+
-" and (a.parent_id  = '"+params["UsrSecId"].value+"' or a.parent_id in (select a.assettree_id from fwk_assettree where assettreetype_id=2 and a.assettree_id='"+params["UsrSecId"].value+"'))  and s.c_coretype='P'"+ 
-" group by DISPLAYNAME, un.UNITSHORT,a.ASSETTREE_ID,A.PARENT_ID";
-]]></method>
+" LEFT join ems_unit UN on ATR.unit_id=UN.unit_id where T.dt_date >='"+LHour+"' and T.dt_date<'"+curT+"'"+ 
+" and a.company_id ='"+params["UsrCompId"].value+"' and  soc.UTILITY_ID='"+params["UtlId"].value+"'"+
+" and (a.parent_id  = '"+params["UsrSecId"].value+"' or a.parent_id in (select a.assettree_id from fwk_assettree where assettreetype_id=2 and a.assettree_id='"+params["UsrSecId"].value+"')) "+ 
+" group by DISPLAYNAME, un.UNITSHORT,a.ASSETTREE_ID,A.PARENT_ID";]]></method>
             <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("explode",params["explode"].value);]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet">
@@ -477,14 +461,25 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4,a.ASSETTR
 	
 
 this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4"+	
+" FROM VW_BILLTIME_SOURCE V INNER JOIN EMS_SOURCE_SUMMARY SU ON V.SOURCE_ID=SU.SOURCE_ID "+ 
+" INNER JOIN EMS_SOURCE SUP ON SU.SOURCE_ID = SUP.SOURCE_ID "+
+" INNER JOIN EMS_TIME_DIM T ON  SU.TIME_ID=T.TIME_ID AND T.HR_ID=V.HR_ID INNER JOIN EMS_UTILITY UT"+
+" ON UT.UTILITY_ID=SUP.UTILITY_ID  INNER JOIN EMS_UNIT UN ON UN.UNIT_ID=UT.UNIT_ID WHERE T.DT_DATE  >='"+LHour+"'"+
+" and t.dt_date  <'"+curT+"' AND (SU.ASSETTREE_ID='"+params["testparam"].value+"' or SU.ASSETTREE_ID in (select assettree_id from fwk_assettree where parent_id='"+params["testparam"].value+"'))"+
+" AND SUP.COMPANY_ID='"+params["UsrCompId"].value+"'  GROUP BY TIMEPERIOD,V.N_COST,UN.UNITSHORT,NF_FRACTION,NT_FRACTION )"+
+" as tab group by TIMEPERIOD,UNITSHORT,C4";
 
-" FROM VW_BILLTIME_SOURCE V INNER JOIN vw_assetsection S ON V.SOURCE_ID=S.SOURCE_ID "+
-" INNER JOIN EMS_SOURCE SUP ON V.SOURCE_ID = SUP.SOURCE_ID "+
-" INNER JOIN EMS_SECTION_SUMMARY SU ON SU.ASSETTREE_ID=S.SECTION_ID INNER JOIN EMS_TIME_DIM T ON "+
-" SU.TIME_ID=T.TIME_ID AND T.HR_ID=V.HR_ID INNER JOIN EMS_UTILITY UT ON UT.UTILITY_ID=SU.UTILITY_ID "+
-" INNER JOIN EMS_UNIT UN ON UN.UNIT_ID=UT.UNIT_ID WHERE T.DT_DATE  >='"+LHour+"' and t.dt_date  <'"+curT+"'"+
-" AND (S.SECTION_ID='"+params["testparam"].value+"' or S.SECTION_ID in (select assettree_id from fwk_assettree where parent_id='"+params["testparam"].value+"') ) AND SUP.COMPANY_ID='"+params["UsrCompId"].value+"'"+ 
-" GROUP BY TIMEPERIOD,V.N_COST,UN.UNITSHORT,NF_FRACTION,NT_FRACTION ) as tab group by TIMEPERIOD,UNITSHORT,C4";
+
+
+
+
+
+
+
+
+
+
+
 ]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet">
@@ -2118,22 +2113,10 @@ row[&quot;ASSETTREE_ID&quot;]&amp;#13;
         &lt;structure>
             &lt;property name=&quot;paramName&quot;>testparam&lt;/property>
             &lt;simple-property-list name=&quot;expression&quot;>
-                &lt;value type=&quot;javascript&quot;>if(row[&quot;CHILDCOUNT&quot;]&amp;lt;=1)&amp;#13;
-{&amp;#13;
+                &lt;value type=&quot;javascript&quot;>/*if(row[&quot;CHILDCOUNT&quot;]==0)&amp;#13;
+{*/&amp;#13;
 &amp;#13;
-if(row[&quot;CHILDCOUNT&quot;]&amp;lt;1)&amp;#13;
-	{&amp;#13;
-		row[&quot;PARENT_ID&quot;]&amp;#13;
-	}&amp;#13;
-	else{&amp;#13;
-row[&quot;ASSETTREE_ID&quot;]}&amp;#13;
-&amp;#13;
-&amp;#13;
-}&amp;#13;
-else&amp;#13;
-{&amp;#13;
-row[&quot;ASSETTREE_ID&quot;]&amp;#13;
-}&lt;/value>
+row[&quot;ASSETTREE_ID&quot;]&lt;/value>
             &lt;/simple-property-list>
         &lt;/structure>
         &lt;structure>
@@ -2361,22 +2344,10 @@ row["ASSETTREE_ID"]&#13;
                                     <structure>
                                         <property name="paramName">testparam</property>
                                         <simple-property-list name="expression">
-                                            <value type="javascript">if(row["CHILDCOUNT"]&lt;=1)&#13;
-{&#13;
+                                            <value type="javascript">/*if(row["CHILDCOUNT"]==0)&#13;
+{*/&#13;
 &#13;
-if(row["CHILDCOUNT"]&lt;1)&#13;
-	{&#13;
-		row["PARENT_ID"]&#13;
-	}&#13;
-	else{&#13;
-row["ASSETTREE_ID"]}&#13;
-&#13;
-&#13;
-}&#13;
-else&#13;
-{&#13;
-row["ASSETTREE_ID"]&#13;
-}</value>
+row["ASSETTREE_ID"]</value>
                                         </simple-property-list>
                                     </structure>
                                     <structure>
