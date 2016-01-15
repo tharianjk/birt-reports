@@ -800,32 +800,32 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' AS C4 FROM VW_B
                         </list-property>
                         <expression name="valueExpr">if(params["coltype"].value=='LH')&#13;
 {&#13;
-	'Cost Distribution for the last 1 Hour in '+row["UNITSHORT"];&#13;
+	'Cost Distribution for the last 1 Hour in INR';&#13;
 }&#13;
 else if(params["coltype"].value=='24H')&#13;
 {&#13;
-	'Cost Distribution for the last 24 Hour in '+row["UNITSHORT"];&#13;
+	'Cost Distribution for the last 24 Hour in INR ';&#13;
 }&#13;
 &#13;
 else if(params["coltype"].value=='7D')&#13;
 {&#13;
-	'Cost Distribution for the last 7 days in '+row["UNITSHORT"];&#13;
+	'Cost Distribution for the last 7 days in INR ';&#13;
 }&#13;
 else if(params["coltype"].value=='30D')&#13;
 {&#13;
-	'Cost Distribution for the last 30 days in '+row["UNITSHORT"];&#13;
+	'Cost Distribution for the last 30 days in INR ';&#13;
 }&#13;
 &#13;
 else if(params["coltype"].value=='365D')&#13;
 {&#13;
-'Cost Distribution for the last 365 days in '+row["UNITSHORT"];&#13;
+'Cost Distribution for the last 365 days in INR ';&#13;
 }&#13;
 &#13;
 else&#13;
 {&#13;
 	&#13;
 	&#13;
-		'Cost Distribution for the specified period in '+row["UNITSHORT"];&#13;
+		'Cost Distribution for the specified period in INR ';&#13;
 	&#13;
 	&#13;
 }</expression>

@@ -13,6 +13,9 @@
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">1</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -24,6 +27,9 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">30D</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -35,6 +41,9 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">C</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -46,6 +55,9 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2015-03-18 10:30:06</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -57,6 +69,9 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2016-03-18 10:30:06</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -65,6 +80,20 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="UtlId" id="255">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">1</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="AssetTreeId" id="256">
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -151,53 +180,176 @@ if(lastChar=='M')&#13;
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">DT_DATE</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">UNITSHORT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">SUPPLY_QTY</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">DEMAND_QTY</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">WASTE_QTY</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">C6</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">rowc</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">CUSH</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">CUSD</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">CUSM</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
             <method name="beforeOpen"><![CDATA[
 curT=params["todate"].value
 LHour=params["fromdate"].value
 
-	this.queryText = this.queryText +
+	this.queryText = this.queryText +",'"+params["coltype"].value+"' as C6 "+
+" from (select dt_date,unitshort,sum(ss.UTILITY_QTY) supply_qty , 0 demand_qty  , 0 waste_qty  from ems_section_summary ss"+
+" join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID join ems_utility ut"+
+" ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
+" where ss.C_CORETYPE = 'P'  and company_id='"+params["UsrCompId"].value+"' and  ss.UTILITY_ID='"+params["UtlId"].value+"' and dt_date>='"+LHour+"'"+
+" and dt_date<'"+curT+"' and (ad.assettree_id='"+params["AssetTreeId"].value+"' or ad.assettree_id in"+
+" (select assettree_id from fwk_assettree where parent_id in (select assettree_id from fwk_assettree where assettree_id='"+params["AssetTreeId"].value+"' and assettreetype_id=2) and upper(b_rollup)='TRUE'))"+
+" group by dt_date,un.UNITSHORT"+
+" union"+
+" Select dt_date,unitshort,0 supply_qty,sum(ss.UTILITY_QTY) demand_qty, 0 waste_qty from ems_section_summary ss"+
+" join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID join ems_utility ut"+
+" ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID join ems_unit un ON atr.UNIT_ID = un.UNIT_ID where ss.C_CORETYPE = 'C'  and  ss.UTILITY_ID='"+params["UtlId"].value+"' and company_id='"+params["UsrCompId"].value+"'"+
+" and dt_date>='"+LHour+"' and dt_date<'"+curT+"' and (ad.assettree_id='"+params["AssetTreeId"].value+"' or ad.assettree_id in"+
+" (select assettree_id from fwk_assettree where parent_id in (select assettree_id from fwk_assettree where assettree_id='"+params["AssetTreeId"].value+"' and assettreetype_id=2) and upper(b_rollup)='TRUE'))"+
+" group by dt_date,un.UNITSHORT"+ 
+" union select dt_date, unitshort,0 supply_qty,0 demand_qty,sum(supqty-demqty)  waste_qty"+
+" from ( select dt_date,unitshort,sum(ss.UTILITY_QTY) supqty,0 demqty from ems_section_summary ss"+
+" join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
+" join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
+" join ems_unit un ON atr.UNIT_ID = un.UNIT_ID where ss.C_CORETYPE = 'P'"+ 
+" and  ss.UTILITY_ID='"+params["UtlId"].value+"' and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+" and (ad.assettree_id='"+params["AssetTreeId"].value+"' or ad.assettree_id in"+
+" (select assettree_id from fwk_assettree where parent_id in (select assettree_id from fwk_assettree where assettree_id='"+params["AssetTreeId"].value+"' and assettreetype_id=2) and upper(b_rollup)='TRUE' )) group by dt_date,un.UNITSHORT"+
+" union Select dt_date,unitshort,0 supqty,sum(ss.UTILITY_QTY) demqty  from ems_section_summary ss join ems_time_dim d"+
+" ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID"+
+" left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID join ems_unit un ON atr.UNIT_ID = un.UNIT_ID where ss.C_CORETYPE = 'C'"+ 
+" and  ss.UTILITY_ID='"+params["UtlId"].value+"' and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
+" and (ad.assettree_id='"+params["AssetTreeId"].value+"' or ad.assettree_id in"+
+" (select assettree_id from fwk_assettree where parent_id in (select assettree_id from fwk_assettree where assettree_id='"+params["AssetTreeId"].value+"' and assettreetype_id=2) and upper(b_rollup)='TRUE'))"+
+" group by dt_date,un.UNITSHORT  ) as tab"+
+" group by dt_date,unitshort union select cast(d.dt_date as datetime) dt_date,"+
+" (select unitshort from ems_utility uu inner join ems_attribute ua on uu.attribute_id=ua.attribute_id inner join ems_unit un on ua.unit_id=un.unit_id where uu.utility_id='"+params["UtlId"].value+"')  unitshort ,"+
+" 0 as supply_qty,0 as demand_qty,"+
+" 0 waste_qty from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tabmain"+
+" group by dt_date,unitshort,C6 order by dt_date asc";
 	
 	
-",'"+params["coltype"].value+"' as C6  from (select dt_date,unitshort,sum(ss.UTILITY_QTY) supply_qty , 0 demand_qty  , 0 waste_qty "+
-" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID"+
- " join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
- " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
- " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
- " where ss.C_CORETYPE = 'P' and ad.b_rollup='TRUE' and company_id='"+params["UsrCompId"].value+"' and  ss.UTILITY_ID='"+params["UtlId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
- " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2) group by dt_date,un.UNITSHORT"+   
- " union Select dt_date,unitshort,0 supply_qty,sum(ss.UTILITY_QTY) demand_qty, 0 waste_qty from ems_section_summary ss"+
- " join ems_time_dim d ON ss.TIME_ID = d.TIME_ID"+ 
- " join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
- " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID"+
- " left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
- " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
- " where ss.C_CORETYPE = 'C'  and  ss.UTILITY_ID='"+params["UtlId"].value+"' and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"' and ad.PARENT_ID in (select"+ 
- " fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2) group by dt_date,un.UNITSHORT "+ 
- " union select dt_date, unitshort,0 supply_qty,0 demand_qty,sum(supqty-demqty)  waste_qty from ("+
- " select dt_date,unitshort,sum(ss.UTILITY_QTY) supqty,0 demqty from ems_section_summary ss"+
- " join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
- " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
- " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
- " where ss.C_CORETYPE = 'P' and ad.b_rollup='TRUE' and  ss.UTILITY_ID='"+params["UtlId"].value+"' and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
- " and ad.PARENT_ID in (select fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
- " group by dt_date,un.UNITSHORT union Select dt_date,unitshort,0 supqty,sum(ss.UTILITY_QTY) demqty "+
- " from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
- " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID"+
- " left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
- " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
- " where ss.C_CORETYPE = 'C' and ad.b_rollup='TRUE' and  ss.UTILITY_ID='"+params["UtlId"].value+"' and company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"' and ad.PARENT_ID in (select"+ 
- " fwk_assettree.ASSETTREE_ID from fwk_assettree where fwk_assettree.ASSETTREETYPE_ID = 2)"+
- " group by dt_date,un.UNITSHORT  ) as tab group by dt_date,unitshort union"+ 
- " select cast(d.dt_date as datetime) dt_date,'KWH' unitshort , 0 as supply_qty,0 as demand_qty,0 waste_qty"+ 
- " from ems_time_dim d where  d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"') as tabmain"+
- " group by dt_date,unitshort,C6 order by dt_date asc";
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	]]></method>
             <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("Demographic", row["UNITSHORT"]);]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet"/>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">DT_DATE</property>
+                    <property name="nativeName">DT_DATE</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">UNITSHORT</property>
+                    <property name="nativeName">UNITSHORT</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">SUPPLY_QTY</property>
+                    <property name="nativeName">SUPPLY_QTY</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">DEMAND_QTY</property>
+                    <property name="nativeName">DEMAND_QTY</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">WASTE_QTY</property>
+                    <property name="nativeName">WASTE_QTY</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">C6</property>
+                    <property name="nativeName">C6</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
             <xml-property name="queryText"><![CDATA[select DT_DATE,UNITSHORT,sum(supply_qty) as SUPPLY_QTY,sum(demand_qty) as DEMAND_QTY, sum(waste_qty) as WASTE_QTY]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
