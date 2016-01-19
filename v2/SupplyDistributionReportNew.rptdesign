@@ -2142,10 +2142,6 @@ row[&quot;ASSETTREE_ID&quot;]&lt;/value>
               </URLValues>
               <Tooltip>Click To Drill Down</Tooltip>
               <PropertiesMap>
-                <Key>MenuItem</Key>
-                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
-              </PropertiesMap>
-              <PropertiesMap>
                 <Key>Menu</Key>
                 <Value>zIndex:99999;backgroundColor:#FAFFF8;width:auto;height:auto;border:1px solid #333333;filter:progid:DXImageTransform.Microsoft.Shadow(Color:#333333,Direction=120,strength=5)</Value>
               </PropertiesMap>
@@ -2156,6 +2152,10 @@ row[&quot;ASSETTREE_ID&quot;]&lt;/value>
               <PropertiesMap>
                 <Key>OnMouseOver</Key>
                 <Value>backgroundColor:#245DDB;color:#FFFFFF</Value>
+              </PropertiesMap>
+              <PropertiesMap>
+                <Key>MenuItem</Key>
+                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
               </PropertiesMap>
             </Value>
           </Action>
@@ -2798,153 +2798,21 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
     <SeriesPalette>
       <Entries xsi:type="attribute:ColorDefinition">
         <Transparency>255</Transparency>
-        <Red>0</Red>
-        <Green>179</Green>
-        <Blue>223</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>242</Red>
-        <Green>88</Green>
-        <Blue>106</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>232</Red>
-        <Green>172</Green>
-        <Blue>57</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>128</Red>
-        <Green>255</Green>
-        <Blue>128</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>64</Red>
-        <Green>128</Green>
-        <Blue>128</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>128</Red>
-        <Green>128</Green>
-        <Blue>192</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>170</Red>
-        <Green>85</Green>
-        <Blue>85</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>128</Red>
-        <Green>128</Green>
+        <Red>255</Red>
+        <Green>153</Green>
         <Blue>0</Blue>
       </Entries>
       <Entries xsi:type="attribute:ColorDefinition">
         <Transparency>255</Transparency>
-        <Red>192</Red>
-        <Green>192</Green>
-        <Blue>192</Blue>
+        <Red>154</Red>
+        <Green>204</Green>
+        <Blue>0</Blue>
       </Entries>
       <Entries xsi:type="attribute:ColorDefinition">
         <Transparency>255</Transparency>
-        <Red>255</Red>
-        <Green>255</Green>
-        <Blue>128</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>128</Red>
-        <Green>192</Green>
-        <Blue>128</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>7</Red>
-        <Green>146</Green>
-        <Blue>94</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>0</Red>
-        <Green>128</Green>
+        <Red>153</Red>
+        <Green>204</Green>
         <Blue>255</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>255</Red>
-        <Green>128</Green>
-        <Blue>192</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>0</Red>
-        <Green>255</Green>
-        <Blue>255</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>255</Red>
-        <Green>128</Green>
-        <Blue>128</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>0</Red>
-        <Green>128</Green>
-        <Blue>192</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>255</Red>
-        <Green>0</Green>
-        <Blue>255</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>128</Red>
-        <Green>64</Green>
-        <Blue>64</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>255</Red>
-        <Green>128</Green>
-        <Blue>64</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>80</Red>
-        <Green>240</Green>
-        <Blue>120</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>0</Red>
-        <Green>64</Green>
-        <Blue>128</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>128</Red>
-        <Green>0</Green>
-        <Blue>64</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>255</Red>
-        <Green>0</Green>
-        <Blue>128</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>128</Red>
-        <Green>128</Green>
-        <Blue>64</Blue>
       </Entries>
       <Entries xsi:type="attribute:ColorDefinition">
         <Transparency>255</Transparency>
@@ -2966,12 +2834,6 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
       </Entries>
       <Entries xsi:type="attribute:ColorDefinition">
         <Transparency>255</Transparency>
-        <Red>0</Red>
-        <Green>0</Green>
-        <Blue>0</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
         <Red>255</Red>
         <Green>255</Green>
         <Blue>255</Blue>
@@ -2981,6 +2843,24 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
         <Red>255</Red>
         <Green>128</Green>
         <Blue>0</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>154</Red>
+        <Green>204</Green>
+        <Blue>0</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>204</Red>
+        <Green>255</Green>
+        <Blue>255</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>102</Red>
+        <Green>102</Green>
+        <Blue>153</Blue>
       </Entries>
     </SeriesPalette>
     <SeriesDefinitions>
@@ -2994,153 +2874,21 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
       <SeriesPalette>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>179</Green>
-          <Blue>223</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>242</Red>
-          <Green>88</Green>
-          <Blue>106</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>232</Red>
-          <Green>172</Green>
-          <Blue>57</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>128</Red>
-          <Green>255</Green>
-          <Blue>128</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>64</Red>
-          <Green>128</Green>
-          <Blue>128</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>128</Red>
-          <Green>128</Green>
-          <Blue>192</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>170</Red>
-          <Green>85</Green>
-          <Blue>85</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>128</Red>
-          <Green>128</Green>
+          <Red>255</Red>
+          <Green>153</Green>
           <Blue>0</Blue>
         </Entries>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
-          <Red>192</Red>
-          <Green>192</Green>
-          <Blue>192</Blue>
+          <Red>154</Red>
+          <Green>204</Green>
+          <Blue>0</Blue>
         </Entries>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
-          <Red>255</Red>
-          <Green>255</Green>
-          <Blue>128</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>128</Red>
-          <Green>192</Green>
-          <Blue>128</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>7</Red>
-          <Green>146</Green>
-          <Blue>94</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>128</Green>
+          <Red>153</Red>
+          <Green>204</Green>
           <Blue>255</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>255</Red>
-          <Green>128</Green>
-          <Blue>192</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>255</Green>
-          <Blue>255</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>255</Red>
-          <Green>128</Green>
-          <Blue>128</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>128</Green>
-          <Blue>192</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>255</Red>
-          <Green>0</Green>
-          <Blue>255</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>128</Red>
-          <Green>64</Green>
-          <Blue>64</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>255</Red>
-          <Green>128</Green>
-          <Blue>64</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>80</Red>
-          <Green>240</Green>
-          <Blue>120</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>64</Green>
-          <Blue>128</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>128</Red>
-          <Green>0</Green>
-          <Blue>64</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>255</Red>
-          <Green>0</Green>
-          <Blue>128</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>128</Red>
-          <Green>128</Green>
-          <Blue>64</Blue>
         </Entries>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
@@ -3162,12 +2910,6 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
         </Entries>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>0</Green>
-          <Blue>0</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
           <Red>255</Red>
           <Green>255</Green>
           <Blue>255</Blue>
@@ -3177,6 +2919,24 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
           <Red>255</Red>
           <Green>128</Green>
           <Blue>0</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>154</Red>
+          <Green>204</Green>
+          <Blue>0</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>204</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>102</Red>
+          <Green>102</Green>
+          <Blue>153</Blue>
         </Entries>
       </SeriesPalette>
       <Series xsi:type="type:PieSeries">
