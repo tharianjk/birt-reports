@@ -220,7 +220,7 @@
 " left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
 " inner join ems_unit un ON atr.UNIT_ID= un.UNIT_ID"+
 " where ss.C_CORETYPE = 'P'  and  ss.UTILITY_ID='"+params["UtlId"].value+"' and ad.company_id='"+params["UsrCompId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
-" and pa.PARENT_ID =  '"+params["AssetTreeId"].value+"' and"+
+" and ad.PARENT_ID =  '"+params["AssetTreeId"].value+"' and"+
 " case ad.assettreetype_id when 2 then upper(ad.b_rollup)='TRUE' else ad.b_rollup=ad.b_rollup end"+
 " group by un.UNITSHORT , ad.DISPLAYNAME"+
 " union Select 'Demand' typ,unitshort,sum(ss.UTILITY_QTY) qty,ad.displayname,'"+params["coltype"].value+"'  as C5 "+
