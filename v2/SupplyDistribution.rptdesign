@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
-    <text-property name="title">Source Distribution</text-property>
+    <text-property name="title">Supply breakup by Source</text-property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
@@ -224,50 +224,7 @@
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">SOURCENAME</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">UTILITY_QTY</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">UNITSHORT</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">C4</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">SOURCE_ID</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">ASSETTREE_ID</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">rcount</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">total</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                </list-property>
-            </structure>
+            <structure name="cachedMetaData"/>
             <method name="beforeOpen"><![CDATA[
 curT=params["todate"].value
 LHour=params["fromdate"].value
@@ -312,45 +269,8 @@ reportContext.setPersistentGlobalVariable("Demographic", row["UNITSHORT"]+' '+ro
 }
  ]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">SOURCENAME</property>
-                    <property name="nativeName">SOURCENAME</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">UTILITY_QTY</property>
-                    <property name="nativeName">UTILITY_QTY</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">UNITSHORT</property>
-                    <property name="nativeName">UNITSHORT</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">C4</property>
-                    <property name="nativeName">C4</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">SOURCE_ID</property>
-                    <property name="nativeName">SOURCE_ID</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
-                    <property name="name">ASSETTREE_ID</property>
-                    <property name="nativeName">ASSETTREE_ID</property>
-                    <property name="dataType">integer</property>
-                </structure>
-            </list-property>
-            <xml-property name="queryText"><![CDATA[select src.SOURCENAME as DISPLAYNAME,sum(s.UTILITY_QTY) as UTILITY_QTY,un.UNITSHORT]]></xml-property>
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[select src.SOURCENAME as DISPLAYNAME,round(sum(s.UTILITY_QTY),0) as UTILITY_QTY,un.UNITSHORT]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -522,8 +442,8 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4  FROM VW_
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[SELECT TIMEPERIOD, CASE NF_FRACTION+NT_FRACTION WHEN 0 THEN SUM(SU.UTILITY_QTY)
-ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION) END QTY ,UN.UNITSHORT
+            <xml-property name="queryText"><![CDATA[SELECT TIMEPERIOD, CASE NF_FRACTION+NT_FRACTION WHEN 0 THEN round(SUM(SU.UTILITY_QTY),0)
+ELSE round(SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION),0) END QTY ,UN.UNITSHORT
 ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -752,25 +672,25 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION) END QTY ,UN.UNITSHORT
                         </list-property>
                         <expression name="valueExpr">if(row["C4"]=='LH')&#13;
 {&#13;
-	row["C4"]='Source Distribution for the last 1 Hour in '+row["unit"];&#13;
+	row["C4"]='Supply breakup by Source  for the last 1 Hour in '+row["unit"];&#13;
 }&#13;
 else if(row["C4"]=='24H')&#13;
 {&#13;
-	row["C4"]='Source Distribution for the last 24 Hour in '+row["unit"];&#13;
+	row["C4"]='Supply breakup by Source  for the last 24 Hour in '+row["unit"];&#13;
 }&#13;
 &#13;
 else if(row["C4"]=='7D')&#13;
 {&#13;
-	row["C4"]='Source Distribution for the last 7 days in '+row["unit"];&#13;
+	row["C4"]='Supply breakup by Source  for the last 7 days in '+row["unit"];&#13;
 }&#13;
 else if(row["C4"]=='30D')&#13;
 {&#13;
-	row["C4"]='Source Distribution for the last 30 days in '+row["unit"];&#13;
+	row["C4"]='Supply breakup by Source  for the last 30 days in '+row["unit"];&#13;
 }&#13;
 &#13;
 else if(row["C4"]=='365D')&#13;
 {&#13;
-	row["C4"]='Source Distribution for the last 364 days in '+row["unit"];&#13;
+	row["C4"]='Supply breakup by Source  for the last 364 days in '+row["unit"];&#13;
 }&#13;
 &#13;
 else&#13;
@@ -782,7 +702,7 @@ else&#13;
 	}&#13;
 	else&#13;
 	{&#13;
-		row["C4"]='Source Distribution for the specified period from '+params["fromdate"].value+' to '+params["todate"].value+' in '+row["unit"];&#13;
+		row["C4"]='Supply breakup by Source  for the  period from '+params["fromdate"].value+' to '+params["todate"].value+' in '+row["unit"];&#13;
 	}&#13;
 	&#13;
 }</expression>
@@ -824,7 +744,7 @@ else&#13;
                         <property name="fontSize">10pt</property>
                         <property name="fontWeight">bold</property>
                         <property name="textAlign">right</property>
-                        <text-property name="text">Total Distribution:</text-property>
+                        <text-property name="text">Total:</text-property>
                     </label>
                 </cell>
                 <cell id="413">
@@ -837,8 +757,9 @@ else&#13;
                             <structure>
                                 <property name="name">total</property>
                                 <text-property name="displayName">total</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["total"]</expression>
-                                <property name="dataType">float</property>
+                                <expression name="expression" type="javascript">dataSetRow["total"] +" (KWH)"</expression>
+                                <property name="dataType">string</property>
+                                <property name="allowExport">true</property>
                             </structure>
                         </list-property>
                         <property name="resultSetColumn">total</property>
@@ -1905,7 +1826,7 @@ title = &quot;Energy distribution for &quot; &#xD;
         &lt;structure>
             &lt;property name=&quot;paramName&quot;>todtitle&lt;/property>
             &lt;simple-property-list name=&quot;expression&quot;>
-                &lt;value type=&quot;javascript&quot;>&quot;TOD based distribution for: &quot;+row[&quot;SOURCENAME&quot;]&lt;/value>
+                &lt;value type=&quot;javascript&quot;>&quot;TOD breakup for: &quot;+row[&quot;SOURCENAME&quot;]&lt;/value>
             &lt;/simple-property-list>
         &lt;/structure>
         &lt;structure>
@@ -2124,7 +2045,7 @@ title = &quot;Energy distribution for &quot; &#xD;
                                     <structure>
                                         <property name="paramName">todtitle</property>
                                         <simple-property-list name="expression">
-                                            <value type="javascript">"TOD based distribution for: "+row["SOURCENAME"]</value>
+                                            <value type="javascript">"TOD breakup for: "+row["SOURCENAME"]</value>
                                         </simple-property-list>
                                     </structure>
                                     <structure>
