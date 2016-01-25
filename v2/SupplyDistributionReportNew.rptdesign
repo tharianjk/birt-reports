@@ -465,7 +465,7 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4"+
 " INNER JOIN EMS_SOURCE SUP ON SU.SOURCE_ID = SUP.SOURCE_ID"+
 " INNER JOIN EMS_TIME_DIM T ON  SU.TIME_ID=T.TIME_ID AND T.HR_ID=V.HR_ID INNER JOIN EMS_UTILITY UT"+
 " ON UT.UTILITY_ID=SUP.UTILITY_ID  INNER JOIN EMS_UNIT UN ON UN.UNIT_ID=UT.UNIT_ID WHERE T.DT_DATE  >='"+LHour+"'"+
-" and t.dt_date  <'"+curT+"' AND (SU.ASSETTREE_ID='"+params["testparam"].value+"' or SU.ASSETTREE_ID in (select assettree_id from fwk_assettree where parent_id='"+params["testparam"].value+"' and assettreetype_id=2) )"+
+" and t.dt_date  <'"+curT+"' AND (SU.ASSETTREE_ID='"+params["testparam"].value+"' or SU.ASSETTREE_ID in (select assettree_id from fwk_assettree where parent_id in (select assettree_id from fwk_assettree where assettree_id='"+params["testparam"].value+"' and assettreetype_id=2)) )"+
 " AND SUP.COMPANY_ID='"+params["UsrCompId"].value+"'  GROUP BY TIMEPERIOD,V.N_COST,UN.UNITSHORT,NF_FRACTION,NT_FRACTION )"+
 " as tab group by TIMEPERIOD,UNITSHORT,C4";
 
