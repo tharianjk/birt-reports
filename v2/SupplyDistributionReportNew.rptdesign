@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
-    <text-property name="title">Supply Distribution</text-property>
+    <text-property name="title">Supply Breakup by Section</text-property>
     <property name="units">in</property>
     <method name="beforeFactory"><![CDATA[/*reportContext.getDesignHandle().findElement("mytable123").setProperty("allowExport", 
 false);*/]]></method>
@@ -1165,8 +1165,9 @@ else&#13;
                                         <structure>
                                             <property name="name">total</property>
                                             <text-property name="displayName">total</text-property>
-                                            <expression name="expression" type="javascript">dataSetRow["total"]</expression>
-                                            <property name="dataType">float</property>
+                                            <expression name="expression" type="javascript">dataSetRow["total"]+ '(KWH)'</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
                                     <property name="resultSetColumn">total</property>
