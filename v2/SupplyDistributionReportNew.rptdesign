@@ -845,6 +845,7 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION) END QTY ,UN.UNITSHORT]]></xml
                         <cell id="433">
                             <text-data id="434">
                                 <property name="backgroundColor">#EBEBEB</property>
+                                <property name="fontSize">12pt</property>
                                 <property name="fontWeight">bold</property>
                                 <property name="textAlign">justify</property>
                                 <property name="dataSet">distribution</property>
@@ -864,25 +865,25 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION) END QTY ,UN.UNITSHORT]]></xml
                                 </list-property>
                                 <expression name="valueExpr">if(row["C4"]=='LH')&#13;
 {&#13;
-	row["C4"]='Supply Distribution for the last 1 Hour in '+row["UNITSHORT"];&#13;
+	row["C4"]='Supply breakup by Section for the last 1 Hour in '+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C4"]=='24H')&#13;
 {&#13;
-	row["C4"]='Supply Distribution for the last 24 Hour in '+row["UNITSHORT"];&#13;
+	row["C4"]='Supply breakup by Section for the last 24 Hour in '+row["UNITSHORT"];&#13;
 }&#13;
 &#13;
 else if(row["C4"]=='7D')&#13;
 {&#13;
-	row["C4"]='Supply Distribution for the last 7 days in '+row["UNITSHORT"];&#13;
+	row["C4"]='Supply breakup by Section for the last 7 days in '+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C4"]=='30D')&#13;
 {&#13;
-	row["C4"]='Supply Distribution for the last 30 days in '+row["UNITSHORT"];&#13;
+	row["C4"]='Supply breakup by Section for the last 30 days in '+row["UNITSHORT"];&#13;
 }&#13;
 &#13;
 else if(row["C4"]=='365D')&#13;
 {&#13;
-	row["C4"]='Supply Distribution for the last 365 days in '+row["UNITSHORT"];&#13;
+	row["C4"]='Supply breakup by Section for the last 365 days in '+row["UNITSHORT"];&#13;
 }&#13;
 &#13;
 else&#13;
@@ -894,7 +895,7 @@ else&#13;
 	}&#13;
 	else&#13;
 	{&#13;
-		row["C4"]='Supply Distribution for the specified period in '+row["UNITSHORT"];&#13;
+		row["C4"]='Supply breakup by Section for the period from '+params["fromdate"].value+' to '+params["todate"].value+' in '+row["UNITSHORT"];&#13;
 	}&#13;
 	&#13;
 }</expression>
@@ -1151,7 +1152,7 @@ else&#13;
                                     <property name="backgroundColor">white</property>
                                     <property name="fontWeight">bold</property>
                                     <property name="textAlign">right</property>
-                                    <text-property name="text">Total Distribution:</text-property>
+                                    <text-property name="text">Total :</text-property>
                                 </label>
                             </cell>
                             <cell id="406">
@@ -2118,7 +2119,7 @@ row[&quot;ASSETTREE_ID&quot;]&lt;/value>
         &lt;structure>
             &lt;property name=&quot;paramName&quot;>ntitle&lt;/property>
             &lt;simple-property-list name=&quot;expression&quot;>
-                &lt;value type=&quot;javascript&quot;>&quot;TOD based distribution for : &quot;+row[&quot;DISPLAYNAME&quot;]&lt;/value>
+                &lt;value type=&quot;javascript&quot;>&quot;TOD breakup for : &quot;+row[&quot;DISPLAYNAME&quot;]&lt;/value>
             &lt;/simple-property-list>
         &lt;/structure>
         &lt;structure>
@@ -2142,6 +2143,10 @@ row[&quot;ASSETTREE_ID&quot;]&lt;/value>
               </URLValues>
               <Tooltip>Click To Drill Down</Tooltip>
               <PropertiesMap>
+                <Key>MenuItem</Key>
+                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
+              </PropertiesMap>
+              <PropertiesMap>
                 <Key>Menu</Key>
                 <Value>zIndex:99999;backgroundColor:#FAFFF8;width:auto;height:auto;border:1px solid #333333;filter:progid:DXImageTransform.Microsoft.Shadow(Color:#333333,Direction=120,strength=5)</Value>
               </PropertiesMap>
@@ -2152,10 +2157,6 @@ row[&quot;ASSETTREE_ID&quot;]&lt;/value>
               <PropertiesMap>
                 <Key>OnMouseOver</Key>
                 <Value>backgroundColor:#245DDB;color:#FFFFFF</Value>
-              </PropertiesMap>
-              <PropertiesMap>
-                <Key>MenuItem</Key>
-                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
               </PropertiesMap>
             </Value>
           </Action>
@@ -2349,7 +2350,7 @@ row["ASSETTREE_ID"]</value>
                                     <structure>
                                         <property name="paramName">ntitle</property>
                                         <simple-property-list name="expression">
-                                            <value type="javascript">"TOD based distribution for : "+row["DISPLAYNAME"]</value>
+                                            <value type="javascript">"TOD breakup for : "+row["DISPLAYNAME"]</value>
                                         </simple-property-list>
                                     </structure>
                                     <structure>
