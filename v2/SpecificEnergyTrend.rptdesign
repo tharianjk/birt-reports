@@ -7,15 +7,43 @@
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <parameters>
-        <scalar-parameter name="newRPT" id="99">
-            <property name="hidden">true</property>
+        <scalar-parameter name="PrdID" id="156">
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="dataType">integer</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="fromdate" id="157">
+            <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="todate" id="158">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="coltype" id="159">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -137,232 +165,38 @@ if(lastChar=='M')&#13;
                     </structure>
                 </list-property>
             </structure>
-            <method name="beforeOpen"><![CDATA[/*
+            <method name="beforeOpen"><![CDATA[
 
-var currentTime = new Date()
-
-var month = currentTime.getMonth() + 1
-var day = currentTime.getDate()
-var year = currentTime.getFullYear()
-var currentTime = new Date()
-var hours = currentTime.getHours()
-var minutes = currentTime.getMinutes()
-var seconds=currentTime.getSeconds()
-//Last 7 days
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var month7 = Lastweek.getMonth() + 1
-var day7 = Lastweek.getDate()
-var year7 = Lastweek.getFullYear()
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var hours7 = Lastweek.getHours()
-var minutes7 = Lastweek.getMinutes()
-var seconds7=Lastweek.getSeconds()
-//Last 30days
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-
-var month30 = LastMonth.getMonth() + 1
-var day30= LastMonth.getDate()
-var year30= LastMonth.getFullYear()
-
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-var hours30 = LastMonth.getHours()
-var minutes30 = LastMonth.getMinutes()
-var seconds30=LastMonth.getSeconds()
-//last 365 days
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-
-var month365 = LastYear.getMonth() + 1
-var day365= LastYear.getDate()
-var year365= LastYear.getFullYear()
-
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-var hours365 = LastYear.getHours()
-var minutes365 = LastYear.getMinutes()
-var seconds365=LastYear.getSeconds()
+     curT=params["todate"].value
+     LHour=params["fromdate"].value
 
 
-//last hour
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var monthL = hourago.getMonth() + 1
-var dayL= hourago.getDate()
-var yearL= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var hoursL = hourago.getHours()
-var minutesL = hourago.getMinutes()
-var secondsL=hourago.getSeconds()
-//last 24 hour
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var monthL24 = hourago.getMonth() + 1
-var dayL24= hourago.getDate()
-var yearL24= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var hoursL24 = hourago.getHours()
-var minutesL24 = hourago.getMinutes()
-var secondsL24=hourago.getSeconds()
-
-/////////Today
-if (minutes < 10){
-minutes = "0" + minutes
-}
-if (seconds < 10){
-seconds= "0" + seconds
-}
-
-if (month  < 10){
-month  = "0" + month 
-}
-if (day  < 10){
-day  = "0" + day 
-}
-if (hours  < 10){
-hours  = "0" + hours 
-}
-
-///Last 365
-if (minutes365 < 10){
-minutes365 = "0" + minutes365
-}
-if (seconds365 < 10){
-seconds365= "0" + seconds365
-}
-
-if (month365  < 10){
-month365  = "0" + month365 
-}
-if (day365  < 10){
-day365  = "0" + day365 
-}
-if (hours365  < 10){
-hours365  = "0" + hours365 
-}
-
-
-///Last 7 days
-if (minutes7 < 10){
-minutes7 = "0" + minutes7
-}
-if (seconds7 < 10){
-seconds7= "0" + seconds7
-}
-
-if (month7  < 10){
-month7  = "0" + month7 
-}
-if (day7  < 10){
-day7  = "0" + day7 
-}
-if (hours7  < 10){
-hours7  = "0" + hours7 
-}
-//last 30days
-if (minutes30 < 10){
-minutes30 = "0" + minutes30
-}
-if (seconds30 < 10){
-seconds30= "0" + seconds30
-}
-
-if (month30  < 10){
-month30  = "0" + month30 
-}
-if (day30  < 10){
-day30  = "0" + day30 
-}
-if (hours30  < 10){
-hours30  = "0" + hours30 
-}
-
-//last hour
-if (minutesL < 10){
-minutesL = "0" + minutesL
-}
-if (secondsL < 10){
-secondsL= "0" + secondsL
-}
-
-if (monthL  < 10){
-monthL  = "0" + monthL 
-}
-if (dayL  < 10){
-dayL  = "0" + dayL
-}
-if (hoursL  < 10){
-hoursL  = "0" + hoursL
-}
-//last 24 hour
-
-if (minutesL24 < 10){
-minutesL24 = "0" + minutesL24
-}
-if (secondsL24 < 10){
-secondsL24= "0" + secondsL24
-}
-
-if (monthL24  < 10){
-monthL24  = "0" + monthL24 
-}
-if (dayL24  < 10){
-dayL24  = "0" + dayL24
-}
-if (hoursL24  < 10){
-hoursL24  = "0" + hoursL24
-}
-
-curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;  */
-
-if(params["newRPT"].value=="")
-{
 	this.queryText = this.queryText +
 	
-	",'D' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
+	",'"+params["coltype"].value+"' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
 	"pr.product,avg(p.n_prodqty/cast((p.dt_to - p.dt_from) as decimal)) pr_qty"+
-" from ems_production_log p, ems_time_dim t, ems_product pr"+
-" where t.dt_date between p.dt_from and p.dt_to"+
-" and p.product_id = pr.product_id"+
-" and pr.product = 'Pr'"+
-" and t.dt_date between '2002-01-01 00:00:00.0' and '2002-02-01 00:00:00.0'"+
-" group by t.year_id, t.month_id, t.day_id, pr.product_id,pr.product) sum_prod,"+
+	" from ems_production_log p, ems_time_dim t, ems_product pr"+
+	" where t.dt_date between p.dt_from and p.dt_to"+
+	" and p.product_id = pr.product_id"+
+	" and pr.product_id = '"+params["PrdID"].value+"'"+
+	" and t.dt_date between '"+LHour+"' and '"+curT+"'"+
+	" group by t.year_id, t.month_id, t.day_id, pr.product_id,pr.product) sum_prod,"+
 
-"(select p.product,t.year_id, t.month_id, t.day_id, p.product_id, sum(UTILITY_QTY*A.N_ALLOCATION/100) en_qty "+
-" from ems_product p"+
-" inner join ems_allocation_product a on p.product_id=a.PRODUCT_ID"+
-" inner join ems_section_summary s on a.assettree_id=s.ASSETTREE_ID"+
-" inner join ems_time_dim t on t.TIME_ID=s.TIME_ID"+
-" where p.product = 'Pr'"+
-" group by p.product_id,p.product, t.year_id, t.month_id, t.day_id ) as sum_energy"+
-" where sum_prod.year_id = sum_energy.year_id"+
-" and sum_prod.month_id = sum_energy.month_id"+
-" and sum_prod.day_id = sum_energy.day_id"+
-" and sum_prod.product_id = sum_energy.product_id"+
-" and sum_prod.product= sum_energy.product"+
-" order by cast(sum_prod.year_id+'-'+sum_prod.month_id+'-'+sum_prod.day_id as DATE) asc";
+	"(select p.product,t.year_id, t.month_id, t.day_id, p.product_id, sum(UTILITY_QTY*A.N_ALLOCATION/100) en_qty "+
+	" from ems_product p"+
+	" inner join ems_allocation_product a on p.product_id=a.PRODUCT_ID"+
+	" inner join ems_section_summary s on a.assettree_id=s.ASSETTREE_ID"+
+	" inner join ems_time_dim t on t.TIME_ID=s.TIME_ID"+
+	" where p.product_id = '"+params["PrdID"].value+"'"+
+	" group by p.product_id,p.product, t.year_id, t.month_id, t.day_id ) as sum_energy"+
+	" where sum_prod.year_id = sum_energy.year_id"+
+	" and sum_prod.month_id = sum_energy.month_id"+
+	" and sum_prod.day_id = sum_energy.day_id"+
+	" and sum_prod.product_id = sum_energy.product_id"+
+	" and sum_prod.product= sum_energy.product"+
+	" order by cast(sum_prod.year_id+'-'+sum_prod.month_id+'-'+sum_prod.day_id as DATE) asc";
 
-}
-else
-{
-
-
-this.queryText = this.queryText+params["newRPT"]+
-" group by p.product_id,p.product, t.year_id, t.month_id, t.day_id ) sum_energy"+
-" where sum_prod.year_id = sum_energy.year_id"+
-" and sum_prod.month_id = sum_energy.month_id"+
-" and sum_prod.day_id = sum_energy.day_id"+
-" and sum_prod.product_id = sum_energy.product_id"+
-" and sum_prod.product= sum_energy.product"+
-" order by cast(sum_prod.year_id+'-'+sum_prod.month_id+'-'+sum_prod.day_id as DATE) asc";
- 
-}]]></method>
+]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet">
                 <structure>
@@ -812,628 +646,27 @@ this.queryText = this.queryText+params["newRPT"]+
         </style>
     </styles>
     <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2"/>
-    </page-setup>
-    <body>
-        <text id="98">
-            <list-property name="visibility">
-                <structure>
-                    <property name="format">doc</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">docx</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">xlsx</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">xls</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">pdf</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-            </list-property>
-            <property name="allowExport">false</property>
-            <property name="contentType">html</property>
-            <text-property name="content"><![CDATA[<script>
-
-var currentTime = new Date()
-
-var month = currentTime.getMonth() + 1
-var day = currentTime.getDate()
-var year = currentTime.getFullYear()
-var currentTime = new Date()
-var hours = currentTime.getHours()
-var minutes = currentTime.getMinutes()
-var seconds=currentTime.getSeconds()
-//Last 7 days
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var month7 = Lastweek.getMonth() + 1
-var day7 = Lastweek.getDate()
-var year7 = Lastweek.getFullYear()
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var hours7 = Lastweek.getHours()
-var minutes7 = Lastweek.getMinutes()
-var seconds7=Lastweek.getSeconds()
-//Last 30days
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-
-var month30 = LastMonth.getMonth() + 1
-var day30= LastMonth.getDate()
-var year30= LastMonth.getFullYear()
-
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-var hours30 = LastMonth.getHours()
-var minutes30 = LastMonth.getMinutes()
-var seconds30=LastMonth.getSeconds()
-//last 365 days
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-
-var month365 = LastYear.getMonth() + 1
-var day365= LastYear.getDate()
-var year365= LastYear.getFullYear()
-
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-var hours365 = LastYear.getHours()
-var minutes365 = LastYear.getMinutes()
-var seconds365=LastYear.getSeconds()
-
-
-//last hour
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var monthL = hourago.getMonth() + 1
-var dayL= hourago.getDate()
-var yearL= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var hoursL = hourago.getHours()
-var minutesL = hourago.getMinutes()
-var secondsL=hourago.getSeconds()
-//last 24 hour
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var monthL24 = hourago.getMonth() + 1
-var dayL24= hourago.getDate()
-var yearL24= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var hoursL24 = hourago.getHours()
-var minutesL24 = hourago.getMinutes()
-var secondsL24=hourago.getSeconds()
-
-/////////Today
-if (minutes < 10){
-minutes = "0" + minutes
-}
-if (seconds < 10){
-seconds= "0" + seconds
-}
-
-if (month  < 10){
-month  = "0" + month 
-}
-if (day  < 10){
-day  = "0" + day 
-}
-if (hours  < 10){
-hours  = "0" + hours 
-}
-
-///Last 365
-if (minutes365 < 10){
-minutes365 = "0" + minutes365
-}
-if (seconds365 < 10){
-seconds365= "0" + seconds365
-}
-
-if (month365  < 10){
-month365  = "0" + month365 
-}
-if (day365  < 10){
-day365  = "0" + day365 
-}
-if (hours365  < 10){
-hours365  = "0" + hours365 
-}
-
-
-///Last 7 days
-if (minutes7 < 10){
-minutes7 = "0" + minutes7
-}
-if (seconds7 < 10){
-seconds7= "0" + seconds7
-}
-
-if (month7  < 10){
-month7  = "0" + month7 
-}
-if (day7  < 10){
-day7  = "0" + day7 
-}
-if (hours7  < 10){
-hours7  = "0" + hours7 
-}
-//last 30days
-if (minutes30 < 10){
-minutes30 = "0" + minutes30
-}
-if (seconds30 < 10){
-seconds30= "0" + seconds30
-}
-
-if (month30  < 10){
-month30  = "0" + month30 
-}
-if (day30  < 10){
-day30  = "0" + day30 
-}
-if (hours30  < 10){
-hours30  = "0" + hours30 
-}
-
-//last hour
-if (minutesL < 10){
-minutesL = "0" + minutesL
-}
-if (secondsL < 10){
-secondsL= "0" + secondsL
-}
-
-if (monthL  < 10){
-monthL  = "0" + monthL 
-}
-if (dayL  < 10){
-dayL  = "0" + dayL
-}
-if (hoursL  < 10){
-hoursL  = "0" + hoursL
-}
-//last 24 hour
-
-if (minutesL24 < 10){
-minutesL24 = "0" + minutesL24
-}
-if (secondsL24 < 10){
-secondsL24= "0" + secondsL24
-}
-
-if (monthL24  < 10){
-monthL24  = "0" + monthL24 
-}
-if (dayL24  < 10){
-dayL24  = "0" + dayL24
-}
-if (hoursL24  < 10){
-hoursL24  = "0" + hoursL24
-}
-
-				document.getElementById('Grid').style.display = "none";
-            	document.getElementById('mychart').style.display = "block";
-         	
-				document.onload=populate();
-
-function populate()
-{
-				for(i=0;i<parent.prodname_arr.length;i++)
-				{
-                    var select = document.getElementById("Product");
-                    select.options[select.options.length] = new Option(parent.prodname_arr[i]);
-                }
-				if(parent.selected_period_ndx==null || parent.selected_period_ndx==0)
-				{
-					parent.selected_period_ndx=0;
-				}
-				if(parent.selected_sum_ndx==null || parent.selected_sum_ndx==0)
-				{
-					parent.selected_sum_ndx=0;
-				}
-				if(parent.selected_prod_ndx==null || parent.selected_prod_ndx==0)
-				{
-					parent.selected_prod_ndx=0;
-				}
-				document.getElementById("s1").selectedIndex=parent.selected_period_ndx;	
-				document.getElementById("s3").selectedIndex=parent.selected_sum_ndx;
-				document.getElementById("Product").selectedIndex=parent.selected_prod_ndx;	
-				if(document.getElementById("s1").selectedIndex==4)
-				{
-					if (document.getElementById("s1").selectedIndex==4)
-					{
-						document.getElementById("fromdate").disabled=false;
-						document.getElementById("todate").disabled=false;
-						document.getElementById("fromdate").value=parent.selected_fdate;
-						document.getElementById("todate").value=parent.selected_tdate;
-					}
-					else
-					{
-						document.getElementById("fromdate").value='';
-						document.getElementById("todate").value='';
-						document.getElementById("fromdate").disabled=true;
-						document.getElementById("todate").disabled=true;
-					}
-				}
-}
-
-function CheckDate()
-{
-	if (document.getElementById("s1").selectedIndex==4)
-	{
-				document.getElementById("fromdate").disabled=false;
-				document.getElementById("todate").disabled=false;
-	}
-	else
-	{
-				document.getElementById("fromdate").value='';
-				document.getElementById("todate").value='';
-				document.getElementById("fromdate").disabled=true;
-				document.getElementById("todate").disabled=true;		
-	}
-}
-
-function SpecificEnergyTrend()
-{
-	parent.selected_period_ndx=document.getElementById("s1").selectedIndex;
-	parent.selected_sum_ndx=document.getElementById("s3").selectedIndex;
-	parent.selected_prod_ndx=document.getElementById("Product").selectedIndex;
-	parent.selected_fdate=document.getElementById("fromdate").value;
-	parent.selected_tdate=document.getElementById("todate").value;
-
-	var productId=parent.prodid_arr[document.getElementById("Product").selectedIndex-1];
-	if(parent.assettree_selectedtype == 5)
-	{
-		alert ("Select Section/Asset/Location!");
-			return;
-	}
-	if(document.getElementById("Product").selectedIndex==0)
-	{
-		alert ("Select Product!");
-			return;
-	}
-	if(document.getElementById("s1").selectedIndex==1 &amp;&amp; document.getElementById("s3").selectedIndex>1)
-	{
-		alert ("Change the summarization method to Day!");
-			return;
-	
-	}
-
-	if ((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==1)||
-		(document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
-	{
-		if ((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("fromdate").value==''))
-		{
-			alert ("Enter a valid time period!");
-			return;
-		}
-		else if ((document.getElementById("s1").selectedIndex==4)&amp;&amp; (document.getElementById("todate").value==''))
-		{
-			alert ("Enter a valid time period!");
-			return;
-		}
-	
-		else
-		{
-			var d1 = Date.parse(document.getElementById("todate").value);
-			var d2 = Date.parse(document.getElementById("fromdate").value);
-			if (d1 < d2) 
-			{
-				alert ("To Date cannot be Greater than From Date!");
-				return;
-			}
-			else
-			{
-		
-				if((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
-				{	
-					curT=document.getElementById("todate").value+" 00:00:00";
-					LHour=document.getElementById("fromdate").value+" 00:00:00";
-					var Cfrom=document.getElementById("fromdate").value;
-					var Cto=document.getElementById("todate").value;
-					newa=",' Specific Energy Trend summarized by Day from "+Cfrom+" to " +Cto+" in KWHSD' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
-					" pr.product,avg(p.n_prodqty/cast((p.dt_to - p.dt_from) as decimal)) pr_qty"+
-					" from ems_production_log p, ems_time_dim t, ems_product pr"+
-					" where t.dt_date between p.dt_from and p.dt_to"+
-					" and p.product_id = pr.product_id"+
-					" and pr.product_id = '"+productId+"'"+
-					" and t.dt_date between '"+LHour+"' and '"+curT+"'"+
-					" group by t.year_id, t.month_id, t.day_id, pr.product_id,pr.product) sum_prod,"+
-					"(select p.product,t.year_id, t.month_id, t.day_id, p.product_id, sum(UTILITY_QTY*A.N_ALLOCATION/100) en_qty from ems_product p"+
-					" inner join ems_allocation_product a on p.product_id=a.PRODUCT_ID"+
-					" inner join ems_section_summary s on a.assettree_id=s.ASSETTREE_ID"+
-					" inner join ems_time_dim t on t.TIME_ID=s.TIME_ID"+
-					" where p.product_id = '"+productId+"'";
-						
-				}
-				else if((document.getElementById("s1").selectedIndex==4) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
-				{
-					curT=document.getElementById("todate").value+" 00:00:00";
-					LHour=document.getElementById("fromdate").value+" 00:00:00";
-					var Cfrom=document.getElementById("fromdate").value;
-					var Cto=document.getElementById("todate").value;
-					newa=",' Specific Energy Trend summarized by Month from "+Cfrom+" to " +Cto+" in KWHSM' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
-					" pr.product,avg(p.n_prodqty/cast((p.dt_to - p.dt_from) as decimal)) pr_qty"+
-					" from ems_production_log p, ems_time_dim t, ems_product pr"+
-					" where t.dt_date between p.dt_from and p.dt_to"+
-					" and p.product_id = pr.product_id"+
-					" and pr.product_id = '"+productId+"'"+
-					" and t.dt_date between '"+LHour+"' and '"+curT+"'"+
-					" group by t.year_id, t.month_id, t.day_id, pr.product_id,pr.product) sum_prod,"+
-					"(select p.product,t.year_id, t.month_id, t.day_id, p.product_id, sum(UTILITY_QTY*A.N_ALLOCATION/100) en_qty from ems_product p"+
-					" inner join ems_allocation_product a on p.product_id=a.PRODUCT_ID"+
-					" inner join ems_section_summary s on a.assettree_id=s.ASSETTREE_ID"+
-					" inner join ems_time_dim t on t.TIME_ID=s.TIME_ID"+
-					" where p.product_id = '"+productId+"'";
-						
-					
-				}
-				
-				else
-				{}
-			
-			}		
-		}
-
-	}
-	
-	else if((document.getElementById("s1").selectedIndex==1) &amp;&amp; (document.getElementById("s3").selectedIndex==1)||
-		(document.getElementById("s1").selectedIndex==1) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
-	
-	{
-		
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-		newa=",'7D' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
-					" pr.product,avg(p.n_prodqty/cast((p.dt_to - p.dt_from) as decimal)) pr_qty"+
-					" from ems_production_log p, ems_time_dim t, ems_product pr"+
-					" where t.dt_date between p.dt_from and p.dt_to"+
-					" and p.product_id = pr.product_id"+
-					" and pr.product_id = '"+productId+"'"+
-					" and t.dt_date between '"+LHour+"' and '"+curT+"'"+
-					" group by t.year_id, t.month_id, t.day_id, pr.product_id,pr.product) sum_prod,"+
-					"(select p.product,t.year_id, t.month_id, t.day_id, p.product_id, sum(UTILITY_QTY*A.N_ALLOCATION/100) en_qty from ems_product p"+
-					" inner join ems_allocation_product a on p.product_id=a.PRODUCT_ID"+
-					" inner join ems_section_summary s on a.assettree_id=s.ASSETTREE_ID"+
-					" inner join ems_time_dim t on t.TIME_ID=s.TIME_ID"+
-					" where p.product_id = '"+productId+"'";
-						
-		
-	}
-	
-	
-	else if((document.getElementById("s1").selectedIndex==2) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-		
-		newa=",'30D' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
-					" pr.product,avg(p.n_prodqty/cast((p.dt_to - p.dt_from) as decimal)) pr_qty"+
-					" from ems_production_log p, ems_time_dim t, ems_product pr"+
-					" where t.dt_date between p.dt_from and p.dt_to"+
-					" and p.product_id = pr.product_id"+
-					" and pr.product_id = '"+productId+"'"+
-					" and t.dt_date between '"+LHour+"' and '"+curT+"'"+
-					" group by t.year_id, t.month_id, t.day_id, pr.product_id,pr.product) sum_prod,"+
-					"(select p.product,t.year_id, t.month_id, t.day_id, p.product_id, sum(UTILITY_QTY*A.N_ALLOCATION/100) en_qty from ems_product p"+
-					" inner join ems_allocation_product a on p.product_id=a.PRODUCT_ID"+
-					" inner join ems_section_summary s on a.assettree_id=s.ASSETTREE_ID"+
-					" inner join ems_time_dim t on t.TIME_ID=s.TIME_ID"+
-					" where p.product_id = '"+productId+"'";
-						
-		
-	}
-	
-	else if((document.getElementById("s1").selectedIndex==2) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-		
-		newa=",'30M' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
-					" pr.product,avg(p.n_prodqty/cast((p.dt_to - p.dt_from) as decimal)) pr_qty"+
-					" from ems_production_log p, ems_time_dim t, ems_product pr"+
-					" where t.dt_date between p.dt_from and p.dt_to"+
-					" and p.product_id = pr.product_id"+
-					" and pr.product_id = '"+productId+"'"+
-					" and t.dt_date between '"+LHour+"' and '"+curT+"'"+
-					" group by t.year_id, t.month_id, t.day_id, pr.product_id,pr.product) sum_prod,"+
-					"(select p.product,t.year_id, t.month_id, t.day_id, p.product_id, sum(UTILITY_QTY*A.N_ALLOCATION/100) en_qty from ems_product p"+
-					" inner join ems_allocation_product a on p.product_id=a.PRODUCT_ID"+
-					" inner join ems_section_summary s on a.assettree_id=s.ASSETTREE_ID"+
-					" inner join ems_time_dim t on t.TIME_ID=s.TIME_ID"+
-					" where p.product_id = '"+productId+"'";
-						
-		
-	}
-	
-	else if((document.getElementById("s1").selectedIndex==3) &amp;&amp; (document.getElementById("s3").selectedIndex==1))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
-		
-		newa=",'365D' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
-					" pr.product,avg(p.n_prodqty/cast((p.dt_to - p.dt_from) as decimal)) pr_qty"+
-					" from ems_production_log p, ems_time_dim t, ems_product pr"+
-					" where t.dt_date between p.dt_from and p.dt_to"+
-					" and p.product_id = pr.product_id"+
-					" and pr.product_id = '"+productId+"'"+
-					" and t.dt_date between '"+LHour+"' and '"+curT+"'"+
-					" group by t.year_id, t.month_id, t.day_id, pr.product_id,pr.product) sum_prod,"+
-					"(select p.product,t.year_id, t.month_id, t.day_id, p.product_id, sum(UTILITY_QTY*A.N_ALLOCATION/100) en_qty from ems_product p"+
-					" inner join ems_allocation_product a on p.product_id=a.PRODUCT_ID"+
-					" inner join ems_section_summary s on a.assettree_id=s.ASSETTREE_ID"+
-					" inner join ems_time_dim t on t.TIME_ID=s.TIME_ID"+
-					" where p.product_id = '"+productId+"'";
-						
-		
-	}
-	else if((document.getElementById("s1").selectedIndex==3) &amp;&amp; (document.getElementById("s3").selectedIndex==2))
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
-		
-		newa=",'365M' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
-					" pr.product,avg(p.n_prodqty/cast((p.dt_to - p.dt_from) as decimal)) pr_qty"+
-					" from ems_production_log p, ems_time_dim t, ems_product pr"+
-					" where t.dt_date between p.dt_from and p.dt_to"+
-					" and p.product_id = pr.product_id"+
-					" and pr.product_id = '"+productId+"'"+
-					" and t.dt_date between '"+LHour+"' and '"+curT+"'"+
-					" group by t.year_id, t.month_id, t.day_id, pr.product_id,pr.product) sum_prod,"+
-					"(select p.product,t.year_id, t.month_id, t.day_id, p.product_id, sum(UTILITY_QTY*A.N_ALLOCATION/100) en_qty from ems_product p"+
-					" inner join ems_allocation_product a on p.product_id=a.PRODUCT_ID"+
-					" inner join ems_section_summary s on a.assettree_id=s.ASSETTREE_ID"+
-					" inner join ems_time_dim t on t.TIME_ID=s.TIME_ID"+
-					" where p.product_id = '"+productId+"'";
-						
-		
-	}
-	else
-	{
-		alert("Select Duration/Summarize by option!");
-	}
-	var cl1 = new String(location.href);
-	var targetURL1 = new String();
-	var tst1 = cl1.indexOf("&amp;newRPT");
-	if(  tst1 == -1 )
-	{
-		cl1 = cl1 + "&amp;newRPT=" + newa;
-	}
-	else
-	{
-		var ch1 = cl1.indexOf("&amp;newRPT=");
-		cl1 = cl1.substring(0, ch1) + "&amp;newRPT=" + newa;
-    }
-	window.location = cl1;
-	
-}
-
-function showhidetab()
-{
-    if(document.getElementById("s2").selectedIndex==0)
-	{
-		document.getElementById('Grid').style.display = "none";
-		document.getElementById('mychart').style.display = "block";		
-	}
-	if(document.getElementById("s2").selectedIndex==1)
-	{
-			
-			document.getElementById('Grid').style.display = "block";
-			document.getElementById('mychart').style.display = "none";    
-	}			
-}
-
-</script>
-
-<body>
-<head>
-
-</head>
-
-<table  border=1 style="width:300px" bgcolor="black">
-
-<tr>
-  
-  <td>
-  <select id=s2 width=10 size=1 title="Select Report Type" name=Characters2 onChange="showhidetab()";>
-	
-	<option value=K>Chart</option> 
-	<option value=L>Table</option> 
-	</select>
-</td>
-
-<td>
-  <select id=Product size=1 title="Select Product" name=Characters ">
-  <option value=F>--Select Product--</option>
-
-</select>
-  </td>	
-  
-  <td>
-  <select id=s1 size=1 title="Select Period" name=Characters onChange="CheckDate()">
-<option value=F>--Select Period--</option>
-<option value=E>Last 7 Days</option>
-<option value=F>Last 30 Days</option>
-<option value=F>Last 365 Days</option>
-<option value=G>Specific Period</option>
-</select>
-  </td>	
-  
-  <td>
-  <select id=s3 title="Select Summarization Method" size=1 name=Characters3>
-<option value=F>--Summarize By--</option>
-<option value=D>Day</option> 
-<option value=E>Month</option>
-
-</select>
-  </td>	
-  </td>	
-  <td>
-   <b><font color="white">From:</font></b>
-  </td>
-  <td>
-  <input type="date" title="Select From Date" id="fromdate" disabled>
-  </input>
-  </td>
-  <td>
-    <b><font color="white">To:</font></b>
-  </td>
-  <td>
-  <input type="date" title="Select To Date" id="todate" disabled>
-  </td>
-  <td>
-  <button type="button" title="Generate Report" onClick="SpecificEnergyTrend()">Go</button>
-  </button>
-  </td>
-  
-  
-  
-  
-
-</tr>
-
-</table>
-
-</body>
-
-
-
-
-
-
- 
-
-
-
-]]></text-property>
-        </text>
-        <grid id="151">
-            <property name="canShrink">true</property>
-            <column id="152"/>
-            <row id="153">
-                <cell id="154">
-                    <text-data id="155">
-                        <property name="fontWeight">bold</property>
-                        <property name="dataSet">SpecifEnergyTrend</property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">OPT</property>
-                                <text-property name="displayName">OPT</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["OPT"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                        </list-property>
-                        <expression name="valueExpr">if(row["OPT"]=='7D')&#13;
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-header>
+                <grid id="151">
+                    <property name="backgroundColor">#EAEAEA</property>
+                    <property name="fontSize">10pt</property>
+                    <property name="canShrink">true</property>
+                    <column id="152"/>
+                    <row id="153">
+                        <cell id="154">
+                            <text-data id="155">
+                                <property name="fontWeight">bold</property>
+                                <property name="dataSet">SpecifEnergyTrend</property>
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">OPT</property>
+                                        <text-property name="displayName">OPT</text-property>
+                                        <expression name="expression" type="javascript">dataSetRow["OPT"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                </list-property>
+                                <expression name="valueExpr">if(row["OPT"]=='7D')&#13;
 {&#13;
 	row["OPT"]='Specific Energy Trend for the last 7 days';&#13;
 }&#13;
@@ -1456,45 +689,25 @@ else if(row["OPT"]=='365M')&#13;
 else&#13;
 {&#13;
 	&#13;
-	if(row["OPT"]!=null)&#13;
-	{&#13;
-		var myString = row["OPT"];&#13;
-		var stringLength = myString.length; &#13;
-		var lastChar = myString.charAt(stringLength - 2); &#13;
-		if(row["OPT"]!='30D' &amp;&amp; row["OPT"]!='365D' &amp;&amp; row["OPT"]!='7D')&#13;
-		{&#13;
-			if(lastChar!=null)&#13;
-			{&#13;
-				row["OPT"].substring(0, stringLength - 2);&#13;
-			}&#13;
-		}&#13;
-	}&#13;
-	&#13;
-	if(row["OPT"]!=null)&#13;
-	{&#13;
-		var myString = row["OPT"];&#13;
-		var stringLength = myString.length; &#13;
-		var lastChar = myString.charAt(stringLength - 2); &#13;
-		if(row["OPT"]!='30M' &amp;&amp; row["OPT"]!='365M')&#13;
-		{&#13;
-			if(lastChar!=null)&#13;
-			{&#13;
-				row["OPT"].substring(0, stringLength - 2);&#13;
-			}&#13;
-		}&#13;
-	}&#13;
-	&#13;
 	if(row["OPT"]==null || row["OPT"]=='')&#13;
 	{&#13;
 		row["OPT"]="No Data to display";&#13;
 	}&#13;
+	else&#13;
+	{&#13;
+		row["OPT"]='Specific Energy Trend for the specified period';&#13;
+	}&#13;
 	&#13;
 }</expression>
-                        <property name="contentType">html</property>
-                    </text-data>
-                </cell>
-            </row>
-        </grid>
+                                <property name="contentType">html</property>
+                            </text-data>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
+        </simple-master-page>
+    </page-setup>
+    <body>
         <extended-item extensionName="Chart" id="9">
             <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
@@ -2674,6 +1887,12 @@ else &#xD;
             <property name="width">7.9375in</property>
             <expression name="bookmark" type="javascript">"mychart"</expression>
             <property name="dataSet">SpecifEnergyTrend</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">params["coltype"].value=='T'</expression>
+                </structure>
+            </list-property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">PRODUCT</property>
@@ -2732,6 +1951,12 @@ else&#13;
         <grid id="94">
             <property name="canShrink">true</property>
             <property name="height">1.4895833333333333in</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">params["coltype"].value=='C'</expression>
+                </structure>
+            </list-property>
             <expression name="bookmark" type="javascript">"Grid"</expression>
             <column id="95"/>
             <row id="96">
