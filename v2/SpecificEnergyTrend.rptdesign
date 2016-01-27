@@ -711,8 +711,8 @@ else&#13;
         <extended-item extensionName="Chart" id="9">
             <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
-  <Type>Bar Chart</Type>
-  <SubType>Side-by-side</SubType>
+  <Type>Line Chart</Type>
+  <SubType>Overlay</SubType>
   <Block>
     <Children xsi:type="layout:TitleBlock">
       <Bounds>
@@ -966,7 +966,7 @@ else&#13;
       <Type>Auto</Type>
     </Cursor>
   </Block>
-  <Dimension>Two_Dimensional_With_Depth</Dimension>
+  <Dimension>Two_Dimensional</Dimension>
   <Script>function afterDataSetFilled( series, dataSet, icsc )&#xD;
 {&#xD;
 	if( series.getSeriesIdentifier() == &quot;Series 1&quot; )&#xD;
@@ -999,7 +999,7 @@ else&#13;
       <DataSetRepresentation>'A','B','C','D','E'</DataSetRepresentation>
     </BaseSampleData>
     <OrthogonalSampleData>
-      <DataSetRepresentation>5,4,12</DataSetRepresentation>
+      <DataSetRepresentation>6,4,12,8,10</DataSetRepresentation>
       <SeriesDefinitionIndex>0</SeriesDefinitionIndex>
     </OrthogonalSampleData>
   </SampleData>
@@ -1312,7 +1312,7 @@ else&#13;
             <Blue>0</Blue>
           </Entries>
         </SeriesPalette>
-        <Series xsi:type="type:BarSeries">
+        <Series xsi:type="type:LineSeries">
           <Visible>true</Visible>
           <Label>
             <Caption>
@@ -1360,7 +1360,7 @@ else&#13;
             </Components>
             <Separator>, </Separator>
           </DataPoint>
-          <LabelPosition>Outside</LabelPosition>
+          <LabelPosition>Above</LabelPosition>
           <Stacked>false</Stacked>
           <Triggers>
             <Condition>onmouseover</Condition>
@@ -1372,7 +1372,27 @@ else&#13;
               </Value>
             </Action>
           </Triggers>
-          <Riser>Rectangle</Riser>
+          <Markers>
+            <Type>Circle</Type>
+            <Size>4</Size>
+            <Visible>true</Visible>
+            <Outline>
+              <Visible>true</Visible>
+            </Outline>
+          </Markers>
+          <LineAttributes>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>true</Visible>
+          </LineAttributes>
+          <PaletteLineColor>true</PaletteLineColor>
+          <Curve>true</Curve>
         </Series>
         <Grouping>
           <GroupType>Text</GroupType>
@@ -1901,30 +1921,8 @@ else &#xD;
                 </structure>
                 <structure>
                     <property name="name">DTE</property>
-                    <expression name="expression" type="javascript">if((row["OPT"]=='30M')||(row["OPT"]=='365M'))&#13;
-{&#13;
-	Formatter.format(dataSetRow["DTE"],'dd/MM/yyyy')&#13;
-}&#13;
-else if((row["OPT"]=='7D')||(row["OPT"]=='30D')||(row["OPT"]=='365D'))&#13;
-{&#13;
-	dataSetRow["DTE"]&#13;
-}&#13;
-else&#13;
-{&#13;
-	var myString = row["OPT"];&#13;
-	var stringLength = myString.length; &#13;
-	var lastChar = myString.charAt(stringLength - 1); &#13;
-	if(lastChar=='D')&#13;
-	{&#13;
-		dataSetRow["DTE"]&#13;
-	}&#13;
-	else&#13;
-	{&#13;
-		Formatter.format(dataSetRow["DTE"],'dd/MM/yyyy')&#13;
-	}&#13;
-}</expression>
+                    <expression name="expression" type="javascript">dataSetRow["DTE"]</expression>
                     <property name="dataType">date</property>
-                    <property name="allowExport">true</property>
                 </structure>
                 <structure>
                     <property name="name">EN_QTY</property>
@@ -1945,6 +1943,21 @@ else&#13;
                     <property name="name">OPT</property>
                     <expression name="expression" type="javascript">dataSetRow["OPT"]</expression>
                     <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSD</property>
+                    <expression name="expression" type="javascript">dataSetRow["CUSD"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSM</property>
+                    <expression name="expression" type="javascript">dataSetRow["CUSM"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">RowCount</property>
+                    <expression name="expression" type="javascript">dataSetRow["RowCount"]</expression>
+                    <property name="dataType">integer</property>
                 </structure>
             </list-property>
         </extended-item>
