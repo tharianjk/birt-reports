@@ -142,55 +142,7 @@ if(lastChar=='M')&#13;
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">PRODUCT</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">DTE</property>
-                        <property name="dataType">date</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">EN_QTY</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">PR_QTY</property>
-                        <property name="dataType">float</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">SPE</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">OPT</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">CUSD</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">CUSM</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">9</property>
-                        <property name="name">RowCount</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                </list-property>
-            </structure>
+            <structure name="cachedMetaData"/>
             <method name="beforeOpen"><![CDATA[
 
      curT=params["todate"].value
@@ -245,45 +197,8 @@ if(lastChar=='M')&#13;
 	" order by cast(sum_prod.year_id+'-'+sum_prod.month_id+'-'+sum_prod.day_id as DATE) asc";
 ]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">PRODUCT</property>
-                    <property name="nativeName">PRODUCT</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">DTE</property>
-                    <property name="nativeName">DTE</property>
-                    <property name="dataType">date</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">EN_QTY</property>
-                    <property name="nativeName">EN_QTY</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">PR_QTY</property>
-                    <property name="nativeName">PR_QTY</property>
-                    <property name="dataType">float</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">SPE</property>
-                    <property name="nativeName">SPE</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
-                    <property name="name">OPT</property>
-                    <property name="nativeName">OPT</property>
-                    <property name="dataType">string</property>
-                </structure>
-            </list-property>
-            <xml-property name="queryText"><![CDATA[select sum_prod.product as PRODUCT,concat(sum_prod.year_id,'-',sum_prod.month_id,'-',sum_prod.day_id ,' 00:00:00') as DTE, sum_energy.en_qty as EN_QTY, sum_prod.pr_qty as PR_QTY, sum_energy.en_qty/sum_prod.pr_qty as SPE
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[select sum_prod.product as PRODUCT,concat(sum_prod.year_id,'-',sum_prod.month_id,'-',sum_prod.day_id ,' 00:00:00') as DTE, sum_energy.en_qty as EN_QTY, sum_prod.pr_qty as PR_QTY, round(sum_energy.en_qty/sum_prod.pr_qty,1) as SPE
 ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -462,6 +377,32 @@ if(lastChar=='M')&#13;
                         </tabular-hierarchy>
                     </property>
                 </tabular-dimension>
+                <tabular-dimension name="Group4" id="171">
+                    <property name="defaultHierarchy">NewTabularHierarchy3</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy3" id="172">
+                            <property name="levels">
+                                <tabular-level name="EN_QTY" id="173">
+                                    <property name="dataType">decimal</property>
+                                    <property name="columnName">EN_QTY</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Group5" id="174">
+                    <property name="defaultHierarchy">NewTabularHierarchy5</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy5" id="175">
+                            <property name="levels">
+                                <tabular-level name="PR_QTY" id="176">
+                                    <property name="dataType">float</property>
+                                    <property name="columnName">PR_QTY</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
             </property>
             <property name="measureGroups">
                 <tabular-measure-group name="Summary Field" id="34">
@@ -507,6 +448,32 @@ if(lastChar=='M')&#13;
                                         </structure>
                                     </list-property>
                                     <property name="columnName">DTE</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Group6" id="177">
+                    <property name="defaultHierarchy">NewTabularHierarchy6</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy6" id="178">
+                            <property name="levels">
+                                <tabular-level name="EN_QTY" id="179">
+                                    <property name="dataType">decimal</property>
+                                    <property name="columnName">EN_QTY</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Group7" id="180">
+                    <property name="defaultHierarchy">NewTabularHierarchy7</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy7" id="181">
+                            <property name="levels">
+                                <tabular-level name="PR_QTY" id="182">
+                                    <property name="dataType">float</property>
+                                    <property name="columnName">PR_QTY</property>
                                 </tabular-level>
                             </property>
                         </tabular-hierarchy>
@@ -703,6 +670,7 @@ if(lastChar=='M')&#13;
                     <row id="153">
                         <cell id="154">
                             <text-data id="155">
+                                <property name="fontSize">12pt</property>
                                 <property name="fontWeight">bold</property>
                                 <property name="dataSet">SpecifEnergyTrend</property>
                                 <list-property name="boundDataColumns">
@@ -3703,13 +3671,15 @@ else &#xD;
                                             <property name="measure">SPE</property>
                                             <property name="detail">
                                                 <extended-item extensionName="AggregationCell" id="50">
-                                                    <property name="aggregationOnRow">Group1/Day Of Month</property>
+                                                    <property name="aggregationOnRow">Group5/PR_QTY</property>
                                                     <property name="aggregationOnColumn">Group/PRODUCT</property>
                                                     <property name="content">
                                                         <data id="51">
                                                             <property name="style">crosstab-detail1</property>
+                                                            <property name="fontSize">12px</property>
+                                                            <property name="fontWeight">bold</property>
                                                             <property name="textAlign">center</property>
-                                                            <property name="resultSetColumn">SPE_Group1/Day Of Month_Group/PRODUCT</property>
+                                                            <property name="resultSetColumn">SPE_Group5/PR_QTY_Group/PRODUCT</property>
                                                         </data>
                                                     </property>
                                                 </extended-item>
@@ -3747,12 +3717,53 @@ else &#xD;
                                                                     <property name="content">
                                                                         <data name="Day Of Month" id="42">
                                                                             <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
                                                                             <structure name="dateTimeFormat">
                                                                                 <property name="category">Custom</property>
                                                                                 <property name="pattern">MMMM dd, yyyy</property>
                                                                             </structure>
                                                                             <property name="textAlign">center</property>
                                                                             <property name="resultSetColumn">Day Of Month</property>
+                                                                        </data>
+                                                                    </property>
+                                                                </extended-item>
+                                                            </property>
+                                                        </extended-item>
+                                                    </property>
+                                                </extended-item>
+                                                <extended-item extensionName="DimensionView" id="183">
+                                                    <property name="dimension">Group4</property>
+                                                    <property name="levels">
+                                                        <extended-item extensionName="LevelView" name="NewLevel View4" id="184">
+                                                            <property name="level">Group4/EN_QTY</property>
+                                                            <property name="member">
+                                                                <extended-item extensionName="CrosstabCell" id="185">
+                                                                    <property name="content">
+                                                                        <data name="EN_QTY" id="188">
+                                                                            <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
+                                                                            <property name="textAlign">center</property>
+                                                                            <property name="resultSetColumn">EN_QTY</property>
+                                                                        </data>
+                                                                    </property>
+                                                                </extended-item>
+                                                            </property>
+                                                        </extended-item>
+                                                    </property>
+                                                </extended-item>
+                                                <extended-item extensionName="DimensionView" id="190">
+                                                    <property name="dimension">Group5</property>
+                                                    <property name="levels">
+                                                        <extended-item extensionName="LevelView" name="NewLevel View5" id="191">
+                                                            <property name="level">Group5/PR_QTY</property>
+                                                            <property name="member">
+                                                                <extended-item extensionName="CrosstabCell" id="192">
+                                                                    <property name="content">
+                                                                        <data name="PR_QTY" id="195">
+                                                                            <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
+                                                                            <property name="textAlign">center</property>
+                                                                            <property name="resultSetColumn">PR_QTY</property>
                                                                         </data>
                                                                     </property>
                                                                 </extended-item>
@@ -3775,7 +3786,8 @@ else &#xD;
                                                                 <extended-item extensionName="CrosstabCell" id="47">
                                                                     <property name="content">
                                                                         <data name="PRODUCT" id="48">
-                                                                            <property name="style">crosstab-cell1</property>
+                                                                            <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
                                                                             <property name="textAlign">center</property>
                                                                             <property name="resultSetColumn">PRODUCT</property>
                                                                         </data>
@@ -3789,6 +3801,8 @@ else &#xD;
                                         </extended-item>
                                     </property>
                                     <property name="header">
+                                        <extended-item extensionName="CrosstabCell" id="187"/>
+                                        <extended-item extensionName="CrosstabCell" id="194"/>
                                         <extended-item extensionName="CrosstabCell" id="54">
                                             <property name="content">
                                                 <label id="55">
@@ -3805,6 +3819,24 @@ else &#xD;
                                                     <property name="fontSize">12px</property>
                                                     <property name="textAlign">center</property>
                                                     <text-property name="text">Day Of Month</text-property>
+                                                </label>
+                                            </property>
+                                        </extended-item>
+                                        <extended-item extensionName="CrosstabCell" id="186">
+                                            <property name="content">
+                                                <label id="189">
+                                                    <property name="fontSize">12px</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text">KWH</text-property>
+                                                </label>
+                                            </property>
+                                        </extended-item>
+                                        <extended-item extensionName="CrosstabCell" id="193">
+                                            <property name="content">
+                                                <label id="196">
+                                                    <property name="fontSize">12px</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text">Production Quantity</text-property>
                                                 </label>
                                             </property>
                                         </extended-item>
@@ -3827,6 +3859,36 @@ else &#xD;
                                             <property name="dataType">decimal</property>
                                             <simple-property-list name="aggregateOn">
                                                 <value>Group1/Day Of Month</value>
+                                                <value>Group/PRODUCT</value>
+                                            </simple-property-list>
+                                            <property name="aggregateFunction">SUM</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">EN_QTY</property>
+                                            <expression name="expression">dimension["Group4"]["EN_QTY"]</expression>
+                                            <property name="dataType">decimal</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">SPE_Group4/EN_QTY_Group/PRODUCT</property>
+                                            <expression name="expression">measure["SPE"]</expression>
+                                            <property name="dataType">decimal</property>
+                                            <simple-property-list name="aggregateOn">
+                                                <value>Group4/EN_QTY</value>
+                                                <value>Group/PRODUCT</value>
+                                            </simple-property-list>
+                                            <property name="aggregateFunction">SUM</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">PR_QTY</property>
+                                            <expression name="expression">dimension["Group5"]["PR_QTY"]</expression>
+                                            <property name="dataType">float</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">SPE_Group5/PR_QTY_Group/PRODUCT</property>
+                                            <expression name="expression">measure["SPE"]</expression>
+                                            <property name="dataType">decimal</property>
+                                            <simple-property-list name="aggregateOn">
+                                                <value>Group5/PR_QTY</value>
                                                 <value>Group/PRODUCT</value>
                                             </simple-property-list>
                                             <property name="aggregateFunction">SUM</property>
@@ -3862,13 +3924,15 @@ else &#xD;
                                             <property name="measure">SPE1</property>
                                             <property name="detail">
                                                 <extended-item extensionName="AggregationCell" id="79">
-                                                    <property name="aggregationOnRow">Group3/Month</property>
+                                                    <property name="aggregationOnRow">Group7/PR_QTY</property>
                                                     <property name="aggregationOnColumn">Group2/PRODUCT</property>
                                                     <property name="content">
                                                         <data id="80">
                                                             <property name="style">crosstab-detail1</property>
+                                                            <property name="fontSize">12px</property>
+                                                            <property name="fontWeight">bold</property>
                                                             <property name="textAlign">center</property>
-                                                            <property name="resultSetColumn">SPE1_Group3/Month_Group2/PRODUCT</property>
+                                                            <property name="resultSetColumn">SPE1_Group7/PR_QTY_Group2/PRODUCT</property>
                                                         </data>
                                                     </property>
                                                 </extended-item>
@@ -3907,12 +3971,54 @@ else &#xD;
                                                                     <property name="content">
                                                                         <data name="Month" id="71">
                                                                             <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
                                                                             <structure name="dateTimeFormat">
                                                                                 <property name="category">Custom</property>
                                                                                 <property name="pattern">MMM yyyy</property>
                                                                             </structure>
                                                                             <property name="textAlign">center</property>
                                                                             <property name="resultSetColumn">Month</property>
+                                                                        </data>
+                                                                    </property>
+                                                                    <property name="style">crosstab-detail1</property>
+                                                                </extended-item>
+                                                            </property>
+                                                        </extended-item>
+                                                    </property>
+                                                </extended-item>
+                                                <extended-item extensionName="DimensionView" id="197">
+                                                    <property name="dimension">Group6</property>
+                                                    <property name="levels">
+                                                        <extended-item extensionName="LevelView" name="NewLevel View6" id="198">
+                                                            <property name="level">Group6/EN_QTY</property>
+                                                            <property name="member">
+                                                                <extended-item extensionName="CrosstabCell" id="199">
+                                                                    <property name="content">
+                                                                        <data name="EN_QTY1" id="202">
+                                                                            <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
+                                                                            <property name="textAlign">center</property>
+                                                                            <property name="resultSetColumn">EN_QTY</property>
+                                                                        </data>
+                                                                    </property>
+                                                                </extended-item>
+                                                            </property>
+                                                        </extended-item>
+                                                    </property>
+                                                </extended-item>
+                                                <extended-item extensionName="DimensionView" id="204">
+                                                    <property name="dimension">Group7</property>
+                                                    <property name="levels">
+                                                        <extended-item extensionName="LevelView" name="NewLevel View7" id="205">
+                                                            <property name="level">Group7/PR_QTY</property>
+                                                            <property name="member">
+                                                                <extended-item extensionName="CrosstabCell" id="206">
+                                                                    <property name="content">
+                                                                        <data name="PR_QTY1" id="209">
+                                                                            <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
+                                                                            <property name="textAlign">center</property>
+                                                                            <property name="resultSetColumn">PR_QTY</property>
                                                                         </data>
                                                                     </property>
                                                                 </extended-item>
@@ -3935,7 +4041,8 @@ else &#xD;
                                                                 <extended-item extensionName="CrosstabCell" id="76">
                                                                     <property name="content">
                                                                         <data name="PRODUCT1" id="77">
-                                                                            <property name="style">crosstab-cell1</property>
+                                                                            <property name="style">crosstab-detail1</property>
+                                                                            <property name="fontSize">12px</property>
                                                                             <property name="textAlign">center</property>
                                                                             <property name="resultSetColumn">PRODUCT</property>
                                                                         </data>
@@ -3949,6 +4056,8 @@ else &#xD;
                                         </extended-item>
                                     </property>
                                     <property name="header">
+                                        <extended-item extensionName="CrosstabCell" id="201"/>
+                                        <extended-item extensionName="CrosstabCell" id="208"/>
                                         <extended-item extensionName="CrosstabCell" id="83">
                                             <property name="content">
                                                 <label id="84">
@@ -3967,6 +4076,26 @@ else &#xD;
                                                     <property name="fontSize">12px</property>
                                                     <property name="textAlign">center</property>
                                                     <text-property name="text">Month</text-property>
+                                                </label>
+                                            </property>
+                                        </extended-item>
+                                        <extended-item extensionName="CrosstabCell" id="200">
+                                            <property name="content">
+                                                <label id="203">
+                                                    <property name="style">crosstab-cell1</property>
+                                                    <property name="fontSize">12px</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text">KWH</text-property>
+                                                </label>
+                                            </property>
+                                        </extended-item>
+                                        <extended-item extensionName="CrosstabCell" id="207">
+                                            <property name="content">
+                                                <label id="210">
+                                                    <property name="style">crosstab-cell1</property>
+                                                    <property name="fontSize">12px</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text">Production Quantity</text-property>
                                                 </label>
                                             </property>
                                         </extended-item>
@@ -3989,6 +4118,36 @@ else &#xD;
                                             <property name="dataType">decimal</property>
                                             <simple-property-list name="aggregateOn">
                                                 <value>Group3/Month</value>
+                                                <value>Group2/PRODUCT</value>
+                                            </simple-property-list>
+                                            <property name="aggregateFunction">SUM</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">EN_QTY</property>
+                                            <expression name="expression">dimension["Group6"]["EN_QTY"]</expression>
+                                            <property name="dataType">decimal</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">SPE1_Group6/EN_QTY_Group2/PRODUCT</property>
+                                            <expression name="expression">measure["SPE1"]</expression>
+                                            <property name="dataType">decimal</property>
+                                            <simple-property-list name="aggregateOn">
+                                                <value>Group6/EN_QTY</value>
+                                                <value>Group2/PRODUCT</value>
+                                            </simple-property-list>
+                                            <property name="aggregateFunction">SUM</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">PR_QTY</property>
+                                            <expression name="expression">dimension["Group7"]["PR_QTY"]</expression>
+                                            <property name="dataType">float</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">SPE1_Group7/PR_QTY_Group2/PRODUCT</property>
+                                            <expression name="expression">measure["SPE1"]</expression>
+                                            <property name="dataType">decimal</property>
+                                            <simple-property-list name="aggregateOn">
+                                                <value>Group7/PR_QTY</value>
                                                 <value>Group2/PRODUCT</value>
                                             </simple-property-list>
                                             <property name="aggregateFunction">SUM</property>
