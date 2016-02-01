@@ -163,6 +163,18 @@ false);*/]]></method>
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="precision" id="433">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="7">
@@ -216,7 +228,19 @@ false);*/]]></method>
                 </structure>
             </list-property>
             <list-property name="columnHints"/>
-            <list-property name="parameters"/>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">prece</property>
+                    <property name="paramName">precision</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">0</property>
+                    <property name="position">1</property>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
             <structure name="cachedMetaData"/>
             <method name="beforeOpen"><![CDATA[
 	curT=params["todate"].value
@@ -238,7 +262,7 @@ false);*/]]></method>
             <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("explode",params["explode"].value);]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
-            <xml-property name="queryText"><![CDATA[select a.displayname,sum(s.UTILITY_QTY) as UTILITY_QTY,un.unitshort]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select a.displayname, round(sum(s.UTILITY_QTY),?) as UTILITY_QTY,un.unitshort]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -361,7 +385,19 @@ false);*/]]></method>
                 </structure>
             </list-property>
             <list-property name="columnHints"/>
-            <list-property name="parameters"/>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">param_1</property>
+                    <property name="paramName">precision</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">0</property>
+                    <property name="position">1</property>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
             <structure name="cachedMetaData"/>
             <method name="beforeOpen"><![CDATA[
 	curT=params["todate"].value
@@ -382,7 +418,7 @@ false);*/]]></method>
 ]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
-            <xml-property name="queryText"><![CDATA[select a.displayname,sum(s.UTILITY_QTY) as UTILITY_QTY,un.unitshort]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select a.displayname, round(sum(s.UTILITY_QTY),?) as UTILITY_QTY,un.unitshort]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -1714,6 +1750,12 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
 {&quot;Usage Distribution Of : &quot;+row[&quot;DISPLAYNAME&quot;]}&lt;/value>
             &lt;/simple-property-list>
         &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>precision&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>params[&quot;precision&quot;].value&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
     &lt;/list-property>
 &lt;/structure>
 </BaseUrl>
@@ -1925,6 +1967,12 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
                                         <simple-property-list name="expression">
                                             <value type="javascript">if(row["CHILDCOUNT"]!=0)&#13;
 {"Usage Distribution Of : "+row["DISPLAYNAME"]}</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">precision</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">params["precision"].value</value>
                                         </simple-property-list>
                                     </structure>
                                 </list-property>
