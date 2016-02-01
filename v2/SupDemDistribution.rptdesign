@@ -151,6 +151,18 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="precision" id="154">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">integer</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="8">
@@ -204,7 +216,16 @@
                 </structure>
             </list-property>
             <list-property name="columnHints"/>
-            <list-property name="parameters"/>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">param_1</property>
+                    <property name="paramName">precision</property>
+                    <property name="dataType">integer</property>
+                    <property name="position">1</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
             <structure name="cachedMetaData"/>
             <method name="beforeOpen"><![CDATA[
 	curT=params["todate"].value
@@ -223,7 +244,7 @@
 " and ad.PARENT_ID =  '"+params["AssetTreeId"].value+"' and"+
 " case ad.assettreetype_id when 2 then upper(ad.b_rollup)='TRUE' else ad.b_rollup=ad.b_rollup end"+
 " group by un.UNITSHORT , ad.DISPLAYNAME"+
-" union Select 'Demand' typ,unitshort,sum(ss.UTILITY_QTY) qty,ad.displayname,'"+params["coltype"].value+"'  as C5 "+
+" union Select 'Demand' typ,unitshort, round(sum(ss.UTILITY_QTY),'"+params["precision"].value+"') qty,ad.displayname,'"+params["coltype"].value+"'  as C5 "+
 " from ems_section_summary ss inner join ems_time_dim d ON ss.TIME_ID = d.TIME_ID"+
 " inner join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
 " inner join fwk_assettree pa ON pa.ASSETTREE_ID = ad.PARENT_ID "+
@@ -234,7 +255,7 @@
 " dt_date>='"+LHour+"' and dt_date<'"+curT+"' and ad.PARENT_ID = '"+params["AssetTreeId"].value+"'"+
 " and case pa.assettreetype_id when 2 then upper(ad.b_rollup)='TRUE' else ad.b_rollup=ad.b_rollup end"+
 " group by un.UNITSHORT , ad.DISPLAYNAME union"+
-" select 'Waste' typ,unitshort,sum(supqty-demqty) qty,displayname,'"+params["coltype"].value+"'  as C5 from (select unitshort,sum(ss.UTILITY_QTY) supqty,0 demqty"+
+" select 'Waste' typ,unitshort, round(sum(supqty-demqty),'"+params["precision"].value+"') qty,displayname,'"+params["coltype"].value+"'  as C5 from (select unitshort,sum(ss.UTILITY_QTY) supqty,0 demqty"+
 " ,ad.displayname from ems_section_summary ss inner join ems_time_dim d ON ss.TIME_ID = d.TIME_ID"+
 " inner join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
 " inner join fwk_assettree pa ON pa.ASSETTREE_ID = ad.PARENT_ID "+
@@ -244,7 +265,7 @@
 " and dt_date>='"+LHour+"' and dt_date<'"+curT+"' and  ss.UTILITY_ID='"+params["UtlId"].value+"'"+
 " and ad.PARENT_ID = '"+params["AssetTreeId"].value+"' and case pa.assettreetype_id when 2 then upper(ad.b_rollup)='TRUE' else ad.b_rollup=ad.b_rollup end "+ 
 " group by un.UNITSHORT , ad.DISPLAYNAME union"+
-" Select unitshort,0 supqty,sum(ss.UTILITY_QTY) demqty,ad.displayname from ems_section_summary ss"+
+" Select unitshort,0 supqty, round(sum(ss.UTILITY_QTY),'"+params["precision"].value+"') demqty,ad.displayname from ems_section_summary ss"+
 " inner join ems_time_dim d ON ss.TIME_ID = d.TIME_ID"+
 " inner join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID "+
 " inner join fwk_assettree pa ON pa.ASSETTREE_ID = ad.PARENT_ID "+
@@ -262,7 +283,7 @@
 ]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
-            <xml-property name="queryText"><![CDATA[select 'Supply' as TYP,UNITSHORT,sum(ss.UTILITY_QTY) as QTY,ad.DISPLAYNAME]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select 'Supply' as TYP,UNITSHORT, round(sum(ss.UTILITY_QTY),?) as QTY,ad.DISPLAYNAME]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
