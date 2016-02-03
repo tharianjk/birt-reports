@@ -2414,30 +2414,6 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
     <SeriesPalette>
       <Entries xsi:type="attribute:ColorDefinition">
         <Transparency>255</Transparency>
-        <Red>233</Red>
-        <Green>83</Green>
-        <Blue>80</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>66</Red>
-        <Green>165</Green>
-        <Blue>245</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>255</Red>
-        <Green>202</Green>
-        <Blue>40</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>171</Red>
-        <Green>71</Green>
-        <Blue>188</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
         <Red>102</Red>
         <Green>187</Green>
         <Blue>106</Blue>
@@ -2608,30 +2584,6 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
         </Grouping>
       </Query>
       <SeriesPalette>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>233</Red>
-          <Green>83</Green>
-          <Blue>80</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>66</Red>
-          <Green>165</Green>
-          <Blue>245</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>255</Red>
-          <Green>202</Green>
-          <Blue>40</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>171</Red>
-          <Green>71</Green>
-          <Blue>188</Blue>
-        </Entries>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
           <Red>102</Red>
@@ -2959,10 +2911,6 @@ params[&quot;FirstTitle&quot;].value=params[&quot;BreakdownTitle&quot;].value&am
                 <SeriesParameterName></SeriesParameterName>
               </URLValues>
               <PropertiesMap>
-                <Key>MenuItem</Key>
-                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
-              </PropertiesMap>
-              <PropertiesMap>
                 <Key>Menu</Key>
                 <Value>zIndex:99999;backgroundColor:#FAFFF8;width:auto;height:auto;border:1px solid #333333;filter:progid:DXImageTransform.Microsoft.Shadow(Color:#333333,Direction=120,strength=5)</Value>
               </PropertiesMap>
@@ -2973,6 +2921,10 @@ params[&quot;FirstTitle&quot;].value=params[&quot;BreakdownTitle&quot;].value&am
               <PropertiesMap>
                 <Key>OnMouseOver</Key>
                 <Value>backgroundColor:#245DDB;color:#FFFFFF</Value>
+              </PropertiesMap>
+              <PropertiesMap>
+                <Key>MenuItem</Key>
+                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
               </PropertiesMap>
             </Value>
           </Action>
