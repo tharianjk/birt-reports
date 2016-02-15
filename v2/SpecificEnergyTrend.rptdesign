@@ -198,7 +198,7 @@ if(lastChar=='M')&#13;
 ]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
-            <xml-property name="queryText"><![CDATA[select sum_prod.product as PRODUCT,concat(sum_prod.year_id,'-',sum_prod.month_id,'-',sum_prod.day_id ,' 00:00:00') as DTE, sum_energy.en_qty as EN_QTY, sum_prod.pr_qty as PR_QTY, round(sum_energy.en_qty/sum_prod.pr_qty,1) as SPE
+            <xml-property name="queryText"><![CDATA[select sum_prod.product as PRODUCT,concat(sum_prod.year_id,'-',sum_prod.month_id,'-',sum_prod.day_id ,' 00:00:00') as DTE, sum_energy.en_qty as EN_QTY, sum_prod.pr_qty as PR_QTY, round(sum_energy.en_qty/sum_prod.pr_qty,2) as SPE
 ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1797,10 +1797,7 @@ else &#xD;
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
-      <Sorting>Ascending</Sorting>
-      <SortKey>
-        <Definition>row[&quot;DTE&quot;]</Definition>
-      </SortKey>
+      <SortKey/>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
     <LineAttributes>
@@ -3450,10 +3447,7 @@ else &#xD;
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
-      <Sorting>Ascending</Sorting>
-      <SortKey>
-        <Definition>row[&quot;DTE&quot;]</Definition>
-      </SortKey>
+      <SortKey/>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
     <LineAttributes>
