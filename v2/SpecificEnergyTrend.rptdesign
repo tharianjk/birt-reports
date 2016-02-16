@@ -148,17 +148,11 @@ if(lastChar=='M')&#13;
      curT=params["todate"].value
      LHour=params["fromdate"].value
 
-/*this.queryText = this.queryText +
-	
-	",'"+params["coltype"].value+"' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
-	"pr.product,avg(p.n_prodqty/cast((p.dt_to - p.dt_from) as decimal)) pr_qty"+
-	" from ems_production_log p, ems_time_dim t, ems_product pr"+
-	" where t.dt_date between p.dt_from and p.dt_to"+
-	" and p.product_id = pr.product_id"+
-	" and pr.product_id = '"+params["PrdID"].value+"'"+
-	" and t.dt_date between '"+LHour+"' and '"+curT+"'"+
-	" group by t.year_id, t.month_id, t.day_id, pr.product_id,pr.product) sum_prod,"+
-
+	 this.queryText = this.queryText +
+	",'"+params["coltype"].value+"' as OPT from (select distinct t.year_id, t.month_id, t.day_id, pr.product_id, "+
+	" pr.product,p.n_prodqty pr_qty from ems_production_log p inner join  ems_time_dim t on date(t.dt_date)= date(p.dt_from) "+
+    " inner join ems_product pr on p.product_id = pr.product_id	and pr.product_id = '"+params["PrdID"].value+"'"+
+	" and t.dt_date between '"+LHour+"' and '"+curT+"') sum_prod,"+
 	"(select p.product,t.year_id, t.month_id, t.day_id, p.product_id, sum(UTILITY_QTY*A.N_ALLOCATION/100) en_qty "+
 	" from ems_product p"+
 	" inner join ems_allocation_product a on p.product_id=a.PRODUCT_ID"+
@@ -170,31 +164,9 @@ if(lastChar=='M')&#13;
 	" and sum_prod.month_id = sum_energy.month_id"+
 	" and sum_prod.day_id = sum_energy.day_id"+
 	" and sum_prod.product_id = sum_energy.product_id"+
-	" and sum_prod.product= sum_energy.product"+
-	" order by cast(sum_prod.year_id+'-'+sum_prod.month_id+'-'+sum_prod.day_id as DATE) asc";*/
-	this.queryText = this.queryText +
-	",'"+params["coltype"].value+"' as OPT from (select t.year_id, t.month_id, t.day_id, pr.product_id,"+
-	"pr.product,p.n_prodqty pr_qty"+
-	" from ems_production_log p, ems_time_dim t, ems_product pr"+
-	" where t.dt_date between p.dt_from and p.dt_to"+
-	" and p.product_id = pr.product_id"+
-	" and pr.product_id = '"+params["PrdID"].value+"'"+
-	" and t.dt_date between '"+LHour+"' and '"+curT+"'"+
-	" group by t.year_id, t.month_id, t.day_id, pr.product_id,pr.product) sum_prod,"+
-
-	"(select p.product,t.year_id, t.month_id, t.day_id, p.product_id, sum(UTILITY_QTY*A.N_ALLOCATION/100) en_qty "+
-	" from ems_product p"+
-	" inner join ems_allocation_product a on p.product_id=a.PRODUCT_ID"+
-	" inner join ems_section_summary s on a.assettree_id=s.ASSETTREE_ID"+
-	" inner join ems_time_dim t on t.TIME_ID=s.TIME_ID"+
-	" where p.product_id = '"+params["PrdID"].value+"'"+
-	" group by p.product_id,p.product, t.year_id, t.month_id, t.day_id ) as sum_energy"+
-	" where sum_prod.year_id = sum_energy.year_id"+
-	" and sum_prod.month_id = sum_energy.month_id"+
-	" and sum_prod.day_id = sum_energy.day_id"+
-	" and sum_prod.product_id = sum_energy.product_id"+
-	" and sum_prod.product= sum_energy.product"+
+	" and sum_prod.product= sum_energy.product"+ 
 	" order by cast(sum_prod.year_id+'-'+sum_prod.month_id+'-'+sum_prod.day_id as DATE) asc";
+	
 ]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
