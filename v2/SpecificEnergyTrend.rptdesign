@@ -150,9 +150,9 @@ if(lastChar=='M')&#13;
 
 	 this.queryText = this.queryText +
 	",'"+params["coltype"].value+"' as OPT from (select year(dt_from) year_id, month(dt_from) month_id, day(dt_from) day_id, pr.product_id, "+
-	" pr.product,sum(p.n_prodqty) pr_qty from ems_production_log p inner join  ems_time_dim t on date(t.dt_date)= date(p.dt_from) "+
-    " inner join ems_product pr on p.product_id = pr.product_id	and pr.product_id = '"+params["PrdID"].value+"'"+
-	" and t.dt_date between '"+LHour+"' and '"+curT+"' group by year(dt_from) , month(dt_from) , day(dt_from) , pr.product_id,pr.product ) sum_prod,"+
+	" pr.product,sum(p.n_prodqty) pr_qty from ems_production_log p  "+
+    " inner join ems_product pr on p.product_id = pr.product_id	where pr.product_id = '"+params["PrdID"].value+"'"+
+	" and dt_from between '"+LHour+"' and '"+curT+"' group by year(dt_from) , month(dt_from) , day(dt_from) , pr.product_id,pr.product ) sum_prod,"+
 	" (select p.product,t.year_id, t.month_id, t.day_id, p.product_id, sum(UTILITY_QTY*A.N_ALLOCATION/100) en_qty "+
 	" from ems_product p"+
 	" inner join ems_allocation_product a on p.product_id=a.PRODUCT_ID "+
