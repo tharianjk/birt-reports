@@ -149,15 +149,15 @@ if(lastChar=='M')&#13;
      LHour=params["fromdate"].value
 
 	 this.queryText = this.queryText +
-	",'"+params["coltype"].value+"' as OPT from (select distinct t.year_id, t.month_id, t.day_id, pr.product_id, "+
-	" pr.product,p.n_prodqty pr_qty from ems_production_log p inner join  ems_time_dim t on date(t.dt_date)= date(p.dt_from) "+
+	",'"+params["coltype"].value+"' as OPT from (select year(dt_from) year_id, month(dt_from) month_id, day(dt_from) day_id, pr.product_id, "+
+	" pr.product,sum(p.n_prodqty) pr_qty from ems_production_log p inner join  ems_time_dim t on date(t.dt_date)= date(p.dt_from) "+
     " inner join ems_product pr on p.product_id = pr.product_id	and pr.product_id = '"+params["PrdID"].value+"'"+
-	" and t.dt_date between '"+LHour+"' and '"+curT+"') sum_prod,"+
-	"(select p.product,t.year_id, t.month_id, t.day_id, p.product_id, sum(UTILITY_QTY*A.N_ALLOCATION/100) en_qty "+
+	" and t.dt_date between '"+LHour+"' and '"+curT+"' group by year(dt_from) , month(dt_from) , day(dt_from) , pr.product_id,pr.product ) sum_prod,"+
+	" (select p.product,t.year_id, t.month_id, t.day_id, p.product_id, sum(UTILITY_QTY*A.N_ALLOCATION/100) en_qty "+
 	" from ems_product p"+
-	" inner join ems_allocation_product a on p.product_id=a.PRODUCT_ID"+
-	" inner join ems_section_summary s on a.assettree_id=s.ASSETTREE_ID"+
-	" inner join ems_time_dim t on t.TIME_ID=s.TIME_ID"+
+	" inner join ems_allocation_product a on p.product_id=a.PRODUCT_ID "+
+	" inner join ems_section_summary s on a.assettree_id=s.ASSETTREE_ID "+
+	" inner join ems_time_dim t on t.TIME_ID=s.TIME_ID "+
 	" where p.product_id = '"+params["PrdID"].value+"'"+
 	" group by p.product_id,p.product, t.year_id, t.month_id, t.day_id ) as sum_energy"+
 	" where sum_prod.year_id = sum_energy.year_id"+
