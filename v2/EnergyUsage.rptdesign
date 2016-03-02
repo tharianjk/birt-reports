@@ -148,6 +148,17 @@ else
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="sname" id="817">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="8">
@@ -612,49 +623,49 @@ select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_dat
                         </list-property>
                         <expression name="valueExpr">if(row["C5"]=='H')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 1 Hour in '+row["UNITSHORT"];&#13;
+	row["C5"]='Energy Usage for '+params["sname"].value+' for the last 1 Hour in '+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C5"]=='24H')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 24 Hour in'+row["UNITSHORT"];&#13;
+	row["C5"]='Energy Usage for '+params["sname"].value+' for the last 24 Hour in'+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C5"]=='7H')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 7 days Summarized by Hour in '+row["UNITSHORT"];&#13;
+	row["C5"]='Energy Usage for '+params["sname"].value+' for the last 7 days Summarized by Hour in '+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C5"]=='7D')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 7 days Summarized by Day in '+row["UNITSHORT"];&#13;
+	row["C5"]='Energy Usage for '+params["sname"].value+' for the last 7 days Summarized by Day in '+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C5"]=='30H')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 30 days Summarized by Hour in'+row["UNITSHORT"];&#13;
+	row["C5"]='Energy Usage for '+params["sname"].value+' for the last 30 days Summarized by Hour in'+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C5"]=='30D')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 30 days Summarized by Day in '+row["UNITSHORT"];&#13;
+	row["C5"]='Energy Usage for '+params["sname"].value+' for the last 30 days Summarized by Day in '+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C5"]=='30M')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 30 days Summarized by Month in '+row["UNITSHORT"];&#13;
+	row["C5"]='Energy Usage for '+params["sname"].value+' for the last 30 days Summarized by Month in '+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C5"]=='365D')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 365 days Summarized by Day in '+row["UNITSHORT"];&#13;
+	row["C5"]='Energy Usage for '+params["sname"].value+' for the last 365 days Summarized by Day in '+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C5"]=='365M')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 365 days Summarized by Month in '+row["UNITSHORT"];&#13;
+	row["C5"]='Energy Usage for '+params["sname"].value+' for the last 365 days Summarized by Month in '+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C5"]=='365H')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 365 days Summarized by Hour in '+row["UNITSHORT"];&#13;
+	row["C5"]='Energy Usage for '+params["sname"].value+' for the last 365 days Summarized by Hour in '+row["UNITSHORT"];&#13;
 }&#13;
 else&#13;
 {&#13;
 	if(row["C5"]=='SH')&#13;
 	{&#13;
-				row["C5"]='Energy Usage Trend for the specified period from '+params["fromdate"].value+' to '+params["todate"].value+' summarized by hour in '+row["UNITSHORT"];&#13;
+				row["C5"]='Energy Usage for '+params["sname"].value+' for the specified period from '+params["fromdate"].value+' to '+params["todate"].value+' summarized by hour in '+row["UNITSHORT"];&#13;
 	}&#13;
 		&#13;
 	&#13;
@@ -662,13 +673,13 @@ else&#13;
 	&#13;
 	if(row["C5"]=='SD')&#13;
 	{&#13;
-				row["C5"]='Energy Usage Trend for the specified period from '+params["fromdate"].value+' to '+params["todate"].value+' summarized by day in '+row["UNITSHORT"];&#13;
+				row["C5"]='Energy Usage for '+params["sname"].value+' for the specified period from '+params["fromdate"].value+' to '+params["todate"].value+' summarized by day in '+row["UNITSHORT"];&#13;
 	}&#13;
 	&#13;
 	&#13;
 	if(row["C5"]=='SM')&#13;
 	{&#13;
-				row["C5"]='Energy Usage Trend for the specified period from '+params["fromdate"].value+' to '+params["todate"].value+' summarized by month in '+row["UNITSHORT"];&#13;
+				row["C5"]='Energy Usage for '+params["sname"].value+' for the specified period from '+params["fromdate"].value+' to '+params["todate"].value+' summarized by month in '+row["UNITSHORT"];&#13;
 	}&#13;
 	if(row["C5"]==null || row["C5"]=='')&#13;
 	{&#13;
