@@ -8,12 +8,10 @@
     <property name="imageDPI">96</property>
     <parameters>
         <scalar-parameter name="PrdID" id="156">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">integer</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">1</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -22,6 +20,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="fromdate" id="157">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -36,6 +35,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="todate" id="158">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -50,6 +50,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="coltype" id="159">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -64,6 +65,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="vb" id="161">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -78,6 +80,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="prodname" id="211">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -266,7 +269,7 @@ if(lastChar=='M')&#13;
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select sum_prod.product as PRODUCT,concat(sum_prod.year_id,'-',sum_prod.month_id,'-',sum_prod.day_id ,' 00:00:00') as DTE, sum_energy.en_qty as EN_QTY, sum_prod.pr_qty as PR_QTY, round(sum_energy.en_qty/sum_prod.pr_qty,2) as SPE
+            <xml-property name="queryText"><![CDATA[select sum_prod.product as PRODUCT,concat(sum_prod.year_id,'-',sum_prod.month_id,'-',sum_prod.day_id ,' 00:00:00') as DTE, sum_energy.en_qty as EN_QTY, sum_prod.pr_qty as PR_QTY, round(sum_energy.en_qty/sum_prod.pr_qty,3) as SPE
 ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1865,7 +1868,10 @@ else &#xD;
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
-      <SortKey/>
+      <Sorting>Ascending</Sorting>
+      <SortKey>
+        <Definition>row[&quot;DTE&quot;]</Definition>
+      </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
     <LineAttributes>
@@ -3515,7 +3521,10 @@ else &#xD;
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
-      <SortKey/>
+      <Sorting>Ascending</Sorting>
+      <SortKey>
+        <Definition>row[&quot;DTE&quot;]</Definition>
+      </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
     <LineAttributes>
