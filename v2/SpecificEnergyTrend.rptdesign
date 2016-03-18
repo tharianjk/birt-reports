@@ -211,11 +211,11 @@ if(lastChar=='M')&#13;
      LHour=params["fromdate"].value
 
 	 this.queryText = this.queryText +
-	",'"+params["coltype"].value+"' as OPT from (select year(dt_from) year_id, month(dt_from) month_id, day(dt_from) day_id, pr.product_id, "+
-	" pr.product,sum(p.n_prodqty) pr_qty from ems_production_log p  "+
+	",'"+params["coltype"].value+"' as OPT,sum_prod.dt_from from (select year(dt_from) year_id, month(dt_from) month_id, day(dt_from) day_id, pr.product_id, "+
+	" pr.product,sum(p.n_prodqty) pr_qty,dt_from from ems_production_log p  "+
     " inner join ems_product pr on p.product_id = pr.product_id	where pr.product_id = '"+params["PrdID"].value+"'"+
 	" and dt_from between '"+LHour+"' and '"+curT+"' group by year(dt_from) , month(dt_from) , day(dt_from) , pr.product_id,pr.product ) sum_prod,"+
-	" (select p.product,t.year_id, t.month_id, t.day_id, p.product_id, sum(UTILITY_QTY*A.N_ALLOCATION/100) en_qty "+
+	" (select p.product,t.year_id, t.month_id, t.day_id, p.product_id, sum(UTILITY_QTY*A.N_ALLOCATION/100) en_qty,t.dt_date dt_from "+
 	" from ems_product p"+
 	" inner join ems_allocation_product a on p.product_id=a.PRODUCT_ID "+
 	" inner join ems_section_summary s on a.assettree_id=s.ASSETTREE_ID "+
@@ -227,7 +227,7 @@ if(lastChar=='M')&#13;
 	" and sum_prod.day_id = sum_energy.day_id"+
 	" and sum_prod.product_id = sum_energy.product_id"+
 	" and sum_prod.product= sum_energy.product"+ 
-	" order by cast(sum_prod.year_id+'-'+sum_prod.month_id+'-'+sum_prod.day_id as DATE) asc";
+	" order by sum_prod.dt_from  asc";
 	
 ]]></method>
             <property name="dataSource">IrevealDS</property>
@@ -269,7 +269,7 @@ if(lastChar=='M')&#13;
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select sum_prod.product as PRODUCT,concat(sum_prod.year_id,'-',sum_prod.month_id,'-',sum_prod.day_id ,' 00:00:00') as DTE, sum_energy.en_qty as EN_QTY, sum_prod.pr_qty as PR_QTY, round(sum_energy.en_qty/sum_prod.pr_qty,3) as SPE
+            <xml-property name="queryText"><![CDATA[select sum_prod.product as PRODUCT,cast(concat(sum_prod.year_id,'-',sum_prod.month_id,'-',sum_prod.day_id ,' 00:00:00') as date) as DTE, sum_energy.en_qty as EN_QTY, sum_prod.pr_qty as PR_QTY, round(sum_energy.en_qty/sum_prod.pr_qty,3) as SPE
 ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
