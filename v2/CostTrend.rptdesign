@@ -91,6 +91,18 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="UsrSecId" id="480">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="7">
@@ -141,34 +153,49 @@ LHour=params["fromdate"].value
 
 	this.queryText = this.queryText+
 	
-	",'"+params["coltype"].value+"' as C7 from vw_billtime_source v inner join ems_source sc on sc.source_id=v.source_id inner join vw_assetsection s on v.source_id=s.source_id"+
-		" inner join ems_section_summary su on su.assettree_id=s.section_id inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+
-		" inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='"+params["sourceid"].value+"'"+
-		" and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"' and sc.company_id='"+params["UsrCompId"].value+"' and  su.UTILITY_ID='"+params["UtlId"].value+"' and timeperiod='Normal'"+
-		" group by sourcename,timeperiod,V.N_COST,dt_date,unitshort,NF_FRACTION,NT_FRACTION UNION select sourcename,0 NormalCost,0 NormalQty,"+
-		" case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty)*V.N_COST else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION)*V.N_COST end OffpeakCost,"+
-		" case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION) end OffpeakQty,0 PeakCost,0 PeakQty"+
-		", dt_date as dtdate,un.unitshort,'"+params["coltype"].value+"' as C7 from vw_billtime_source v inner join ems_source sc on sc.source_id=v.source_id"+
-		" inner join vw_assetsection s on v.source_id=s.source_id inner join ems_section_summary su on su.assettree_id=s.section_id"+
-        " inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
-		" inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='"+params["sourceid"].value+"'  and  su.UTILITY_ID='"+params["UtlId"].value+"' and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"'"+
-		" and sc.company_id='"+params["UsrCompId"].value+"' and timeperiod='Off-Peak' group by sourcename,timeperiod,V.N_COST,dt_date,unitshort,NF_FRACTION,NT_FRACTION UNION"+
-		" select sourcename,0 NormalCost,0 NormalQty,0 OffpeakCost,0 OffpeakQty,"+
-        " case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty)*V.N_COST else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION)*V.N_COST end PeakCost,"+
-        " case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION) end PeakQty"+
-		", dt_date as dtdate,un.unitshort,'"+params["coltype"].value+"' as C7 from vw_billtime_source v inner join ems_source sc on sc.source_id=v.source_id"+
-		" inner join vw_assetsection s on v.source_id=s.source_id inner join ems_section_summary su on su.assettree_id=s.section_id"+
-		" inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id inner join ems_utility UT on UT.UTILITY_ID=su.UTILITY_ID"+
-		" inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='"+params["sourceid"].value+"'  and  su.UTILITY_ID='"+params["UtlId"].value+"' and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"'"+
-        " and sc.company_id='"+params["UsrCompId"].value+"' and timeperiod='Peak' group by sourcename,timeperiod,V.N_COST,dt_date,unitshort,NF_FRACTION,NT_FRACTION"+
-        " union select src.sourcename , 0 as NormalCost,0 as NormalQty,0 OffpeakCost,0 OffpeakQty,0 PeakCost,0 PeakQty,d.dt_date as dtdate,EUN.unitshort ,'"+params["coltype"].value+"' as C7"+
-		" from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , vw_assetsection sec, ems_source src"+
-        " where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id"+
-		" and sec.source_id ='"+params["sourceid"].value+"'  and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+
-		" group by src.sourcename ,EUN.unitshort,d.DT_DATE) as tab group by sourcename ,unitshort,DTDATE,C7 order by dtdate";
-		
+	",'"+params["coltype"].value+"' as C7 from vw_billtime_source v inner join ems_source sc on sc.source_id=v.source_id"+ 
+        " inner join ems_source_summary su on su.source_id=v.source_id "+ 
+        " inner join fwk_assettree a on su.assettree_id = a.assettree_id"+  
+        " inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+ 
+        " inner join ems_utility UT on UT.UTILITY_ID=sc.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='"+params["sourceid"].value+"'"+ 
+        " and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"' "+ 
+        " and sc.company_id='"+params["UsrCompId"].value+"' and   (a.assettree_id='"+params["UsrSecId"].value+"' or a.parent_id in (select assettree_id from fwk_assettree where assettreetype_id=2 and assettree_id ='"+params["UsrSecId"].value+"')) "+ 
+        " and sc.UTILITY_ID='"+params["UtlId"].value+"' and timeperiod='Normal'"+ 
+        " group by sourcename,timeperiod,V.N_COST,dt_date,unitshort,NF_FRACTION,NT_FRACTION "+ 
+        " UNION select sourcename,0 NormalCost,0 NormalQty,"+ 
+        " case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty)*V.N_COST else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION)*V.N_COST end OffpeakCost,"+ 
+        " case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION) end OffpeakQty,0 PeakCost,0 PeakQty"+ 
+        " , dt_date as dtdate,un.unitshort,'"+params["coltype"].value+"' as C7 from vw_billtime_source v "+ 
+        " inner join ems_source sc on sc.source_id=v.source_id"+ 
+        " inner join ems_source_summary su on su.source_id=v.source_id"+ 
+        " inner join fwk_assettree a on su.assettree_id = a.assettree_id "+ 
+        " inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id "+ 
+        " inner join ems_utility UT on UT.UTILITY_ID=sc.UTILITY_ID"+ 
+        " inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='"+params["sourceid"].value+"'  and  sc.UTILITY_ID='"+params["UtlId"].value+"' and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"'"+ 
+        " and sc.company_id='"+params["UsrCompId"].value+"' and (a.assettree_id='"+params["UsrSecId"].value+"' or a.parent_id in (select assettree_id from fwk_assettree where assettreetype_id=2 and assettree_id ='"+params["UsrSecId"].value+"')) "+ 
+        " and timeperiod='Off-Peak' group by sourcename,timeperiod,V.N_COST,dt_date,unitshort,NF_FRACTION,NT_FRACTION UNION"+ 
+        " select sourcename,0 NormalCost,0 NormalQty,0 OffpeakCost,0 OffpeakQty,"+ 
+        "  case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty)*V.N_COST else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION)*V.N_COST end PeakCost,"+ 
+        "  case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION) end PeakQty"+ 
+        " , dt_date as dtdate,un.unitshort,'"+params["coltype"].value+"' as C7 from vw_billtime_source v "+ 
+        " inner join ems_source sc on sc.source_id=v.source_id"+ 
+        " inner join ems_source_summary su on su.source_id=v.source_id "+ 
+        " inner join fwk_assettree a on su.assettree_id=a.assettree_id "+ 
+        " inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id "+ 
+        " inner join ems_utility UT on UT.UTILITY_ID=sc.UTILITY_ID"+ 
+        " inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='"+params["sourceid"].value+"'  and  sc.UTILITY_ID='"+params["UtlId"].value+"' and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"'"+ 
+        " and sc.company_id='"+params["UsrCompId"].value+"' and (a.assettree_id='"+params["UsrSecId"].value+"' or a.parent_id in (select assettree_id from fwk_assettree where assettreetype_id=2 and assettree_id ='"+params["UsrSecId"].value+"'))"+  
+        " and timeperiod='Peak' group by sourcename,timeperiod,V.N_COST,dt_date,unitshort,NF_FRACTION,NT_FRACTION"+ 
+        "  union "+ 
+        " select src.sourcename , 0 as NormalCost,0 as NormalQty,0 OffpeakCost,0 OffpeakQty,0 PeakCost,0 PeakQty,d.dt_date as dtdate,EUN.unitshort ,'"+params["coltype"].value+"' as C7"+ 
+       "  from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , vw_assetsection sec, ems_source src"+ 
+       "  where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id"+ 
+       "  and sec.source_id ='"+params["sourceid"].value+"' and (a.assettree_id='"+params["UsrSecId"].value+"' or a.parent_id in (select assettree_id from fwk_assettree where assettreetype_id=2 and assettree_id ='"+params["UsrSecId"].value+"'))  and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
+       "  group by src.sourcename ,EUN.unitshort,d.DT_DATE) as tab group by sourcename ,unitshort,DTDATE,C7 order by dtdate";
 	
-]]></method>
+	
+	
+	]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
             <xml-property name="queryText"><![CDATA[select  SOURCENAME,sum(round(NormalCost,2)) NORMALCOST,sum(NormalQty) NORMALQTY,sum(round(OffpeakCost,2)) OFFPEAKCOST,sum(OffpeakQty) OFFPEAKQTY,sum(round(PeakCost,2)) PEAKCOST,sum(PeakQty) PEAKQTY ,DTDATE,UNITSHORT,C7 from (
