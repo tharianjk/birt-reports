@@ -706,7 +706,7 @@ else&#13;
             <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Bar Chart</Type>
-  <SubType>Percent Stacked</SubType>
+  <SubType>Stacked</SubType>
   <Block>
     <Children xsi:type="layout:TitleBlock">
       <Bounds>
@@ -2025,7 +2025,7 @@ else&#13;
         </Value>
       </Origin>
       <PrimaryAxis>true</PrimaryAxis>
-      <Percent>true</Percent>
+      <Percent>false</Percent>
     </AssociatedAxes>
     <AncillaryAxes>
       <Type>Text</Type>
