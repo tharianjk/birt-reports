@@ -706,7 +706,7 @@ else&#13;
             <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Bar Chart</Type>
-  <SubType>Side-by-side</SubType>
+  <SubType>Percent Stacked</SubType>
   <Block>
     <Children xsi:type="layout:TitleBlock">
       <Bounds>
@@ -1060,6 +1060,7 @@ else&#13;
             <horizontalAlignment>Center</horizontalAlignment>
             <verticalAlignment>Center</verticalAlignment>
           </Alignment>
+          <Rotation>0.0</Rotation>
         </Font>
       </Caption>
       <Background xsi:type="attribute:ColorDefinition">
@@ -1370,8 +1371,8 @@ else&#13;
             </Components>
             <Separator>, </Separator>
           </DataPoint>
-          <LabelPosition>Outside</LabelPosition>
-          <Stacked>false</Stacked>
+          <LabelPosition>Inside</LabelPosition>
+          <Stacked>true</Stacked>
           <Triggers>
             <Condition>onmouseover</Condition>
             <Action>
@@ -1634,8 +1635,8 @@ else&#13;
             </Components>
             <Separator>, </Separator>
           </DataPoint>
-          <LabelPosition>Outside</LabelPosition>
-          <Stacked>false</Stacked>
+          <LabelPosition>Inside</LabelPosition>
+          <Stacked>true</Stacked>
           <Triggers>
             <Condition>onmouseover</Condition>
             <Action>
@@ -1897,8 +1898,8 @@ else&#13;
             </Components>
             <Separator>, </Separator>
           </DataPoint>
-          <LabelPosition>Outside</LabelPosition>
-          <Stacked>false</Stacked>
+          <LabelPosition>Inside</LabelPosition>
+          <Stacked>true</Stacked>
           <Triggers>
             <Condition>onmouseover</Condition>
             <Action>
@@ -2024,7 +2025,7 @@ else&#13;
         </Value>
       </Origin>
       <PrimaryAxis>true</PrimaryAxis>
-      <Percent>false</Percent>
+      <Percent>true</Percent>
     </AssociatedAxes>
     <AncillaryAxes>
       <Type>Text</Type>
