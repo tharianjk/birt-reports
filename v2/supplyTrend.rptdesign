@@ -242,7 +242,7 @@ if(lastChar=='M')&#13;
 	" where case '"+params["typ"].value+"' when 2 then a.parent_id='"+params["UsrSecId"].value+"' else a.assettree_id='"+params["UsrSecId"].value+"' end and S.c_coretype='P' and d.DT_DATE>='"+LHour+"' and case '"+params["typ"].value+"' when 2 then upper(b_rollup)='TRUE' else b_rollup=b_rollup end "+ 
 	" and d.DT_DATE<'"+curT+"' and  s.UTILITY_ID='"+params["UtlId"].value+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
 	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
-	" UNION select a.DISPLAYNAME, 0 as C2,(select distinct unitshort from ems_utility u inner join ems_attribute ua on u.attribute_id=ua.ATTRIBUTE_ID inner join ems_unit uu on ua.unit_id=uu.unit_id) unitshort,DAY_ID ,"+
+	" UNION select a.DISPLAYNAME, 0 as C2,(select distinct unitshort from ems_utility u inner join ems_attribute ua on u.attribute_id=ua.ATTRIBUTE_ID inner join ems_unit uu on ua.unit_id=uu.unit_id and u.utility_id='"+params["UtlId"].value+"' ) unitshort,DAY_ID ,"+
  	" cast(d.dt_date as datetime) as C4,'"+params["coltype"].value+"' as C5 "+
 	" from ems_time_dim d , fwk_assettree a  , ems_utility u "+
  	" where a.assettree_id='"+params["UsrSecId"].value+"'  and d.DT_DATE>='"+LHour+"'"+
