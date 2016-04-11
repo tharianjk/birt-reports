@@ -212,30 +212,10 @@ LHour=params["fromdate"].value
 	" INNER JOIN EMS_ATTRIBUTE A ON UT.ATTRIBUTE_ID=A.ATTRIBUTE_ID"+ 
 	" INNER JOIN EMS_UNIT UN ON A.UNIT_ID=UN.UNIT_ID"+ 
 	" INNER JOIN FWK_ASSETTREE AE ON SU.ASSETTREE_ID=AE.ASSETTREE_ID"+ 
-	" where (AE.PARENT_id in (select assettree_id from fwk_assettree where assettreetype_id=2 and assettree_id='"+params["assettreeid"].value+"') or su.assettree_id='"+params["assettreeid"].value+"')"+ 
+	" where (AE.PARENT_id in (select assettree_id from fwk_assettree where assettreetype_id=2 and assettree_id='"+params["assettreeid"].value+"') or su.assettree_id='"+params["assettreeid"].value+"') and AE.b_rollup='TRUE' "+ 
 	" and T.dt_date >= '"+LHour+"' and T.dt_date<'"+curT+"' AND SUP.COMPANY_ID='"+params["UsrCompId"].value+"'"+ 
 	" GROUP BY SUP.SOURCENAME,UN.UNITSHORT,NF_FRACTION,NT_FRACTION,V.N_COST,SUP.SOURCE_ID)"+
 	" as tab group by SOURCENAME,UNITSHORT,C4,SOURCE_ID";	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
 
 ]]></method>
             <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("explode",params["explode"].value);]]></method>
@@ -386,7 +366,7 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' AS C4 FROM VW_B
 " INNER JOIN EMS_UNIT UN ON A.UNIT_ID=UN.UNIT_ID INNER JOIN FWK_ASSETTREE AE"+
 " ON SU.ASSETTREE_ID=AE.ASSETTREE_ID"+
 " WHERE T.DT_DATE >='"+LHour+"' and t.dt_date <'"+curT+"'"+ 
-" AND V.SOURCE_ID='"+params["sourceid"].value+"' AND SUP.COMPANY_ID='"+params["UsrCompId"].value+"' and (su.assettree_id='"+params["todassettreeid"].value+"' or AE.PARENT_ID IN (SELECT ASSETTREE_ID FROM FWK_ASSETTREE WHERE ASSETTREETYPE_ID =2 and ASSETTREE_ID='"+params["todassettreeid"].value+"'))"+
+" AND V.SOURCE_ID='"+params["sourceid"].value+"' AND SUP.COMPANY_ID='"+params["UsrCompId"].value+"' and (su.assettree_id='"+params["todassettreeid"].value+"' or AE.PARENT_ID IN (SELECT ASSETTREE_ID FROM FWK_ASSETTREE WHERE ASSETTREETYPE_ID =2 and ASSETTREE_ID='"+params["todassettreeid"].value+"' ) AND AE.B_ROLLUP='TRUE' ) "+
 " GROUP BY TIMEPERIOD,V.N_COST,UN.UNITSHORT,NF_FRACTION,NT_FRACTION";]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>

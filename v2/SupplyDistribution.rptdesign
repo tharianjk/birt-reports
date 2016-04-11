@@ -170,18 +170,6 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="precision" id="437">
-            <property name="valueType">static</property>
-            <property name="isRequired">false</property>
-            <property name="dataType">integer</property>
-            <property name="distinct">true</property>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="7">
@@ -235,30 +223,21 @@
                 </structure>
             </list-property>
             <list-property name="columnHints"/>
-            <list-property name="parameters">
-                <structure>
-                    <property name="name">precision</property>
-                    <property name="paramName">precision</property>
-                    <property name="dataType">integer</property>
-                    <property name="position">1</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-            </list-property>
+            <list-property name="parameters"/>
             <structure name="cachedMetaData"/>
             <method name="beforeOpen"><![CDATA[
 curT=params["todate"].value
 LHour=params["fromdate"].value
 
 this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4,src.SOURCE_ID as SOURCE_ID,a.assettree_id as ASSETTREEID"+
-" from ems_source_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
+" from ems_source_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id "+
 " inner join ems_source src on s.source_id = src.source_id"+
 " inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
 " inner join ems_utility UT on UT.UTILITY_ID=src.UTILITY_ID"+
 " inner join ems_Attribute ATR on UT.attribute_id=ATR.ATTRIBUTE_ID"+
 " LEFT join ems_unit UN on ATR.unit_id=UN.unit_id"+
 " where (A.PARENT_id in (select assettree_id from fwk_assettree"+
-" where assettreetype_id=2 and assettree_id='"+params["UsrSecId"].value+"') or s.assettree_id='"+params["UsrSecId"].value+"') and T.dt_date >='"+LHour+"' and T.dt_date <'"+curT+"' and a.company_id ='"+params["UsrCompId"].value+"' and src.UTILITY_ID='"+params["UtlId"].value+"'"+
+" where assettreetype_id=2 and assettree_id='"+params["UsrSecId"].value+"') or s.assettree_id='"+params["UsrSecId"].value+"') and a.b_rollup='TRUE' and T.dt_date >='"+LHour+"' and T.dt_date <'"+curT+"' and a.company_id ='"+params["UsrCompId"].value+"' and src.UTILITY_ID='"+params["UtlId"].value+"'"+
 " group by src.SOURCENAME,un.UNITSHORT,src.SOURCE_ID";
 ]]></method>
             <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("explode",params["explode"].value);
@@ -291,7 +270,7 @@ reportContext.setPersistentGlobalVariable("Demographic", row["UNITSHORT"]+' '+ro
  ]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
-            <xml-property name="queryText"><![CDATA[select src.SOURCENAME as DISPLAYNAME,round(sum(s.UTILITY_QTY),?) as UTILITY_QTY,un.UNITSHORT]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select src.SOURCENAME as DISPLAYNAME,round(sum(s.UTILITY_QTY),0) as UTILITY_QTY,un.UNITSHORT]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -390,24 +369,7 @@ reportContext.setPersistentGlobalVariable("Demographic", row["UNITSHORT"]+' '+ro
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="TOD" id="430">
             <list-property name="columnHints"/>
-            <list-property name="parameters">
-                <structure>
-                    <property name="name">precision</property>
-                    <property name="paramName">precision</property>
-                    <property name="dataType">integer</property>
-                    <property name="position">1</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-                <structure>
-                    <property name="name">precision2</property>
-                    <property name="paramName">precision</property>
-                    <property name="dataType">integer</property>
-                    <property name="position">2</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-            </list-property>
+            <list-property name="parameters"/>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
@@ -437,9 +399,9 @@ curT=params["todate"].value
 LHour=params["fromdate"].value
 
 this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4  FROM VW_BILLTIME_SOURCE V"+
-" INNER JOIN EMS_SOURCE_SUMMARY SU ON V.SOURCE_ID=SU.SOURCE_ID  INNER JOIN EMS_SOURCE SUP ON SU.SOURCE_ID = SUP.SOURCE_ID"+
+" INNER JOIN EMS_SOURCE_SUMMARY SU ON V.SOURCE_ID=SU.SOURCE_ID  INNER JOIN EMS_SOURCE SUP ON SU.SOURCE_ID = SUP.SOURCE_ID INNER JOIN FWK_ASSETTREE A ON A. assettree_id=SU.assettree_id "+
 " INNER JOIN EMS_TIME_DIM T ON  SU.TIME_ID=T.TIME_ID AND T.HR_ID=V.HR_ID INNER JOIN EMS_UTILITY UT ON UT.UTILITY_ID=SUP.UTILITY_ID"+
-" INNER JOIN EMS_UNIT UN ON UN.UNIT_ID=UT.UNIT_ID WHERE T.DT_DATE  >='"+LHour+"' and t.dt_date  <'"+curT+"'"+ 
+" INNER JOIN EMS_UNIT UN ON UN.UNIT_ID=UT.UNIT_ID WHERE T.DT_DATE  >='"+LHour+"' and t.dt_date  <'"+curT+"' and a.b_rollup='TRUE'"+ 
 " AND SU.SOURCE_ID='"+params["SourceID"].value+"' AND SUP.COMPANY_ID='"+params["UsrCompId"].value+"'  and (SU.assettree_id ='"+params["UsrSecId"].value+"' or SU.assettree_id in (select assettree_id from fwk_assettree where parent_id in (select assettree_id from fwk_assettree where assettreetype_id=2 and assettree_id='"+params["UsrSecId"].value+"')))"+
 " GROUP BY TIMEPERIOD,V.N_COST,UN.UNITSHORT,NF_FRACTION,NT_FRACTION";
 
@@ -480,8 +442,8 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4  FROM VW_
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[SELECT TIMEPERIOD, CASE NF_FRACTION+NT_FRACTION WHEN 0 THEN round(SUM(SU.UTILITY_QTY),?)
-ELSE round(SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION),?) END QTY ,UN.UNITSHORT
+            <xml-property name="queryText"><![CDATA[SELECT TIMEPERIOD, CASE NF_FRACTION+NT_FRACTION WHEN 0 THEN round(SUM(SU.UTILITY_QTY),0)
+ELSE round(SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION),0) END QTY ,UN.UNITSHORT
 ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1873,12 +1835,6 @@ title = &quot;Energy distribution for &quot; &#xD;
                 &lt;value type=&quot;javascript&quot;>row[&quot;ASSETTREE_ID&quot;]&lt;/value>
             &lt;/simple-property-list>
         &lt;/structure>
-        &lt;structure>
-            &lt;property name=&quot;paramName&quot;>precision&lt;/property>
-            &lt;simple-property-list name=&quot;expression&quot;>
-                &lt;value type=&quot;javascript&quot;>params[&quot;precision&quot;].value&lt;/value>
-            &lt;/simple-property-list>
-        &lt;/structure>
     &lt;/list-property>
 &lt;/structure>
 </BaseUrl>
@@ -2096,12 +2052,6 @@ title = &quot;Energy distribution for &quot; &#xD;
                                         <property name="paramName">assetrid</property>
                                         <simple-property-list name="expression">
                                             <value type="javascript">row["ASSETTREE_ID"]</value>
-                                        </simple-property-list>
-                                    </structure>
-                                    <structure>
-                                        <property name="paramName">precision</property>
-                                        <simple-property-list name="expression">
-                                            <value type="javascript">params["precision"].value</value>
                                         </simple-property-list>
                                     </structure>
                                 </list-property>
