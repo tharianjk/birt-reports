@@ -163,6 +163,17 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="sname" id="155">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="8">
@@ -633,15 +644,15 @@ else&#13;
                         </list-property>
                         <expression name="valueExpr">if(row["C5"]=='7D')&#13;
 {&#13;
-	row["C5"]='Supply/Demand Distribution for the last 7 days';&#13;
+	row["C5"]='Supply/Demand Distribution for '+params["sname"].value+' for the last 7 days';&#13;
 }&#13;
 else if(row["C5"]=='30D')&#13;
 {&#13;
-	row["C5"]='Supply/Demand Distribution for the last 30 days ';&#13;
+	row["C5"]='Supply/Demand Distribution for '+params["sname"].value+' for the last 30 days ';&#13;
 }&#13;
 else if(row["C5"]=='365D')&#13;
 {&#13;
-	row["C5"]='Supply/Demand Distribution for the last 365 days';&#13;
+	row["C5"]='Supply/Demand Distribution for '+params["sname"].value+' for the last 365 days';&#13;
 }&#13;
 else&#13;
 {&#13;
@@ -652,7 +663,7 @@ else&#13;
 	}&#13;
 	else&#13;
 	{&#13;
-		row["C5"]='Supply/Demand Distribution for the specified period';&#13;
+		row["C5"]='Supply/Demand Distribution for '+params["sname"].value+' for the specified period';&#13;
 	}&#13;
 }</expression>
                         <property name="contentType">html</property>

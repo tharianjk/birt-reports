@@ -103,6 +103,17 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="sname" id="481">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="7">
@@ -670,19 +681,19 @@ case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility
                         </list-property>
                         <expression name="valueExpr">if(row["C7"]=='30M')&#13;
 {&#13;
-	row["C7"]='Cost Trend for the last 30 days Summarized by Month';&#13;
+	row["C7"]='Cost Trend for '+params["sname"].value+' for the last 30 days Summarized by Month';&#13;
 }&#13;
 else if(row["C7"]=='30D')&#13;
 {&#13;
-	row["C7"]='Cost Trend for the last 30 days Summarized by Day';&#13;
+	row["C7"]='Cost Trend for '+params["sname"].value+' for the last 30 days Summarized by Day';&#13;
 }&#13;
 else if(row["C7"]=='365D')&#13;
 {&#13;
-	row["C7"]='Cost Trend for the last 365 days Summarized by Day';&#13;
+	row["C7"]='Cost Trend for '+params["sname"].value+' for the last 365 days Summarized by Day';&#13;
 }&#13;
 else if(row["C7"]=='365M')&#13;
 {&#13;
-	row["C7"]='Cost Trend for the last 365 days Summarized by Month';&#13;
+	row["C7"]='Cost Trend for '+params["sname"].value+' for the last 365 days Summarized by Month';&#13;
 }&#13;
 else&#13;
 {&#13;
@@ -693,7 +704,7 @@ else&#13;
 	}&#13;
 	else&#13;
 	{&#13;
-	row["C7"]="Cost Trend for the Specified Period";&#13;
+	row["C7"]='Cost Trend for '+params["sname"].value+' for the Specified Period';&#13;
 	&#13;
 	}&#13;
 }</expression>

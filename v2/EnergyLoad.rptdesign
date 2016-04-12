@@ -72,6 +72,17 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="sname" id="83">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="7">
@@ -492,75 +503,75 @@
             <property name="canShrink">true</property>
             <expression name="valueExpr">if(params["rpttype"].value=='t' &amp;&amp; params["grptype"].value=='h')&#13;
 {&#13;
-	'Energy Load trend for last 24 hours summarized by Hour';&#13;
+	'Energy Load trend for '+params["sname"].value+' for last 24 hours summarized by Hour';&#13;
 }&#13;
 &#13;
 else if(params["rpttype"].value=='s' &amp;&amp; params["grptype"].value=='h')&#13;
 {&#13;
-	'Energy Load trend for last 7 Days summarized by Hour';&#13;
+	'Energy Load trend for '+params["sname"].value+' for last 7 Days summarized by Hour';&#13;
 }&#13;
 &#13;
 else if(params["rpttype"].value=='s' &amp;&amp; params["grptype"].value=='d')&#13;
 {&#13;
-	'Energy Load trend for last 7 Days summarized by Day';&#13;
+	'Energy Load trend for '+params["sname"].value+' for last 7 Days summarized by Day';&#13;
 }&#13;
 &#13;
 else if(params["rpttype"].value=='d' &amp;&amp; params["grptype"].value=='h')&#13;
 {&#13;
-	'Energy Load trend for last 30 Days summarized by Hour';&#13;
+	'Energy Load trend for '+params["sname"].value+' for last 30 Days summarized by Hour';&#13;
 }&#13;
 &#13;
 else if(params["rpttype"].value=='d' &amp;&amp; params["grptype"].value=='d')&#13;
 {&#13;
-	'Energy Load trend for last 30 Days summarized by Day';&#13;
+	'Energy Load trend for '+params["sname"].value+' for last 30 Days summarized by Day';&#13;
 }&#13;
 &#13;
 else if(params["rpttype"].value=='m' &amp;&amp; params["grptype"].value=='h')&#13;
 {&#13;
-	'Energy Load trend for last 365 Days summarized by Hour';&#13;
+	'Energy Load trend for '+params["sname"].value+' for last 365 Days summarized by Hour';&#13;
 }&#13;
 &#13;
 else if(params["rpttype"].value=='m' &amp;&amp; params["grptype"].value=='d')&#13;
 {&#13;
-	'Energy Load trend for last 365 Days summarized by Day';&#13;
+	'Energy Load trend for '+params["sname"].value+' for last 365 Days summarized by Day';&#13;
 }&#13;
 &#13;
 else if(params["rpttype"].value=='m' &amp;&amp; params["grptype"].value=='m')&#13;
 {&#13;
-	'Energy Load trend for last 365 Days summarized by Month';&#13;
+	'Energy Load trend for '+params["sname"].value+' for last 365 Days summarized by Month';&#13;
 }&#13;
 &#13;
 else if(params["rpttype"].value=='g' &amp;&amp; params["grptype"].value=='h')&#13;
 {&#13;
-	'Energy Load trend for the specified period summarized by Hour';&#13;
+	'Energy Load trend for '+params["sname"].value+' for the specified period summarized by Hour';&#13;
 }&#13;
 &#13;
 else if(params["rpttype"].value=='g' &amp;&amp; params["grptype"].value=='d')&#13;
 {&#13;
-	'Energy Load trend for the specified period summarized by Day';&#13;
+	'Energy Load trend for '+params["sname"].value+' for the specified period summarized by Day';&#13;
 }&#13;
 &#13;
 else if(params["rpttype"].value=='g' &amp;&amp; params["grptype"].value=='m')&#13;
 {&#13;
-	'Energy Load trend for the specified period summarized by Month';&#13;
+	'Energy Load trend for '+params["sname"].value+' for the specified period summarized by Month';&#13;
 }&#13;
 &#13;
 else if(params["rpttype"].value=='t' &amp;&amp; params["grptype"].value=='w')&#13;
 {&#13;
-	'Energy Load trend for the last 24 Hours';&#13;
+	'Energy Load trend for '+params["sname"].value+' for the last 24 Hours';&#13;
 }&#13;
 else if(params["rpttype"].value=='s' &amp;&amp; params["grptype"].value=='w')&#13;
 {&#13;
-	'Energy Load trend for the last 7 Days';&#13;
+	'Energy Load trend for '+params["sname"].value+' for the last 7 Days';&#13;
 }&#13;
 else if(params["rpttype"].value=='d' &amp;&amp; params["grptype"].value=='w')&#13;
 {&#13;
-	'Energy Load trend for the last 30 Days';&#13;
+	'Energy Load trend for '+params["sname"].value+' for the last 30 Days';&#13;
 }&#13;
 &#13;
 else&#13;
 {&#13;
-	'Energy Load trend for the Specified period';&#13;
+	'Energy Load trend for '+params["sname"].value+' for the Specified period';&#13;
 }</expression>
             <property name="contentType">html</property>
         </text-data>

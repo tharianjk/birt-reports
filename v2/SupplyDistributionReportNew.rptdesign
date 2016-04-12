@@ -177,6 +177,17 @@ false);*/]]></method>
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="sname" id="533">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="7">
@@ -756,25 +767,25 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION) END QTY ,UN.UNITSHORT]]></xml
                                 </list-property>
                                 <expression name="valueExpr">if(row["C4"]=='LH')&#13;
 {&#13;
-	row["C4"]='Supply breakup by Section for the last 1 Hour in '+row["UNITSHORT"];&#13;
+	row["C4"]='Supply breakup by Section for '+params["sname"].value+' for the last 1 Hour in '+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C4"]=='24H')&#13;
 {&#13;
-	row["C4"]='Supply breakup by Section for the last 24 Hour in '+row["UNITSHORT"];&#13;
+	row["C4"]='Supply breakup by Section for '+params["sname"].value+' for the last 24 Hour in '+row["UNITSHORT"];&#13;
 }&#13;
 &#13;
 else if(row["C4"]=='7D')&#13;
 {&#13;
-	row["C4"]='Supply breakup by Section for the last 7 days in '+row["UNITSHORT"];&#13;
+	row["C4"]='Supply breakup by Section for '+params["sname"].value+' for the last 7 days in '+row["UNITSHORT"];&#13;
 }&#13;
 else if(row["C4"]=='30D')&#13;
 {&#13;
-	row["C4"]='Supply breakup by Section for the last 30 days in '+row["UNITSHORT"];&#13;
+	row["C4"]='Supply breakup by Section for '+params["sname"].value+' for the last 30 days in '+row["UNITSHORT"];&#13;
 }&#13;
 &#13;
 else if(row["C4"]=='365D')&#13;
 {&#13;
-	row["C4"]='Supply breakup by Section for the last 365 days in '+row["UNITSHORT"];&#13;
+	row["C4"]='Supply breakup by Section for '+params["sname"].value+' for the last 365 days in '+row["UNITSHORT"];&#13;
 }&#13;
 &#13;
 else&#13;
@@ -786,7 +797,7 @@ else&#13;
 	}&#13;
 	else&#13;
 	{&#13;
-		row["C4"]='Supply breakup by Section for the period from '+params["fromdate"].value+' to '+params["todate"].value+' in '+row["UNITSHORT"];&#13;
+		row["C4"]='Supply breakup by Section for '+params["sname"].value+' for the period from '+params["fromdate"].value+' to '+params["todate"].value+' in '+row["UNITSHORT"];&#13;
 	}&#13;
 	&#13;
 }</expression>

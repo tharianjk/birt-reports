@@ -104,6 +104,17 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="sname" id="257">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="7">
@@ -854,44 +865,44 @@ LHour=params["fromdate"].value
                         </list-property>
                         <expression name="valueExpr">if(row["C6"]=='H')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for the last 1 Hour in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 1 Hour in :'+row["unit"];&#13;
 }&#13;
 else if(row["C6"]=='24H')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for the last 24 Hour in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 24 Hour in :'+row["unit"];&#13;
 	&#13;
 }&#13;
 else if(row["C6"]=='7H')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for the last 7 days Summarized by Hour in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 7 days Summarized by Hour in :'+row["unit"];&#13;
 }&#13;
 else if(row["C6"]=='7D')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for the last 7 days Summarized by Day in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 7 days Summarized by Day in :'+row["unit"];&#13;
 }&#13;
 else if(row["C6"]=='30H')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for the last 30 days Summarized by Hour in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 30 days Summarized by Hour in :'+row["unit"];&#13;
 }&#13;
 else if(row["C6"]=='30D')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for the last 30 days Summarized by Day in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 30 days Summarized by Day in :'+row["unit"];&#13;
 }&#13;
 else if(row["C6"]=='30M')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for the last 30 days Summarized by Month in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 30 days Summarized by Month in :'+row["unit"];&#13;
 }&#13;
 else if(row["C6"]=='365D')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for the last 365 days Summarized by Day in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 365 days Summarized by Day in :'+row["unit"];&#13;
 }&#13;
 else if(row["C6"]=='365M')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for the last 365 days Summarized by Month in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 365 days Summarized by Month in :'+row["unit"];&#13;
 }&#13;
 else if(row["C6"]=='365H')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for the last 365 days Summarized by Hour in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 365 days Summarized by Hour in :'+row["unit"];&#13;
 }&#13;
 else&#13;
 {&#13;
@@ -904,7 +915,7 @@ else&#13;
 		{&#13;
 			if(lastChar!=null)&#13;
 			{&#13;
-			row["6"]='Supply/Demand Trend for the Specified Period in:'+row["unit"];&#13;
+			row["6"]='Supply/Demand Trend for '+params["sname"].value+' for the Specified Period in:'+row["unit"];&#13;
 				&#13;
 				&#13;
 			}&#13;
@@ -920,7 +931,7 @@ else&#13;
 		{	&#13;
 			if(lastChar!=null)&#13;
 			{&#13;
-				row["6"]='Supply/Demand Trend for the Specified Period in:'+row["unit"];&#13;
+				row["6"]='Supply/Demand Trend for '+params["sname"].value+' for the Specified Period in:'+row["unit"];&#13;
 					&#13;
 			}&#13;
 		}&#13;
@@ -935,7 +946,7 @@ else&#13;
 		{&#13;
 			if(lastChar!=null)&#13;
 			{&#13;
-				row["6"]='Supply/Demand Trend for the Specified Period in:'+row["unit"];&#13;
+				row["6"]='Supply/Demand Trend for '+params["sname"].value+' for the Specified Period in:'+row["unit"];&#13;
 					&#13;
 			}&#13;
 		}&#13;
