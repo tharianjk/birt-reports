@@ -60,6 +60,9 @@ else
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">311</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -73,6 +76,9 @@ else
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">3</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -86,6 +92,9 @@ else
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">299</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -97,6 +106,9 @@ else
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2016-03-14 10:42:59</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -108,6 +120,9 @@ else
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2016-04-13 10:42:59</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -119,6 +134,9 @@ else
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">C</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -130,6 +148,9 @@ else
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">30D</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -141,6 +162,9 @@ else
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">19</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -152,6 +176,9 @@ else
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">Flow MEter</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -241,11 +268,130 @@ if(lastChar=='M')&#13;
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">DISPLAYNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">C2</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">UNITSHORT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">DAY_ID</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">C4</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">C5</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">mn</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">RwCount</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">CUSH</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">CUSD</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">CUSM</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
             <method name="beforeOpen"><![CDATA[
 	curT=params["todate"].value 
 	LHour=params["fromdate"].value
 	this.queryText = this.queryText +
+	
+	
+	" ,'"+params["coltype"].value+"' as C5 "+
+	" from ems_section_summary s  "+
+	" inner join ems_utility EU on EU.utility_id=s.utility_id "+
+	" inner join ems_attribute ATR on ATR.attribute_id = EU.attribute_id"+
+	" inner join ems_unit EUN on EUN.unit_id=ATR.unit_id"+ 
+	" inner join ems_time_dim d on s.time_id=d.TIME_ID "+
+	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID "+
+	" inner join fwk_assettree b on a.parent_id=b.assettree_id where  '"+params["typ"].value+"' = 2 and a.parent_id='"+params["UsrSecId"].value+"' and  upper(a.b_rollup)='TRUE' and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
+	" and d.DT_DATE<'"+curT+"' and  s.UTILITY_ID='"+params["UtlId"].value+"' and a.company_id='"+params["UsrCompId"].value+"' group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE"+
+    " UNION select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'"+params["coltype"].value+"' as C5 "+
+	" from ems_section_summary s "+
+	" inner join ems_utility EU on EU.utility_id=s.utility_id "+
+	" inner join ems_attribute ATR on ATR.attribute_id = EU.attribute_id"+
+	" inner join ems_unit EUN on EUN.unit_id=ATR.unit_id "+
+	" inner join ems_time_dim d on s.time_id=d.TIME_ID "+
+	" inner join fwk_assettree a on s.ASSETTREE_ID=a.ASSETTREE_ID "+
+	" inner join fwk_assettree b on a.parent_id=b.assettree_id where  '"+params["typ"].value+"' <> 2 and a.assettree_id='"+params["UsrSecId"].value+"' and S.c_coretype='C' and d.DT_DATE>='"+LHour+"'"+ 
+	" 	and d.DT_DATE<'"+curT+"' and  s.UTILITY_ID='"+params["UtlId"].value+"' and a.company_id='"+params["UsrCompId"].value+"' "+
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE "+
+    " UNION select a.DISPLAYNAME, 0 as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'"+params["coltype"].value+"' as C5 "+
+	" from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_attribute ATR, ems_unit EUN "+
+	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and ATR.attribute_id = EU.attribute_id and EUN.unit_id=ATR.unit_id and '"+params["typ"].value+"' = 2"+ 
+	" and a.parent_id='"+params["UsrSecId"].value+"' and  upper(a.b_rollup)='TRUE' and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' "+
+	" and m.UTILITY_ID='"+params["UtlId"].value+"' and a.company_id='"+params["UsrCompId"].value+"' "+
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE "+
+    " UNION select a.DISPLAYNAME, 0 as C2, EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4,'"+params["coltype"].value+"' as C5 "+
+	" from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_attribute ATR, ems_unit EUN "+
+	" where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and ATR.attribute_id = EU.attribute_id and EUN.unit_id=ATR.unit_id and '"+params["typ"].value+"' <> 2 and a.assettree_id='"+params["UsrSecId"].value+"' "+
+	" and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and  m.UTILITY_ID='"+params["UtlId"].value+"' and a.company_id='"+params["UsrCompId"].value+"' "+
+	" group by a.DISPLAYNAME,EUN.unitshort,DAY_ID,d.DT_DATE) "+
+    " as tab group by DISPLAYNAME,unitshort,DAY_ID,C4,C5 order by C4 asc";
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	" ,'"+params["coltype"].value+"' as C5 from ems_section_summary s "+
     " inner join ems_utility EU on EU.utility_id=s.utility_id"+
@@ -312,9 +458,46 @@ if(lastChar=='M')&#13;
 
 	]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet"/>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">DISPLAYNAME</property>
+                    <property name="nativeName">DISPLAYNAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">C2</property>
+                    <property name="nativeName">C2</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">UNITSHORT</property>
+                    <property name="nativeName">UNITSHORT</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">DAY_ID</property>
+                    <property name="nativeName">DAY_ID</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">C4</property>
+                    <property name="nativeName">C4</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">C5</property>
+                    <property name="nativeName">C5</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
             <xml-property name="queryText"><![CDATA[select DISPLAYNAME,sum(C2) C2,UNITSHORT,DAY_ID,C4,C5 from (
-select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4]]></xml-property>
+	select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID ,cast(d.dt_date as datetime) as C4]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
