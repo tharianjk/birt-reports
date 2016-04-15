@@ -159,6 +159,17 @@ else
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="scroll" id="818">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="8">
@@ -266,6 +277,7 @@ if(lastChar=='M')&#13;
 	
 
 	]]></method>
+            <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("scroll",params["scroll"].value);]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
             <xml-property name="queryText"><![CDATA[select DISPLAYNAME,sum(C2) C2,UNITSHORT,DAY_ID,C4,C5 from (
@@ -579,49 +591,51 @@ select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID
                         </list-property>
                         <expression name="valueExpr">if(row["C5"]=='H')&#13;
 {&#13;
-	row["C5"]='Supply Trend for '+params["sname"].value+' for the last 1 Hour in '+row["UNITSHORT"];&#13;
+	&#13;
+	row["C5"]='Supply Trend in('+row["UNITSHORT"]+') for: '+params["sname"].value+' for the last 1 Hour';&#13;
 }&#13;
 else if(row["C5"]=='24H')&#13;
 {&#13;
-	row["C5"]='Supply Trend for '+params["sname"].value+' for the last 24 Hour in'+row["UNITSHORT"];&#13;
+	row["C5"]='Supply Trend in('+row["UNITSHORT"]+') for: '+params["sname"].value+' for the last 24 Hours';&#13;
 }&#13;
 else if(row["C5"]=='7H')&#13;
 {&#13;
-	row["C5"]='Supply Trend for '+params["sname"].value+' for the last 7 days Summarized by Hour in '+row["UNITSHORT"];&#13;
+	row["C5"]='Supply Trend in('+row["UNITSHORT"]+') for: '+params["sname"].value+' for the last 7 Days';&#13;
 }&#13;
 else if(row["C5"]=='7D')&#13;
 {&#13;
-	row["C5"]='Supply Trend for '+params["sname"].value+' for the last 7 days Summarized by Day in '+row["UNITSHORT"];&#13;
+	row["C5"]='Supply Trend in('+row["UNITSHORT"]+') for: '+params["sname"].value+' for the last 7 Days';&#13;
 }&#13;
 else if(row["C5"]=='30H')&#13;
 {&#13;
-	row["C5"]='Supply Trend for '+params["sname"].value+' for the last 30 days Summarized by Hour in'+row["UNITSHORT"];&#13;
+	row["C5"]='Supply Trend in('+row["UNITSHORT"]+') for: '+params["sname"].value+' for the last 30 Days';&#13;
 }&#13;
 else if(row["C5"]=='30D')&#13;
 {&#13;
-	row["C5"]='Supply Trend for '+params["sname"].value+' for the last 30 days Summarized by Day in '+row["UNITSHORT"];&#13;
+	row["C5"]='Supply Trend in('+row["UNITSHORT"]+') for: '+params["sname"].value+' for the last 30 Days';&#13;
 }&#13;
 else if(row["C5"]=='30M')&#13;
 {&#13;
-	row["C5"]='Supply Trend for '+params["sname"].value+' for the last 30 days Summarized by Month in '+row["UNITSHORT"];&#13;
+	row["C5"]='Supply Trend in('+row["UNITSHORT"]+') for: '+params["sname"].value+' for the last 30 Days';&#13;
 }&#13;
 else if(row["C5"]=='365D')&#13;
 {&#13;
-	row["C5"]='Energy Usage Trend for the last 365 days Summarized by Day in '+row["UNITSHORT"];&#13;
+	row["C5"]='Supply Trend in('+row["UNITSHORT"]+') for: '+params["sname"].value+' for the last 365 Days';&#13;
 }&#13;
 else if(row["C5"]=='365M')&#13;
 {&#13;
-	row["C5"]='Supply Trend for '+params["sname"].value+' for the last 365 days Summarized by Month in '+row["UNITSHORT"];&#13;
+	row["C5"]='Supply Trend in('+row["UNITSHORT"]+') for: '+params["sname"].value+' for the last 365 Days';&#13;
 }&#13;
 else if(row["C5"]=='365H')&#13;
 {&#13;
-	row["C5"]='Supply Trend for '+params["sname"].value+' for the last 365 days Summarized by Hour in '+row["UNITSHORT"];&#13;
+	row["C5"]='Supply Trend in('+row["UNITSHORT"]+') for: '+params["sname"].value+' for the last 365 Days';&#13;
 }&#13;
 else&#13;
 {&#13;
 	if(row["C5"]=='SH')&#13;
 	{&#13;
-				row["C5"]='Supply Trend for '+params["sname"].value+' for the specified period from '+params["fromdate"].value+' to '+params["todate"].value+' summarized by hour in '+row["UNITSHORT"];&#13;
+				&#13;
+				row["C5"]='Supply Trend (in : '+row["UNITSHORT"]+') for : '+params["sname"].value+' from '+params["fromdate"].value+' to '+params["todate"].value;&#13;
 	}&#13;
 		&#13;
 	&#13;
@@ -629,13 +643,13 @@ else&#13;
 	&#13;
 	if(row["C5"]=='SD')&#13;
 	{&#13;
-				row["C5"]='Supply Trend for '+params["sname"].value+' for the specified period from '+params["fromdate"].value+' to '+params["todate"].value+' summarized by day in '+row["UNITSHORT"];&#13;
+				row["C5"]='Supply Trend (in : '+row["UNITSHORT"]+') for : '+params["sname"].value+' from '+params["fromdate"].value+' to '+params["todate"].value;&#13;
 	}&#13;
 	&#13;
 	&#13;
 	if(row["C5"]=='SM')&#13;
 	{&#13;
-				row["C5"]='Supply Trend for '+params["sname"].value+' for the specified period from '+params["fromdate"].value+' to '+params["todate"].value+' summarized by month in '+row["UNITSHORT"];&#13;
+				row["C5"]='Supply Trend (in : '+row["UNITSHORT"]+') for : '+params["sname"].value+' from '+params["fromdate"].value+' to '+params["todate"].value;&#13;
 	}&#13;
 	if(row["C5"]==null || row["C5"]=='')&#13;
 	{&#13;
@@ -839,7 +853,7 @@ else&#13;
         </Color>
         <Visible>true</Visible>
       </Separator>
-      <Position>Right</Position>
+      <Position>Above</Position>
       <ItemType>Series</ItemType>
       <Title>
         <Caption>
@@ -916,34 +930,56 @@ else&#13;
   </Block>
   <Dimension>Two_Dimensional_With_Depth</Dimension>
   <Script>
+
+
+
+
+
 function afterDataSetFilled( series, dataSet, icsc )
 {
-if( series.getSeriesIdentifier() == &quot;Quantity Consumed&quot; )
+if(series.getSeriesIdentifier() == &quot;Quantity Consumed&quot;)
 	{
-	
-		if( dataSet.getValues().length > 31 &amp;&amp; dataSet.getValues().length&lt;50)
+		var scrollcheck;
+		scrollcheck=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;scroll&quot;);
+		if(scrollcheck==&quot;syes&quot;)
 		{
- 			icsc.getChartInstance().getBlock().getBounds().setWidth(3800);
- 			icsc.getChartInstance().getBlock().getBounds().setHeight(350);
-		}
-		else if(dataSet.getValues().length > 50)
-		{
- 			icsc.getChartInstance().getBlock().getBounds().setWidth(18800);
- 			icsc.getChartInstance().getBlock().getBounds().setHeight(350);
-		}
-		else
-		{
-			if(dataSet.getValues().length > 10)
+			if( dataSet.getValues().length > 31 &amp;&amp; dataSet.getValues().length&lt;50)
 			{
- 			icsc.getChartInstance().getBlock().getBounds().setWidth(1000);
- 			icsc.getChartInstance().getBlock().getBounds().setHeight(350);
+ 				icsc.getChartInstance().getBlock().getBounds().setWidth(3800);
+ 				icsc.getChartInstance().getBlock().getBounds().setHeight(310);
+			}
+			else if(dataSet.getValues().length > 50)
+			{
+ 				icsc.getChartInstance().getBlock().getBounds().setWidth(18800);
+ 				icsc.getChartInstance().getBlock().getBounds().setHeight(310);
 			}
 			else
 			{
-			 icsc.getChartInstance().getBlock().getBounds().setWidth(500);
- 			 icsc.getChartInstance().getBlock().getBounds().setHeight(350); 
- 			}
+				if(dataSet.getValues().length > 10)
+				{
+ 					icsc.getChartInstance().getBlock().getBounds().setWidth(800);
+ 					icsc.getChartInstance().getBlock().getBounds().setHeight(310);
+				}
+				else
+				{
+				 	icsc.getChartInstance().getBlock().getBounds().setWidth(500);
+ 			 		icsc.getChartInstance().getBlock().getBounds().setHeight(310); 
+ 				}
+			}
+		
 		}
+		
+		else
+		{
+		
+					icsc.getChartInstance().getBlock().getBounds().setWidth(800);
+ 					icsc.getChartInstance().getBlock().getBounds().setHeight(310);
+		
+		}
+	
+	
+	
+	
 	}
 }
 

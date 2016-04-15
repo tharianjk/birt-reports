@@ -114,6 +114,17 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="scroll" id="482">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="7">
@@ -207,6 +218,7 @@ LHour=params["fromdate"].value
 	
 	
 	]]></method>
+            <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("scroll",params["scroll"].value);]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet"/>
             <xml-property name="queryText"><![CDATA[select  SOURCENAME,sum(round(NormalCost,2)) NORMALCOST,sum(NormalQty) NORMALQTY,sum(round(OffpeakCost,2)) OFFPEAKCOST,sum(OffpeakQty) OFFPEAKQTY,sum(round(PeakCost,2)) PEAKCOST,sum(PeakQty) PEAKQTY ,DTDATE,UNITSHORT,C7 from (
@@ -681,19 +693,19 @@ case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility
                         </list-property>
                         <expression name="valueExpr">if(row["C7"]=='30M')&#13;
 {&#13;
-	row["C7"]='Cost Trend for '+params["sname"].value+' for the last 30 days Summarized by Month';&#13;
+	row["C7"]='Cost trend for: '+params["sname"].value+' for the last 30 days';&#13;
 }&#13;
 else if(row["C7"]=='30D')&#13;
 {&#13;
-	row["C7"]='Cost Trend for '+params["sname"].value+' for the last 30 days Summarized by Day';&#13;
+	row["C7"]='Cost trend for: '+params["sname"].value+' for the last 30 days';&#13;
 }&#13;
 else if(row["C7"]=='365D')&#13;
 {&#13;
-	row["C7"]='Cost Trend for '+params["sname"].value+' for the last 365 days Summarized by Day';&#13;
+	row["C7"]='Cost trend for :'+params["sname"].value+' for the last 365 days';&#13;
 }&#13;
 else if(row["C7"]=='365M')&#13;
 {&#13;
-	row["C7"]='Cost Trend for '+params["sname"].value+' for the last 365 days Summarized by Month';&#13;
+	row["C7"]='Cost trend for :'+params["sname"].value+' for the last 365 days';&#13;
 }&#13;
 else&#13;
 {&#13;
@@ -704,7 +716,7 @@ else&#13;
 	}&#13;
 	else&#13;
 	{&#13;
-	row["C7"]='Cost Trend for '+params["sname"].value+' for the Specified Period';&#13;
+	row["C7"]='Cost trend for : '+params["sname"].value+' from '+params["fromdate"].value+' to '+params["todate"].value;&#13;
 	&#13;
 	}&#13;
 }</expression>
@@ -987,21 +999,46 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
 		&#xD;
 	if( series.getSeriesIdentifier() == &quot;Normal&quot; )&#xD;
 	{&#xD;
-		if( dataSet.getValues().length > 30 &amp;&amp; dataSet.getValues().length&lt;50)&#xD;
+		&#xD;
+		var scrollcheck;&#xD;
+		scrollcheck=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;scroll&quot;);&#xD;
+		if(scrollcheck==&quot;syes&quot;)&#xD;
 		{&#xD;
- 			icsc.getChartInstance().getBlock().getBounds().setWidth(3800);&#xD;
- 			icsc.getChartInstance().getBlock().getBounds().setHeight(350);&#xD;
+			if( dataSet.getValues().length > 31 &amp;&amp; dataSet.getValues().length&lt;50)&#xD;
+			{&#xD;
+ 				icsc.getChartInstance().getBlock().getBounds().setWidth(3800);&#xD;
+ 				icsc.getChartInstance().getBlock().getBounds().setHeight(310);&#xD;
+			}&#xD;
+			else if(dataSet.getValues().length > 50)&#xD;
+			{&#xD;
+ 				icsc.getChartInstance().getBlock().getBounds().setWidth(18800);&#xD;
+ 				icsc.getChartInstance().getBlock().getBounds().setHeight(310);&#xD;
+			}&#xD;
+			else&#xD;
+			{&#xD;
+				if(dataSet.getValues().length > 10)&#xD;
+				{&#xD;
+ 					icsc.getChartInstance().getBlock().getBounds().setWidth(800);&#xD;
+ 					icsc.getChartInstance().getBlock().getBounds().setHeight(310);&#xD;
+				}&#xD;
+				else&#xD;
+				{&#xD;
+				 	icsc.getChartInstance().getBlock().getBounds().setWidth(500);&#xD;
+ 			 		icsc.getChartInstance().getBlock().getBounds().setHeight(310); &#xD;
+ 				}&#xD;
+			}&#xD;
+		&#xD;
 		}&#xD;
-		else if(dataSet.getValues().length > 50)&#xD;
-		{&#xD;
- 			icsc.getChartInstance().getBlock().getBounds().setWidth(5800);&#xD;
- 			icsc.getChartInstance().getBlock().getBounds().setHeight(350);&#xD;
-		}&#xD;
+		&#xD;
 		else&#xD;
 		{&#xD;
-			icsc.getChartInstance().getBlock().getBounds().setWidth(800);&#xD;
- 			icsc.getChartInstance().getBlock().getBounds().setHeight(350);&#xD;
+		&#xD;
+					icsc.getChartInstance().getBlock().getBounds().setWidth(800);&#xD;
+ 					icsc.getChartInstance().getBlock().getBounds().setHeight(310);&#xD;
+		&#xD;
 		}&#xD;
+	&#xD;
+	&#xD;
 	}&#xD;
 	&#xD;
 	&#xD;

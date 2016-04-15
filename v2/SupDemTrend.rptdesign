@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
+    <text-property name="title">Supply Demand Trend</text-property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
@@ -105,6 +106,17 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="sname" id="257">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="scroll" id="258">
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -321,7 +333,8 @@ LHour=params["fromdate"].value
 	
 	
 	]]></method>
-            <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("Demographic", row["UNITSHORT"]);]]></method>
+            <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("Demographic", row["UNITSHORT"]);
+reportContext.setPersistentGlobalVariable("scroll",params["scroll"].value);]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet">
                 <structure>
@@ -865,44 +878,44 @@ LHour=params["fromdate"].value
                         </list-property>
                         <expression name="valueExpr">if(row["C6"]=='H')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 1 Hour in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand in('+row["unit"]+') for: '+params["sname"].value+' for the last 1 Hour';&#13;
 }&#13;
 else if(row["C6"]=='24H')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 24 Hour in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand in('+row["unit"]+') for :'+params["sname"].value+' for the last 24 Hours';&#13;
 	&#13;
 }&#13;
 else if(row["C6"]=='7H')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 7 days Summarized by Hour in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand in('+row["unit"]+') for: '+params["sname"].value+' for the last 7 Days';&#13;
 }&#13;
 else if(row["C6"]=='7D')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 7 days Summarized by Day in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand in('+row["unit"]+') for: '+params["sname"].value+' for the last 7 Days';&#13;
 }&#13;
 else if(row["C6"]=='30H')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 30 days Summarized by Hour in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand in('+row["unit"]+') for :'+params["sname"].value+' for the last 30 Days';&#13;
 }&#13;
 else if(row["C6"]=='30D')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 30 days Summarized by Day in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand in('+row["unit"]+') for: '+params["sname"].value+' for the last 30 Days';&#13;
 }&#13;
 else if(row["C6"]=='30M')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 30 days Summarized by Month in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand in('+row["unit"]+') for :'+params["sname"].value+' for the last 30 Days';&#13;
 }&#13;
 else if(row["C6"]=='365D')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 365 days Summarized by Day in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand in('+row["unit"]+') for '+params["sname"].value+' for the last 365 Days';&#13;
 }&#13;
 else if(row["C6"]=='365M')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 365 days Summarized by Month in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand in('+row["unit"]+') for: '+params["sname"].value+' for the last 365 Days';&#13;
 }&#13;
 else if(row["C6"]=='365H')&#13;
 {&#13;
-	row["C6"]='Supply/Demand Trend for '+params["sname"].value+' for the last 365 days Summarized by Hour in :'+row["unit"];&#13;
+	row["C6"]='Supply/Demand in('+row["unit"]+') for: '+params["sname"].value+' for the last 365 Days';&#13;
 }&#13;
 else&#13;
 {&#13;
@@ -915,8 +928,8 @@ else&#13;
 		{&#13;
 			if(lastChar!=null)&#13;
 			{&#13;
-			row["6"]='Supply/Demand Trend for '+params["sname"].value+' for the Specified Period in:'+row["unit"];&#13;
-				&#13;
+		&#13;
+			row["C6"]='Supply/Demand (in : '+row["unit"]+') for : '+params["sname"].value+' from '+params["fromdate"].value+' to '+params["todate"].value;&#13;
 				&#13;
 			}&#13;
 		}&#13;
@@ -931,7 +944,7 @@ else&#13;
 		{	&#13;
 			if(lastChar!=null)&#13;
 			{&#13;
-				row["6"]='Supply/Demand Trend for '+params["sname"].value+' for the Specified Period in:'+row["unit"];&#13;
+				row["C6"]='Supply/Demand (in : '+row["unit"]+') for : '+params["sname"].value+' from '+params["fromdate"].value+' to '+params["todate"].value;&#13;
 					&#13;
 			}&#13;
 		}&#13;
@@ -946,7 +959,7 @@ else&#13;
 		{&#13;
 			if(lastChar!=null)&#13;
 			{&#13;
-				row["6"]='Supply/Demand Trend for '+params["sname"].value+' for the Specified Period in:'+row["unit"];&#13;
+				row["C6"]='Supply/Demand (in : '+row["unit"]+') for : '+params["sname"].value+' from '+params["fromdate"].value+' to '+params["todate"].value;&#13;
 					&#13;
 			}&#13;
 		}&#13;
@@ -1139,7 +1152,7 @@ else&#13;
           <Alignment/>
         </Font>
       </Text>
-      <Orientation>Vertical</Orientation>
+      <Orientation>Horizontal</Orientation>
       <Direction>Top_Bottom</Direction>
       <Separator>
         <Style>Solid</Style>
@@ -1152,7 +1165,7 @@ else&#13;
         </Color>
         <Visible>false</Visible>
       </Separator>
-      <Position>Right</Position>
+      <Position>Above</Position>
       <ItemType>Series</ItemType>
       <Title>
         <Caption>
@@ -1241,23 +1254,48 @@ function afterDataSetFilled( series, dataSet, icsc )
 {
 if(series.getSeriesIdentifier() == &quot;Waste&quot;)
 	{
-		if( dataSet.getValues().length > 5 &amp;&amp; dataSet.getValues().length&lt;40)
+		var scrollcheck;
+		scrollcheck=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;scroll&quot;);
+		if(scrollcheck==&quot;syes&quot;)
 		{
- 			icsc.getChartInstance().getBlock().getBounds().setWidth(3800);
- 			icsc.getChartInstance().getBlock().getBounds().setHeight(350);
+			if( dataSet.getValues().length > 31 &amp;&amp; dataSet.getValues().length&lt;50)
+			{
+ 				icsc.getChartInstance().getBlock().getBounds().setWidth(3800);
+ 				icsc.getChartInstance().getBlock().getBounds().setHeight(310);
+			}
+			else if(dataSet.getValues().length > 50)
+			{
+ 				icsc.getChartInstance().getBlock().getBounds().setWidth(18800);
+ 				icsc.getChartInstance().getBlock().getBounds().setHeight(310);
+			}
+			else
+			{
+				if(dataSet.getValues().length > 10)
+				{
+ 					icsc.getChartInstance().getBlock().getBounds().setWidth(800);
+ 					icsc.getChartInstance().getBlock().getBounds().setHeight(310);
+				}
+				else
+				{
+				 	icsc.getChartInstance().getBlock().getBounds().setWidth(500);
+ 			 		icsc.getChartInstance().getBlock().getBounds().setHeight(310); 
+ 				}
+			}
+		
 		}
-		else if(dataSet.getValues().length > 40)
-		{
- 			icsc.getChartInstance().getBlock().getBounds().setWidth(5800);
- 			icsc.getChartInstance().getBlock().getBounds().setHeight(350);
-		}
+		
 		else
 		{
-			icsc.getChartInstance().getBlock().getBounds().setWidth(600);
- 			icsc.getChartInstance().getBlock().getBounds().setHeight(350);
+		
+					icsc.getChartInstance().getBlock().getBounds().setWidth(800);
+ 					icsc.getChartInstance().getBlock().getBounds().setHeight(310);
+		
 		}
-	}
 	
+	
+	
+	
+	}
 }
 </Script>
   <Units>Points</Units>
