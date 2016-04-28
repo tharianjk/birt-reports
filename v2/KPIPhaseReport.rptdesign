@@ -45,6 +45,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">sno</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -56,6 +59,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">30D</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -67,6 +73,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2015-12-01 00:00:00</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -78,6 +87,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2015-12-24 00:00:00</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -89,6 +101,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">C</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -100,6 +115,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">7,8,9</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -111,6 +129,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">multi</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -122,6 +143,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">4</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -133,6 +157,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">d</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -144,6 +171,23 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">s</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="userid" id="295">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">1</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -335,16 +379,22 @@ m=m+1;&#13;
             <method name="beforeOpen"><![CDATA[curT=params["todate"].value 
 LHour=params["fromdate"].value
 
-this.queryText = this.queryText +",'"+params["coltype"].value+"' as C5,'"+params["attrctype"].value+"' as C6"+
-",mt.displayname,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
-" inner join fwk_assettree mt on mt.assettree_id=eml.assettree_id "+
-" inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id left join ems_unit un on eat.unit_id=un.unit_id where"+
-" EML.assettree_id in ("+params["seclst"].value+") and EML.dt_logdate>'"+LHour+"' and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+params["atrlst"].value+")"+
-" order by cast(EML.dt_logdate as datetime) Asc";
-	
-	
-	
-]]></method>
+this.queryText = this.queryText +",'"+params["coltype"].value+"' as C5,'"+params["attrctype"].value+"' as C6,mt.displayname as DISPLAYNAME,unitshort as UNITSHORT "+ 
+" from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id inner join fwk_assettree mt on mt.assettree_id=eml.assettree_id"+  
+" inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id left join ems_unit un on eat.unit_id=un.unit_id"+ 
+" where EML.assettree_id in ("+params["seclst"].value+") and EML.dt_logdate>'"+LHour+"' and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+params["atrlst"].value+")"+
+" union select distinct ETG.tag_id as TAG_ID ,0.00 as N_READING,cast(dt_date as datetime) as C3,"+
+" EAT.Attribute as ATTRIBUTE,'"+params["coltype"].value+"' as C5,'"+params["attrctype"].value+"' as C6,mt.displayname as DISPLAYNAME,unitshort as UNITSHORT  from EMS_TIME_DATES t ,ems_meter m"+ 
+", ems_tag ETG,fwk_assettree mt ,EMS_ATTRIBUTE EAT ,ems_unit un where ETG.meter_id=m.meter_id and m.parent_id=mt.assettree_id"+
+" and EAT.Attribute_id=ETG.Attribute_id"+
+" and eat.unit_id=un.unit_id and t.user_id='"+params["userid"].value+"' and etg.tag_id in ("+params["atrlst"].value+") and mt.assettree_id in ("+params["seclst"].value+")"+
+" union"+
+" select distinct ETG.tag_id as TAG_ID,0 as N_READING,cast(dt_date as datetime) as C3,"+
+" EAT.Attribute AS ATTRIBUTE,'"+params["coltype"].value+"' as C5,'"+params["attrctype"].value+"' as C6,mt.displayname AS DISPLAYNAME,'' AS UNITSHORT from EMS_TIME_DATES t ,ems_meter m"+
+" , ems_tag ETG,fwk_assettree mt ,EMS_ATTRIBUTE EAT  where ETG.meter_id=m.meter_id and m.parent_id=mt.assettree_id"+
+" and EAT.Attribute_id=ETG.Attribute_id"+
+" and t.user_id='"+params["userid"].value+"' and etg.tag_id in ("+params["atrlst"].value+") and mt.assettree_id in ("+params["seclst"].value+")"+
+" order by cast(C3 as datetime) Asc";]]></method>
             <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("units", dataSetRow["UNITSHORT"]);
 reportContext.setPersistentGlobalVariable("s",dataSetRow["C6"]);
 reportContext.setPersistentGlobalVariable("hori",dataSetRow["horizontal"]);
@@ -435,8 +485,8 @@ else
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select   EML.tag_id,EML.N_reading,cast(EML.dt_logdate as datetime) as C3,
-EAT.Attribute]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select   EML.tag_id as TAG_ID,EML.N_reading as N_READING,cast(EML.dt_logdate as datetime) as C3,
+EAT.Attribute as ATTRIBUTE ]]></xml-property>
         </oda-data-set>
     </data-sets>
     <cubes>
@@ -1376,7 +1426,7 @@ else&#13;
             <list-property name="visibility">
                 <structure>
                     <property name="format">all</property>
-                    <expression name="valueExpr" type="javascript">row["cnt"]&lt;1 || params["attrctype"].value!='single'</expression>
+                    <expression name="valueExpr" type="javascript">(row["cnt"]&lt;1) || (params["attrctype"].value!='single')</expression>
                 </structure>
             </list-property>
             <list-property name="boundDataColumns">
