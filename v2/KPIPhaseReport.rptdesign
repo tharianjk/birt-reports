@@ -392,9 +392,10 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C5,'"+params
 " select distinct ETG.tag_id as TAG_ID,0 as N_READING,cast(dt_date as datetime) as C3,"+
 " EAT.Attribute AS ATTRIBUTE,'"+params["coltype"].value+"' as C5,'"+params["attrctype"].value+"' as C6,mt.displayname AS DISPLAYNAME,'' AS UNITSHORT from EMS_TIME_DATES t ,ems_meter m"+
 " , ems_tag ETG,fwk_assettree mt ,EMS_ATTRIBUTE EAT  where ETG.meter_id=m.meter_id and m.parent_id=mt.assettree_id"+
-" and EAT.Attribute_id=ETG.Attribute_id"+
+" and EAT.Attribute_id=ETG.Attribute_id and EAT.unit_id is null "+
 " and t.user_id='"+params["userid"].value+"' and etg.tag_id in ("+params["atrlst"].value+") and mt.assettree_id in ("+params["seclst"].value+")"+
-" order by cast(C3 as datetime) Asc";]]></method>
+" ) as tab "+
+ " group by TAG_ID,C3,ATTRIBUTE,C5,C6,DISPLAYNAME,UNITSHORT order by cast(C3 as datetime) Asc";]]></method>
             <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("units", dataSetRow["UNITSHORT"]);
 reportContext.setPersistentGlobalVariable("s",dataSetRow["C6"]);
 reportContext.setPersistentGlobalVariable("hori",dataSetRow["horizontal"]);
@@ -485,7 +486,7 @@ else
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select   EML.tag_id as TAG_ID,EML.N_reading as N_READING,cast(EML.dt_logdate as datetime) as C3,
+            <xml-property name="queryText"><![CDATA[ select DISTINCT TAG_ID,sum(N_READING) N_READING,C3,ATTRIBUTE,C5,C6,DISPLAYNAME,UNITSHORT from (select   EML.tag_id as TAG_ID,EML.N_reading as N_READING,cast(concat (date_format(EML.dt_logdate ,'%Y-%m-%d %H:%i'),':00') as datetime) as C3,
 EAT.Attribute as ATTRIBUTE ]]></xml-property>
         </oda-data-set>
     </data-sets>
