@@ -3085,14 +3085,17 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
           <Definition>if(row[&quot;C5&quot;]=='LH')&#xD;
 {&#xD;
 Formatter.format(row[&quot;C3&quot;],'HH:mm:ss ')&#xD;
+//row[&quot;C3&quot;];&#xD;
 }&#xD;
 else if(row[&quot;C5&quot;]=='24H')&#xD;
 {&#xD;
 Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
+//row[&quot;C3&quot;];&#xD;
 }&#xD;
 else &#xD;
 {&#xD;
 Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
+//row[&quot;C3&quot;];&#xD;
 }</Definition>
         </DataDefinition>
         <SeriesIdentifier></SeriesIdentifier>
