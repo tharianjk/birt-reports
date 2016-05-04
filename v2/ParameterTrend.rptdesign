@@ -2394,8 +2394,8 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
             <Visible>true</Visible>
           </LineAttributes>
           <PaletteLineColor>true</PaletteLineColor>
-          <Curve>false</Curve>
-          <ConnectMissingValue>false</ConnectMissingValue>
+          <Curve>true</Curve>
+          <ConnectMissingValue>true</ConnectMissingValue>
         </Series>
         <Grouping>
           <GroupType>Text</GroupType>
@@ -2512,10 +2512,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
         <AutoExpand>true</AutoExpand>
       </Scale>
       <Origin>
-        <Type>Value</Type>
-        <Value xsi:type="data:NumberDataElement">
-          <Value>0.0</Value>
-        </Value>
+        <Type>Min</Type>
       </Origin>
       <PrimaryAxis>true</PrimaryAxis>
       <Percent>false</Percent>
@@ -3219,7 +3216,7 @@ row[&quot;C3&quot;]&#xD;
       <Visible>true</Visible>
     </Label>
     <FormatSpecifier xsi:type="attribute:JavaDateFormatSpecifier">
-      <Pattern>dd-MMM-yy hh:mma</Pattern>
+      <Pattern>dd-MMM-yy hh:mm:ss a</Pattern>
     </FormatSpecifier>
     <LabelPosition>Below</LabelPosition>
     <Staggered>false</Staggered>
