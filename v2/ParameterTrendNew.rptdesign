@@ -46,9 +46,6 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">sno</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -61,9 +58,6 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">30D</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -76,9 +70,6 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">2015-10-04 00:00:00</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -91,9 +82,6 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">2016-10-04 00:00:00</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -106,9 +94,6 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">C</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -121,9 +106,6 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">7</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -136,9 +118,6 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">single</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -151,9 +130,6 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">4</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -166,9 +142,6 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">ss</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -192,8 +165,19 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="userid" id="296">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">dd</value>
+                <value type="constant">1</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -309,103 +293,28 @@ m=m+1;&#13;
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">TAG_ID</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">N_READING</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">C3</property>
-                        <property name="dataType">date-time</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">ATTRIBUTE</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">C5</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">C6</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">DISPLAYNAME</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">UNITSHORT</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">9</property>
-                        <property name="name">Uni</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">10</property>
-                        <property name="name">horizontal</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">11</property>
-                        <property name="name">max</property>
-                        <property name="dataType">float</property>
-                    </structure>
-                    <structure>
-                        <property name="position">12</property>
-                        <property name="name">min</property>
-                        <property name="dataType">float</property>
-                    </structure>
-                    <structure>
-                        <property name="position">13</property>
-                        <property name="name">avg</property>
-                        <property name="dataType">float</property>
-                    </structure>
-                    <structure>
-                        <property name="position">14</property>
-                        <property name="name">myc</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">15</property>
-                        <property name="name">cnt</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">16</property>
-                        <property name="name">mkrline</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                </list-property>
-            </structure>
+            <structure name="cachedMetaData"/>
             <method name="beforeOpen"><![CDATA[curT=params["todate"].value 
 LHour=params["fromdate"].value
 
-this.queryText = this.queryText +",'"+params["coltype"].value+"' as C5,'"+params["attrctype"].value+"' as C6"+
-",mt.displayname,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
-" inner join fwk_assettree mt on mt.assettree_id=eml.assettree_id "+
-" inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id left join ems_unit un on eat.unit_id=un.unit_id where "+
-" EML.assettree_id in ("+params["seclst"].value+") and EML.dt_logdate>'"+LHour+"' and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+params["atrlst"].value+")"+
-" order by cast(EML.dt_logdate as datetime) Asc";
-	
-	
-	
-]]></method>
+this.queryText = this.queryText +",'"+params["coltype"].value+"' as C5,'"+params["attrctype"].value+"' as C6,mt.displayname as DISPLAYNAME,unitshort as UNITSHORT "+ 
+" from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id inner join fwk_assettree mt on mt.assettree_id=eml.assettree_id"+  
+" inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id left join ems_unit un on eat.unit_id=un.unit_id"+ 
+" inner join EMS_TIME_DATES D on cast(concat (date_format(EML.dt_logdate ,'%Y-%m-%d %H:%i'),':00') as datetime) >= d.dt_date and cast(concat "+ "(date_format(EML.dt_logdate ,'%Y-%m-%d %H:%i'),':00') as datetime) <DATE_ADD(dt_date,INTERVAL 4 MINUTE) "+
+" where EML.assettree_id in ("+params["seclst"].value+") and EML.dt_logdate>'"+LHour+"' and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+params["atrlst"].value+")"+
+" union select distinct ETG.tag_id as TAG_ID ,0.00 as N_READING,cast(dt_date as datetime) as C3,"+
+" EAT.Attribute as ATTRIBUTE,'"+params["coltype"].value+"' as C5,'"+params["attrctype"].value+"' as C6,mt.displayname as DISPLAYNAME,unitshort as UNITSHORT  from EMS_TIME_DATES t ,ems_meter m"+ 
+", ems_tag ETG,fwk_assettree mt ,EMS_ATTRIBUTE EAT ,ems_unit un where ETG.meter_id=m.meter_id and m.parent_id=mt.assettree_id"+
+" and EAT.Attribute_id=ETG.Attribute_id"+
+" and eat.unit_id=un.unit_id and t.user_id='"+params["userid"].value+"' and etg.tag_id in ("+params["atrlst"].value+") and mt.assettree_id in ("+params["seclst"].value+") and t.dt_date>'"+LHour+"' and t.dt_date<'"+curT+"'"+
+" union"+
+" select distinct ETG.tag_id as TAG_ID,0 as N_READING,cast(dt_date as datetime) as C3,"+
+" EAT.Attribute AS ATTRIBUTE,'"+params["coltype"].value+"' as C5,'"+params["attrctype"].value+"' as C6,mt.displayname AS DISPLAYNAME,'' AS UNITSHORT from EMS_TIME_DATES t ,ems_meter m"+
+" , ems_tag ETG,fwk_assettree mt ,EMS_ATTRIBUTE EAT  where ETG.meter_id=m.meter_id and m.parent_id=mt.assettree_id"+
+" and EAT.Attribute_id=ETG.Attribute_id and EAT.unit_id is null "+
+" and t.user_id='"+params["userid"].value+"' and etg.tag_id in ("+params["atrlst"].value+") and mt.assettree_id in ("+params["seclst"].value+")"+
+" and t.dt_date>'"+LHour+"' and t.dt_date<'"+curT+"' ) as tab "+ 
+" group by TAG_ID,C3,ATTRIBUTE,C5,C6,DISPLAYNAME,UNITSHORT order by cast(C3 as datetime) Asc";]]></method>
             <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("units", dataSetRow["UNITSHORT"]);
 reportContext.setPersistentGlobalVariable("scount",dataSetRow["C6"]);
 reportContext.setPersistentGlobalVariable("hori",dataSetRow["horizontal"]);
@@ -448,58 +357,9 @@ else
 }
  */]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">TAG_ID</property>
-                    <property name="nativeName">TAG_ID</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">N_READING</property>
-                    <property name="nativeName">N_READING</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">C3</property>
-                    <property name="nativeName">C3</property>
-                    <property name="dataType">date-time</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">ATTRIBUTE</property>
-                    <property name="nativeName">ATTRIBUTE</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">C5</property>
-                    <property name="nativeName">C5</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
-                    <property name="name">C6</property>
-                    <property name="nativeName">C6</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">7</property>
-                    <property name="name">DISPLAYNAME</property>
-                    <property name="nativeName">DISPLAYNAME</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">8</property>
-                    <property name="name">UNITSHORT</property>
-                    <property name="nativeName">UNITSHORT</property>
-                    <property name="dataType">string</property>
-                </structure>
-            </list-property>
-            <xml-property name="queryText"><![CDATA[select   EML.tag_id,EML.N_reading,cast(EML.dt_logdate as datetime) as C3,
-EAT.Attribute]]></xml-property>
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[select DISTINCT TAG_ID,sum(N_READING) as N_READING,C3,ATTRIBUTE,C5,C6,DISPLAYNAME,UNITSHORT from ( select   EML.tag_id as TAG_ID,EML.N_reading as N_READING,d.dt_date as C3,
+EAT.Attribute as ATTRIBUTE ]]></xml-property>
         </oda-data-set>
     </data-sets>
     <cubes>
@@ -1988,7 +1848,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
   </ExtendedProperties>
   <SampleData>
     <BaseSampleData>
-      <DataSetRepresentation>01/05/2000,02/01/2000,04/12/2000,03/12/2000,02/29/2000</DataSetRepresentation>
+      <DataSetRepresentation>'A','B','C','D','E'</DataSetRepresentation>
     </BaseSampleData>
     <OrthogonalSampleData>
       <DataSetRepresentation>6,4,12,8,10</DataSetRepresentation>
@@ -2033,7 +1893,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
     <Visible>true</Visible>
   </EmptyMessage>
   <Axes>
-    <Type>DateTime</Type>
+    <Type>Text</Type>
     <Title>
       <Caption>
         <Value>Log Time</Value>
@@ -2394,8 +2254,8 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
             <Visible>true</Visible>
           </LineAttributes>
           <PaletteLineColor>true</PaletteLineColor>
-          <Curve>false</Curve>
-          <ConnectMissingValue>false</ConnectMissingValue>
+          <Curve>true</Curve>
+          <ConnectMissingValue>true</ConnectMissingValue>
         </Series>
         <Grouping>
           <GroupType>Text</GroupType>
@@ -2513,6 +2373,9 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
       </Scale>
       <Origin>
         <Type>Min</Type>
+        <Value xsi:type="data:NumberDataElement">
+          <Value>0.0</Value>
+        </Value>
       </Origin>
       <PrimaryAxis>true</PrimaryAxis>
       <Percent>false</Percent>
@@ -3136,18 +2999,15 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
         <DataDefinition>
           <Definition>if(row[&quot;C5&quot;]=='LH')&#xD;
 {&#xD;
-//Formatter.format(row[&quot;C3&quot;],'HH:mm:ss ')&#xD;
-row[&quot;C3&quot;]&#xD;
+Formatter.format(row[&quot;C3&quot;],'HH:mm:ss ')&#xD;
 }&#xD;
 else if(row[&quot;C5&quot;]=='24H')&#xD;
 {&#xD;
-//Formatter.format(row[&quot;C3&quot;],'HH:mm:ss ')&#xD;
-row[&quot;C3&quot;]&#xD;
+Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
 }&#xD;
 else &#xD;
 {&#xD;
-//Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
-row[&quot;C3&quot;]&#xD;
+Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
 }</Definition>
         </DataDefinition>
         <SeriesIdentifier></SeriesIdentifier>
@@ -3215,9 +3075,6 @@ row[&quot;C3&quot;]&#xD;
       </Insets>
       <Visible>true</Visible>
     </Label>
-    <FormatSpecifier xsi:type="attribute:JavaDateFormatSpecifier">
-      <Pattern>dd-MMM-yy hh:mma</Pattern>
-    </FormatSpecifier>
     <LabelPosition>Below</LabelPosition>
     <Staggered>false</Staggered>
     <MajorGrid>
@@ -3272,10 +3129,12 @@ row[&quot;C3&quot;]&#xD;
     </MinorGrid>
     <Scale>
       <MinorGridsPerUnit>5</MinorGridsPerUnit>
-      <ShowOutside>false</ShowOutside>
     </Scale>
     <Origin>
       <Type>Min</Type>
+      <Value xsi:type="data:NumberDataElement">
+        <Value>0.0</Value>
+      </Value>
     </Origin>
     <PrimaryAxis>true</PrimaryAxis>
     <CategoryAxis>true</CategoryAxis>
