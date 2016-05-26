@@ -16,6 +16,44 @@
     </list-property>
     <property name="Data Cube.EDISData Set.x">135</property>
     <property name="Data Cube.EDISData Set.y">80</property>
+    <list-property name="propertyBindings">
+        <structure>
+            <property name="name">odaDriverClass</property>
+            <property name="id">8</property>
+        </structure>
+        <structure>
+            <property name="name">odaURL</property>
+            <property name="id">8</property>
+        </structure>
+        <structure>
+            <property name="name">odaUser</property>
+            <property name="id">8</property>
+        </structure>
+        <structure>
+            <property name="name">odaAutoCommit</property>
+            <property name="id">8</property>
+        </structure>
+        <structure>
+            <property name="name">odaIsolationMode</property>
+            <property name="id">8</property>
+        </structure>
+        <structure>
+            <property name="name">odaPassword</property>
+            <property name="id">8</property>
+        </structure>
+        <structure>
+            <property name="name">odaJndiName</property>
+            <property name="id">8</property>
+        </structure>
+        <structure>
+            <property name="name">OdaConnProfileName</property>
+            <property name="id">8</property>
+        </structure>
+        <structure>
+            <property name="name">OdaConnProfileStorePath</property>
+            <property name="id">8</property>
+        </structure>
+    </list-property>
     <property name="units">in</property>
     <method name="beforeFactory"><![CDATA[//var mychart = this.getReportElement( "mychart" );
 //mychart.setWidth("10");
@@ -73,6 +111,9 @@ else
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -86,6 +127,9 @@ else
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">1</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -97,6 +141,9 @@ else
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2014-05-20 00:00:00</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -108,6 +155,9 @@ else
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2016-05-20 00:00:00</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -119,6 +169,9 @@ else
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">C</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -130,6 +183,9 @@ else
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">30D</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -141,6 +197,9 @@ else
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">1</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -152,6 +211,9 @@ else
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">222</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -189,9 +251,10 @@ else
                     <name>disabledContentBidiFormatStr</name>
                 </ex-property>
             </list-property>
-            <property name="odaDriverClass">org.hsqldb.jdbcDriver</property>
-            <property name="odaURL">jdbc:hsqldb:hsql://localhost</property>
-            <property name="odaUser">sa</property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://127.0.0.1:3306/irevrms</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">d2VsY29tZQ==</encrypted-property>
             <property name="OdaConnProfileName">IrevealDS</property>
             <property name="OdaConnProfileStorePath">IrevealDsource</property>
         </oda-data-source>
@@ -249,10 +312,78 @@ if(lastChar=='M')&#13;
 }</expression>
                     <property name="dataType">string</property>
                 </structure>
+                <structure>
+                    <property name="name">newscroll</property>
+                    <expression name="expression">params["scroll"].value</expression>
+                    <property name="dataType">string</property>
+                </structure>
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">DISPLAYNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">C2</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">unitshort</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">DAY_ID</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">C4</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">C5</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">mn</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">RwCount</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">CUSH</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">CUSD</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">CUSM</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">newscroll</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
             <method name="beforeOpen"><![CDATA[
 	curT=params["todate"].value 
 	LHour=params["fromdate"].value
@@ -277,10 +408,49 @@ if(lastChar=='M')&#13;
 	
 
 	]]></method>
-            <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("scroll",params["scroll"].value);]]></method>
+            <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("scrolls",dataSetRow["newscroll"]);
+
+]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet"/>
-            <xml-property name="queryText"><![CDATA[select DISPLAYNAME,sum(C2) C2,UNITSHORT,DAY_ID,C4,C5 from (
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">DISPLAYNAME</property>
+                    <property name="nativeName">DISPLAYNAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">C2</property>
+                    <property name="nativeName">C2</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">unitshort</property>
+                    <property name="nativeName">unitshort</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">DAY_ID</property>
+                    <property name="nativeName">DAY_ID</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">C4</property>
+                    <property name="nativeName">C4</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">C5</property>
+                    <property name="nativeName">C5</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select DISPLAYNAME,sum(C2) C2,unitshort,DAY_ID,C4,C5 from (
 select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID
 ,cast(d.dt_date as datetime) as C4]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -585,8 +755,9 @@ select a.DISPLAYNAME, sum(utility_qty) as C2,EUN.unitshort,DAY_ID
                             <structure>
                                 <property name="name">UNITSHORT</property>
                                 <text-property name="displayName">UNITSHORT</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["UNITSHORT"]</expression>
+                                <expression name="expression" type="javascript">dataSetRow["unitshort"]</expression>
                                 <property name="dataType">string</property>
+                                <property name="allowExport">true</property>
                             </structure>
                         </list-property>
                         <expression name="valueExpr">if(row["C5"]=='H')&#13;
@@ -930,17 +1101,12 @@ else&#13;
   </Block>
   <Dimension>Two_Dimensional_With_Depth</Dimension>
   <Script>
-
-
-
-
-
 function afterDataSetFilled( series, dataSet, icsc )
 {
-if(series.getSeriesIdentifier() == &quot;Quantity Consumed&quot;)
+	if(series.getSeriesIdentifier() == &quot;Quantity Consumed&quot;)
 	{
 		var scrollcheck;
-		scrollcheck=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;scroll&quot;);
+		scrollcheck=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;scrolls&quot;);
 		if(scrollcheck==&quot;syes&quot;)
 		{
 			if( dataSet.getValues().length > 31 &amp;&amp; dataSet.getValues().length&lt;50)
@@ -982,6 +1148,8 @@ if(series.getSeriesIdentifier() == &quot;Quantity Consumed&quot;)
 	
 	}
 }
+
+
 
 </Script>
   <Units>Points</Units>
@@ -1490,6 +1658,9 @@ if(series.getSeriesIdentifier() == &quot;Quantity Consumed&quot;)
       <PrimaryAxis>true</PrimaryAxis>
       <Percent>false</Percent>
       <Aligned>false</Aligned>
+      <Cursor>
+        <Type>Auto</Type>
+      </Cursor>
     </AssociatedAxes>
     <SeriesDefinitions>
       <Query>
@@ -1928,45 +2099,19 @@ else&#xD;
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
+                    <property name="name">unitshort</property>
+                    <expression name="expression" type="javascript">dataSetRow["unitshort"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
                     <property name="name">DAY_ID</property>
                     <expression name="expression" type="javascript">dataSetRow["DAY_ID"]</expression>
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
                     <property name="name">C4</property>
-                    <expression name="expression" type="javascript">dataSetRow["C4"]&#13;
-/*if((row["C5"]=='H')||(row["C5"]=='24H')||(row["C5"]=='7H')||(row["C5"]=='365H')||(row["C5"]=='30H'))&#13;
-{&#13;
-	Formatter.format(dataSetRow["C4"],'dd/MM/yyyy hh:mm:ss a')&#13;
-}&#13;
-else if((row["C5"]=='7D')||(row["C5"]=='30D')||(row["C5"]=='365D'))&#13;
-{&#13;
-	Formatter.format(dataSetRow["C4"],'dd/MM/yyyy')&#13;
-}&#13;
-else if((row["C5"]=='30M')||(row["C5"]=='365M'))&#13;
-{&#13;
-	Formatter.format(dataSetRow["C4"],'dd/MM/yyyy')&#13;
-}&#13;
-else&#13;
-{&#13;
-	var myString = row["C5"];&#13;
-	var stringLength = myString.length; &#13;
-	var lastChar = myString.charAt(stringLength - 1); &#13;
-	if(lastChar=='H')&#13;
-	{&#13;
-		Formatter.format(dataSetRow["C4"],'dd/MM/yyyy hh:mm:ss a')&#13;
-	}&#13;
-	else if(lastChar=='D')&#13;
-	{&#13;
-		Formatter.format(dataSetRow["C4"],'dd/MM/yyyy')&#13;
-	}&#13;
-	else&#13;
-	{&#13;
-		Formatter.format(dataSetRow["C4"],'dd/MM/yyyy')&#13;
-	}&#13;
-}*/</expression>
+                    <expression name="expression" type="javascript">dataSetRow["C4"]</expression>
                     <property name="dataType">date-time</property>
-                    <property name="allowExport">true</property>
                 </structure>
                 <structure>
                     <property name="name">C5</property>
@@ -1996,6 +2141,11 @@ else&#13;
                 <structure>
                     <property name="name">CUSM</property>
                     <expression name="expression" type="javascript">dataSetRow["CUSM"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">newscroll</property>
+                    <expression name="expression" type="javascript">dataSetRow["newscroll"]</expression>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
