@@ -45,6 +45,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">sno</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -56,6 +59,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">30D</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -67,6 +73,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2016-04-02 15:01:06</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -78,6 +87,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2016-05-01 15:01:06</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -89,6 +101,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">C</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -100,6 +115,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">17</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -111,6 +129,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">multi</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -122,6 +143,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">27</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -133,6 +157,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">sss</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -144,6 +171,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">ss</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -257,12 +287,12 @@ m=m+1;&#13;
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
-                        <property name="name">TAG_ID</property>
+                        <property name="name">tag_id</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
-                        <property name="name">N_READING</property>
+                        <property name="name">N_reading</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
@@ -336,15 +366,28 @@ m=m+1;&#13;
 LHour=params["fromdate"].value
 
 this.queryText = this.queryText +",'"+params["coltype"].value+"' as C5,'"+params["attrctype"].value+"' as C6"+
+",mt.displayname as DISPLAYNAME,unitshort as UNITSHORT from "+
+" (select EML.assettree_id,EML.tag_id,EML.N_reading,EML.dt_logdate "+
+" from ems_meterlog EML "+
+" where EML.assettree_id in ("+params["seclst"].value+") and EML.dt_logdate>'"+LHour+"' and EML.dt_logdate<'"+curT+"'"+
+" and EML.tag_id in ("+params["atrlst"].value+")) tab1"+
+" inner join ems_tag ETG on ETG.Tag_id=tab1.Tag_id "+
+" inner join fwk_assettree mt on mt.assettree_id=tab1.assettree_id "+
+" inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id "+
+" left join ems_unit un on eat.unit_id=un.unit_id "+
+" order by cast(tab1.dt_logdate as datetime) Asc";
+
+/*",'"+params["coltype"].value+"' as C5,'"+params["attrctype"].value+"' as C6"+
 ",mt.displayname,unitshort from ems_meterlog EML inner join ems_tag ETG on ETG.Tag_id=EML.Tag_id "+
 " inner join fwk_assettree mt on mt.assettree_id=eml.assettree_id "+
 " inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id left join ems_unit un on eat.unit_id=un.unit_id where"+
 " EML.assettree_id in ("+params["seclst"].value+") and EML.dt_logdate>'"+LHour+"' and EML.dt_logdate<'"+curT+"' and EML.tag_id in ("+params["atrlst"].value+")"+
-" order by cast(EML.dt_logdate as datetime) Asc";
+" order by cast(EML.dt_logdate as datetime) Asc";*/
 	
 	
 	
-]]></method>
+
+	]]></method>
             <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("units", dataSetRow["UNITSHORT"]);
 reportContext.setPersistentGlobalVariable("s",dataSetRow["C6"]);
 reportContext.setPersistentGlobalVariable("hori",dataSetRow["horizontal"]);
@@ -388,14 +431,14 @@ else
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">TAG_ID</property>
-                    <property name="nativeName">TAG_ID</property>
+                    <property name="name">tag_id</property>
+                    <property name="nativeName">tag_id</property>
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
-                    <property name="name">N_READING</property>
-                    <property name="nativeName">N_READING</property>
+                    <property name="name">N_reading</property>
+                    <property name="nativeName">N_reading</property>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
@@ -435,8 +478,8 @@ else
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select   EML.tag_id,EML.N_reading,cast(EML.dt_logdate as datetime) as C3,
-EAT.Attribute]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select   tab1.tag_id as TAG_ID,tab1.N_reading as N_READING,cast(tab1.dt_logdate as datetime) as C3,
+EAT.Attribute as ATTRIBUTE]]></xml-property>
         </oda-data-set>
     </data-sets>
     <cubes>
@@ -500,8 +543,11 @@ EAT.Attribute]]></xml-property>
                 <tabular-measure-group name="Summary Field" id="163">
                     <property name="measures">
                         <tabular-measure name="N_READING" id="164">
-                            <expression name="measureExpression" type="javascript">dataSetRow["N_READING"]</expression>
+                            <property name="function">sum</property>
+                            <property name="isCalculated">false</property>
+                            <expression name="measureExpression" type="javascript">dataSetRow["N_reading"]</expression>
                             <property name="dataType">decimal</property>
+                            <property name="isVisible">true</property>
                         </tabular-measure>
                     </property>
                 </tabular-measure-group>
@@ -2241,7 +2287,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
             <Visible>false</Visible>
           </Label>
           <DataDefinition>
-            <Definition>row[&quot;N_READING&quot;]</Definition>
+            <Definition>row[&quot;N_reading&quot;]</Definition>
             <Grouping>
               <GroupType>Text</GroupType>
               <AggregateExpression>Sum</AggregateExpression>
@@ -2261,7 +2307,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
             <Action>
               <Type>Show_Tooltip</Type>
               <Value xsi:type="attribute:TooltipValue">
-                <Text>row[&quot;ATTRIBUTE&quot;]+&quot;:&quot;+row[&quot;N_READING&quot;]</Text>
+                <Text>row[&quot;ATTRIBUTE&quot;]+&quot;:&quot;+row[&quot;N_reading&quot;]</Text>
                 <Delay>200</Delay>
               </Value>
             </Action>
@@ -3055,7 +3101,7 @@ Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
         <Stacked>false</Stacked>
       </Series>
       <Grouping>
-        <Enabled>false</Enabled>
+        <Enabled>true</Enabled>
         <GroupingUnit>Minutes</GroupingUnit>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
@@ -3201,13 +3247,13 @@ Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
             </list-property>
             <list-property name="boundDataColumns">
                 <structure>
-                    <property name="name">TAG_ID</property>
-                    <expression name="expression" type="javascript">dataSetRow["TAG_ID"]</expression>
+                    <property name="name">tag_id</property>
+                    <expression name="expression" type="javascript">dataSetRow["tag_id"]</expression>
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
-                    <property name="name">N_READING</property>
-                    <expression name="expression" type="javascript">dataSetRow["N_READING"]</expression>
+                    <property name="name">N_reading</property>
+                    <expression name="expression" type="javascript">dataSetRow["N_reading"]</expression>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
@@ -3244,6 +3290,36 @@ Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
                     <property name="name">Uni</property>
                     <expression name="expression" type="javascript">dataSetRow["Uni"]</expression>
                     <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">horizontal</property>
+                    <expression name="expression" type="javascript">dataSetRow["horizontal"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">max</property>
+                    <expression name="expression" type="javascript">dataSetRow["max"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">min</property>
+                    <expression name="expression" type="javascript">dataSetRow["min"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">avg</property>
+                    <expression name="expression" type="javascript">dataSetRow["avg"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">myc</property>
+                    <expression name="expression" type="javascript">dataSetRow["myc"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">cnt</property>
+                    <expression name="expression" type="javascript">dataSetRow["cnt"]</expression>
+                    <property name="dataType">integer</property>
                 </structure>
             </list-property>
         </extended-item>
