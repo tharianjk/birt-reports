@@ -168,7 +168,65 @@
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">SOURCENAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">NORMALCOST</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">NORMALQTY</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">OFFPEAKCOST</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">OFFPEAKQTY</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">PEAKCOST</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">PEAKQTY</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">DTDATE</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">UNITSHORT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">C7</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">RowCount</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
             <method name="beforeOpen"><![CDATA[
 curT=params["todate"].value
 LHour=params["fromdate"].value
@@ -218,9 +276,71 @@ LHour=params["fromdate"].value
 	
 	
 	]]></method>
-            <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("scroll",params["scroll"].value);]]></method>
+            <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("scroll",params["scroll"].value);
+reportContext.setPersistentGlobalVariable("units", dataSetRow["UNITSHORT"]);]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet"/>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">sourcename</property>
+                    <property name="nativeName">sourcename</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">NORMALCOST</property>
+                    <property name="nativeName">NORMALCOST</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">NORMALQTY</property>
+                    <property name="nativeName">NORMALQTY</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">OFFPEAKCOST</property>
+                    <property name="nativeName">OFFPEAKCOST</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">OFFPEAKQTY</property>
+                    <property name="nativeName">OFFPEAKQTY</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">PEAKCOST</property>
+                    <property name="nativeName">PEAKCOST</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">PEAKQTY</property>
+                    <property name="nativeName">PEAKQTY</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">dtdate</property>
+                    <property name="nativeName">dtdate</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">unitshort</property>
+                    <property name="nativeName">unitshort</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">C7</property>
+                    <property name="nativeName">C7</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
             <xml-property name="queryText"><![CDATA[select  SOURCENAME,sum(round(NormalCost,2)) NORMALCOST,sum(NormalQty) NORMALQTY,sum(round(OffpeakCost,2)) OFFPEAKCOST,sum(OffpeakQty) OFFPEAKQTY,sum(round(PeakCost,2)) PEAKCOST,sum(PeakQty) PEAKQTY ,DTDATE,UNITSHORT,C7 from (
 select sourcename,
 case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty)*V.N_COST else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION)*V.N_COST end NormalCost,
@@ -991,6 +1111,19 @@ else&#13;
   </Block>
   <Dimension>Two_Dimensional_With_Depth</Dimension>
   <Script>&#xD;
+function beforeDrawAxisTitle( axis, label, icsc )&#xD;
+{&#xD;
+	&#xD;
+	//for y axis unit &#xD;
+	importPackage(Packages.org.eclipse.birt.chart.model.attribute);&#xD;
+	&#xD;
+   		if(axis.getType() == AxisType.LINEAR_LITERAL)&#xD;
+   		{&#xD;
+   			title=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;units&quot;);&#xD;
+        	label.getCaption().setValue(title);&#xD;
+   		}&#xD;
+   &#xD;
+}&#xD;
 &#xD;
 &#xD;
 function afterDataSetFilled( series, dataSet, icsc )&#xD;
@@ -1152,7 +1285,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
       <Type>Linear</Type>
       <Title>
         <Caption>
-          <Value>INR</Value>
+          <Value></Value>
           <Font>
             <Size>14.0</Size>
             <Bold>true</Bold>

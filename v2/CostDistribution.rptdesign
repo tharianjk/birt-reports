@@ -150,6 +150,22 @@
         </scalar-parameter>
         <scalar-parameter name="sname" id="517">
             <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="curcode" id="518">
+            <property name="hidden">false</property>
+            <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
@@ -211,7 +227,40 @@
                     <property name="isOutput">false</property>
                 </structure>
             </list-property>
-            <structure name="cachedMetaData"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">SOURCENAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">QTY</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">UNITSHORT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">C4</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">SOURCE_ID</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">newrowcount</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
             <method name="beforeOpen"><![CDATA[
 curT=params["todate"].value
 LHour=params["fromdate"].value
@@ -231,7 +280,38 @@ LHour=params["fromdate"].value
 ]]></method>
             <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("explode",params["explode"].value);]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet"/>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">SOURCENAME</property>
+                    <property name="nativeName">SOURCENAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">QTY</property>
+                    <property name="nativeName">QTY</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">UNITSHORT</property>
+                    <property name="nativeName">UNITSHORT</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">C4</property>
+                    <property name="nativeName">C4</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">SOURCE_ID</property>
+                    <property name="nativeName">SOURCE_ID</property>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
             <xml-property name="queryText"><![CDATA[SELECT SOURCENAME, round(SUM(QTY),?) as QTY,UNITSHORT,C4,SOURCE_ID FROM(
 SELECT SUP.SOURCENAME, CASE NF_FRACTION+NT_FRACTION WHEN 0 THEN SUM(SU.UTILITY_QTY)*V.N_COST
 ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHORT]]></xml-property>
@@ -364,7 +444,35 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
                     <property name="isOutput">false</property>
                 </structure>
             </list-property>
-            <structure name="cachedMetaData"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">TIMEPERIOD</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">QTY</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">UNITSHORT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">C4</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">rowcount</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
             <method name="beforeOpen"><![CDATA[
 curT=params["todate"].value
 LHour=params["fromdate"].value
@@ -380,7 +488,32 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' AS C4 FROM VW_B
 " AND V.SOURCE_ID='"+params["sourceid"].value+"' AND SUP.COMPANY_ID='"+params["UsrCompId"].value+"' and (su.assettree_id='"+params["todassettreeid"].value+"' or AE.PARENT_ID IN (SELECT ASSETTREE_ID FROM FWK_ASSETTREE WHERE ASSETTREETYPE_ID =2 and ASSETTREE_ID='"+params["todassettreeid"].value+"' ) AND AE.B_ROLLUP='TRUE' ) "+
 " GROUP BY TIMEPERIOD,V.N_COST,UN.UNITSHORT,NF_FRACTION,NT_FRACTION";]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet"/>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">TIMEPERIOD</property>
+                    <property name="nativeName">TIMEPERIOD</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">QTY</property>
+                    <property name="nativeName">QTY</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">UNITSHORT</property>
+                    <property name="nativeName">UNITSHORT</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">C4</property>
+                    <property name="nativeName">C4</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
             <xml-property name="queryText"><![CDATA[SELECT TIMEPERIOD,CASE (NF_FRACTION+NT_FRACTION) WHEN 0 THEN  round (SUM(SU.UTILITY_QTY)*V.N_COST,?) ELSE round(SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST,?) END QTY ,UN.UNITSHORT]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -712,32 +845,32 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' AS C4 FROM VW_B
                         </list-property>
                         <expression name="valueExpr">if(params["coltype"].value=='LH')&#13;
 {&#13;
-	'Cost Distribution for '+params["sname"].value+' for the last 1 Hour in INR';&#13;
+	'Cost Distribution for '+params["sname"].value+' for the last 1 Hour in '+params["curcode"].value;&#13;
 }&#13;
 else if(params["coltype"].value=='24H')&#13;
 {&#13;
-	'Cost Distribution for '+params["sname"].value+' for the last 24 Hour in INR ';&#13;
+	'Cost Distribution for '+params["sname"].value+' for the last 24 Hour in '+params["curcode"].value;&#13;
 }&#13;
 &#13;
 else if(params["coltype"].value=='7D')&#13;
 {&#13;
-	'Cost Distribution for '+params["sname"].value+' for the last 7 days in INR ';&#13;
+	'Cost Distribution for '+params["sname"].value+' for the last 7 days in '+params["curcode"].value;&#13;
 }&#13;
 else if(params["coltype"].value=='30D')&#13;
 {&#13;
-	'Cost Distribution for '+params["sname"].value+' for the last 30 days in INR ';&#13;
+	'Cost Distribution for '+params["sname"].value+' for the last 30 days in '+params["curcode"].value;&#13;
 }&#13;
 &#13;
 else if(params["coltype"].value=='365D')&#13;
 {&#13;
-'Cost Distribution for '+params["sname"].value+' for the last 365 days in INR ';&#13;
+'Cost Distribution for '+params["sname"].value+' for the last 365 days in '+params["curcode"].value;&#13;
 }&#13;
 &#13;
 else&#13;
 {&#13;
 	&#13;
 	&#13;
-		'Cost Distribution for '+params["sname"].value+' for the specified period in INR ';&#13;
+		'Cost Distribution for '+params["sname"].value+' for the specified period in '+params["curcode"].value;&#13;
 	&#13;
 	&#13;
 }</expression>
@@ -1730,6 +1863,12 @@ else&#13;
                 &lt;value type=&quot;javascript&quot;>params[&quot;precision&quot;].value&lt;/value>
             &lt;/simple-property-list>
         &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>sname&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>params[&quot;SourceName&quot;].value&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
     &lt;/list-property>
 &lt;/structure>
 </BaseUrl>
@@ -1932,6 +2071,12 @@ else&#13;
                                         <property name="paramName">precision</property>
                                         <simple-property-list name="expression">
                                             <value type="javascript">params["precision"].value</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">sname</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">params["SourceName"].value</value>
                                         </simple-property-list>
                                     </structure>
                                 </list-property>
