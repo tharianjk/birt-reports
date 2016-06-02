@@ -1870,7 +1870,7 @@ else&#13;
         &lt;structure>
             &lt;property name=&quot;paramName&quot;>sname&lt;/property>
             &lt;simple-property-list name=&quot;expression&quot;>
-                &lt;value type=&quot;javascript&quot;>params[&quot;SourceName&quot;].value&lt;/value>
+                &lt;value type=&quot;javascript&quot;>params[&quot;sname&quot;].value&lt;/value>
             &lt;/simple-property-list>
         &lt;/structure>
         &lt;structure>
@@ -2086,7 +2086,7 @@ else&#13;
                                     <structure>
                                         <property name="paramName">sname</property>
                                         <simple-property-list name="expression">
-                                            <value type="javascript">params["SourceName"].value</value>
+                                            <value type="javascript">params["sname"].value</value>
                                         </simple-property-list>
                                     </structure>
                                     <structure>
