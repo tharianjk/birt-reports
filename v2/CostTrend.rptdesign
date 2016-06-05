@@ -14,6 +14,9 @@
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">1</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -26,6 +29,9 @@
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">30D</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -37,6 +43,9 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">C</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -49,6 +58,9 @@
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">0</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -61,6 +73,9 @@
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2016-05-03 15:14:32</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -73,6 +88,9 @@
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2016-05-03 15:14:32</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -84,6 +102,9 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">1</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -96,6 +117,9 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">103</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -107,6 +131,9 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">vgg</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -118,6 +145,9 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">sno</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -282,8 +312,8 @@ reportContext.setPersistentGlobalVariable("units", dataSetRow["UNITSHORT"]);]]><
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">sourcename</property>
-                    <property name="nativeName">sourcename</property>
+                    <property name="name">SOURCENAME</property>
+                    <property name="nativeName">SOURCENAME</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -324,14 +354,14 @@ reportContext.setPersistentGlobalVariable("units", dataSetRow["UNITSHORT"]);]]><
                 </structure>
                 <structure>
                     <property name="position">8</property>
-                    <property name="name">dtdate</property>
-                    <property name="nativeName">dtdate</property>
+                    <property name="name">DTDATE</property>
+                    <property name="nativeName">DTDATE</property>
                     <property name="dataType">date-time</property>
                 </structure>
                 <structure>
                     <property name="position">9</property>
-                    <property name="name">unitshort</property>
-                    <property name="nativeName">unitshort</property>
+                    <property name="name">UNITSHORT</property>
+                    <property name="nativeName">UNITSHORT</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -341,11 +371,11 @@ reportContext.setPersistentGlobalVariable("units", dataSetRow["UNITSHORT"]);]]><
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select  SOURCENAME,sum(round(NormalCost,2)) NORMALCOST,sum(NormalQty) NORMALQTY,sum(round(OffpeakCost,2)) OFFPEAKCOST,sum(OffpeakQty) OFFPEAKQTY,sum(round(PeakCost,2)) PEAKCOST,sum(PeakQty) PEAKQTY ,DTDATE,UNITSHORT,C7 from (
-select sourcename,
+            <xml-property name="queryText"><![CDATA[select  SOURCENAME as SOURCENAME,sum(round(NormalCost,2)) NORMALCOST,sum(NormalQty) NORMALQTY,sum(round(OffpeakCost,2)) OFFPEAKCOST,sum(OffpeakQty) OFFPEAKQTY,sum(round(PeakCost,2)) PEAKCOST,sum(PeakQty) PEAKQTY ,DTDATE,UNITSHORT,C7 from (
+select sourcename as SOURCENAME,
 case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty)*V.N_COST else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION)*V.N_COST end NormalCost,
 case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION) end NormalQty,0 OffpeakCost,0 OffpeakQty,0 PeakCost,0 PeakQty
-, dt_date as dtdate,un.unitshort]]></xml-property>
+, dt_date as DTDATE,un.unitshort as UNITSHORT]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -495,6 +525,7 @@ case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility
                             <property name="levels">
                                 <tabular-level name="SOURCENAME" id="328">
                                     <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
                                     <property name="columnName">SOURCENAME</property>
                                 </tabular-level>
                             </property>
@@ -514,16 +545,15 @@ case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility
                         </tabular-hierarchy>
                     </property>
                 </tabular-dimension>
-                <tabular-dimension name="Group2" id="332">
+                <tabular-dimension name="Group2" id="497">
                     <property name="isTimeType">true</property>
                     <property name="defaultHierarchy">NewTabularHierarchy3</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy3" id="333">
+                        <tabular-hierarchy name="NewTabularHierarchy3" id="498">
                             <property name="levels">
-                                <tabular-level name="Month" id="334">
+                                <tabular-level name="Month" id="499">
                                     <property name="dataType">integer</property>
                                     <property name="dateTimeLevelType">month</property>
-                                    <property name="dateTimeFormat">MMM yyyy</property>
                                     <list-property name="attributes">
                                         <structure>
                                             <property name="name">DateTime</property>
@@ -536,13 +566,13 @@ case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility
                         </tabular-hierarchy>
                     </property>
                 </tabular-dimension>
-                <tabular-dimension name="Group4" id="335">
+                <tabular-dimension name="Group4" id="500">
                     <property name="isTimeType">true</property>
                     <property name="defaultHierarchy">NewTabularHierarchy5</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy5" id="336">
+                        <tabular-hierarchy name="NewTabularHierarchy5" id="501">
                             <property name="levels">
-                                <tabular-level name="Day Of Year" id="337">
+                                <tabular-level name="Day Of Year" id="502">
                                     <property name="dataType">integer</property>
                                     <property name="dateTimeLevelType">day-of-year</property>
                                     <property name="dateTimeFormat">MMMM dd, yyyy</property>
@@ -3274,33 +3304,18 @@ else &#xD;
             <property name="rows">
                 <extended-item extensionName="CrosstabView" id="347">
                     <property name="views">
-                        <extended-item extensionName="DimensionView" id="348">
+                        <extended-item extensionName="DimensionView" id="503">
                             <property name="dimension">Group2</property>
                             <property name="levels">
-                                <extended-item extensionName="LevelView" name="NewLevel View" id="349">
+                                <extended-item extensionName="LevelView" name="NewLevel View" id="504">
                                     <property name="level">Group2/Month</property>
-                                    <property name="sort">
-                                        <sort-element>
-                                            <expression name="key" type="javascript">data["Month"]</expression>
-                                            <property name="direction">asc</property>
-                                            <property name="strength">-1</property>
-                                        </sort-element>
-                                    </property>
                                     <property name="member">
-                                        <extended-item extensionName="CrosstabCell" id="350">
+                                        <extended-item extensionName="CrosstabCell" id="505">
                                             <property name="content">
-                                                <data name="Month" id="351">
-                                                    <property name="style">crosstab-detail1</property>
-                                                    <property name="fontSize">12px</property>
-                                                    <structure name="dateTimeFormat">
-                                                        <property name="category">Custom</property>
-                                                        <property name="pattern">MMM yyyy</property>
-                                                    </structure>
-                                                    <property name="textAlign">center</property>
+                                                <data name="Month" id="506">
                                                     <property name="resultSetColumn">Month</property>
                                                 </data>
                                             </property>
-                                            <property name="width">63px</property>
                                         </extended-item>
                                     </property>
                                 </extended-item>
@@ -3409,79 +3424,73 @@ else &#xD;
             </list-property>
             <list-property name="boundDataColumns">
                 <structure>
-                    <property name="name">Month</property>
-                    <expression name="expression">dimension["Group2"]["Month"]["DateTime"]</expression>
-                    <property name="dataType">date-time</property>
-                </structure>
-                <structure>
                     <property name="name">SOURCENAME</property>
                     <expression name="expression">dimension["Group"]["SOURCENAME"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">NORMALQTY_Group2/Month_Group/SOURCENAME</property>
-                    <expression name="expression">measure["NORMALQTY"]</expression>
-                    <property name="dataType">decimal</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>Group2/Month</value>
-                        <value>Group/SOURCENAME</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
-                    <property name="name">NORMALCOST_Group2/Month_Group/SOURCENAME</property>
-                    <expression name="expression">measure["NORMALCOST"]</expression>
-                    <property name="dataType">decimal</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>Group2/Month</value>
-                        <value>Group/SOURCENAME</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
-                    <property name="name">PEAKQTY_Group2/Month_Group/SOURCENAME</property>
-                    <expression name="expression">measure["PEAKQTY"]</expression>
-                    <property name="dataType">decimal</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>Group2/Month</value>
-                        <value>Group/SOURCENAME</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
-                    <property name="name">PEAKCOST_Group2/Month_Group/SOURCENAME</property>
-                    <expression name="expression">measure["PEAKCOST"]</expression>
-                    <property name="dataType">decimal</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>Group2/Month</value>
-                        <value>Group/SOURCENAME</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
-                    <property name="name">OFFPEAKQTY_Group2/Month_Group/SOURCENAME</property>
-                    <expression name="expression">measure["OFFPEAKQTY"]</expression>
-                    <property name="dataType">decimal</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>Group2/Month</value>
-                        <value>Group/SOURCENAME</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
-                    <property name="name">OFFPEAKCOST_Group2/Month_Group/SOURCENAME</property>
-                    <expression name="expression">measure["OFFPEAKCOST"]</expression>
-                    <property name="dataType">decimal</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>Group2/Month</value>
-                        <value>Group/SOURCENAME</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
                     <property name="name">UNITSHORT</property>
                     <expression name="expression">dimension["Group1"]["UNITSHORT"]</expression>
                     <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">NORMALQTY_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["NORMALQTY"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">NORMALCOST_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["NORMALCOST"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">PEAKQTY_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["PEAKQTY"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">PEAKCOST_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["PEAKCOST"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">OFFPEAKQTY_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["OFFPEAKQTY"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">OFFPEAKCOST_Group1/UNITSHORT</property>
+                    <expression name="expression">measure["OFFPEAKCOST"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group1/UNITSHORT</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">Month</property>
+                    <expression name="expression">dimension["Group2"]["Month"]</expression>
+                    <property name="dataType">integer</property>
                 </structure>
                 <structure>
                     <property name="name">NORMALQTY_Group2/Month_Group1/UNITSHORT</property>
@@ -3745,30 +3754,19 @@ else &#xD;
             <property name="rows">
                 <extended-item extensionName="CrosstabView" id="451">
                     <property name="views">
-                        <extended-item extensionName="DimensionView" id="471">
+                        <extended-item extensionName="DimensionView" id="507">
                             <property name="dimension">Group4</property>
                             <property name="levels">
-                                <extended-item extensionName="LevelView" name="NewLevel View3" id="472">
+                                <extended-item extensionName="LevelView" name="NewLevel View3" id="508">
                                     <property name="level">Group4/Day Of Year</property>
-                                    <property name="sort">
-                                        <sort-element>
-                                            <expression name="key" type="javascript">data["Day Of Year"]</expression>
-                                            <property name="direction">asc</property>
-                                            <property name="strength">-1</property>
-                                        </sort-element>
-                                    </property>
                                     <property name="member">
-                                        <extended-item extensionName="CrosstabCell" id="473">
+                                        <extended-item extensionName="CrosstabCell" id="509">
                                             <property name="content">
-                                                <data name="Day Of Year" id="474">
-                                                    <property name="style">crosstab-detail1</property>
-                                                    <property name="fontSize">12px</property>
-                                                    <property name="fontWeight">normal</property>
+                                                <data name="Day Of Year" id="510">
                                                     <structure name="dateTimeFormat">
                                                         <property name="category">Custom</property>
                                                         <property name="pattern">MMMM dd, yyyy</property>
                                                     </structure>
-                                                    <property name="textAlign">center</property>
                                                     <property name="resultSetColumn">Day Of Year</property>
                                                 </data>
                                             </property>
