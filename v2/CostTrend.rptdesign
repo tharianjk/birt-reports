@@ -155,6 +155,17 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="curcode" id="511">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="7">
@@ -307,7 +318,7 @@ LHour=params["fromdate"].value
 	
 	]]></method>
             <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("scroll",params["scroll"].value);
-reportContext.setPersistentGlobalVariable("units", dataSetRow["UNITSHORT"]);]]></method>
+reportContext.setPersistentGlobalVariable("units", params["curcode"].value);]]></method>
             <property name="dataSource">IrevealDS</property>
             <list-property name="resultSet">
                 <structure>
@@ -843,19 +854,19 @@ case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty) else sum(su.utility
                         </list-property>
                         <expression name="valueExpr">if(row["C7"]=='30M')&#13;
 {&#13;
-	row["C7"]='Cost trend for: '+params["sname"].value+' for the last 30 days';&#13;
+	row["C7"]='Cost trend for: '+params["sname"].value+' for the last 30 days in '+params["curcode"].value;&#13;
 }&#13;
 else if(row["C7"]=='30D')&#13;
 {&#13;
-	row["C7"]='Cost trend for: '+params["sname"].value+' for the last 30 days';&#13;
+	row["C7"]='Cost trend for: '+params["sname"].value+' for the last 30 days in '+params["curcode"].value;&#13;
 }&#13;
 else if(row["C7"]=='365D')&#13;
 {&#13;
-	row["C7"]='Cost trend for :'+params["sname"].value+' for the last 365 days';&#13;
+	row["C7"]='Cost trend for :'+params["sname"].value+' for the last 365 days in '+params["curcode"].value;&#13;
 }&#13;
 else if(row["C7"]=='365M')&#13;
 {&#13;
-	row["C7"]='Cost trend for :'+params["sname"].value+' for the last 365 days';&#13;
+	row["C7"]='Cost trend for :'+params["sname"].value+' for the last 365 days in '+params["curcode"].value;&#13;
 }&#13;
 else&#13;
 {&#13;
@@ -866,7 +877,7 @@ else&#13;
 	}&#13;
 	else&#13;
 	{&#13;
-	row["C7"]='Cost trend for : '+params["sname"].value+' from '+params["fromdate"].value+' to '+params["todate"].value;&#13;
+	row["C7"]='Cost trend for : '+params["sname"].value+' from '+params["fromdate"].value+' to '+params["todate"].value+' in '+params["curcode"].value;&#13;
 	&#13;
 	}&#13;
 }</expression>
@@ -3112,14 +3123,14 @@ else &#xD;
                     <property name="detail">
                         <extended-item extensionName="AggregationCell" id="382">
                             <property name="aggregationOnRow">Group2/Month</property>
-                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="aggregationOnColumn">Group/SOURCENAME</property>
                             <property name="width">123px</property>
                             <property name="content">
                                 <data id="383">
                                     <property name="style">crosstab-detail1</property>
                                     <property name="fontSize">12px</property>
                                     <property name="textAlign">center</property>
-                                    <property name="resultSetColumn">NORMALQTY_Group2/Month_Group1/UNITSHORT</property>
+                                    <property name="resultSetColumn">NORMALQTY_Group2/Month_Group/SOURCENAME</property>
                                 </data>
                             </property>
                         </extended-item>
@@ -3145,13 +3156,13 @@ else &#xD;
                     <property name="detail">
                         <extended-item extensionName="AggregationCell" id="389">
                             <property name="aggregationOnRow">Group2/Month</property>
-                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="aggregationOnColumn">Group/SOURCENAME</property>
                             <property name="content">
                                 <data id="390">
                                     <property name="style">crosstab-detail1</property>
                                     <property name="fontSize">12px</property>
                                     <property name="textAlign">center</property>
-                                    <property name="resultSetColumn">NORMALCOST_Group2/Month_Group1/UNITSHORT</property>
+                                    <property name="resultSetColumn">NORMALCOST_Group2/Month_Group/SOURCENAME</property>
                                 </data>
                             </property>
                         </extended-item>
@@ -3177,13 +3188,13 @@ else &#xD;
                     <property name="detail">
                         <extended-item extensionName="AggregationCell" id="394">
                             <property name="aggregationOnRow">Group2/Month</property>
-                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="aggregationOnColumn">Group/SOURCENAME</property>
                             <property name="content">
                                 <data id="395">
                                     <property name="style">crosstab-detail1</property>
                                     <property name="fontSize">12px</property>
                                     <property name="textAlign">center</property>
-                                    <property name="resultSetColumn">PEAKQTY_Group2/Month_Group1/UNITSHORT</property>
+                                    <property name="resultSetColumn">PEAKQTY_Group2/Month_Group/SOURCENAME</property>
                                 </data>
                             </property>
                         </extended-item>
@@ -3209,13 +3220,13 @@ else &#xD;
                     <property name="detail">
                         <extended-item extensionName="AggregationCell" id="399">
                             <property name="aggregationOnRow">Group2/Month</property>
-                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="aggregationOnColumn">Group/SOURCENAME</property>
                             <property name="content">
                                 <data id="400">
                                     <property name="style">crosstab-detail1</property>
                                     <property name="fontSize">12px</property>
                                     <property name="textAlign">center</property>
-                                    <property name="resultSetColumn">PEAKCOST_Group2/Month_Group1/UNITSHORT</property>
+                                    <property name="resultSetColumn">PEAKCOST_Group2/Month_Group/SOURCENAME</property>
                                 </data>
                             </property>
                         </extended-item>
@@ -3241,13 +3252,13 @@ else &#xD;
                     <property name="detail">
                         <extended-item extensionName="AggregationCell" id="404">
                             <property name="aggregationOnRow">Group2/Month</property>
-                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="aggregationOnColumn">Group/SOURCENAME</property>
                             <property name="content">
                                 <data id="405">
                                     <property name="style">crosstab-detail1</property>
                                     <property name="fontSize">12px</property>
                                     <property name="textAlign">center</property>
-                                    <property name="resultSetColumn">OFFPEAKQTY_Group2/Month_Group1/UNITSHORT</property>
+                                    <property name="resultSetColumn">OFFPEAKQTY_Group2/Month_Group/SOURCENAME</property>
                                 </data>
                             </property>
                         </extended-item>
@@ -3273,13 +3284,13 @@ else &#xD;
                     <property name="detail">
                         <extended-item extensionName="AggregationCell" id="409">
                             <property name="aggregationOnRow">Group2/Month</property>
-                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="aggregationOnColumn">Group/SOURCENAME</property>
                             <property name="content">
                                 <data id="410">
                                     <property name="style">crosstab-detail1</property>
                                     <property name="fontSize">12px</property>
                                     <property name="textAlign">center</property>
-                                    <property name="resultSetColumn">OFFPEAKCOST_Group2/Month_Group1/UNITSHORT</property>
+                                    <property name="resultSetColumn">OFFPEAKCOST_Group2/Month_Group/SOURCENAME</property>
                                 </data>
                             </property>
                         </extended-item>
@@ -3348,27 +3359,6 @@ else &#xD;
                                 </extended-item>
                             </property>
                         </extended-item>
-                        <extended-item extensionName="DimensionView" id="413">
-                            <property name="dimension">Group1</property>
-                            <property name="levels">
-                                <extended-item extensionName="LevelView" name="NewLevel View2" id="414">
-                                    <property name="level">Group1/UNITSHORT</property>
-                                    <property name="member">
-                                        <extended-item extensionName="CrosstabCell" id="415">
-                                            <property name="content">
-                                                <data name="UNITSHORT" id="417">
-                                                    <property name="style">crosstab-detail1</property>
-                                                    <property name="fontSize">12px</property>
-                                                    <property name="fontWeight">normal</property>
-                                                    <property name="textAlign">center</property>
-                                                    <property name="resultSetColumn">UNITSHORT</property>
-                                                </data>
-                                            </property>
-                                        </extended-item>
-                                    </property>
-                                </extended-item>
-                            </property>
-                        </extended-item>
                     </property>
                 </extended-item>
             </property>
@@ -3384,20 +3374,6 @@ else &#xD;
                             <property name="borderTopStyle">none</property>
                             <property name="textAlign">center</property>
                             <text-property name="text">Source Name</text-property>
-                        </label>
-                    </property>
-                </extended-item>
-                <extended-item extensionName="CrosstabCell" id="416">
-                    <property name="content">
-                        <label id="418">
-                            <property name="fontSize">12px</property>
-                            <property name="fontWeight">bold</property>
-                            <property name="borderBottomStyle">none</property>
-                            <property name="borderLeftStyle">none</property>
-                            <property name="borderRightStyle">none</property>
-                            <property name="borderTopStyle">none</property>
-                            <property name="textAlign">center</property>
-                            <text-property name="text">Unit</text-property>
                         </label>
                     </property>
                 </extended-item>
@@ -3429,126 +3405,67 @@ else &#xD;
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">UNITSHORT</property>
-                    <expression name="expression">dimension["Group1"]["UNITSHORT"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">NORMALQTY_Group1/UNITSHORT</property>
-                    <expression name="expression">measure["NORMALQTY"]</expression>
-                    <property name="dataType">decimal</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>Group1/UNITSHORT</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
-                    <property name="name">NORMALCOST_Group1/UNITSHORT</property>
-                    <expression name="expression">measure["NORMALCOST"]</expression>
-                    <property name="dataType">decimal</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>Group1/UNITSHORT</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
-                    <property name="name">PEAKQTY_Group1/UNITSHORT</property>
-                    <expression name="expression">measure["PEAKQTY"]</expression>
-                    <property name="dataType">decimal</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>Group1/UNITSHORT</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
-                    <property name="name">PEAKCOST_Group1/UNITSHORT</property>
-                    <expression name="expression">measure["PEAKCOST"]</expression>
-                    <property name="dataType">decimal</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>Group1/UNITSHORT</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
-                    <property name="name">OFFPEAKQTY_Group1/UNITSHORT</property>
-                    <expression name="expression">measure["OFFPEAKQTY"]</expression>
-                    <property name="dataType">decimal</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>Group1/UNITSHORT</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
-                    <property name="name">OFFPEAKCOST_Group1/UNITSHORT</property>
-                    <expression name="expression">measure["OFFPEAKCOST"]</expression>
-                    <property name="dataType">decimal</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>Group1/UNITSHORT</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
                     <property name="name">Month</property>
                     <expression name="expression">dimension["Group2"]["Month"]</expression>
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
-                    <property name="name">NORMALQTY_Group2/Month_Group1/UNITSHORT</property>
+                    <property name="name">NORMALQTY_Group2/Month_Group/SOURCENAME</property>
                     <expression name="expression">measure["NORMALQTY"]</expression>
                     <property name="dataType">decimal</property>
                     <simple-property-list name="aggregateOn">
                         <value>Group2/Month</value>
-                        <value>Group1/UNITSHORT</value>
+                        <value>Group/SOURCENAME</value>
                     </simple-property-list>
                     <property name="aggregateFunction">SUM</property>
                 </structure>
                 <structure>
-                    <property name="name">NORMALCOST_Group2/Month_Group1/UNITSHORT</property>
+                    <property name="name">NORMALCOST_Group2/Month_Group/SOURCENAME</property>
                     <expression name="expression">measure["NORMALCOST"]</expression>
                     <property name="dataType">decimal</property>
                     <simple-property-list name="aggregateOn">
                         <value>Group2/Month</value>
-                        <value>Group1/UNITSHORT</value>
+                        <value>Group/SOURCENAME</value>
                     </simple-property-list>
                     <property name="aggregateFunction">SUM</property>
                 </structure>
                 <structure>
-                    <property name="name">PEAKQTY_Group2/Month_Group1/UNITSHORT</property>
+                    <property name="name">PEAKQTY_Group2/Month_Group/SOURCENAME</property>
                     <expression name="expression">measure["PEAKQTY"]</expression>
                     <property name="dataType">decimal</property>
                     <simple-property-list name="aggregateOn">
                         <value>Group2/Month</value>
-                        <value>Group1/UNITSHORT</value>
+                        <value>Group/SOURCENAME</value>
                     </simple-property-list>
                     <property name="aggregateFunction">SUM</property>
                 </structure>
                 <structure>
-                    <property name="name">PEAKCOST_Group2/Month_Group1/UNITSHORT</property>
+                    <property name="name">PEAKCOST_Group2/Month_Group/SOURCENAME</property>
                     <expression name="expression">measure["PEAKCOST"]</expression>
                     <property name="dataType">decimal</property>
                     <simple-property-list name="aggregateOn">
                         <value>Group2/Month</value>
-                        <value>Group1/UNITSHORT</value>
+                        <value>Group/SOURCENAME</value>
                     </simple-property-list>
                     <property name="aggregateFunction">SUM</property>
                 </structure>
                 <structure>
-                    <property name="name">OFFPEAKQTY_Group2/Month_Group1/UNITSHORT</property>
+                    <property name="name">OFFPEAKQTY_Group2/Month_Group/SOURCENAME</property>
                     <expression name="expression">measure["OFFPEAKQTY"]</expression>
                     <property name="dataType">decimal</property>
                     <simple-property-list name="aggregateOn">
                         <value>Group2/Month</value>
-                        <value>Group1/UNITSHORT</value>
+                        <value>Group/SOURCENAME</value>
                     </simple-property-list>
                     <property name="aggregateFunction">SUM</property>
                 </structure>
                 <structure>
-                    <property name="name">OFFPEAKCOST_Group2/Month_Group1/UNITSHORT</property>
+                    <property name="name">OFFPEAKCOST_Group2/Month_Group/SOURCENAME</property>
                     <expression name="expression">measure["OFFPEAKCOST"]</expression>
                     <property name="dataType">decimal</property>
                     <simple-property-list name="aggregateOn">
                         <value>Group2/Month</value>
-                        <value>Group1/UNITSHORT</value>
+                        <value>Group/SOURCENAME</value>
                     </simple-property-list>
                     <property name="aggregateFunction">SUM</property>
                 </structure>
@@ -3562,14 +3479,14 @@ else &#xD;
                     <property name="detail">
                         <extended-item extensionName="AggregationCell" id="422">
                             <property name="aggregationOnRow">Group4/Day Of Year</property>
-                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="aggregationOnColumn">Group/SOURCENAME</property>
                             <property name="width">123px</property>
                             <property name="content">
                                 <data id="423">
                                     <property name="style">crosstab-detail1</property>
                                     <property name="fontSize">12px</property>
                                     <property name="textAlign">center</property>
-                                    <property name="resultSetColumn">NORMALQTY_Group4/Day Of Year_Group1/UNITSHORT</property>
+                                    <property name="resultSetColumn">NORMALQTY_Group4/Day Of Year_Group/SOURCENAME</property>
                                 </data>
                             </property>
                         </extended-item>
@@ -3595,13 +3512,13 @@ else &#xD;
                     <property name="detail">
                         <extended-item extensionName="AggregationCell" id="427">
                             <property name="aggregationOnRow">Group4/Day Of Year</property>
-                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="aggregationOnColumn">Group/SOURCENAME</property>
                             <property name="content">
                                 <data id="428">
                                     <property name="style">crosstab-detail1</property>
                                     <property name="fontSize">12px</property>
                                     <property name="textAlign">center</property>
-                                    <property name="resultSetColumn">NORMALCOST_Group4/Day Of Year_Group1/UNITSHORT</property>
+                                    <property name="resultSetColumn">NORMALCOST_Group4/Day Of Year_Group/SOURCENAME</property>
                                 </data>
                             </property>
                         </extended-item>
@@ -3627,13 +3544,13 @@ else &#xD;
                     <property name="detail">
                         <extended-item extensionName="AggregationCell" id="432">
                             <property name="aggregationOnRow">Group4/Day Of Year</property>
-                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="aggregationOnColumn">Group/SOURCENAME</property>
                             <property name="content">
                                 <data id="433">
                                     <property name="style">crosstab-detail1</property>
                                     <property name="fontSize">12px</property>
                                     <property name="textAlign">center</property>
-                                    <property name="resultSetColumn">PEAKQTY_Group4/Day Of Year_Group1/UNITSHORT</property>
+                                    <property name="resultSetColumn">PEAKQTY_Group4/Day Of Year_Group/SOURCENAME</property>
                                 </data>
                             </property>
                         </extended-item>
@@ -3659,13 +3576,13 @@ else &#xD;
                     <property name="detail">
                         <extended-item extensionName="AggregationCell" id="437">
                             <property name="aggregationOnRow">Group4/Day Of Year</property>
-                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="aggregationOnColumn">Group/SOURCENAME</property>
                             <property name="content">
                                 <data id="438">
                                     <property name="style">crosstab-detail1</property>
                                     <property name="fontSize">12px</property>
                                     <property name="textAlign">center</property>
-                                    <property name="resultSetColumn">PEAKCOST_Group4/Day Of Year_Group1/UNITSHORT</property>
+                                    <property name="resultSetColumn">PEAKCOST_Group4/Day Of Year_Group/SOURCENAME</property>
                                 </data>
                             </property>
                         </extended-item>
@@ -3691,13 +3608,13 @@ else &#xD;
                     <property name="detail">
                         <extended-item extensionName="AggregationCell" id="442">
                             <property name="aggregationOnRow">Group4/Day Of Year</property>
-                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="aggregationOnColumn">Group/SOURCENAME</property>
                             <property name="content">
                                 <data id="443">
                                     <property name="style">crosstab-detail1</property>
                                     <property name="fontSize">12px</property>
                                     <property name="textAlign">center</property>
-                                    <property name="resultSetColumn">OFFPEAKQTY_Group4/Day Of Year_Group1/UNITSHORT</property>
+                                    <property name="resultSetColumn">OFFPEAKQTY_Group4/Day Of Year_Group/SOURCENAME</property>
                                 </data>
                             </property>
                         </extended-item>
@@ -3723,13 +3640,13 @@ else &#xD;
                     <property name="detail">
                         <extended-item extensionName="AggregationCell" id="447">
                             <property name="aggregationOnRow">Group4/Day Of Year</property>
-                            <property name="aggregationOnColumn">Group1/UNITSHORT</property>
+                            <property name="aggregationOnColumn">Group/SOURCENAME</property>
                             <property name="content">
                                 <data id="448">
                                     <property name="style">crosstab-detail1</property>
                                     <property name="fontSize">12px</property>
                                     <property name="textAlign">center</property>
-                                    <property name="resultSetColumn">OFFPEAKCOST_Group4/Day Of Year_Group1/UNITSHORT</property>
+                                    <property name="resultSetColumn">OFFPEAKCOST_Group4/Day Of Year_Group/SOURCENAME</property>
                                 </data>
                             </property>
                         </extended-item>
@@ -3802,27 +3719,6 @@ else &#xD;
                                 </extended-item>
                             </property>
                         </extended-item>
-                        <extended-item extensionName="DimensionView" id="461">
-                            <property name="dimension">Group1</property>
-                            <property name="levels">
-                                <extended-item extensionName="LevelView" name="NewLevel View21" id="462">
-                                    <property name="level">Group1/UNITSHORT</property>
-                                    <property name="member">
-                                        <extended-item extensionName="CrosstabCell" id="463">
-                                            <property name="content">
-                                                <data name="UNITSHORT1" id="464">
-                                                    <property name="style">crosstab-detail1</property>
-                                                    <property name="fontSize">12px</property>
-                                                    <property name="fontWeight">normal</property>
-                                                    <property name="textAlign">center</property>
-                                                    <property name="resultSetColumn">UNITSHORT</property>
-                                                </data>
-                                            </property>
-                                        </extended-item>
-                                    </property>
-                                </extended-item>
-                            </property>
-                        </extended-item>
                     </property>
                 </extended-item>
             </property>
@@ -3838,20 +3734,6 @@ else &#xD;
                             <property name="borderTopStyle">none</property>
                             <property name="textAlign">center</property>
                             <text-property name="text">Source Name</text-property>
-                        </label>
-                    </property>
-                </extended-item>
-                <extended-item extensionName="CrosstabCell" id="467">
-                    <property name="content">
-                        <label id="468">
-                            <property name="fontSize">12px</property>
-                            <property name="fontWeight">bold</property>
-                            <property name="borderBottomStyle">none</property>
-                            <property name="borderLeftStyle">none</property>
-                            <property name="borderRightStyle">none</property>
-                            <property name="borderTopStyle">none</property>
-                            <property name="textAlign">center</property>
-                            <text-property name="text">Unit</text-property>
                         </label>
                     </property>
                 </extended-item>
@@ -3883,126 +3765,67 @@ else &#xD;
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">UNITSHORT</property>
-                    <expression name="expression">dimension["Group1"]["UNITSHORT"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">NORMALQTY_Group1/UNITSHORT</property>
-                    <expression name="expression">measure["NORMALQTY"]</expression>
-                    <property name="dataType">decimal</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>Group1/UNITSHORT</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
-                    <property name="name">NORMALCOST_Group1/UNITSHORT</property>
-                    <expression name="expression">measure["NORMALCOST"]</expression>
-                    <property name="dataType">decimal</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>Group1/UNITSHORT</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
-                    <property name="name">PEAKQTY_Group1/UNITSHORT</property>
-                    <expression name="expression">measure["PEAKQTY"]</expression>
-                    <property name="dataType">decimal</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>Group1/UNITSHORT</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
-                    <property name="name">PEAKCOST_Group1/UNITSHORT</property>
-                    <expression name="expression">measure["PEAKCOST"]</expression>
-                    <property name="dataType">decimal</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>Group1/UNITSHORT</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
-                    <property name="name">OFFPEAKQTY_Group1/UNITSHORT</property>
-                    <expression name="expression">measure["OFFPEAKQTY"]</expression>
-                    <property name="dataType">decimal</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>Group1/UNITSHORT</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
-                    <property name="name">OFFPEAKCOST_Group1/UNITSHORT</property>
-                    <expression name="expression">measure["OFFPEAKCOST"]</expression>
-                    <property name="dataType">decimal</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>Group1/UNITSHORT</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
                     <property name="name">Day Of Year</property>
                     <expression name="expression">dimension["Group4"]["Day Of Year"]["DateTime"]</expression>
                     <property name="dataType">date-time</property>
                 </structure>
                 <structure>
-                    <property name="name">NORMALQTY_Group4/Day Of Year_Group1/UNITSHORT</property>
+                    <property name="name">NORMALQTY_Group4/Day Of Year_Group/SOURCENAME</property>
                     <expression name="expression">measure["NORMALQTY"]</expression>
                     <property name="dataType">decimal</property>
                     <simple-property-list name="aggregateOn">
                         <value>Group4/Day Of Year</value>
-                        <value>Group1/UNITSHORT</value>
+                        <value>Group/SOURCENAME</value>
                     </simple-property-list>
                     <property name="aggregateFunction">SUM</property>
                 </structure>
                 <structure>
-                    <property name="name">NORMALCOST_Group4/Day Of Year_Group1/UNITSHORT</property>
+                    <property name="name">NORMALCOST_Group4/Day Of Year_Group/SOURCENAME</property>
                     <expression name="expression">measure["NORMALCOST"]</expression>
                     <property name="dataType">decimal</property>
                     <simple-property-list name="aggregateOn">
                         <value>Group4/Day Of Year</value>
-                        <value>Group1/UNITSHORT</value>
+                        <value>Group/SOURCENAME</value>
                     </simple-property-list>
                     <property name="aggregateFunction">SUM</property>
                 </structure>
                 <structure>
-                    <property name="name">PEAKQTY_Group4/Day Of Year_Group1/UNITSHORT</property>
+                    <property name="name">PEAKQTY_Group4/Day Of Year_Group/SOURCENAME</property>
                     <expression name="expression">measure["PEAKQTY"]</expression>
                     <property name="dataType">decimal</property>
                     <simple-property-list name="aggregateOn">
                         <value>Group4/Day Of Year</value>
-                        <value>Group1/UNITSHORT</value>
+                        <value>Group/SOURCENAME</value>
                     </simple-property-list>
                     <property name="aggregateFunction">SUM</property>
                 </structure>
                 <structure>
-                    <property name="name">PEAKCOST_Group4/Day Of Year_Group1/UNITSHORT</property>
+                    <property name="name">PEAKCOST_Group4/Day Of Year_Group/SOURCENAME</property>
                     <expression name="expression">measure["PEAKCOST"]</expression>
                     <property name="dataType">decimal</property>
                     <simple-property-list name="aggregateOn">
                         <value>Group4/Day Of Year</value>
-                        <value>Group1/UNITSHORT</value>
+                        <value>Group/SOURCENAME</value>
                     </simple-property-list>
                     <property name="aggregateFunction">SUM</property>
                 </structure>
                 <structure>
-                    <property name="name">OFFPEAKQTY_Group4/Day Of Year_Group1/UNITSHORT</property>
+                    <property name="name">OFFPEAKQTY_Group4/Day Of Year_Group/SOURCENAME</property>
                     <expression name="expression">measure["OFFPEAKQTY"]</expression>
                     <property name="dataType">decimal</property>
                     <simple-property-list name="aggregateOn">
                         <value>Group4/Day Of Year</value>
-                        <value>Group1/UNITSHORT</value>
+                        <value>Group/SOURCENAME</value>
                     </simple-property-list>
                     <property name="aggregateFunction">SUM</property>
                 </structure>
                 <structure>
-                    <property name="name">OFFPEAKCOST_Group4/Day Of Year_Group1/UNITSHORT</property>
+                    <property name="name">OFFPEAKCOST_Group4/Day Of Year_Group/SOURCENAME</property>
                     <expression name="expression">measure["OFFPEAKCOST"]</expression>
                     <property name="dataType">decimal</property>
                     <simple-property-list name="aggregateOn">
                         <value>Group4/Day Of Year</value>
-                        <value>Group1/UNITSHORT</value>
+                        <value>Group/SOURCENAME</value>
                     </simple-property-list>
                     <property name="aggregateFunction">SUM</property>
                 </structure>
