@@ -420,7 +420,7 @@ LHour=params["fromdate"].value
 reportContext.setPersistentGlobalVariable("scount",dataSetRow["C6"]);
 reportContext.setPersistentGlobalVariable("hori",dataSetRow["horizontal"]);
 
-reportContext.setPersistentGlobalVariable("mkrline2",params["mkrline"].value);
+
 
 //reportContext.setPersistentGlobalVariable("s",dataSetRow["vb"]);
 //reportContext.setPersistentGlobalVariable("s", row["vb"]);
@@ -510,6 +510,74 @@ else
             </list-property>
             <xml-property name="queryText"><![CDATA[select   tab1.tag_id as TAG_ID,tab1.N_reading as N_READING,cast(tab1.dt_logdate as datetime) as C3,
 EAT.Attribute as ATTRIBUTE]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="MarkerLine" id="297">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">n_value</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">n_value</text-property>
+                    <text-property name="heading">n_value</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">n_value</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText +" where assettree_id in ("+params["seclst"].value+")  and a.tag_id in ("+params["atrlst"].value+")";]]></method>
+            <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("mkrline2",dataSetRow["n_value"]);
+
+//reportContext.setPersistentGlobalVariable("hori",dataSetRow["horizontal"]);]]></method>
+            <property name="dataSource">IrevealDS</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">n_value</property>
+                    <property name="nativeName">n_value</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select n_value from ems_benchmark b inner join ems_tag a on b.attribute_id=a.attribute_id 
+]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>n_value</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>4</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>n_value</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>n_value</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
         </oda-data-set>
     </data-sets>
     <cubes>
@@ -1868,7 +1936,7 @@ function beforeDrawAxisTitle( axis, label, icsc )&#xD;
 			var max_value = icsc.getExternalContext().getScriptable().getGlobalVariable(&quot;maximum&quot;);&#xD;
 			var mkr_line2 = icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;mkrline2&quot;);&#xD;
 			var mkr_line =parseFloat(mkr_line2);&#xD;
-		if(mkr_line!=-1)&#xD;
+		if(mkr_line!=-1 || mkr_line!=null)&#xD;
 		{&#xD;
 			if(mkr_line>max_value)&#xD;
 			{&#xD;
@@ -3401,6 +3469,18 @@ Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
                 </structure>
             </list-property>
         </extended-item>
+        <data id="298">
+            <property name="dataSet">MarkerLine</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">n_value</property>
+                    <text-property name="displayName">n_value</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["n_value"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">n_value</property>
+        </data>
         <grid name="tbl" id="227">
             <property name="backgroundColor">#FFFFFF</property>
             <property name="canShrink">true</property>
