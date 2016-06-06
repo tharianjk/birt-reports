@@ -3054,7 +3054,7 @@ else &#xD;
             <list-property name="visibility">
                 <structure>
                     <property name="format">all</property>
-                    <expression name="valueExpr" type="javascript">params["vb"].value=='G'</expression>
+                    <expression name="valueExpr" type="javascript">params["vb"].value=='T'</expression>
                 </structure>
             </list-property>
             <list-property name="boundDataColumns">
