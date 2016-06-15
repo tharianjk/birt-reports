@@ -70,7 +70,7 @@
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">2015-07-29 00:00:00</value>
+                <value type="constant">2016-05-16 00:00:00</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -86,7 +86,7 @@
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">2015-09-02 00:00:00</value>
+                <value type="constant">2016-06-16 00:00:00</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -165,6 +165,7 @@
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
             <property name="controlType">text-box</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
@@ -340,23 +341,30 @@
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
                 </structure>
+                <structure>
+                    <property name="name">nprecision</property>
+                    <property name="paramName">precision</property>
+                    <property name="nativeName">nprecision</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                    <property name="position">5</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
             </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
-                        <property name="name">n_reading</property>
-                        <property name="dataType">decimal</property>
+                        <property name="name">N_READING</property>
+                        <property name="dataType">float</property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
-                        <property name="name">DT_LOGDATE</property>
+                        <property name="name">dt_logdate</property>
                         <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">user_id</property>
-                        <property name="dataType">integer</property>
                     </structure>
                 </list-property>
             </structure>
@@ -364,24 +372,18 @@
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">n_reading</property>
-                    <property name="nativeName">n_reading</property>
-                    <property name="dataType">decimal</property>
+                    <property name="name">N_READING</property>
+                    <property name="nativeName">N_READING</property>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
-                    <property name="name">DT_LOGDATE</property>
-                    <property name="nativeName">DT_LOGDATE</property>
+                    <property name="name">dt_logdate</property>
+                    <property name="nativeName">dt_logdate</property>
                     <property name="dataType">string</property>
                 </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">user_id</property>
-                    <property name="nativeName">user_id</property>
-                    <property name="dataType">integer</property>
-                </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[{call spRpt_EAUDIT('LG',?,?,?,?)} ]]></xml-property>
+            <xml-property name="queryText"><![CDATA[{call spRpt_EAUDIT('LG',?,?,?,?,?)} ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -466,6 +468,26 @@
         </design:inputAttributes>
       </design:ParameterDefinition>
     </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name>nprecision</design:name>
+            <design:position>5</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+          <design:precision>10</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
   </DataSetParameters>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
@@ -520,70 +542,23 @@
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
                 </structure>
-            </list-property>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">vlabel</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">n_value</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">dt_date</property>
-                        <property name="dataType">date-time</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">user_id</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">vtype</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                </list-property>
-            </structure>
-            <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet">
                 <structure>
-                    <property name="position">1</property>
-                    <property name="name">vlabel</property>
-                    <property name="nativeName">vlabel</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">n_value</property>
-                    <property name="nativeName">n_value</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">dt_date</property>
-                    <property name="nativeName">dt_date</property>
-                    <property name="dataType">date-time</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">user_id</property>
-                    <property name="nativeName">user_id</property>
+                    <property name="name">nprecision</property>
+                    <property name="paramName">precision</property>
+                    <property name="nativeName">nprecision</property>
                     <property name="dataType">integer</property>
-                </structure>
-                <structure>
+                    <property name="nativeDataType">4</property>
                     <property name="position">5</property>
-                    <property name="name">vtype</property>
-                    <property name="nativeName">vtype</property>
-                    <property name="dataType">string</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[{call spRpt_EAUDIT('LS',?,?,?,?)} ]]></xml-property>
+            <structure name="cachedMetaData"/>
+            <property name="dataSource">IrevealDS</property>
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[{call spRpt_EAUDIT('LS',?,?,?,?,?)} ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -655,6 +630,26 @@
           <design:identifier>
             <design:name>userid</design:name>
             <design:position>4</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+          <design:precision>10</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name>nprecision</design:name>
+            <design:position>5</design:position>
           </design:identifier>
           <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
           <design:precision>10</design:precision>
@@ -1864,6 +1859,18 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION) END QTY ,UN.UNITSHORT]]></xml
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
                 </structure>
+                <structure>
+                    <property name="name">nprecision</property>
+                    <property name="paramName">precision</property>
+                    <property name="nativeName">nprecision</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                    <property name="position">5</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
             </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
@@ -1927,7 +1934,7 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION) END QTY ,UN.UNITSHORT]]></xml
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[{call spRpt_EAUDIT('Q',?,?,?,?)} ]]></xml-property>
+            <xml-property name="queryText"><![CDATA[{call spRpt_EAUDIT('Q',?,?,?,?,?)} ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -1999,6 +2006,26 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION) END QTY ,UN.UNITSHORT]]></xml
           <design:identifier>
             <design:name>userid</design:name>
             <design:position>4</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+          <design:precision>10</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name>nprecision</design:name>
+            <design:position>5</design:position>
           </design:identifier>
           <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
           <design:precision>10</design:precision>
@@ -2433,6 +2460,18 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
                 </structure>
+                <structure>
+                    <property name="name">nprecision</property>
+                    <property name="paramName">precision</property>
+                    <property name="nativeName">nprecision</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                    <property name="position">5</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
             </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
@@ -2496,7 +2535,7 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[{call spRpt_EAUDIT('C',?,?,?,?)} ]]></xml-property>
+            <xml-property name="queryText"><![CDATA[{call spRpt_EAUDIT('C',?,?,?,?,?)} ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -2581,6 +2620,26 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
         </design:inputAttributes>
       </design:ParameterDefinition>
     </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name>nprecision</design:name>
+            <design:position>5</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+          <design:precision>10</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
   </DataSetParameters>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
@@ -2642,6 +2701,18 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
                     <property name="dataType">string</property>
                     <property name="nativeDataType">4</property>
                     <property name="position">4</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">nprecision</property>
+                    <property name="paramName">precision</property>
+                    <property name="nativeName">nprecision</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                    <property name="position">5</property>
                     <property name="isOptional">true</property>
                     <property name="allowNull">true</property>
                     <property name="isInput">true</property>
@@ -2720,7 +2791,7 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[{call spRpt_EAUDIT('A',?,?,?,?)} ]]></xml-property>
+            <xml-property name="queryText"><![CDATA[{call spRpt_EAUDIT('A',?,?,?,?,?)} ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -2792,6 +2863,26 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
           <design:identifier>
             <design:name>userid</design:name>
             <design:position>4</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+          <design:precision>10</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name>nprecision</design:name>
+            <design:position>5</design:position>
           </design:identifier>
           <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
           <design:precision>10</design:precision>
@@ -3109,7 +3200,7 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
                                 <property name="dataType">date-time</property>
                             </structure>
                         </list-property>
-                        <expression name="valueExpr">"Period :"+Formatter.format(row["FromDate"],'dd/MMM/yyyy hh:mm:ss a')+" to "+ Formatter.format(row["ToDate"],'dd/MMM/yyyy hh:mm:ss a');</expression>
+                        <expression name="valueExpr">"Period :"+row["FromDate"]+" to "+row["ToDate"];</expression>
                         <property name="contentType">html</property>
                     </text-data>
                 </cell>
