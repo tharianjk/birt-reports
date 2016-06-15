@@ -359,7 +359,7 @@
                     <structure>
                         <property name="position">1</property>
                         <property name="name">N_READING</property>
-                        <property name="dataType">float</property>
+                        <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
@@ -374,7 +374,7 @@
                     <property name="position">1</property>
                     <property name="name">N_READING</property>
                     <property name="nativeName">N_READING</property>
-                    <property name="dataType">float</property>
+                    <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
@@ -3825,7 +3825,7 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
             <Visible>false</Visible>
           </Label>
           <DataDefinition>
-            <Definition>row[&quot;n_reading&quot;]</Definition>
+            <Definition>row[&quot;N_READING&quot;]</Definition>
             <Grouping>
               <GroupType>Text</GroupType>
               <AggregateExpression>Sum</AggregateExpression>
@@ -4199,7 +4199,7 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
           <Visible>false</Visible>
         </Label>
         <DataDefinition>
-          <Definition>row[&quot;DT_LOGDATE&quot;]</Definition>
+          <Definition>row[&quot;dt_logdate&quot;]</Definition>
         </DataDefinition>
         <SeriesIdentifier></SeriesIdentifier>
         <DataPoint>
@@ -4218,7 +4218,7 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;DT_LOGDATE&quot;]</Definition>
+        <Definition>row[&quot;dt_logdate&quot;]</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
@@ -4348,19 +4348,14 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
                         <property name="dataSet">LoadGraph</property>
                         <list-property name="boundDataColumns">
                             <structure>
-                                <property name="name">n_reading</property>
-                                <expression name="expression" type="javascript">dataSetRow["n_reading"]</expression>
+                                <property name="name">N_READING</property>
+                                <expression name="expression" type="javascript">dataSetRow["N_READING"]</expression>
                                 <property name="dataType">decimal</property>
                             </structure>
                             <structure>
-                                <property name="name">DT_LOGDATE</property>
-                                <expression name="expression" type="javascript">dataSetRow["DT_LOGDATE"]</expression>
+                                <property name="name">dt_logdate</property>
+                                <expression name="expression" type="javascript">dataSetRow["dt_logdate"]</expression>
                                 <property name="dataType">string</property>
-                            </structure>
-                            <structure>
-                                <property name="name">user_id</property>
-                                <expression name="expression" type="javascript">dataSetRow["user_id"]</expression>
-                                <property name="dataType">integer</property>
                             </structure>
                         </list-property>
                     </extended-item>
