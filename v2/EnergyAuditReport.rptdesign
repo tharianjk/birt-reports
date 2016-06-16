@@ -5,7 +5,7 @@
     <text-property name="title">EnergyAuditReport</text-property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
-    <property name="layoutPreference">fixed layout</property>
+    <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <list-property name="libraries">
@@ -16,7 +16,7 @@
     </list-property>
     <parameters>
         <scalar-parameter name="UsrSecId" id="722">
-            <property name="hidden">false</property>
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
@@ -33,7 +33,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="typ" id="734">
-            <property name="hidden">false</property>
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
@@ -49,7 +49,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="UsrCompId" id="735">
-            <property name="hidden">false</property>
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
@@ -65,6 +65,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="fromdate" id="746">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
@@ -81,6 +82,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="todate" id="747">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
@@ -97,6 +99,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="coltype" id="749">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
             <property name="dataType">string</property>
@@ -112,6 +115,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="UtlId" id="816">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -126,6 +130,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="scroll" id="818">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
             <property name="dataType">string</property>
@@ -141,6 +146,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="SourceID" id="432">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
             <property name="dataType">integer</property>
@@ -156,6 +162,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="precision" id="532">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
             <property name="dataType">integer</property>
@@ -172,7 +179,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="testparam" id="416">
-            <property name="hidden">false</property>
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
             <property name="dataType">integer</property>
@@ -188,6 +195,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="assettreeid" id="487">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -202,7 +210,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="curcode" id="518">
-            <property name="hidden">false</property>
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
@@ -218,6 +226,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="SourceName" id="493">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
@@ -233,6 +242,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="sname" id="983">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -247,6 +257,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="UsrId" id="992">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
@@ -3267,13 +3278,13 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <property name="type">a4</property>
-            <property name="borderBottomStyle">double</property>
+            <property name="borderBottomStyle">solid</property>
             <property name="borderBottomWidth">thin</property>
-            <property name="borderLeftStyle">double</property>
+            <property name="borderLeftStyle">solid</property>
             <property name="borderLeftWidth">thin</property>
-            <property name="borderRightStyle">double</property>
+            <property name="borderRightStyle">solid</property>
             <property name="borderRightWidth">thin</property>
-            <property name="borderTopStyle">double</property>
+            <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">thin</property>
             <property name="headerHeight">0.5in</property>
             <page-footer>
@@ -5814,7 +5825,7 @@ else&#xD;
                         <property name="canShrink">false</property>
                         <property name="overflow">hidden</property>
                         <property name="height">0.9583333333333334in</property>
-                        <property name="width">7.916666666666667in</property>
+                        <property name="width">7.59375in</property>
                         <expression name="bookmark" type="javascript">"mychart"</expression>
                         <property name="dataSet">EDISData Set</property>
                         <list-property name="boundDataColumns">
@@ -7699,15 +7710,15 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
           <Thickness>1</Thickness>
           <Visible>true</Visible>
         </LeaderLineAttributes>
-        <LeaderLineLength>5.0</LeaderLineLength>
+        <LeaderLineLength>8.0</LeaderLineLength>
         <SliceOutline>
           <Transparency>0</Transparency>
           <Red>255</Red>
           <Green>255</Green>
           <Blue>255</Blue>
         </SliceOutline>
-        <Ratio>1.0</Ratio>
-        <Rotation>0.0</Rotation>
+        <Ratio>1.2</Ratio>
+        <Rotation>89.0</Rotation>
         <InnerRadius>0.0</InnerRadius>
       </Series>
       <Grouping>
@@ -10379,21 +10390,18 @@ row["ASSETTREE_ID"]</value>
             <detail>
                 <row id="934">
                     <cell id="935">
-                        <data id="945">
+                        <data id="993">
                             <property name="fontWeight">bold</property>
-                            <property name="textAlign">left</property>
                             <property name="resultSetColumn">vlabel</property>
                         </data>
                     </cell>
                     <cell id="937">
-                        <data id="946">
-                            <property name="textAlign">center</property>
+                        <data id="994">
                             <property name="resultSetColumn">n_value</property>
                         </data>
                     </cell>
                     <cell id="939">
-                        <data id="947">
-                            <property name="textAlign">center</property>
+                        <data id="995">
                             <property name="resultSetColumn">dt_date</property>
                         </data>
                     </cell>
@@ -10411,11 +10419,16 @@ row["ASSETTREE_ID"]</value>
         </text-data>
         <grid id="895">
             <property name="style">GridCell</property>
+            <property name="height">3.0729166666666665in</property>
+            <property name="width">7.885416666666667in</property>
             <column id="896">
                 <property name="style">GridCell</property>
             </column>
-            <column id="897"/>
+            <column id="897">
+                <property name="width">3.9375in</property>
+            </column>
             <row id="898">
+                <property name="height">3.0729166666666665in</property>
                 <cell id="899">
                     <extended-item extensionName="Chart" id="379">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithoutAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
@@ -12489,16 +12502,10 @@ row["ASSETTREE_ID"]</value>
                         <property name="outputFormat">SVG</property>
                         <property name="inheritColumns">true</property>
                         <property name="canShrink">true</property>
-                        <property name="height">3.01in</property>
-                        <property name="width">3.885in</property>
+                        <property name="height">2.96875in</property>
+                        <property name="width">3.7083333333333335in</property>
                         <expression name="bookmark" type="javascript">"myChart"</expression>
                         <property name="dataSet">CostDistribution</property>
-                        <list-property name="visibility">
-                            <structure>
-                                <property name="format">all</property>
-                                <expression name="valueExpr" type="javascript">params["vb"].value=='T'</expression>
-                            </structure>
-                        </list-property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">TIMEPERIOD</property>
