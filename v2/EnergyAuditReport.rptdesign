@@ -5,7 +5,7 @@
     <text-property name="title">EnergyAuditReport</text-property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
-    <property name="layoutPreference">auto layout</property>
+    <property name="layoutPreference">fixed layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <list-property name="libraries">
@@ -71,7 +71,7 @@
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">2016-05-16 00:00:00</value>
+                <value type="constant">2015-07-16 00:00:00</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -88,7 +88,7 @@
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">2016-06-16 00:00:00</value>
+                <value type="constant">2015-07-18 00:00:00</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -268,6 +268,38 @@
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="HeaderFromDate" id="1015">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">dateTime</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="javascript">params["fromdate"].value</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="HeaderToDate" id="1016">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">dateTime</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="javascript">params["todate"].value</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
@@ -1479,251 +1511,6 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4,src.SOURC
       </design:ParameterDefinition>
     </parameter>
   </DataSetParameters>
-</model:DesignValues>]]></xml-property>
-        </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="SupplyDistributionSection" id="860">
-            <list-property name="computedColumns">
-                <structure>
-                    <property name="name">rcount</property>
-                    <property name="dataType">integer</property>
-                    <property name="aggregateFunction">RUNNINGCOUNT</property>
-                    <list-property name="arguments">
-                        <structure>
-                            <property name="name">Expression</property>
-                            <expression name="value">row["UTILITY_QTY"]</expression>
-                        </structure>
-                    </list-property>
-                </structure>
-                <structure>
-                    <property name="name">total</property>
-                    <property name="dataType">float</property>
-                    <property name="aggregateFunction">SUM</property>
-                    <list-property name="arguments">
-                        <structure>
-                            <property name="name">Expression</property>
-                            <expression name="value">row["UTILITY_QTY"]</expression>
-                        </structure>
-                    </list-property>
-                </structure>
-            </list-property>
-            <list-property name="columnHints"/>
-            <list-property name="parameters">
-                <structure>
-                    <property name="name">precision</property>
-                    <property name="dataType">integer</property>
-                    <property name="position">1</property>
-                    <expression name="defaultValue" type="javascript">4</expression>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-            </list-property>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">DISPLAYNAME</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">UTILITY_QTY</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">UNITSHORT</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">C4</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">ASSETTREE_ID</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">CHILDCOUNT</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">PARENT_ID</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">rcount</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">9</property>
-                        <property name="name">total</property>
-                        <property name="dataType">float</property>
-                    </structure>
-                </list-property>
-            </structure>
-            <method name="beforeOpen"><![CDATA[
-	curT=params["todate"].value
-	LHour=params["fromdate"].value
-	
-
-this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4,a.ASSETTREE_ID as ASSETTREE_ID, (select count(1)"+
-" from fwk_assettree fa inner join ems_source_summary fs on fa.assettree_id=fs.assettree_id where parent_id=a.assettree_id)  as CHILDCOUNT,A.PARENT_ID"+
-" from ems_source_summary s"+
-" inner join fwk_assettree a on s.assettree_id=a.assettree_id"+
-" inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
-" inner join ems_source soc on s.source_id=soc.source_id"+
-" inner join ems_utility UT on UT.UTILITY_ID=soc.UTILITY_ID"+
-" inner join ems_Attribute  ATR on UT.attribute_id=ATR.ATTRIBUTE_ID"+
-" LEFT join ems_unit UN on ATR.unit_id=UN.unit_id where T.dt_date >='"+LHour+"' and T.dt_date<'"+curT+"'"+
-" and a.company_id ='"+params["UsrCompId"].value+"' and  soc.UTILITY_ID='"+params["UtlId"].value+"'"+
-" and a.parent_id  = '"+params["UsrSecId"].value+"' and upper(a.b_rollup)='TRUE'"+
-" group by DISPLAYNAME, un.UNITSHORT,a.ASSETTREE_ID,A.PARENT_ID";]]></method>
-            <method name="onFetch"><![CDATA[//reportContext.setPersistentGlobalVariable("explode",params["explode"].value);]]></method>
-            <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">DISPLAYNAME</property>
-                    <property name="nativeName">DISPLAYNAME</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">UTILITY_QTY</property>
-                    <property name="nativeName">UTILITY_QTY</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">UNITSHORT</property>
-                    <property name="nativeName">UNITSHORT</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">C4</property>
-                    <property name="nativeName">C4</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">ASSETTREE_ID</property>
-                    <property name="nativeName">ASSETTREE_ID</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
-                    <property name="name">CHILDCOUNT</property>
-                    <property name="nativeName">CHILDCOUNT</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">7</property>
-                    <property name="name">PARENT_ID</property>
-                    <property name="nativeName">PARENT_ID</property>
-                    <property name="dataType">integer</property>
-                </structure>
-            </list-property>
-            <xml-property name="queryText"><![CDATA[select  DISPLAYNAME, round(sum(s.UTILITY_QTY),?) as UTILITY_QTY,un.UNITSHORT]]></xml-property>
-            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
-  <Version>2.0</Version>
-  <design:ResultSets derivedMetaData="true">
-    <design:resultSetDefinitions>
-      <design:resultSetColumns>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>DISPLAYNAME</design:name>
-              <design:position>1</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>10</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>DISPLAYNAME</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>DISPLAYNAME</design:label>
-            <design:formattingHints>
-              <design:displaySize>10</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>QTY</design:name>
-              <design:position>2</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>3</design:scale>
-            <design:nullability>Unknown</design:nullability>
-            <design:uiHints>
-              <design:displayName>QTY</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>QTY</design:label>
-            <design:formattingHints>
-              <design:displaySize>42</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>DT</design:name>
-              <design:position>3</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
-            <design:precision>26</design:precision>
-            <design:scale>6</design:scale>
-            <design:nullability>Unknown</design:nullability>
-            <design:uiHints>
-              <design:displayName>DT</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>DT</design:label>
-            <design:formattingHints>
-              <design:displaySize>26</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>C4</design:name>
-              <design:position>4</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>2</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>C4</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>C4</design:label>
-            <design:formattingHints>
-              <design:displaySize>2</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-      </design:resultSetColumns>
-      <design:criteria/>
-    </design:resultSetDefinitions>
-  </design:ResultSets>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="SupplyDistributionTOD" id="415">
@@ -3202,6 +2989,242 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
   </DataSetParameters>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="distributionSecondDSet" id="427">
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">rcount</property>
+                    <property name="dataType">integer</property>
+                    <property name="aggregateFunction">RUNNINGCOUNT</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value">row["UTILITY_QTY"]</expression>
+                        </structure>
+                    </list-property>
+                </structure>
+                <structure>
+                    <property name="name">total</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value">row["UTILITY_QTY"]</expression>
+                        </structure>
+                    </list-property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints"/>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">param_1</property>
+                    <property name="paramName">precision</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">0</property>
+                    <property name="position">1</property>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">displayname</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">UTILITY_QTY</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">unitshort</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">C4</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">ASSETTREE_ID</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">CHILDCOUNT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">rcount</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">total</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <method name="beforeOpen"><![CDATA[
+	curT=params["todate"].value
+	LHour=params["fromdate"].value
+	
+	this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4,a.assettree_id as ASSETTREE_ID,"+	
+	"(select count(*) from fwk_assettree where parent_id=a.assettree_id)  as CHILDCOUNT "+
+    " from ems_section_summary s inner join fwk_assettree a on s.assettree_id=a.assettree_id"+  
+    " inner join EMS_TIME_DIM T ON S.TIME_ID=T.TIME_ID"+
+    " inner join ems_utility UT on UT.UTILITY_ID=s.UTILITY_ID "+ 
+    " inner join ems_unit UN on UN.unit_id=UT.unit_id"+
+	" where a.parent_id='"+params["UsrSecId"].value+"' and T.dt_date >='"+LHour+"'"+
+    " and T.dt_date <'"+curT+"'"+
+    " and a.company_id='"+params["UsrCompId"].value+"'"+
+    " and a.b_rollup='true' and  s.UTILITY_ID='"+params["UtlId"].value+"' and S.c_coretype='C'"+
+    " group by a.displayname,un.unitshort,a.assettree_id";
+
+]]></method>
+            <property name="dataSource">IrevealDS</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">DISPLAYNAME</property>
+                    <property name="nativeName">DISPLAYNAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">UTILITY_QTY</property>
+                    <property name="nativeName">UTILITY_QTY</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">UNITSHORT</property>
+                    <property name="nativeName">UNITSHORT</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">C4</property>
+                    <property name="nativeName">C4</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">ASSETTREE_ID</property>
+                    <property name="nativeName">ASSETTREE_ID</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">CHILDCOUNT</property>
+                    <property name="nativeName">CHILDCOUNT</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select a.displayname, round(sum(s.UTILITY_QTY),?) as UTILITY_QTY,un.unitshort]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DISPLAYNAME</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>DISPLAYNAME</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DISPLAYNAME</design:label>
+            <design:formattingHints>
+              <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>QTY</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>3</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>QTY</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>QTY</design:label>
+            <design:formattingHints>
+              <design:displaySize>42</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DT</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>26</design:precision>
+            <design:scale>6</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>DT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DT</design:label>
+            <design:formattingHints>
+              <design:displaySize>26</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>C4</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>C4</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>C4</design:label>
+            <design:formattingHints>
+              <design:displaySize>2</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
     </data-sets>
     <styles>
         <style name="report" id="4">
@@ -3297,6 +3320,14 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
     </page-setup>
     <body>
         <grid id="984">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Column Binding</property>
+                    <expression name="expression" type="javascript">params["fromdate"].value</expression>
+                    <property name="dataType">date-time</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
             <column id="985"/>
             <row id="986">
                 <cell id="987">
@@ -3334,7 +3365,7 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
                                 <property name="dataType">date-time</property>
                             </structure>
                         </list-property>
-                        <expression name="valueExpr">"Period :"+params["fromdate"].value+" to "+params["todate"].value;</expression>
+                        <expression name="valueExpr">"Period :"+Formatter.format(params["HeaderFromDate"].value,'dd/MMM/yyyy hh:mm:ss a')+" to "+Formatter.format(params["HeaderToDate"].value,'dd/MMM/yyyy hh:mm:ss a');</expression>
                         <property name="contentType">html</property>
                     </text-data>
                 </cell>
@@ -3403,10 +3434,10 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
           </Font>
         </Caption>
         <Background xsi:type="attribute:ColorDefinition">
-          <Transparency>0</Transparency>
-          <Red>255</Red>
-          <Green>255</Green>
-          <Blue>255</Blue>
+          <Transparency>53</Transparency>
+          <Red>192</Red>
+          <Green>192</Green>
+          <Blue>192</Blue>
         </Background>
         <Outline>
           <Style>Solid</Style>
@@ -4664,10 +4695,10 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
           </Font>
         </Caption>
         <Background xsi:type="attribute:ColorDefinition">
-          <Transparency>0</Transparency>
-          <Red>255</Red>
-          <Green>255</Green>
-          <Blue>255</Blue>
+          <Transparency>53</Transparency>
+          <Red>192</Red>
+          <Green>192</Green>
+          <Blue>192</Blue>
         </Background>
         <Outline>
           <Style>Solid</Style>
@@ -5955,10 +5986,10 @@ else&#xD;
           </Font>
         </Caption>
         <Background xsi:type="attribute:ColorDefinition">
-          <Transparency>0</Transparency>
-          <Red>255</Red>
-          <Green>255</Green>
-          <Blue>255</Blue>
+          <Transparency>53</Transparency>
+          <Red>192</Red>
+          <Green>192</Green>
+          <Blue>192</Blue>
         </Background>
         <Outline>
           <Style>Solid</Style>
@@ -7125,7 +7156,7 @@ else&#xD;
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>By TOD</Value>
+          <Value>By Time of day</Value>
           <Font>
             <Size>12.0</Size>
             <Bold>true</Bold>
@@ -7136,10 +7167,10 @@ else&#xD;
           </Font>
         </Caption>
         <Background xsi:type="attribute:ColorDefinition">
-          <Transparency>0</Transparency>
-          <Red>255</Red>
-          <Green>255</Green>
-          <Blue>255</Blue>
+          <Transparency>53</Transparency>
+          <Red>192</Red>
+          <Green>192</Green>
+          <Blue>192</Blue>
         </Background>
         <Outline>
           <Style>Solid</Style>
@@ -7151,6 +7182,12 @@ else&#xD;
             <Blue>0</Blue>
           </Color>
         </Outline>
+        <ShadowColor>
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </ShadowColor>
         <Insets>
           <Top>0.0</Top>
           <Left>2.0</Left>
@@ -7718,7 +7755,7 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
           <Blue>255</Blue>
         </SliceOutline>
         <Ratio>1.2</Ratio>
-        <Rotation>89.0</Rotation>
+        <Rotation>123.0</Rotation>
         <InnerRadius>0.0</InnerRadius>
       </Series>
       <Grouping>
@@ -7782,7 +7819,7 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
   </SeriesDefinitions>
   <MinSlice>0.0</MinSlice>
   <MinSlicePercent>false</MinSlicePercent>
-  <Coverage>0.8</Coverage>
+  <Coverage>0.7</Coverage>
 </model:ChartWithoutAxes>
 ]]></xml-property>
                                     <property name="outputFormat">JPG</property>
@@ -7976,7 +8013,7 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
             </column>
             <row id="865">
                 <cell id="866">
-                    <extended-item extensionName="Chart" id="861">
+                    <extended-item extensionName="Chart" id="413">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithoutAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Pie Chart</Type>
@@ -7989,7 +8026,6 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
         <Width>0.0</Width>
         <Height>0.0</Height>
       </Bounds>
-      <Anchor>North</Anchor>
       <Insets>
         <Top>3.0</Top>
         <Left>3.0</Left>
@@ -8014,7 +8050,7 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>By Section</Value>
+          <Value>By Usage</Value>
           <Font>
             <Size>12.0</Size>
             <Bold>true</Bold>
@@ -8025,10 +8061,10 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
           </Font>
         </Caption>
         <Background xsi:type="attribute:ColorDefinition">
-          <Transparency>0</Transparency>
-          <Red>255</Red>
-          <Green>255</Green>
-          <Blue>255</Blue>
+          <Transparency>53</Transparency>
+          <Red>192</Red>
+          <Green>192</Green>
+          <Blue>192</Blue>
         </Background>
         <Outline>
           <Style>Solid</Style>
@@ -8135,9 +8171,6 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
         <Visible>false</Visible>
       </Outline>
       <Visible>true</Visible>
-      <Cursor>
-        <Type>Auto</Type>
-      </Cursor>
       <ClientArea>
         <Outline>
           <Style>Solid</Style>
@@ -8176,7 +8209,7 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
         </Color>
         <Visible>true</Visible>
       </Separator>
-      <Position>Left</Position>
+      <Position>Below</Position>
       <ItemType>Categories</ItemType>
       <Title>
         <Caption>
@@ -8219,10 +8252,10 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
       <Height>130.0</Height>
     </Bounds>
     <Insets>
-      <Top>1.0</Top>
-      <Left>1.0</Left>
-      <Bottom>1.0</Bottom>
-      <Right>1.0</Right>
+      <Top>3.0</Top>
+      <Left>3.0</Left>
+      <Bottom>3.0</Bottom>
+      <Right>3.0</Right>
     </Insets>
     <Row>-1</Row>
     <Column>-1</Column>
@@ -8307,9 +8340,7 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
       <SeriesDefinitionIndex>0</SeriesDefinitionIndex>
     </OrthogonalSampleData>
   </SampleData>
-  <Interactivity>
-    <LegendBehavior>HighlightSerie</LegendBehavior>
-  </Interactivity>
+  <Interactivity/>
   <EmptyMessage>
     <Caption>
       <Value>This chart contains no data.</Value>
@@ -8341,7 +8372,7 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
       <Bottom>10.0</Bottom>
       <Right>10.0</Right>
     </Insets>
-    <Visible>true</Visible>
+    <Visible>false</Visible>
   </EmptyMessage>
   <SeriesDefinitions>
     <Query>
@@ -8350,63 +8381,39 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
     <SeriesPalette>
       <Entries xsi:type="attribute:ColorDefinition">
         <Transparency>255</Transparency>
-        <Red>0</Red>
-        <Green>179</Green>
-        <Blue>223</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>242</Red>
-        <Green>88</Green>
+        <Red>102</Red>
+        <Green>187</Green>
         <Blue>106</Blue>
       </Entries>
       <Entries xsi:type="attribute:ColorDefinition">
         <Transparency>255</Transparency>
-        <Red>232</Red>
-        <Green>172</Green>
-        <Blue>57</Blue>
+        <Red>141</Red>
+        <Green>110</Green>
+        <Blue>99</Blue>
       </Entries>
       <Entries xsi:type="attribute:ColorDefinition">
         <Transparency>255</Transparency>
-        <Red>128</Red>
-        <Green>255</Green>
-        <Blue>128</Blue>
+        <Red>236</Red>
+        <Green>64</Green>
+        <Blue>122</Blue>
       </Entries>
       <Entries xsi:type="attribute:ColorDefinition">
         <Transparency>255</Transparency>
-        <Red>64</Red>
-        <Green>128</Green>
-        <Blue>128</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>128</Red>
-        <Green>128</Green>
+        <Red>92</Red>
+        <Green>107</Green>
         <Blue>192</Blue>
       </Entries>
       <Entries xsi:type="attribute:ColorDefinition">
         <Transparency>255</Transparency>
-        <Red>170</Red>
-        <Green>85</Green>
-        <Blue>85</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>128</Red>
-        <Green>128</Green>
-        <Blue>0</Blue>
-      </Entries>
-      <Entries xsi:type="attribute:ColorDefinition">
-        <Transparency>255</Transparency>
-        <Red>192</Red>
-        <Green>192</Green>
-        <Blue>192</Blue>
+        <Red>38</Red>
+        <Green>198</Green>
+        <Blue>218</Blue>
       </Entries>
       <Entries xsi:type="attribute:ColorDefinition">
         <Transparency>255</Transparency>
         <Red>255</Red>
-        <Green>255</Green>
-        <Blue>128</Blue>
+        <Green>167</Green>
+        <Blue>38</Blue>
       </Entries>
       <Entries xsi:type="attribute:ColorDefinition">
         <Transparency>255</Transparency>
@@ -8546,63 +8553,39 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
       <SeriesPalette>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>179</Green>
-          <Blue>223</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>242</Red>
-          <Green>88</Green>
+          <Red>102</Red>
+          <Green>187</Green>
           <Blue>106</Blue>
         </Entries>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
-          <Red>232</Red>
-          <Green>172</Green>
-          <Blue>57</Blue>
+          <Red>141</Red>
+          <Green>110</Green>
+          <Blue>99</Blue>
         </Entries>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
-          <Red>128</Red>
-          <Green>255</Green>
-          <Blue>128</Blue>
+          <Red>236</Red>
+          <Green>64</Green>
+          <Blue>122</Blue>
         </Entries>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
-          <Red>64</Red>
-          <Green>128</Green>
-          <Blue>128</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>128</Red>
-          <Green>128</Green>
+          <Red>92</Red>
+          <Green>107</Green>
           <Blue>192</Blue>
         </Entries>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
-          <Red>170</Red>
-          <Green>85</Green>
-          <Blue>85</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>128</Red>
-          <Green>128</Green>
-          <Blue>0</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>192</Red>
-          <Green>192</Green>
-          <Blue>192</Blue>
+          <Red>38</Red>
+          <Green>198</Green>
+          <Blue>218</Blue>
         </Entries>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
           <Red>255</Red>
-          <Green>255</Green>
-          <Blue>128</Blue>
+          <Green>167</Green>
+          <Blue>38</Blue>
         </Entries>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
@@ -8809,12 +8792,12 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
               <URLValues>
                 <Label>
                   <Caption>
-                    <Value>LINK</Value>
+                    <Value>LINK2</Value>
                   </Caption>
                 </Label>
                 <BaseUrl>&lt;structure>
     &lt;property name=&quot;linkType&quot;>drill-through&lt;/property>
-    &lt;property name=&quot;reportName&quot;>SupplyDistributionReportNew.rptdesign&lt;/property>
+    &lt;property name=&quot;reportName&quot;>EnergyDistribution.rptdesign&lt;/property>
     &lt;property name=&quot;targetWindow&quot;>_self&lt;/property>
     &lt;property name=&quot;targetFileType&quot;>report-design&lt;/property>
     &lt;list-property name=&quot;paramBindings&quot;>
@@ -8822,14 +8805,11 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
             &lt;property name=&quot;paramName&quot;>UsrSecId&lt;/property>
             &lt;simple-property-list name=&quot;expression&quot;>
                 &lt;value type=&quot;javascript&quot;>if(row[&quot;CHILDCOUNT&quot;]==0)&amp;#13;
+{params[&quot;IDParam&quot;].value}&amp;#13;
+else&amp;#13;
 {&amp;#13;
-&amp;#13;
-		row[&quot;PARENT_ID&quot;]&amp;#13;
-	}&amp;#13;
-	else&amp;#13;
-	{&amp;#13;
 row[&quot;ASSETTREE_ID&quot;]&amp;#13;
-///row[&quot;PARENT_ID&quot;]&amp;#13;
+&amp;#13;
 }&lt;/value>
             &lt;/simple-property-list>
         &lt;/structure>
@@ -8870,18 +8850,9 @@ row[&quot;ASSETTREE_ID&quot;]&amp;#13;
             &lt;/simple-property-list>
         &lt;/structure>
         &lt;structure>
-            &lt;property name=&quot;paramName&quot;>testparam&lt;/property>
+            &lt;property name=&quot;paramName&quot;>IDParam&lt;/property>
             &lt;simple-property-list name=&quot;expression&quot;>
-                &lt;value type=&quot;javascript&quot;>/*if(row[&quot;CHILDCOUNT&quot;]==0)&amp;#13;
-{*/&amp;#13;
-&amp;#13;
-row[&quot;ASSETTREE_ID&quot;]&lt;/value>
-            &lt;/simple-property-list>
-        &lt;/structure>
-        &lt;structure>
-            &lt;property name=&quot;paramName&quot;>ntitle&lt;/property>
-            &lt;simple-property-list name=&quot;expression&quot;>
-                &lt;value type=&quot;javascript&quot;>&quot;TOD breakup for : &quot;+row[&quot;DISPLAYNAME&quot;]&lt;/value>
+                &lt;value type=&quot;javascript&quot;>//row[&quot;ASSETTREE_ID&quot;]&lt;/value>
             &lt;/simple-property-list>
         &lt;/structure>
         &lt;structure>
@@ -8891,21 +8862,24 @@ row[&quot;ASSETTREE_ID&quot;]&lt;/value>
             &lt;/simple-property-list>
         &lt;/structure>
         &lt;structure>
-            &lt;property name=&quot;paramName&quot;>psecid&lt;/property>
+            &lt;property name=&quot;paramName&quot;>FirstTitle&lt;/property>
             &lt;simple-property-list name=&quot;expression&quot;>
-                &lt;value type=&quot;javascript&quot;>params[&quot;UsrSecId&quot;].value&lt;/value>
-            &lt;/simple-property-list>
-        &lt;/structure>
-        &lt;structure>
-            &lt;property name=&quot;paramName&quot;>precision&lt;/property>
-            &lt;simple-property-list name=&quot;expression&quot;>
-                &lt;value type=&quot;javascript&quot;>params[&quot;precision&quot;].value&lt;/value>
+                &lt;value type=&quot;javascript&quot;>if(row[&quot;CHILDCOUNT&quot;]==0)&amp;#13;
+{&amp;#13;
+params[&quot;FirstTitle&quot;].value=params[&quot;BreakdownTitle&quot;].value&amp;#13;
+}&lt;/value>
             &lt;/simple-property-list>
         &lt;/structure>
         &lt;structure>
             &lt;property name=&quot;paramName&quot;>sname&lt;/property>
             &lt;simple-property-list name=&quot;expression&quot;>
                 &lt;value type=&quot;javascript&quot;>row[&quot;DISPLAYNAME&quot;]&lt;/value>
+            &lt;/simple-property-list>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>precision&lt;/property>
+            &lt;simple-property-list name=&quot;expression&quot;>
+                &lt;value type=&quot;javascript&quot;>params[&quot;precision&quot;].value&lt;/value>
             &lt;/simple-property-list>
         &lt;/structure>
     &lt;/list-property>
@@ -8915,7 +8889,6 @@ row[&quot;ASSETTREE_ID&quot;]&lt;/value>
                 <ValueParameterName></ValueParameterName>
                 <SeriesParameterName></SeriesParameterName>
               </URLValues>
-              <Tooltip>Click To Drill Down</Tooltip>
               <PropertiesMap>
                 <Key>MenuItem</Key>
                 <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
@@ -8937,7 +8910,7 @@ row[&quot;ASSETTREE_ID&quot;]&lt;/value>
         </Triggers>
         <Translucent>false</Translucent>
         <Explosion>0</Explosion>
-        <ExplosionExpression>valueData ==this.getPersistentGlobalVariable(&quot;explode&quot; )</ExplosionExpression>
+        <ExplosionExpression>valueData == this.getGlobalVariable(&quot;MaxSliceValue&quot; )</ExplosionExpression>
         <Title>
           <Caption>
             <Value></Value>
@@ -9050,7 +9023,7 @@ row[&quot;ASSETTREE_ID&quot;]&lt;/value>
   </SeriesDefinitions>
   <MinSlice>0.0</MinSlice>
   <MinSlicePercent>false</MinSlicePercent>
-  <Coverage>0.8</Coverage>
+  <Coverage>0.7</Coverage>
 </model:ChartWithoutAxes>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
@@ -9059,20 +9032,17 @@ row[&quot;ASSETTREE_ID&quot;]&lt;/value>
                                 <property name="targetWindow">_self</property>
                                 <property name="linkType">drill-through</property>
                                 <property name="targetFileType">report-design</property>
-                                <property name="reportName">SupplyDistributionReportNew.rptdesign</property>
+                                <property name="reportName">EnergyDistribution.rptdesign</property>
                                 <list-property name="paramBindings">
                                     <structure>
                                         <property name="paramName">UsrSecId</property>
                                         <simple-property-list name="expression">
                                             <value type="javascript">if(row["CHILDCOUNT"]==0)&#13;
+{params["IDParam"].value}&#13;
+else&#13;
 {&#13;
-&#13;
-		row["PARENT_ID"]&#13;
-	}&#13;
-	else&#13;
-	{&#13;
 row["ASSETTREE_ID"]&#13;
-///row["PARENT_ID"]&#13;
+&#13;
 }</value>
                                         </simple-property-list>
                                     </structure>
@@ -9113,18 +9083,9 @@ row["ASSETTREE_ID"]&#13;
                                         </simple-property-list>
                                     </structure>
                                     <structure>
-                                        <property name="paramName">testparam</property>
+                                        <property name="paramName">IDParam</property>
                                         <simple-property-list name="expression">
-                                            <value type="javascript">/*if(row["CHILDCOUNT"]==0)&#13;
-{*/&#13;
-&#13;
-row["ASSETTREE_ID"]</value>
-                                        </simple-property-list>
-                                    </structure>
-                                    <structure>
-                                        <property name="paramName">ntitle</property>
-                                        <simple-property-list name="expression">
-                                            <value type="javascript">"TOD breakup for : "+row["DISPLAYNAME"]</value>
+                                            <value type="javascript">//row["ASSETTREE_ID"]</value>
                                         </simple-property-list>
                                     </structure>
                                     <structure>
@@ -9134,21 +9095,24 @@ row["ASSETTREE_ID"]</value>
                                         </simple-property-list>
                                     </structure>
                                     <structure>
-                                        <property name="paramName">psecid</property>
+                                        <property name="paramName">FirstTitle</property>
                                         <simple-property-list name="expression">
-                                            <value type="javascript">params["UsrSecId"].value</value>
-                                        </simple-property-list>
-                                    </structure>
-                                    <structure>
-                                        <property name="paramName">precision</property>
-                                        <simple-property-list name="expression">
-                                            <value type="javascript">params["precision"].value</value>
+                                            <value type="javascript">if(row["CHILDCOUNT"]==0)&#13;
+{&#13;
+params["FirstTitle"].value=params["BreakdownTitle"].value&#13;
+}</value>
                                         </simple-property-list>
                                     </structure>
                                     <structure>
                                         <property name="paramName">sname</property>
                                         <simple-property-list name="expression">
                                             <value type="javascript">row["DISPLAYNAME"]</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="paramName">precision</property>
+                                        <simple-property-list name="expression">
+                                            <value type="javascript">params["precision"].value</value>
                                         </simple-property-list>
                                     </structure>
                                 </list-property>
@@ -9158,7 +9122,7 @@ row["ASSETTREE_ID"]</value>
                         <property name="height">3.0104166666666665in</property>
                         <property name="width">3.885in</property>
                         <expression name="bookmark" type="javascript">"myChart"</expression>
-                        <property name="dataSet">SupplyDistributionSection</property>
+                        <property name="dataSet">distributionSecondDSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">DISPLAYNAME</property>
@@ -9189,11 +9153,6 @@ row["ASSETTREE_ID"]</value>
                                 <property name="name">CHILDCOUNT</property>
                                 <expression name="expression" type="javascript">dataSetRow["CHILDCOUNT"]</expression>
                                 <property name="dataType">decimal</property>
-                            </structure>
-                            <structure>
-                                <property name="name">PARENT_ID</property>
-                                <expression name="expression" type="javascript">dataSetRow["PARENT_ID"]</expression>
-                                <property name="dataType">integer</property>
                             </structure>
                             <structure>
                                 <property name="name">rcount</property>
@@ -9369,10 +9328,10 @@ row["ASSETTREE_ID"]</value>
           </Font>
         </Caption>
         <Background xsi:type="attribute:ColorDefinition">
-          <Transparency>0</Transparency>
-          <Red>255</Red>
-          <Green>255</Green>
-          <Blue>255</Blue>
+          <Transparency>53</Transparency>
+          <Red>192</Red>
+          <Green>192</Green>
+          <Blue>192</Blue>
         </Background>
         <Outline>
           <Style>Solid</Style>
@@ -9547,7 +9506,7 @@ row["ASSETTREE_ID"]</value>
           <Bottom>0.0</Bottom>
           <Right>3.0</Right>
         </Insets>
-        <Visible>true</Visible>
+        <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
     </Children>
@@ -10114,7 +10073,7 @@ row["ASSETTREE_ID"]</value>
           <Action>
             <Type>Show_Tooltip</Type>
             <Value xsi:type="attribute:TooltipValue">
-              <Text></Text>
+              <Text>row[&quot;alertcnt&quot;] +&quot; times cccured&quot;;</Text>
               <Delay>200</Delay>
             </Value>
           </Action>
@@ -10375,11 +10334,7 @@ row["ASSETTREE_ID"]</value>
                             <text-property name="text"></text-property>
                         </label>
                     </cell>
-                    <cell id="930">
-                        <label id="931">
-                            <text-property name="text">Reading</text-property>
-                        </label>
-                    </cell>
+                    <cell id="930"/>
                     <cell id="932">
                         <label id="933">
                             <text-property name="text">Log Date</text-property>
@@ -10419,16 +10374,17 @@ row["ASSETTREE_ID"]</value>
         </text-data>
         <grid id="895">
             <property name="style">GridCell</property>
-            <property name="height">3.0729166666666665in</property>
-            <property name="width">7.885416666666667in</property>
+            <property name="height">3.0520833333333335in</property>
+            <property name="width">7.708333333333333in</property>
             <column id="896">
                 <property name="style">GridCell</property>
+                <property name="width">3.9166666666666665in</property>
             </column>
             <column id="897">
-                <property name="width">3.9375in</property>
+                <property name="width">3.7916666666666665in</property>
             </column>
             <row id="898">
-                <property name="height">3.0729166666666665in</property>
+                <property name="height">3.0520833333333335in</property>
                 <cell id="899">
                     <extended-item extensionName="Chart" id="379">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithoutAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
@@ -10465,7 +10421,7 @@ row["ASSETTREE_ID"]</value>
         </Color>
         <Visible>false</Visible>
       </Outline>
-      <Visible>true</Visible>
+      <Visible>false</Visible>
       <Label>
         <Caption>
           <Value>By Source</Value>
@@ -11319,10 +11275,6 @@ row["ASSETTREE_ID"]</value>
                 <SeriesParameterName></SeriesParameterName>
               </URLValues>
               <PropertiesMap>
-                <Key>MenuItem</Key>
-                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
-              </PropertiesMap>
-              <PropertiesMap>
                 <Key>Menu</Key>
                 <Value>zIndex:99999;backgroundColor:#FAFFF8;width:auto;height:auto;border:1px solid #333333;filter:progid:DXImageTransform.Microsoft.Shadow(Color:#333333,Direction=120,strength=5)</Value>
               </PropertiesMap>
@@ -11333,6 +11285,10 @@ row["ASSETTREE_ID"]</value>
               <PropertiesMap>
                 <Key>OnMouseOver</Key>
                 <Value>backgroundColor:#245DDB;color:#FFFFFF</Value>
+              </PropertiesMap>
+              <PropertiesMap>
+                <Key>MenuItem</Key>
+                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
               </PropertiesMap>
             </Value>
           </Action>
@@ -11595,7 +11551,7 @@ row["ASSETTREE_ID"]</value>
         </Color>
         <Visible>false</Visible>
       </Outline>
-      <Visible>true</Visible>
+      <Visible>false</Visible>
       <Cursor>
         <Type>Auto</Type>
       </Cursor>
