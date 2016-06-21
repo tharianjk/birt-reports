@@ -65,14 +65,11 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="fromdate" id="746">
-            <property name="hidden">true</property>
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">2015-07-16 00:00:00</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="concealValue">false</property>
@@ -82,14 +79,11 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="todate" id="747">
-            <property name="hidden">true</property>
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">2015-07-18 00:00:00</value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="concealValue">false</property>
@@ -268,38 +262,6 @@
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="concealValue">false</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="HeaderFromDate" id="1015">
-            <property name="hidden">true</property>
-            <property name="valueType">static</property>
-            <property name="isRequired">false</property>
-            <property name="dataType">dateTime</property>
-            <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="javascript">params["fromdate"].value</value>
-            </simple-property-list>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="HeaderToDate" id="1016">
-            <property name="hidden">true</property>
-            <property name="valueType">static</property>
-            <property name="isRequired">false</property>
-            <property name="dataType">dateTime</property>
-            <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="javascript">params["todate"].value</value>
-            </simple-property-list>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
@@ -3310,12 +3272,6 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">thin</property>
             <property name="headerHeight">0.5in</property>
-            <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
-            </page-footer>
         </simple-master-page>
     </page-setup>
     <body>
@@ -3365,7 +3321,7 @@ ELSE SUM(SU.UTILITY_QTY)*(NF_FRACTION+NT_FRACTION)*V.N_COST END QTY ,UN.UNITSHOR
                                 <property name="dataType">date-time</property>
                             </structure>
                         </list-property>
-                        <expression name="valueExpr">"Period :"+Formatter.format(params["HeaderFromDate"].value,'dd/MMM/yyyy hh:mm:ss a')+" to "+Formatter.format(params["HeaderToDate"].value,'dd/MMM/yyyy hh:mm:ss a');</expression>
+                        <expression name="valueExpr">"Period :"+BirtStr.left(params["fromdate"].value,10).substr(8,9)+"-"+BirtStr.left(params["fromdate"].value,7).substr(5,6)+"-"+BirtStr.left(params["fromdate"].value,4).substr(0,4)+" to "+BirtStr.left(params["todate"].value,10).substr(8,9)+"-"+BirtStr.left(params["todate"].value,7).substr(5,6)+"-"+BirtStr.left(params["todate"].value,4).substr(0,4);</expression>
                         <property name="contentType">html</property>
                     </text-data>
                 </cell>
