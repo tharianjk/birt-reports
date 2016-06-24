@@ -5105,7 +5105,21 @@ else&#xD;
                         <column id="823">
                             <property name="style">GridCell</property>
                         </column>
-                        <column id="824"/>
+                        <column id="824">
+                            <property name="style">GridCell</property>
+                        </column>
+                        <row id="997">
+                            <cell id="998">
+                                <property name="colSpan">2</property>
+                                <property name="rowSpan">1</property>
+                                <label id="1002">
+                                    <property name="backgroundColor">#DBDBDB</property>
+                                    <property name="fontSize">12pt</property>
+                                    <property name="fontWeight">bold</property>
+                                    <text-property name="text">By Supply</text-property>
+                                </label>
+                            </cell>
+                        </row>
                         <row id="828">
                             <cell id="829">
                                 <property name="colSpan">2</property>
@@ -5145,7 +5159,7 @@ else&#xD;
         </Color>
         <Visible>false</Visible>
       </Outline>
-      <Visible>true</Visible>
+      <Visible>false</Visible>
       <Label>
         <Caption>
           <Value>By Supply</Value>
@@ -6019,6 +6033,10 @@ else&#xD;
                 <SeriesParameterName></SeriesParameterName>
               </URLValues>
               <PropertiesMap>
+                <Key>MenuItem</Key>
+                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
+              </PropertiesMap>
+              <PropertiesMap>
                 <Key>Menu</Key>
                 <Value>zIndex:99999;backgroundColor:#FAFFF8;width:auto;height:auto;border:1px solid #333333;filter:progid:DXImageTransform.Microsoft.Shadow(Color:#333333,Direction=120,strength=5)</Value>
               </PropertiesMap>
@@ -6029,10 +6047,6 @@ else&#xD;
               <PropertiesMap>
                 <Key>OnMouseOver</Key>
                 <Value>backgroundColor:#245DDB;color:#FFFFFF</Value>
-              </PropertiesMap>
-              <PropertiesMap>
-                <Key>MenuItem</Key>
-                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
               </PropertiesMap>
             </Value>
           </Action>
@@ -6395,6 +6409,16 @@ else&#xD;
             <column id="863">
                 <property name="style">GridCell</property>
             </column>
+            <row id="1003">
+                <cell id="1004">
+                    <label id="1005">
+                        <property name="backgroundColor">#DBDBDB</property>
+                        <property name="fontSize">12pt</property>
+                        <property name="fontWeight">bold</property>
+                        <text-property name="text">By Usage</text-property>
+                    </label>
+                </cell>
+            </row>
             <row id="865">
                 <cell id="866">
                     <extended-item extensionName="Chart" id="413">
@@ -6431,7 +6455,7 @@ else&#xD;
         </Color>
         <Visible>false</Visible>
       </Outline>
-      <Visible>true</Visible>
+      <Visible>false</Visible>
       <Label>
         <Caption>
           <Value>By Usage</Value>
@@ -7274,10 +7298,6 @@ params[&quot;FirstTitle&quot;].value=params[&quot;BreakdownTitle&quot;].value&am
                 <SeriesParameterName></SeriesParameterName>
               </URLValues>
               <PropertiesMap>
-                <Key>MenuItem</Key>
-                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
-              </PropertiesMap>
-              <PropertiesMap>
                 <Key>Menu</Key>
                 <Value>zIndex:99999;backgroundColor:#FAFFF8;width:auto;height:auto;border:1px solid #333333;filter:progid:DXImageTransform.Microsoft.Shadow(Color:#333333,Direction=120,strength=5)</Value>
               </PropertiesMap>
@@ -7288,6 +7308,10 @@ params[&quot;FirstTitle&quot;].value=params[&quot;BreakdownTitle&quot;].value&am
               <PropertiesMap>
                 <Key>OnMouseOver</Key>
                 <Value>backgroundColor:#245DDB;color:#FFFFFF</Value>
+              </PropertiesMap>
+              <PropertiesMap>
+                <Key>MenuItem</Key>
+                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
               </PropertiesMap>
             </Value>
           </Action>
@@ -8696,13 +8720,12 @@ params["FirstTitle"].value=params["BreakdownTitle"].value&#13;
             </list-property>
             <column id="941"/>
             <column id="942"/>
-            <column id="943"/>
             <header>
                 <row id="973">
                     <property name="backgroundColor">#C0C0C0</property>
                     <property name="fontWeight">bold</property>
                     <cell id="974">
-                        <property name="colSpan">3</property>
+                        <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
                         <label id="977">
                             <property name="fontSize">11pt</property>
@@ -8719,11 +8742,6 @@ params["FirstTitle"].value=params["BreakdownTitle"].value&#13;
                         </label>
                     </cell>
                     <cell id="930"/>
-                    <cell id="932">
-                        <label id="933">
-                            <text-property name="text">Log Date</text-property>
-                        </label>
-                    </cell>
                 </row>
             </header>
             <detail>
@@ -8737,11 +8755,6 @@ params["FirstTitle"].value=params["BreakdownTitle"].value&#13;
                     <cell id="937">
                         <data id="994">
                             <property name="resultSetColumn">n_value</property>
-                        </data>
-                    </cell>
-                    <cell id="939">
-                        <data id="995">
-                            <property name="resultSetColumn">dt_date</property>
                         </data>
                     </cell>
                 </row>
