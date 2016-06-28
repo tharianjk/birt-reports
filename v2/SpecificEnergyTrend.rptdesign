@@ -1045,7 +1045,7 @@ else&#13;
         </Color>
         <Visible>true</Visible>
       </Separator>
-      <Position>Right</Position>
+      <Position>Above</Position>
       <ItemType>Series</ItemType>
       <Title>
         <Caption>
@@ -1115,7 +1115,7 @@ else&#13;
 {&#xD;
 	if( series.getSeriesIdentifier() == &quot;Specific Energy&quot; )&#xD;
 	{&#xD;
-		if( dataSet.getValues().length > 30 &amp;&amp; dataSet.getValues().length&lt;50)&#xD;
+		/*if( dataSet.getValues().length > 30 &amp;&amp; dataSet.getValues().length&lt;50)&#xD;
 		{&#xD;
  			icsc.getChartInstance().getBlock().getBounds().setWidth(3800);&#xD;
  			icsc.getChartInstance().getBlock().getBounds().setHeight(350);&#xD;
@@ -1129,7 +1129,9 @@ else&#13;
 		{&#xD;
 			icsc.getChartInstance().getBlock().getBounds().setWidth(670);&#xD;
  			icsc.getChartInstance().getBlock().getBounds().setHeight(250);&#xD;
-		}&#xD;
+		}*/&#xD;
+		icsc.getChartInstance().getBlock().getBounds().setWidth(530);&#xD;
+ 			icsc.getChartInstance().getBlock().getBounds().setHeight(250);&#xD;
 	}&#xD;
 }</Script>
   <Units>Points</Units>
@@ -2295,7 +2297,7 @@ else &#xD;
         </Color>
         <Visible>true</Visible>
       </Separator>
-      <Position>Right</Position>
+      <Position>Above</Position>
       <ItemType>Series</ItemType>
       <Title>
         <Caption>
@@ -2365,7 +2367,7 @@ else &#xD;
 {&#xD;
 	if( series.getSeriesIdentifier() == &quot;KWH&quot; )&#xD;
 	{&#xD;
-		if( dataSet.getValues().length > 30 &amp;&amp; dataSet.getValues().length&lt;50)&#xD;
+		/*if( dataSet.getValues().length > 30 &amp;&amp; dataSet.getValues().length&lt;50)&#xD;
 		{&#xD;
  			icsc.getChartInstance().getBlock().getBounds().setWidth(3800);&#xD;
  			icsc.getChartInstance().getBlock().getBounds().setHeight(350);&#xD;
@@ -2379,7 +2381,10 @@ else &#xD;
 		{&#xD;
 			icsc.getChartInstance().getBlock().getBounds().setWidth(720);&#xD;
  			icsc.getChartInstance().getBlock().getBounds().setHeight(250);&#xD;
-		}&#xD;
+		}*/&#xD;
+		&#xD;
+		icsc.getChartInstance().getBlock().getBounds().setWidth(580);&#xD;
+ 			icsc.getChartInstance().getBlock().getBounds().setHeight(250);&#xD;
 	}&#xD;
 }</Script>
   <Units>Points</Units>
