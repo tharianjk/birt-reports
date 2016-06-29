@@ -3755,13 +3755,13 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4,src.SOURC
                                 <cell id="14">
                                     <label id="29">
                                         <property name="fontWeight">bold</property>
-                                        <text-property name="text">Reading</text-property>
+                                        <text-property name="text">Value</text-property>
                                     </label>
                                 </cell>
                                 <cell id="15">
                                     <label id="31">
                                         <property name="fontWeight">bold</property>
-                                        <text-property name="text">Log Date</text-property>
+                                        <text-property name="text">Time period</text-property>
                                     </label>
                                 </cell>
                             </row>
@@ -6308,6 +6308,7 @@ else&#xD;
                         </row>
                     </grid>
                     <table id="838">
+                        <property name="pageBreakBefore">always</property>
                         <property name="dataSet">EnergyUsageSuplySummary</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -6353,7 +6354,7 @@ else&#xD;
                                     <label id="967">
                                         <property name="fontSize">11pt</property>
                                         <property name="fontWeight">bold</property>
-                                        <text-property name="text">Energy Supply Summary</text-property>
+                                        <text-property name="text">Energy usage summary</text-property>
                                     </label>
                                 </cell>
                             </row>
@@ -6363,13 +6364,13 @@ else&#xD;
                                 <cell id="842">
                                     <label id="843">
                                         <property name="fontWeight">bold</property>
-                                        <text-property name="text">Reading</text-property>
+                                        <text-property name="text">Value</text-property>
                                     </label>
                                 </cell>
                                 <cell id="844">
                                     <label id="845">
                                         <property name="fontWeight">bold</property>
-                                        <text-property name="text">Log Date</text-property>
+                                        <text-property name="text">Time period</text-property>
                                     </label>
                                 </cell>
                             </row>
@@ -6415,7 +6416,7 @@ else&#xD;
                         <property name="backgroundColor">#DBDBDB</property>
                         <property name="fontSize">12pt</property>
                         <property name="fontWeight">bold</property>
-                        <text-property name="text">By Usage</text-property>
+                        <text-property name="text">By feeder </text-property>
                     </label>
                 </cell>
             </row>
@@ -7630,12 +7631,12 @@ params["FirstTitle"].value=params["BreakdownTitle"].value&#13;
                     <cell id="871"/>
                     <cell id="872">
                         <label id="887">
-                            <text-property name="text">Reading</text-property>
+                            <text-property name="text">Value</text-property>
                         </label>
                     </cell>
                     <cell id="873">
                         <label id="889">
-                            <text-property name="text">Log Date</text-property>
+                            <text-property name="text">Time period</text-property>
                         </label>
                     </cell>
                 </row>
