@@ -247,8 +247,7 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4,src.SOURC
 " inner join ems_utility UT on UT.UTILITY_ID=src.UTILITY_ID"+
 " inner join ems_Attribute ATR on UT.attribute_id=ATR.ATTRIBUTE_ID"+
 " LEFT join ems_unit UN on ATR.unit_id=UN.unit_id"+
-" where (A.PARENT_id in (select assettree_id from fwk_assettree"+
-" where assettreetype_id=2 and assettree_id='"+params["UsrSecId"].value+"') or s.assettree_id='"+params["UsrSecId"].value+"') and a.b_rollup='TRUE' and T.dt_date >='"+LHour+"' and T.dt_date <'"+curT+"' and a.company_id ='"+params["UsrCompId"].value+"' and src.UTILITY_ID='"+params["UtlId"].value+"'"+
+" where A.PARENT_id ='"+params["UsrSecId"].value+"' and a.b_rollup='TRUE' and T.dt_date >='"+LHour+"' and T.dt_date <'"+curT+"' and a.company_id ='"+params["UsrCompId"].value+"' and src.UTILITY_ID='"+params["UtlId"].value+"'"+
 " group by src.SOURCENAME,un.UNITSHORT,src.SOURCE_ID";
 ]]></method>
             <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("explode",params["explode"].value);
@@ -413,16 +412,8 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4  FROM VW_
 " INNER JOIN EMS_SOURCE_SUMMARY SU ON V.SOURCE_ID=SU.SOURCE_ID  INNER JOIN EMS_SOURCE SUP ON SU.SOURCE_ID = SUP.SOURCE_ID INNER JOIN FWK_ASSETTREE A ON A. assettree_id=SU.assettree_id "+
 " INNER JOIN EMS_TIME_DIM T ON  SU.TIME_ID=T.TIME_ID AND T.HR_ID=V.HR_ID INNER JOIN EMS_UTILITY UT ON UT.UTILITY_ID=SUP.UTILITY_ID"+
 " INNER JOIN EMS_UNIT UN ON UN.UNIT_ID=UT.UNIT_ID WHERE T.DT_DATE  >='"+LHour+"' and t.dt_date  <'"+curT+"' and a.b_rollup='TRUE'"+ 
-" AND SU.SOURCE_ID='"+params["SourceID"].value+"' AND SUP.COMPANY_ID='"+params["UsrCompId"].value+"'  and (SU.assettree_id ='"+params["UsrSecId"].value+"' or SU.assettree_id in (select assettree_id from fwk_assettree where parent_id in (select assettree_id from fwk_assettree where assettreetype_id=2 and assettree_id='"+params["UsrSecId"].value+"')))"+
+" AND SU.SOURCE_ID='"+params["SourceID"].value+"' AND SUP.COMPANY_ID='"+params["UsrCompId"].value+"'  and A.parent_id ='"+params["UsrSecId"].value+"' and a.b_rollup='TRUE' "+
 " GROUP BY TIMEPERIOD,V.N_COST,UN.UNITSHORT,NF_FRACTION,NT_FRACTION";
-
-
-
-
-
-
-
-
 
 
 ]]></method>
