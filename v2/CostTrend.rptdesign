@@ -280,7 +280,7 @@ LHour=params["fromdate"].value
         " inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id"+ 
         " inner join ems_utility UT on UT.UTILITY_ID=sc.UTILITY_ID inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='"+params["sourceid"].value+"'"+ 
         " and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"' "+ 
-        " and sc.company_id='"+params["UsrCompId"].value+"' and   (a.assettree_id='"+params["UsrSecId"].value+"' or a.parent_id in (select assettree_id from fwk_assettree where assettreetype_id=2 and assettree_id ='"+params["UsrSecId"].value+"' and b_rollup='TRUE' )) "+ 
+        " and sc.company_id='"+params["UsrCompId"].value+"' and   (a.assettree_id='"+params["UsrSecId"].value+"' or a.parent_id in (select assettree_id from fwk_assettree where assettreetype_id=2 and assettree_id ='"+params["UsrSecId"].value+"') and b_rollup='TRUE') "+ 
         " and sc.UTILITY_ID='"+params["UtlId"].value+"' and timeperiod='Normal'"+ 
         " group by sourcename,timeperiod,V.N_COST,dt_date,unitshort,NF_FRACTION,NT_FRACTION "+ 
         " UNION select sourcename,0 NormalCost,0 NormalQty,"+ 
@@ -293,7 +293,7 @@ LHour=params["fromdate"].value
         " inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id "+ 
         " inner join ems_utility UT on UT.UTILITY_ID=sc.UTILITY_ID"+ 
         " inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='"+params["sourceid"].value+"'  and  sc.UTILITY_ID='"+params["UtlId"].value+"' and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"'"+ 
-        " and sc.company_id='"+params["UsrCompId"].value+"' and (a.assettree_id='"+params["UsrSecId"].value+"' or a.parent_id in (select assettree_id from fwk_assettree where assettreetype_id=2 and assettree_id ='"+params["UsrSecId"].value+"' and b_rollup='TRUE')) "+ 
+        " and sc.company_id='"+params["UsrCompId"].value+"' and (a.assettree_id='"+params["UsrSecId"].value+"' or a.parent_id in (select assettree_id from fwk_assettree where assettreetype_id=2 and assettree_id ='"+params["UsrSecId"].value+"' ) and b_rollup='TRUE') "+ 
         " and timeperiod='Off-Peak' group by sourcename,timeperiod,V.N_COST,dt_date,unitshort,NF_FRACTION,NT_FRACTION UNION"+ 
         " select sourcename,0 NormalCost,0 NormalQty,0 OffpeakCost,0 OffpeakQty,"+ 
         "  case NF_FRACTION+NT_FRACTION when 0 then sum(su.utility_qty)*V.N_COST else sum(su.utility_qty)*(NF_FRACTION+NT_FRACTION)*V.N_COST end PeakCost,"+ 
@@ -305,13 +305,13 @@ LHour=params["fromdate"].value
         " inner join ems_time_dim t on su.time_id=t.time_id and t.hr_id=v.hr_id "+ 
         " inner join ems_utility UT on UT.UTILITY_ID=sc.UTILITY_ID"+ 
         " inner join ems_unit UN on UN.unit_id=UT.unit_id where v.source_id='"+params["sourceid"].value+"'  and  sc.UTILITY_ID='"+params["UtlId"].value+"' and t.dt_date>='"+LHour+"' and t.dt_date<'"+curT+"'"+ 
-        " and sc.company_id='"+params["UsrCompId"].value+"' and (a.assettree_id='"+params["UsrSecId"].value+"' or a.parent_id in (select assettree_id from fwk_assettree where assettreetype_id=2 and assettree_id ='"+params["UsrSecId"].value+"' and b_rollup='TRUE'))"+  
+        " and sc.company_id='"+params["UsrCompId"].value+"' and (a.assettree_id='"+params["UsrSecId"].value+"' or a.parent_id in (select assettree_id from fwk_assettree where assettreetype_id=2 and assettree_id ='"+params["UsrSecId"].value+"' ) and b_rollup='TRUE')"+  
         " and timeperiod='Peak' group by sourcename,timeperiod,V.N_COST,dt_date,unitshort,NF_FRACTION,NT_FRACTION"+ 
         "  union "+ 
         " select src.sourcename , 0 as NormalCost,0 as NormalQty,0 OffpeakCost,0 OffpeakQty,0 PeakCost,0 PeakQty,d.dt_date as dtdate,EUN.unitshort ,'"+params["coltype"].value+"' as C7"+ 
        "  from ems_time_dim d , fwk_assettree a ,ems_meter m, ems_utility EU , ems_unit EUN , vw_assetsection sec, ems_source src"+ 
        "  where m.parent_id=a.assettree_id and EU.utility_id=m.utility_id and EUN.unit_id=EU.unit_id and a.assettree_id = sec.section_id and sec.source_id = src.source_id"+ 
-       "  and sec.source_id ='"+params["sourceid"].value+"' and (a.assettree_id='"+params["UsrSecId"].value+"' or a.parent_id in (select assettree_id from fwk_assettree where assettreetype_id=2 and assettree_id ='"+params["UsrSecId"].value+"' and b_rollup='TRUE'))  and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
+       "  and sec.source_id ='"+params["sourceid"].value+"' and (a.assettree_id='"+params["UsrSecId"].value+"' or a.parent_id in (select assettree_id from fwk_assettree where assettreetype_id=2 and assettree_id ='"+params["UsrSecId"].value+"' ) and b_rollup='TRUE')  and d.DT_DATE>='"+LHour+"' and d.DT_DATE<'"+curT+"' and a.company_id='"+params["UsrCompId"].value+"'"+ 
        "  group by src.sourcename ,EUN.unitshort,d.DT_DATE) as tab group by sourcename ,unitshort,DTDATE,C7 order by dtdate";
 	
 	
