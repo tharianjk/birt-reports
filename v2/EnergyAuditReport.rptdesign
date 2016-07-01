@@ -6394,6 +6394,13 @@ else&#xD;
                                 <cell id="851">
                                     <data id="858">
                                         <property name="fontWeight">normal</property>
+                                        <structure name="dateTimeFormat">
+                                            <property name="category">Medium Date</property>
+                                            <property name="pattern">Medium Date</property>
+                                        </structure>
+                                        <structure name="stringFormat">
+                                            <property name="category">Unformatted</property>
+                                        </structure>
                                         <property name="textAlign">center</property>
                                         <property name="resultSetColumn">dt_date</property>
                                     </data>
