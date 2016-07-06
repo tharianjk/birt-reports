@@ -413,7 +413,8 @@ LHour=params["fromdate"].value
 " inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id "+
 " left join ems_unit un on eat.unit_id=un.unit_id "+
 " order by cast(tab1.dt_logdate as datetime) Asc";
-	
+
+
 	
 ]]></method>
             <method name="onFetch"><![CDATA[reportContext.setPersistentGlobalVariable("units", dataSetRow["UNITSHORT"]);
@@ -2069,7 +2070,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
   </ExtendedProperties>
   <SampleData>
     <BaseSampleData>
-      <DataSetRepresentation>'A','B','C','D','E'</DataSetRepresentation>
+      <DataSetRepresentation>01/05/2000,02/01/2000,04/12/2000,03/12/2000,02/29/2000</DataSetRepresentation>
     </BaseSampleData>
     <OrthogonalSampleData>
       <DataSetRepresentation>6,4,12,8,10</DataSetRepresentation>
@@ -2114,7 +2115,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
     <Visible>true</Visible>
   </EmptyMessage>
   <Axes>
-    <Type>Text</Type>
+    <Type>DateTime</Type>
     <Title>
       <Caption>
         <Value>Log Time</Value>
@@ -3218,18 +3219,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
           <Visible>false</Visible>
         </Label>
         <DataDefinition>
-          <Definition>if(row[&quot;C5&quot;]=='LH')&#xD;
-{&#xD;
-Formatter.format(row[&quot;C3&quot;],'HH:mm:ss ')&#xD;
-}&#xD;
-else if(row[&quot;C5&quot;]=='24H')&#xD;
-{&#xD;
-Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
-}&#xD;
-else &#xD;
-{&#xD;
-Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
-}</Definition>
+          <Definition>row[&quot;C3&quot;]</Definition>
         </DataDefinition>
         <SeriesIdentifier></SeriesIdentifier>
         <DataPoint>
@@ -3242,9 +3232,9 @@ Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
         <Stacked>false</Stacked>
       </Series>
       <Grouping>
-        <Enabled>true</Enabled>
-        <GroupingUnit>Minutes</GroupingUnit>
-        <GroupType>Text</GroupType>
+        <Enabled>false</Enabled>
+        <GroupingUnit>Years</GroupingUnit>
+        <GroupType>DateTime</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
       <Sorting>Ascending</Sorting>
@@ -3296,6 +3286,9 @@ Formatter.format(row[&quot;C3&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
       </Insets>
       <Visible>true</Visible>
     </Label>
+    <FormatSpecifier xsi:type="attribute:JavaDateFormatSpecifier">
+      <Pattern>dd/MMM/yy HH:mm:ss</Pattern>
+    </FormatSpecifier>
     <LabelPosition>Below</LabelPosition>
     <Staggered>false</Staggered>
     <MajorGrid>
