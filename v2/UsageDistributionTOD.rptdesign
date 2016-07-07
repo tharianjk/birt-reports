@@ -2062,7 +2062,11 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
           <Components>
             <Type>Orthogonal_Value</Type>
           </Components>
-          <Separator>, </Separator>
+          <Components>
+            <Type>Percentile_Orthogonal_Value</Type>
+          </Components>
+          <Suffix>)</Suffix>
+          <Separator> (</Separator>
         </DataPoint>
         <LabelPosition>Outside</LabelPosition>
         <Stacked>false</Stacked>
@@ -2201,10 +2205,6 @@ row[&quot;ASSETTREE_ID&quot;]&lt;/value>
               </URLValues>
               <Tooltip>Click To Drill Down</Tooltip>
               <PropertiesMap>
-                <Key>MenuItem</Key>
-                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
-              </PropertiesMap>
-              <PropertiesMap>
                 <Key>Menu</Key>
                 <Value>zIndex:99999;backgroundColor:#FAFFF8;width:auto;height:auto;border:1px solid #333333;filter:progid:DXImageTransform.Microsoft.Shadow(Color:#333333,Direction=120,strength=5)</Value>
               </PropertiesMap>
@@ -2215,6 +2215,10 @@ row[&quot;ASSETTREE_ID&quot;]&lt;/value>
               <PropertiesMap>
                 <Key>OnMouseOver</Key>
                 <Value>backgroundColor:#245DDB;color:#FFFFFF</Value>
+              </PropertiesMap>
+              <PropertiesMap>
+                <Key>MenuItem</Key>
+                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
               </PropertiesMap>
             </Value>
           </Action>
@@ -3057,7 +3061,11 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
           <Components>
             <Type>Orthogonal_Value</Type>
           </Components>
-          <Separator>, </Separator>
+          <Components>
+            <Type>Percentile_Orthogonal_Value</Type>
+          </Components>
+          <Suffix>)</Suffix>
+          <Separator> (</Separator>
         </DataPoint>
         <LabelPosition>Outside</LabelPosition>
         <Stacked>false</Stacked>

@@ -1824,7 +1824,11 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
           <Components>
             <Type>Orthogonal_Value</Type>
           </Components>
-          <Separator>, </Separator>
+          <Components>
+            <Type>Percentile_Orthogonal_Value</Type>
+          </Components>
+          <Suffix>)</Suffix>
+          <Separator> (</Separator>
         </DataPoint>
         <LabelPosition>Outside</LabelPosition>
         <Stacked>false</Stacked>
@@ -1945,10 +1949,6 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
                 <SeriesParameterName></SeriesParameterName>
               </URLValues>
               <PropertiesMap>
-                <Key>MenuItem</Key>
-                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
-              </PropertiesMap>
-              <PropertiesMap>
                 <Key>Menu</Key>
                 <Value>zIndex:99999;backgroundColor:#FAFFF8;width:auto;height:auto;border:1px solid #333333;filter:progid:DXImageTransform.Microsoft.Shadow(Color:#333333,Direction=120,strength=5)</Value>
               </PropertiesMap>
@@ -1959,6 +1959,10 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
               <PropertiesMap>
                 <Key>OnMouseOver</Key>
                 <Value>backgroundColor:#245DDB;color:#FFFFFF</Value>
+              </PropertiesMap>
+              <PropertiesMap>
+                <Key>MenuItem</Key>
+                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
               </PropertiesMap>
             </Value>
           </Action>
@@ -2981,7 +2985,11 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
           <Components>
             <Type>Orthogonal_Value</Type>
           </Components>
-          <Separator>, </Separator>
+          <Components>
+            <Type>Percentile_Orthogonal_Value</Type>
+          </Components>
+          <Suffix>)</Suffix>
+          <Separator> (</Separator>
         </DataPoint>
         <LabelPosition>Outside</LabelPosition>
         <Stacked>false</Stacked>
@@ -3110,10 +3118,6 @@ params[&quot;FirstTitle&quot;].value=params[&quot;BreakdownTitle&quot;].value&am
                 <SeriesParameterName></SeriesParameterName>
               </URLValues>
               <PropertiesMap>
-                <Key>MenuItem</Key>
-                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
-              </PropertiesMap>
-              <PropertiesMap>
                 <Key>Menu</Key>
                 <Value>zIndex:99999;backgroundColor:#FAFFF8;width:auto;height:auto;border:1px solid #333333;filter:progid:DXImageTransform.Microsoft.Shadow(Color:#333333,Direction=120,strength=5)</Value>
               </PropertiesMap>
@@ -3124,6 +3128,10 @@ params[&quot;FirstTitle&quot;].value=params[&quot;BreakdownTitle&quot;].value&am
               <PropertiesMap>
                 <Key>OnMouseOver</Key>
                 <Value>backgroundColor:#245DDB;color:#FFFFFF</Value>
+              </PropertiesMap>
+              <PropertiesMap>
+                <Key>MenuItem</Key>
+                <Value>color:Black;fontSize:10pt;paddingLeft:10px;paddingRight:10px;paddingTop:2px;paddingBottom:2px</Value>
               </PropertiesMap>
             </Value>
           </Action>

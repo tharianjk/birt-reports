@@ -2062,7 +2062,12 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
           <Components>
             <Type>Orthogonal_Value</Type>
           </Components>
-          <Separator>, </Separator>
+          <Components>
+            <Type>Percentile_Orthogonal_Value</Type>
+          </Components>
+          <Prefix></Prefix>
+          <Suffix>)</Suffix>
+          <Separator> (</Separator>
         </DataPoint>
         <LabelPosition>Outside</LabelPosition>
         <Stacked>false</Stacked>
@@ -3057,7 +3062,12 @@ function afterDataSetFilled(series, dataSet, icsc)&#xD;
           <Components>
             <Type>Orthogonal_Value</Type>
           </Components>
-          <Separator>, </Separator>
+          <Components>
+            <Type>Percentile_Orthogonal_Value</Type>
+          </Components>
+          <Prefix></Prefix>
+          <Suffix>)</Suffix>
+          <Separator> (</Separator>
         </DataPoint>
         <LabelPosition>Outside</LabelPosition>
         <Stacked>false</Stacked>
