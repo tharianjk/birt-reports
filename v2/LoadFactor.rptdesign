@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="author">iReveal Technologies 2016</property>
     <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
-    <text-property name="title">Trend Report</text-property>
+    <text-property name="title">Load Factor</text-property>
     <property name="units">in</property>
     <method name="beforeFactory"><![CDATA[var mychart = this.getReportElement( "mychart" );
 var design_handle = reportContext.getReportRunnable().designHandle.getDesignHandle();
@@ -25,15 +26,12 @@ mychart.setHeight("5");
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <parameters>
-        <scalar-parameter name="newRPT" id="70">
-            <property name="hidden">false</property>
+        <scalar-parameter name="assettreeid" id="70">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -42,7 +40,7 @@ mychart.setHeight("5");
             </structure>
         </scalar-parameter>
         <scalar-parameter name="scroll" id="237">
-            <property name="hidden">false</property>
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -72,7 +70,7 @@ mychart.setHeight("5");
             </structure>
         </scalar-parameter>
         <scalar-parameter name="fromdate" id="287">
-            <property name="hidden">false</property>
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -87,7 +85,7 @@ mychart.setHeight("5");
             </structure>
         </scalar-parameter>
         <scalar-parameter name="todate" id="288">
-            <property name="hidden">false</property>
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -102,57 +100,12 @@ mychart.setHeight("5");
             </structure>
         </scalar-parameter>
         <scalar-parameter name="vb" id="289">
-            <property name="hidden">false</property>
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">C</value>
-            </simple-property-list>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="atrlst" id="290">
-            <property name="hidden">true</property>
-            <property name="valueType">static</property>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">286</value>
-            </simple-property-list>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="attrctype" id="291">
-            <property name="hidden">true</property>
-            <property name="valueType">static</property>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">single</value>
-            </simple-property-list>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="seclst" id="292">
-            <property name="hidden">true</property>
-            <property name="valueType">static</property>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">103</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -192,12 +145,49 @@ mychart.setHeight("5");
             </structure>
         </scalar-parameter>
         <scalar-parameter name="sname" id="295">
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">ss</value>
             </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="tagid" id="299">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="maxkva" id="300">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="loadfactor" id="893">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -235,25 +225,12 @@ mychart.setHeight("5");
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="LoadFactor" id="9">
             <list-property name="computedColumns">
                 <structure>
-                    <property name="name">scroll</property>
+                    <property name="name">horizontal</property>
                     <expression name="expression">params["scroll"].value</expression>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <list-property name="columnHints">
-                <structure>
-                    <property name="columnName">LOADFACTOR</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">LOADFACTOR</text-property>
-                    <text-property name="heading">LOADFACTOR</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">DT_LOGDATE</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">LOGDATE</text-property>
-                    <text-property name="heading">LOGDATE</text-property>
-                </structure>
-            </list-property>
+            <list-property name="columnHints"/>
             <list-property name="parameters"/>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
@@ -269,13 +246,17 @@ mychart.setHeight("5");
                     </structure>
                     <structure>
                         <property name="position">3</property>
-                        <property name="name">scroll</property>
+                        <property name="name">horizontal</property>
                         <property name="dataType">string</property>
                     </structure>
                 </list-property>
             </structure>
             <method name="beforeOpen"><![CDATA[curT=params["todate"].value 
 LHour=params["fromdate"].value
+
+this.queryText = this.queryText +" n_qtydiff/MAX('"+params["maxkva"].value+"') as LOADFACTOR,dt_logdate as LOGDATE from ems_meterlog "
+"where assettree_id='"+params["assettreeid"].value+"' and tag_id='"+params["tagid"].value+"' and dt_logdate >='"+LHour+"' and "
+"dt_logdate <='"+curT+"' order by dt_logdate";
 
 
 	
@@ -297,7 +278,7 @@ LHour=params["fromdate"].value
 ]]></method>
             <method name="onFetch"><![CDATA[//reportContext.setPersistentGlobalVariable("units", dataSetRow["UNITSHORT"]);
 //reportContext.setPersistentGlobalVariable("scount",dataSetRow["C6"]);
-reportContext.setPersistentGlobalVariable("hori",dataSetRow["scroll"]);
+reportContext.setPersistentGlobalVariable("hori",dataSetRow["horizontal"]);
 
 
 
@@ -343,20 +324,15 @@ else
                     <property name="name">LOADFACTOR</property>
                     <property name="nativeName">LOADFACTOR</property>
                     <property name="dataType">float</property>
-                    <property name="nativeDataType">8</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">DT_LOGDATE</property>
                     <property name="nativeName">DT_LOGDATE</property>
                     <property name="dataType">date-time</property>
-                    <property name="nativeDataType">93</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select n_qtydiff/MAX('2') LOADFACTOR,dt_logdate as LOGDATE from ems_meterlog 
-where assettree_id='105' and tag_id='12' and dt_logdate >='2015-03-18 10:30:06' and 
-dt_logdate <='2017-03-18 10:30:06'
- order by dt_logdate]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select ]]></xml-property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -1159,6 +1135,17 @@ dt_logdate <='2017-03-18 10:30:06'
         </simple-master-page>
     </page-setup>
     <body>
+        <text-data id="892">
+            <property name="backgroundColor">#B8DCDC</property>
+            <property name="fontFamily">"Times New Roman"</property>
+            <property name="fontSize">15pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="marginTop">0pt</property>
+            <property name="paddingTop">1pt</property>
+            <property name="textAlign">center</property>
+            <expression name="valueExpr">"Load Factor for the Period "+BirtStr.left(params["fromdate"].value,10).substr(8,9)+"-"+BirtStr.left(params["fromdate"].value,7).substr(5,6)+"-"+BirtStr.left(params["fromdate"].value,4).substr(0,4)+" to "+BirtStr.left(params["todate"].value,10).substr(8,9)+"-"+BirtStr.left(params["todate"].value,7).substr(5,6)+"-"+BirtStr.left(params["todate"].value,4).substr(0,4)+" : "+params["loadfactor"].value+"%";</expression>
+            <property name="contentType">html</property>
+        </text-data>
         <extended-item extensionName="Chart" name="mychart" id="7">
             <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
@@ -1541,7 +1528,7 @@ dt_logdate <='2017-03-18 10:30:06'
 	} &#xD;
 function afterDataSetFilled( series, dataSet, icsc )&#xD;
 {&#xD;
-	if( series.getSeriesIdentifier() == &quot;Series 1&quot; )&#xD;
+	if( series.getSeriesIdentifier() == &quot;Load Factor&quot; )&#xD;
 	{&#xD;
 		var scrollcheck;&#xD;
 		scrollcheck=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;hori&quot;);&#xD;
@@ -1695,7 +1682,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
       <Type>Linear</Type>
       <Title>
         <Caption>
-          <Value></Value>
+          <Value>Load factor in %</Value>
           <Font>
             <Size>14.0</Size>
             <Bold>true</Bold>
@@ -1741,9 +1728,9 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
         <SeriesPalette>
           <Entries xsi:type="attribute:ColorDefinition">
             <Transparency>255</Transparency>
-            <Red>80</Red>
-            <Green>166</Green>
-            <Blue>218</Blue>
+            <Red>255</Red>
+            <Green>153</Green>
+            <Blue>0</Blue>
           </Entries>
           <Entries xsi:type="attribute:ColorDefinition">
             <Transparency>255</Transparency>
@@ -1973,7 +1960,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
               <AggregateExpression>Sum</AggregateExpression>
             </Grouping>
           </DataDefinition>
-          <SeriesIdentifier>Series 1</SeriesIdentifier>
+          <SeriesIdentifier>Load Factor</SeriesIdentifier>
           <DataPoint>
             <Components>
               <Type>Orthogonal_Value</Type>
@@ -2530,9 +2517,9 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
       <SeriesPalette>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
-          <Red>80</Red>
-          <Green>166</Green>
-          <Blue>218</Blue>
+          <Red>255</Red>
+          <Green>153</Green>
+          <Blue>0</Blue>
         </Entries>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
@@ -2928,11 +2915,69 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
                     <property name="dataType">date-time</property>
                 </structure>
                 <structure>
-                    <property name="name">scroll</property>
-                    <expression name="expression" type="javascript">dataSetRow["scroll"]</expression>
+                    <property name="name">horizontal</property>
+                    <expression name="expression" type="javascript">dataSetRow["horizontal"]</expression>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
         </extended-item>
+        <table id="894">
+            <property name="canShrink">true</property>
+            <property name="dataSet">LoadFactor</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">params["vb"].value=='C'</expression>
+                </structure>
+            </list-property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">DT_LOGDATE</property>
+                    <text-property name="displayName">DT_LOGDATE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DT_LOGDATE"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">LOADFACTOR</property>
+                    <text-property name="displayName">LOADFACTOR</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["LOADFACTOR"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+            </list-property>
+            <column id="904"/>
+            <column id="905"/>
+            <header>
+                <row id="895">
+                    <cell id="896">
+                        <label id="908">
+                            <property name="fontSize">small</property>
+                            <text-property name="text">Log Time</text-property>
+                        </label>
+                    </cell>
+                    <cell id="897">
+                        <label id="912">
+                            <property name="fontSize">small</property>
+                            <text-property name="text">LOAD FACTOR (%)</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="898">
+                    <cell id="899">
+                        <data id="909">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">DT_LOGDATE</property>
+                        </data>
+                    </cell>
+                    <cell id="900">
+                        <data id="913">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">LOADFACTOR</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+        </table>
     </body>
 </report>
