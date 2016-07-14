@@ -32,6 +32,9 @@ mychart.setHeight("5");
             <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">103</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -39,7 +42,7 @@ mychart.setHeight("5");
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="scroll" id="237">
+        <scalar-parameter name="horizontal" id="237">
             <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
@@ -75,7 +78,7 @@ mychart.setHeight("5");
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">2015-05-26 00:00:0</value>
+                <value type="constant">2015-10-01 11:25:29</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -90,7 +93,7 @@ mychart.setHeight("5");
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">2016-05-26 00:00:0</value>
+                <value type="constant">2015-11-01 11:25:29</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -164,6 +167,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">295</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -176,6 +182,9 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">99.0</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -188,6 +197,24 @@ mychart.setHeight("5");
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">12</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="precision" id="914">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -226,7 +253,7 @@ mychart.setHeight("5");
             <list-property name="computedColumns">
                 <structure>
                     <property name="name">horizontal</property>
-                    <expression name="expression">params["scroll"].value</expression>
+                    <expression name="expression">params["horizontal"].value</expression>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
@@ -254,8 +281,8 @@ mychart.setHeight("5");
             <method name="beforeOpen"><![CDATA[curT=params["todate"].value 
 LHour=params["fromdate"].value
 
-this.queryText = this.queryText +" n_qtydiff/MAX('"+params["maxkva"].value+"') as LOADFACTOR,dt_logdate as LOGDATE from ems_meterlog "
-"where assettree_id='"+params["assettreeid"].value+"' and tag_id='"+params["tagid"].value+"' and dt_logdate >='"+LHour+"' and "
+this.queryText = this.queryText +" round(n_qtydiff/'"+params["maxkva"].value+"','"+params["precision"].value+"') as LOADFACTOR,dt_logdate as LOGDATE from ems_meterlog "+
+"where assettree_id='"+params["assettreeid"].value+"' and tag_id='"+params["tagid"].value+"' and dt_logdate >='"+LHour+"' and "+
 "dt_logdate <='"+curT+"' order by dt_logdate";
 
 
@@ -1142,7 +1169,8 @@ else
             <property name="fontWeight">bold</property>
             <property name="marginTop">0pt</property>
             <property name="paddingTop">1pt</property>
-            <property name="textAlign">center</property>
+            <property name="textAlign">left</property>
+            <property name="canShrink">true</property>
             <expression name="valueExpr">"Load Factor for the Period "+BirtStr.left(params["fromdate"].value,10).substr(8,9)+"-"+BirtStr.left(params["fromdate"].value,7).substr(5,6)+"-"+BirtStr.left(params["fromdate"].value,4).substr(0,4)+" to "+BirtStr.left(params["todate"].value,10).substr(8,9)+"-"+BirtStr.left(params["todate"].value,7).substr(5,6)+"-"+BirtStr.left(params["todate"].value,4).substr(0,4)+" : "+params["loadfactor"].value+"%";</expression>
             <property name="contentType">html</property>
         </text-data>
@@ -1534,22 +1562,26 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
 		scrollcheck=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;hori&quot;);&#xD;
 		if(scrollcheck==&quot;syes&quot;)&#xD;
 		{&#xD;
-			if( dataSet.getValues().length > 30 &amp;&amp; dataSet.getValues().length&lt;50)&#xD;
+		&#xD;
+		    icsc.getChartInstance().getBlock().getBounds().setWidth(dataSet.getValues().length*10);&#xD;
+ 			icsc.getChartInstance().getBlock().getBounds().setHeight(330);&#xD;
+ 			&#xD;
+			/*if( dataSet.getValues().length > 30 &amp;&amp; dataSet.getValues().length&lt;50)&#xD;
 			{&#xD;
 		&#xD;
- 				icsc.getChartInstance().getBlock().getBounds().setWidth(3800);&#xD;
+ 				icsc.getChartInstance().getBlock().getBounds().setWidth(dataSet.getValues().length*10);&#xD;
  				icsc.getChartInstance().getBlock().getBounds().setHeight(330);&#xD;
 			}&#xD;
 			else if(dataSet.getValues().length > 50)&#xD;
 			{&#xD;
- 				icsc.getChartInstance().getBlock().getBounds().setWidth(5800);&#xD;
+ 				icsc.getChartInstance().getBlock().getBounds().setWidth(dataSet.getValues().length*10);&#xD;
  				icsc.getChartInstance().getBlock().getBounds().setHeight(330);&#xD;
 			}&#xD;
 			else&#xD;
 			{&#xD;
-				icsc.getChartInstance().getBlock().getBounds().setWidth(900);&#xD;
+				icsc.getChartInstance().getBlock().getBounds().setWidth(dataSet.getValues().length*10);&#xD;
  				icsc.getChartInstance().getBlock().getBounds().setHeight(330);&#xD;
-			}&#xD;
+			}*/&#xD;
 		}&#xD;
 	}&#xD;
 	else&#xD;
@@ -1974,7 +2006,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
             <Action>
               <Type>Show_Tooltip</Type>
               <Value xsi:type="attribute:TooltipValue">
-                <Text>row[&quot;LOADFACTOR&quot;]</Text>
+                <Text>&quot;Load Factor (%) :&quot;+row[&quot;LOADFACTOR&quot;]</Text>
                 <Delay>200</Delay>
               </Value>
             </Action>
@@ -2756,7 +2788,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
         <Stacked>false</Stacked>
       </Series>
       <Grouping>
-        <Enabled>true</Enabled>
+        <Enabled>false</Enabled>
         <GroupingUnit>Years</GroupingUnit>
         <GroupType>DateTime</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
