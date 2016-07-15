@@ -213,7 +213,7 @@ mychart.setHeight("5");
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">2</value>
+                <value type="constant">3</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -281,7 +281,7 @@ mychart.setHeight("5");
             <method name="beforeOpen"><![CDATA[curT=params["todate"].value 
 LHour=params["fromdate"].value
 
-this.queryText = this.queryText +" round(n_reading/'"+params["maxkva"].value+"','"+params["precision"].value+"') as LOADFACTOR,dt_logdate as LOGDATE from ems_meterlog "+
+this.queryText = this.queryText +" round(n_reading/'"+params["maxkva"].value+"','"+params["precision"].value+"')*100 as LOADFACTOR,dt_logdate as LOGDATE from ems_meterlog "+
 "where assettree_id='"+params["assettreeid"].value+"' and tag_id='"+params["tagid"].value+"' and dt_logdate >='"+LHour+"' and "+
 "dt_logdate <='"+curT+"' order by dt_logdate";
 
