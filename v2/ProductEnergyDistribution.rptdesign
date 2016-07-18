@@ -1461,7 +1461,11 @@ title = &quot;Product energy distribution for &quot; &#xD;
           <Components>
             <Type>Orthogonal_Value</Type>
           </Components>
-          <Separator>, </Separator>
+          <Components>
+            <Type>Percentile_Orthogonal_Value</Type>
+          </Components>
+          <Suffix>)</Suffix>
+          <Separator> (</Separator>
         </DataPoint>
         <LabelPosition>Outside</LabelPosition>
         <Stacked>false</Stacked>
