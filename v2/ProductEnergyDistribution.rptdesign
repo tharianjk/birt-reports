@@ -659,7 +659,7 @@ else if(row["C4"]=='24H')&#13;
 }&#13;
 else if(row["C4"]=='7D')&#13;
 {&#13;
-	row["C4"]='Energy Distribution for the last 7 days in '+row["Unit"];&#13;
+	row["C4"]='Allocation Breakdown for the last 7 days in '+row["Unit"];&#13;
 }&#13;
 else if(row["C4"]=='30D')&#13;
 {&#13;

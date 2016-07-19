@@ -1373,7 +1373,7 @@ else&#13;
 		if(scrollcheck==&quot;syes&quot;)&#xD;
 		{&#xD;
 	&#xD;
-			 icsc.getChartInstance().getBlock().getBounds().setWidth(dataSet.getValues().length*10);&#xD;
+			 icsc.getChartInstance().getBlock().getBounds().setWidth(dataSet.getValues().length*100);&#xD;
  			icsc.getChartInstance().getBlock().getBounds().setHeight(350);&#xD;
 		}&#xD;
 		else&#xD;
@@ -1772,6 +1772,10 @@ else&#13;
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
+        <Sorting>Ascending</Sorting>
+        <SortKey>
+          <Definition>row[&quot;C3&quot;]</Definition>
+        </SortKey>
       </SeriesDefinitions>
       <Orientation>Vertical</Orientation>
       <LineAttributes>
@@ -2127,7 +2131,7 @@ Formatter.format(row[&quot;C3&quot;],'dd/MMM/yyyy')&#xD;
 }&#xD;
 else if((row[&quot;C4&quot;]=='30M')||(row[&quot;C4&quot;]=='365M'))&#xD;
 {&#xD;
-Formatter.format(row[&quot;C3&quot;],'MMM')&#xD;
+Formatter.format(row[&quot;C3&quot;],'MMM/yyyy')&#xD;
 }//dataSetRow[&quot;C4&quot;]&#xD;
 else&#xD;
 {&#xD;
@@ -2309,30 +2313,7 @@ else&#xD;
                 </structure>
                 <structure>
                     <property name="name">C3</property>
-                    <expression name="expression" type="javascript">if((row["C4"]=='H')||(row["C4"]=='24H')||(row["C4"]=='7H')||(row["C4"]=='365H')||(row["C4"]=='30H'))&#13;
-{&#13;
-Formatter.format(dataSetRow["C3"],'dd/MM/yyyy hh:mm:ss a')&#13;
-}&#13;
-else if((row["C4"]=='7D')||(row["C4"]=='30D')||(row["C4"]=='365D'))&#13;
-{&#13;
-Formatter.format(dataSetRow["C3"],'dd/MM/yyyy')&#13;
-}&#13;
-else if((row["C4"]=='30M')||(row["C4"]=='365M'))&#13;
-{&#13;
-Formatter.format(dataSetRow["C3"],'dd/MM/yyyy')&#13;
-}&#13;
-else&#13;
-{&#13;
-var myString = row["C4"];&#13;
-var stringLength = myString.length; &#13;
-var lastChar = myString.charAt(stringLength - 1); &#13;
-if(lastChar=='H')&#13;
-{Formatter.format(dataSetRow["C3"],'dd/MM/yyyy hh:mm:ss a')}&#13;
-else if(lastChar=='D')&#13;
-{Formatter.format(dataSetRow["C3"],'dd/MM/yyyy')}&#13;
-else&#13;
-{Formatter.format(dataSetRow["C3"],'dd/MM/yyyy')}&#13;
-}</expression>
+                    <expression name="expression" type="javascript">dataSetRow["C3"]</expression>
                     <property name="dataType">date-time</property>
                     <property name="allowExport">true</property>
                 </structure>
@@ -2710,157 +2691,6 @@ else&#13;
                                             <simple-property-list name="aggregateOn">
                                                 <value>Group2/Month</value>
                                                 <value>GroupM/PRODUCT</value>
-                                            </simple-property-list>
-                                            <property name="aggregateFunction">SUM</property>
-                                        </structure>
-                                    </list-property>
-                                </extended-item>
-                            </cell>
-                        </row>
-                    </grid>
-                    <grid id="391">
-                        <property name="canShrink">true</property>
-                        <property name="dataSet">ProDEnergyTrend</property>
-                        <list-property name="visibility">
-                            <structure>
-                                <property name="format">all</property>
-                                <expression name="valueExpr" type="javascript">(row["HO1"]!='H')</expression>
-                            </structure>
-                        </list-property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">HO1</property>
-                                <expression name="expression" type="javascript">dataSetRow["cus"]</expression>
-                                <property name="dataType">string</property>
-                                <property name="allowExport">false</property>
-                            </structure>
-                        </list-property>
-                        <column id="392"/>
-                        <row id="393">
-                            <cell id="394">
-                                <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="348">
-                                    <property name="cube">newhourly</property>
-                                    <property name="measures">
-                                        <extended-item extensionName="MeasureView" id="384">
-                                            <property name="measure">QTY4</property>
-                                            <property name="detail">
-                                                <extended-item extensionName="AggregationCell" id="385">
-                                                    <property name="aggregationOnRow">Group7/C3</property>
-                                                    <property name="aggregationOnColumn">Group5/PRODUCT</property>
-                                                    <property name="content">
-                                                        <data id="386">
-                                                            <property name="style">crosstab-detail1</property>
-                                                            <property name="fontSize">11px</property>
-                                                            <property name="textAlign">center</property>
-                                                            <property name="resultSetColumn">QTY4_Group7/C3_Group5/PRODUCT</property>
-                                                        </data>
-                                                    </property>
-                                                </extended-item>
-                                            </property>
-                                            <property name="header">
-                                                <extended-item extensionName="CrosstabCell" id="387">
-                                                    <property name="content">
-                                                        <label id="388">
-                                                            <text-property name="text"></text-property>
-                                                        </label>
-                                                    </property>
-                                                </extended-item>
-                                            </property>
-                                        </extended-item>
-                                    </property>
-                                    <property name="rows">
-                                        <extended-item extensionName="CrosstabView" id="373">
-                                            <property name="views">
-                                                <extended-item extensionName="DimensionView" id="374">
-                                                    <property name="dimension">Group7</property>
-                                                    <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View6" id="375">
-                                                            <property name="level">Group7/C3</property>
-                                                            <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="376">
-                                                                    <property name="content">
-                                                                        <data name="C3" id="377">
-                                                                            <property name="style">crosstab-detail1</property>
-                                                                            <property name="fontSize">11px</property>
-                                                                            <property name="fontWeight">normal</property>
-                                                                            <property name="textAlign">center</property>
-                                                                            <property name="resultSetColumn">C3</property>
-                                                                        </data>
-                                                                    </property>
-                                                                </extended-item>
-                                                            </property>
-                                                        </extended-item>
-                                                    </property>
-                                                </extended-item>
-                                            </property>
-                                        </extended-item>
-                                    </property>
-                                    <property name="columns">
-                                        <extended-item extensionName="CrosstabView" id="379">
-                                            <property name="views">
-                                                <extended-item extensionName="DimensionView" id="380">
-                                                    <property name="dimension">Group5</property>
-                                                    <property name="levels">
-                                                        <extended-item extensionName="LevelView" name="NewLevel View7" id="381">
-                                                            <property name="level">Group5/PRODUCT</property>
-                                                            <property name="member">
-                                                                <extended-item extensionName="CrosstabCell" id="382">
-                                                                    <property name="content">
-                                                                        <data name="PRODUCT3" id="383">
-                                                                            <property name="style">crosstab-detail1</property>
-                                                                            <property name="fontSize">11px</property>
-                                                                            <property name="fontWeight">normal</property>
-                                                                            <property name="textAlign">center</property>
-                                                                            <property name="resultSetColumn">PRODUCT</property>
-                                                                        </data>
-                                                                    </property>
-                                                                </extended-item>
-                                                            </property>
-                                                        </extended-item>
-                                                    </property>
-                                                </extended-item>
-                                            </property>
-                                        </extended-item>
-                                    </property>
-                                    <property name="header">
-                                        <extended-item extensionName="CrosstabCell" id="389">
-                                            <property name="content">
-                                                <label id="390">
-                                                    <property name="fontSize">12px</property>
-                                                    <property name="fontWeight">bold</property>
-                                                    <property name="textAlign">center</property>
-                                                    <text-property name="text">PRODUCT</text-property>
-                                                </label>
-                                            </property>
-                                        </extended-item>
-                                        <extended-item extensionName="CrosstabCell" id="349">
-                                            <property name="content">
-                                                <label id="378">
-                                                    <property name="fontSize">12px</property>
-                                                    <property name="textAlign">center</property>
-                                                    <text-property name="text">Hour</text-property>
-                                                </label>
-                                            </property>
-                                        </extended-item>
-                                    </property>
-                                    <list-property name="boundDataColumns">
-                                        <structure>
-                                            <property name="name">C3</property>
-                                            <expression name="expression">dimension["Group7"]["C3"]</expression>
-                                            <property name="dataType">date-time</property>
-                                        </structure>
-                                        <structure>
-                                            <property name="name">PRODUCT</property>
-                                            <expression name="expression">dimension["Group5"]["PRODUCT"]</expression>
-                                            <property name="dataType">string</property>
-                                        </structure>
-                                        <structure>
-                                            <property name="name">QTY4_Group7/C3_Group5/PRODUCT</property>
-                                            <expression name="expression">measure["QTY4"]</expression>
-                                            <property name="dataType">decimal</property>
-                                            <simple-property-list name="aggregateOn">
-                                                <value>Group7/C3</value>
-                                                <value>Group5/PRODUCT</value>
                                             </simple-property-list>
                                             <property name="aggregateFunction">SUM</property>
                                         </structure>
