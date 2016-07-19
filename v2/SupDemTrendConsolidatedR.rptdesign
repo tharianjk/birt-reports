@@ -29,7 +29,7 @@
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant"></value>
+                <value type="constant">1</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -42,6 +42,9 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">1</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -54,6 +57,9 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2</value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -416,14 +422,14 @@ if(params["newRPT"].value=="")
 	LHour=params["fromdate"].value
 	this.queryText = this.queryText +
 	
-	",'"+params["coltype"].value+"' as DT from (select displayname typ,unitshort,sum(ss.UTILITY_QTY) supplyqty ,0 demandqty ,dt_date"+   
+	",'"+params["coltype"].value+"' as DT from (select displayname as TYP,unitshort as UNITSHORT,sum(ss.UTILITY_QTY) supplyqty ,0 demandqty ,dt_date"+   
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
 		" where ss.C_CORETYPE = 'P' and d.hr_id=0 and company_id='"+params["UsrCompId"].value+"' and  ss.UTILITY_ID='"+params["UtlId"].value+"' and dt_date>='"+LHour+"' and dt_date<'"+curT+"'"+
         " and ad.parent_id='"+params["assetreeid"].value+"'"+
 		" group by un.UNITSHORT , ad.DISPLAYNAME  ,dt_date union "+
-		" Select displayname typ,unitshort,0 supplyqty ,sum(ss.UTILITY_QTY) demandqty ,dt_date"+ 
+		" Select displayname as TYP,unitshort as UNITSHORT,0 supplyqty ,sum(ss.UTILITY_QTY) demandqty ,dt_date"+ 
 		" from ems_section_summary ss join ems_time_dim d ON ss.TIME_ID = d.TIME_ID join fwk_assettree ad ON ss.ASSETTREE_ID = ad.ASSETTREE_ID"+ 
         " join ems_utility ut ON ut.UTILITY_ID = ss.UTILITY_ID left join ems_attribute atr ON ut.attribute_id = atr.ATTRIBUTE_ID"+
         " join ems_unit un ON atr.UNIT_ID = un.UNIT_ID"+
@@ -441,14 +447,14 @@ if(params["newRPT"].value=="")
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">typ</property>
-                    <property name="nativeName">typ</property>
+                    <property name="name">TYP</property>
+                    <property name="nativeName">TYP</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
-                    <property name="name">unitshort</property>
-                    <property name="nativeName">unitshort</property>
+                    <property name="name">UNITSHORT</property>
+                    <property name="nativeName">UNITSHORT</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -476,7 +482,7 @@ if(params["newRPT"].value=="")
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select TYP,UNITSHORT,sum(supplyqty) as SUPPLYQTY,sum(demandqty) as DEMANDQTY,cast(dt_date as datetime) as DT_DATE]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select TYP as TYP,UNITSHORT,sum(supplyqty) as SUPPLYQTY,sum(demandqty) as DEMANDQTY,cast(dt_date as datetime) as DT_DATE]]></xml-property>
         </oda-data-set>
     </data-sets>
     <cubes>
