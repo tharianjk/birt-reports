@@ -316,7 +316,7 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4 ,a.ASSETT
 	" where a.parent_id='"+params["UsrSecId"].value+"' and T.dt_date >='"+LHour+"'"+
     " and T.dt_date <'"+curT+"'"+
     " and a.company_id='"+params["UsrCompId"].value+"'"+
-    " and  S.UTILITY_ID='"+params["UtlId"].value+"' and S.c_coretype='C'"+
+    " and a.b_rollup='true' and  S.UTILITY_ID='"+params["UtlId"].value+"' and S.c_coretype='C'"+
     " group by a.displayname,un.unitshort,a.ASSETTREE_ID,A.PARENT_ID";	
 
 ]]></method>
@@ -510,7 +510,7 @@ this.queryText = this.queryText +",'"+params["coltype"].value+"' as C4"+
 " INNER JOIN EMS_TIME_DIM T ON  T.HR_ID=V.HR_ID "+
 " INNER JOIN EMS_SECTION_SUMMARY SU ON T.TIME_ID=SU.TIME_ID AND SU.c_coretype='C' INNER JOIN EMS_UTILITY UT"+
 " ON UT.UTILITY_ID=SUP.UTILITY_ID  INNER JOIN EMS_UNIT UN ON UN.UNIT_ID=UT.UNIT_ID WHERE T.DT_DATE  >='"+LHour+"'"+
-" and t.dt_date  <'"+curT+"' AND (SU.ASSETTREE_ID='"+params["testparam"].value+"'  or SU.ASSETTREE_ID in (select assettree_id from fwk_assettree where parent_id in (select assettree_id from fwk_assettree where assettree_id='"+params["testparam"].value+"' and assettreetype_id=2 )) )"+
+" and t.dt_date  <'"+curT+"' AND (SU.ASSETTREE_ID='"+params["testparam"].value+"'  or SU.ASSETTREE_ID in (select assettree_id from fwk_assettree where b_rollup='true' and parent_id in (select assettree_id from fwk_assettree where assettree_id='"+params["testparam"].value+"' and assettreetype_id=2 )) )"+
 " AND SUP.COMPANY_ID='"+params["UsrCompId"].value+"'   GROUP BY TIMEPERIOD,V.N_COST,UN.UNITSHORT,NF_FRACTION,NT_FRACTION )"+
 " as tab group by TIMEPERIOD,UNITSHORT,C4";
 
