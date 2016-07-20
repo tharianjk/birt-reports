@@ -1171,7 +1171,7 @@ else
             <property name="paddingTop">1pt</property>
             <property name="textAlign">left</property>
             <property name="canShrink">true</property>
-            <expression name="valueExpr">"Load Factor for the Period "+BirtStr.left(params["fromdate"].value,10).substr(8,9)+"-"+BirtStr.left(params["fromdate"].value,7).substr(5,6)+"-"+BirtStr.left(params["fromdate"].value,4).substr(0,4)+" to "+BirtStr.left(params["todate"].value,10).substr(8,9)+"-"+BirtStr.left(params["todate"].value,7).substr(5,6)+"-"+BirtStr.left(params["todate"].value,4).substr(0,4)+" : "+params["loadfactor"].value+"%";</expression>
+            <expression name="valueExpr">"Load Factor on "+params["sname"].value+" for the Period "+BirtStr.left(params["fromdate"].value,10).substr(8,9)+"-"+BirtStr.left(params["fromdate"].value,7).substr(5,6)+"-"+BirtStr.left(params["fromdate"].value,4).substr(0,4)+" to "+BirtStr.left(params["todate"].value,10).substr(8,9)+"-"+BirtStr.left(params["todate"].value,7).substr(5,6)+"-"+BirtStr.left(params["todate"].value,4).substr(0,4)+" : "+params["loadfactor"].value+"%";</expression>
             <property name="contentType">html</property>
         </text-data>
         <extended-item extensionName="Chart" name="mychart" id="7">
