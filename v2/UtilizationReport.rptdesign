@@ -1,0 +1,1303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="author">iReveal Technologies 2016</property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
+    <text-property name="title">Energy Utilization</text-property>
+    <list-property name="userProperties">
+        <structure>
+            <property name="name">Data Cubeday.SupplyDemandTrendSecondDataset.x</property>
+            <property name="type">integer</property>
+            <property name="isVisible">false</property>
+        </structure>
+        <structure>
+            <property name="name">Data Cubeday.SupplyDemandTrendSecondDataset.y</property>
+            <property name="type">integer</property>
+            <property name="isVisible">false</property>
+        </structure>
+    </list-property>
+    <property name="Data Cubeday.SupplyDemandTrendSecondDataset.x">135</property>
+    <property name="Data Cubeday.SupplyDemandTrendSecondDataset.y">80</property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="UsrId" id="531">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">integer</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">3</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="assettreeid" id="668">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">102</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="fromdate" id="746">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2015-05-30 00:00:00</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="todate" id="747">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2016-05-31 23:59:00</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="coltype" id="749">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">30D</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="precision" id="964">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">integer</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="sname" id="965">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">TR</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="IrevealDS" id="7">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">org.hsqldb.jdbcDriver</property>
+            <property name="odaURL">jdbc:hsqldb:hsql://localhost</property>
+            <property name="odaUser">sa</property>
+            <property name="OdaConnProfileName">IrevealDS</property>
+            <property name="OdaConnProfileStorePath">IrevealDsource</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet" name="UtilizationDataSet" id="781">
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">CUSH</property>
+                    <expression name="expression">var myString = params["coltype"].value;&#13;
+var stringLength = myString.length; &#13;
+var lastChar = myString.charAt(stringLength - 1); &#13;
+if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
+{&#13;
+	row["DT"]=lastChar;&#13;
+}</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints"/>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">assettreeid</property>
+                    <property name="paramName">assettreeid</property>
+                    <property name="nativeName">assettreeid</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">1</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">dtfrm</property>
+                    <property name="paramName">fromdate</property>
+                    <property name="nativeName">dtfrm</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                    <property name="position">2</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">dtto</property>
+                    <property name="paramName">todate</property>
+                    <property name="nativeName">dtto</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                    <property name="position">3</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">userid</property>
+                    <property name="paramName">UsrId</property>
+                    <property name="nativeName">userid</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                    <property name="position">4</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">nprecision</property>
+                    <property name="paramName">precision</property>
+                    <property name="nativeName">nprecision</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                    <property name="position">5</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">TYP</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">UNITSHORT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">n_usageqty</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">n_capacity</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">dt_date</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">CAPUNIT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">CUSH</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">IrevealDS</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">TYP</property>
+                    <property name="nativeName">TYP</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">UNITSHORT</property>
+                    <property name="nativeName">UNITSHORT</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">n_usageqty</property>
+                    <property name="nativeName">n_usageqty</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">n_capacity</property>
+                    <property name="nativeName">n_capacity</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">dt_date</property>
+                    <property name="nativeName">dt_date</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">CAPUNIT</property>
+                    <property name="nativeName">CAPUNIT</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[{call spRpt_UTILIZATION ('30M',?,?,?,?,?)}]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <DataSetParameters>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name>assettreeid</design:name>
+            <design:position>1</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+          <design:precision>10</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name>dtfrm</design:name>
+            <design:position>2</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>91</design:nativeDataTypeCode>
+          <design:precision>10</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name>dtto</design:name>
+            <design:position>3</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>91</design:nativeDataTypeCode>
+          <design:precision>10</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name>userid</design:name>
+            <design:position>4</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+          <design:precision>10</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name>nprecision</design:name>
+            <design:position>5</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+          <design:precision>10</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+  </DataSetParameters>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <cubes>
+        <tabular-cube name="Data Cube" id="782">
+            <property name="dimensions">
+                <tabular-dimension name="assetname" id="783">
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy" id="784">
+                            <property name="levels">
+                                <tabular-level name="typ" id="785">
+                                    <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
+                                    <property name="columnName">TYP</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="UnitShrt" id="795">
+                    <property name="defaultHierarchy">NewTabularHierarchy5</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy5" id="796">
+                            <property name="levels">
+                                <tabular-level name="unitshort" id="797">
+                                    <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
+                                    <property name="columnName">UNITSHORT</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="capunit" id="966">
+                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="967">
+                            <property name="levels">
+                                <tabular-level name="CAPUNIT" id="968">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">CAPUNIT</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Group" id="997">
+                    <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy4</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy4" id="998">
+                            <property name="levels">
+                                <tabular-level name="Day Of Year" id="999">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">day-of-year</property>
+                                    <property name="dateTimeFormat">MMMM dd, yyyy</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">dt_date</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Group1" id="1000">
+                    <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy6</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy6" id="1001">
+                            <property name="levels">
+                                <tabular-level name="Month" id="1002">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">month</property>
+                                    <property name="dateTimeFormat">MMM yyyy</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">dt_date</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="Summary Field" id="993">
+                    <property name="measures">
+                        <tabular-measure name="n_capacity" id="994">
+                            <expression name="measureExpression" type="javascript">dataSetRow["n_capacity"]</expression>
+                            <property name="dataType">decimal</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+                <tabular-measure-group name="Summary Field1" id="995">
+                    <property name="measures">
+                        <tabular-measure name="n_usageqty" id="996">
+                            <expression name="measureExpression" type="javascript">dataSetRow["n_usageqty"]</expression>
+                            <property name="dataType">decimal</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+            <property name="dataSet">UtilizationDataSet</property>
+        </tabular-cube>
+    </cubes>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab-detail" id="162">
+            <property name="backgroundColor">#F0F3FD</property>
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">9px</property>
+            <property name="color">#000000</property>
+        </style>
+        <style name="crosstab-header" id="163">
+            <property name="backgroundColor">#AEC0B1</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">10px</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#000000</property>
+        </style>
+        <style name="crosstab-cell1" id="164">
+            <property name="borderBottomColor">#FFFFFF</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftColor">#FFFFFF</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightColor">#FFFFFF</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopColor">#FFFFFF</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+        </style>
+        <style name="crosstab-detail1" id="165">
+            <property name="backgroundColor">#F0F3FD</property>
+            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
+            <property name="fontSize">10px</property>
+            <property name="color">#000000</property>
+            <property name="borderBottomColor">#01450F</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderLeftColor">#01450F</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderRightColor">#01450F</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1px</property>
+            <property name="borderTopColor">#01450F</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+            <property name="paddingTop">0.2em</property>
+            <property name="paddingLeft">0.2em</property>
+            <property name="paddingBottom">0.2em</property>
+            <property name="paddingRight">0.2em</property>
+            <property name="textAlign">left</property>
+        </style>
+        <style name="crosstab-header1" id="166">
+            <property name="backgroundColor">#AEC0B1</property>
+            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
+            <property name="fontSize">12px</property>
+            <property name="fontWeight">bold</property>
+            <property name="fontStyle">italic</property>
+            <property name="color">#000000</property>
+            <property name="borderBottomColor">#01450F</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderLeftColor">#01450F</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderRightColor">#01450F</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1px</property>
+            <property name="borderTopColor">#01450F</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+            <property name="marginTop">1em</property>
+            <property name="marginLeft">1em</property>
+            <property name="marginBottom">1em</property>
+            <property name="marginRight">1em</property>
+            <property name="paddingTop">0.2em</property>
+            <property name="paddingLeft">0.2em</property>
+            <property name="paddingBottom">0.2em</property>
+            <property name="paddingRight">0.2em</property>
+            <property name="textAlign">left</property>
+            <property name="width">100%</property>
+        </style>
+        <style name="crosstab-cell2" id="167">
+            <property name="backgroundColor">#F1F8FA</property>
+            <property name="fontSize">10px</property>
+            <property name="color">#FFFFFF</property>
+            <property name="borderBottomColor">#01450F</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderLeftColor">#01450F</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderRightColor">#01450F</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1px</property>
+            <property name="borderTopColor">#01450F</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+            <property name="paddingTop">0.2em</property>
+            <property name="paddingLeft">0.2em</property>
+            <property name="paddingBottom">0.2em</property>
+            <property name="paddingRight">0.2em</property>
+            <property name="textAlign">left</property>
+            <property name="height">6px</property>
+        </style>
+        <style name="crosstab-footer" id="168">
+            <property name="backgroundColor">#AEC0B1</property>
+            <property name="fontFamily">"Arial", "Helvetica", sans-serif</property>
+            <property name="fontSize">12px</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#000000</property>
+            <property name="borderBottomColor">#FFFFFF</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderLeftColor">#FFFFFF</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderRightColor">#FFFFFF</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1px</property>
+            <property name="borderTopColor">#FFFFFF</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+            <property name="marginTop">1em</property>
+            <property name="marginLeft">1em</property>
+            <property name="marginBottom">1em</property>
+            <property name="marginRight">1em</property>
+            <property name="paddingTop">0.2em</property>
+            <property name="paddingLeft">0.2em</property>
+            <property name="paddingBottom">0.2em</property>
+            <property name="paddingRight">0.2em</property>
+            <property name="textAlign">left</property>
+            <property name="width">100%</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <text-data id="892">
+            <property name="backgroundColor">#B8DCDC</property>
+            <property name="fontFamily">"Times New Roman"</property>
+            <property name="fontSize">15pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="marginTop">0pt</property>
+            <property name="paddingTop">1pt</property>
+            <property name="textAlign">left</property>
+            <property name="canShrink">true</property>
+            <expression name="valueExpr">"Energy Utilization Report for "+params["sname"].value+" for the Period "+BirtStr.left(params["fromdate"].value,10).substr(8,9)+"-"+BirtStr.left(params["fromdate"].value,7).substr(5,6)+"-"+BirtStr.left(params["fromdate"].value,4).substr(0,4)+" to "+BirtStr.left(params["todate"].value,10).substr(8,9)+"-"+BirtStr.left(params["todate"].value,7).substr(5,6)+"-"+BirtStr.left(params["todate"].value,4).substr(0,4);</expression>
+            <property name="contentType">html</property>
+        </text-data>
+        <grid id="956">
+            <property name="dataSet">UtilizationDataSet</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">row["CUSH"]!='M'</expression>
+                </structure>
+            </list-property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSH</property>
+                    <text-property name="displayName">CUSH</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CUSH"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="957"/>
+            <row id="958">
+                <cell id="959">
+                    <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="1076">
+                        <property name="cube">Data Cube</property>
+                        <property name="measures">
+                            <extended-item extensionName="MeasureView" id="1077">
+                                <property name="measure">n_capacity</property>
+                                <property name="detail">
+                                    <extended-item extensionName="AggregationCell" id="1078">
+                                        <property name="aggregationOnRow">assetname/typ</property>
+                                        <property name="aggregationOnColumn">UnitShrt/unitshort</property>
+                                        <property name="content">
+                                            <data id="1079">
+                                                <property name="fontSize">12px</property>
+                                                <property name="textAlign">center</property>
+                                                <list-property name="highlightRules">
+                                                    <structure>
+                                                        <property name="operator">eq</property>
+                                                        <property name="fontSize">16pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <expression name="testExpr" type="javascript">data["typ"]</expression>
+                                                        <simple-property-list name="value1">
+                                                            <value type="javascript">'TOTAL'</value>
+                                                        </simple-property-list>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">n_capacity_assetname/typ_UnitShrt/unitshort</property>
+                                            </data>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                                <property name="header">
+                                    <extended-item extensionName="CrosstabCell" id="1080">
+                                        <property name="content">
+                                            <text-data id="1081">
+                                                <property name="fontSize">12px</property>
+                                                <property name="textAlign">center</property>
+                                                <expression name="valueExpr">"Capacity ("+data["CAPUNIT"]+")";</expression>
+                                                <property name="contentType">html</property>
+                                            </text-data>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                            </extended-item>
+                            <extended-item extensionName="MeasureView" id="1082">
+                                <property name="measure">n_usageqty</property>
+                                <property name="detail">
+                                    <extended-item extensionName="AggregationCell" id="1083">
+                                        <property name="aggregationOnRow">assetname/typ</property>
+                                        <property name="aggregationOnColumn">UnitShrt/unitshort</property>
+                                        <property name="content">
+                                            <data id="1084">
+                                                <property name="fontSize">12px</property>
+                                                <property name="textAlign">center</property>
+                                                <list-property name="highlightRules">
+                                                    <structure>
+                                                        <property name="operator">eq</property>
+                                                        <property name="fontSize">16pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <expression name="testExpr" type="javascript">data["typ"]</expression>
+                                                        <simple-property-list name="value1">
+                                                            <value type="javascript">'TOTAL'</value>
+                                                        </simple-property-list>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">n_usageqty_assetname/typ_UnitShrt/unitshort</property>
+                                            </data>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                                <property name="header">
+                                    <extended-item extensionName="CrosstabCell" id="1085">
+                                        <property name="content">
+                                            <text-data id="1086">
+                                                <property name="fontSize">12px</property>
+                                                <property name="textAlign">center</property>
+                                                <expression name="valueExpr">"Usage ("+data["unitshort"]+")";</expression>
+                                                <property name="contentType">html</property>
+                                            </text-data>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                            </extended-item>
+                        </property>
+                        <property name="rows">
+                            <extended-item extensionName="CrosstabView" id="1087">
+                                <property name="views">
+                                    <extended-item extensionName="DimensionView" id="1111">
+                                        <property name="dimension">Group1</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View" id="1112">
+                                                <property name="level">Group1/Month</property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="1113">
+                                                        <property name="content">
+                                                            <data name="Month" id="1117">
+                                                                <property name="fontSize">12px</property>
+                                                                <structure name="dateTimeFormat">
+                                                                    <property name="category">Custom</property>
+                                                                    <property name="pattern">MMM yyyy</property>
+                                                                </structure>
+                                                                <property name="textAlign">center</property>
+                                                                <property name="resultSetColumn">Month</property>
+                                                            </data>
+                                                        </property>
+                                                    </extended-item>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                    <extended-item extensionName="DimensionView" id="1092">
+                                        <property name="dimension">assetname</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View101" id="1093">
+                                                <property name="level">assetname/typ</property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="1094">
+                                                        <property name="content">
+                                                            <data name="typ21" id="1095">
+                                                                <property name="fontSize">12px</property>
+                                                                <property name="textAlign">center</property>
+                                                                <list-property name="highlightRules">
+                                                                    <structure>
+                                                                        <property name="operator">eq</property>
+                                                                        <property name="fontSize">16pt</property>
+                                                                        <property name="fontWeight">bold</property>
+                                                                        <expression name="testExpr" type="javascript">data["typ"]</expression>
+                                                                        <simple-property-list name="value1">
+                                                                            <value type="javascript">'TOTAL'</value>
+                                                                        </simple-property-list>
+                                                                    </structure>
+                                                                </list-property>
+                                                                <property name="resultSetColumn">typ</property>
+                                                            </data>
+                                                        </property>
+                                                    </extended-item>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                            </extended-item>
+                        </property>
+                        <property name="columns">
+                            <extended-item extensionName="CrosstabView" id="1096">
+                                <property name="views">
+                                    <extended-item extensionName="DimensionView" id="1097">
+                                        <property name="dimension">capunit</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View91" id="1098">
+                                                <property name="level">capunit/CAPUNIT</property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="1099"/>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                    <extended-item extensionName="DimensionView" id="1100">
+                                        <property name="dimension">UnitShrt</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View81" id="1101">
+                                                <property name="level">UnitShrt/unitshort</property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="1102"/>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                            </extended-item>
+                        </property>
+                        <property name="header">
+                            <extended-item extensionName="CrosstabCell" id="1116"/>
+                            <extended-item extensionName="CrosstabCell" id="1104"/>
+                            <extended-item extensionName="CrosstabCell" id="1115"/>
+                            <extended-item extensionName="CrosstabCell" id="1106"/>
+                            <extended-item extensionName="CrosstabCell" id="1114">
+                                <property name="content">
+                                    <label id="1118">
+                                        <property name="fontSize">12px</property>
+                                        <property name="textAlign">center</property>
+                                        <text-property name="text">Month of Year</text-property>
+                                    </label>
+                                </property>
+                            </extended-item>
+                            <extended-item extensionName="CrosstabCell" id="1109">
+                                <property name="content">
+                                    <label id="1110">
+                                        <property name="fontSize">12px</property>
+                                        <property name="textAlign">center</property>
+                                        <text-property name="text">Asset</text-property>
+                                    </label>
+                                </property>
+                            </extended-item>
+                        </property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">n_capacity</property>
+                                <expression name="expression">measure["n_capacity"]</expression>
+                                <property name="dataType">decimal</property>
+                                <property name="aggregateFunction">SUM</property>
+                            </structure>
+                            <structure>
+                                <property name="name">n_usageqty</property>
+                                <expression name="expression">measure["n_usageqty"]</expression>
+                                <property name="dataType">decimal</property>
+                                <property name="aggregateFunction">SUM</property>
+                            </structure>
+                            <structure>
+                                <property name="name">unitshort</property>
+                                <expression name="expression">dimension["UnitShrt"]["unitshort"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">n_capacity_UnitShrt/unitshort</property>
+                                <expression name="expression">measure["n_capacity"]</expression>
+                                <property name="dataType">decimal</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>UnitShrt/unitshort</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                            </structure>
+                            <structure>
+                                <property name="name">n_usageqty_UnitShrt/unitshort</property>
+                                <expression name="expression">measure["n_usageqty"]</expression>
+                                <property name="dataType">decimal</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>UnitShrt/unitshort</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CAPUNIT</property>
+                                <expression name="expression">dimension["capunit"]["CAPUNIT"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">typ</property>
+                                <expression name="expression">dimension["assetname"]["typ"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">n_capacity_assetname/typ_UnitShrt/unitshort</property>
+                                <expression name="expression">measure["n_capacity"]</expression>
+                                <property name="dataType">decimal</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>assetname/typ</value>
+                                    <value>UnitShrt/unitshort</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                            </structure>
+                            <structure>
+                                <property name="name">n_usageqty_assetname/typ_UnitShrt/unitshort</property>
+                                <expression name="expression">measure["n_usageqty"]</expression>
+                                <property name="dataType">decimal</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>assetname/typ</value>
+                                    <value>UnitShrt/unitshort</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Month</property>
+                                <expression name="expression">dimension["Group1"]["Month"]["DateTime"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                        </list-property>
+                    </extended-item>
+                </cell>
+            </row>
+        </grid>
+        <grid id="960">
+            <property name="dataSet">UtilizationDataSet</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">row["CUSH"]!='D'</expression>
+                </structure>
+            </list-property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSH</property>
+                    <text-property name="displayName">CUSH</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CUSH"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="961"/>
+            <row id="962">
+                <cell id="963">
+                    <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="1013">
+                        <property name="cube">Data Cube</property>
+                        <property name="measures">
+                            <extended-item extensionName="MeasureView" id="1015">
+                                <property name="measure">n_capacity</property>
+                                <property name="detail">
+                                    <extended-item extensionName="AggregationCell" id="1016">
+                                        <property name="aggregationOnRow">assetname/typ</property>
+                                        <property name="aggregationOnColumn">UnitShrt/unitshort</property>
+                                        <property name="content">
+                                            <data id="1017">
+                                                <property name="fontSize">12px</property>
+                                                <property name="textAlign">center</property>
+                                                <list-property name="highlightRules">
+                                                    <structure>
+                                                        <property name="operator">eq</property>
+                                                        <property name="fontSize">16pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <expression name="testExpr" type="javascript">data["typ"]</expression>
+                                                        <simple-property-list name="value1">
+                                                            <value type="javascript">'TOTAL'</value>
+                                                        </simple-property-list>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">n_capacity_assetname/typ_UnitShrt/unitshort</property>
+                                            </data>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                                <property name="header">
+                                    <extended-item extensionName="CrosstabCell" id="1018">
+                                        <property name="content">
+                                            <text-data id="1073">
+                                                <property name="fontSize">12px</property>
+                                                <property name="textAlign">center</property>
+                                                <expression name="valueExpr">"Capacity ("+data["CAPUNIT"]+")";</expression>
+                                                <property name="contentType">html</property>
+                                            </text-data>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                            </extended-item>
+                            <extended-item extensionName="MeasureView" id="1020">
+                                <property name="measure">n_usageqty</property>
+                                <property name="detail">
+                                    <extended-item extensionName="AggregationCell" id="1021">
+                                        <property name="aggregationOnRow">assetname/typ</property>
+                                        <property name="aggregationOnColumn">UnitShrt/unitshort</property>
+                                        <property name="content">
+                                            <data id="1022">
+                                                <property name="fontSize">12px</property>
+                                                <property name="textAlign">center</property>
+                                                <list-property name="highlightRules">
+                                                    <structure>
+                                                        <property name="operator">eq</property>
+                                                        <property name="fontSize">16pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <expression name="testExpr" type="javascript">data["typ"]</expression>
+                                                        <simple-property-list name="value1">
+                                                            <value type="javascript">'TOTAL'</value>
+                                                        </simple-property-list>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">n_usageqty_assetname/typ_UnitShrt/unitshort</property>
+                                            </data>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                                <property name="header">
+                                    <extended-item extensionName="CrosstabCell" id="1023">
+                                        <property name="content">
+                                            <text-data id="1075">
+                                                <property name="fontSize">12px</property>
+                                                <property name="textAlign">center</property>
+                                                <expression name="valueExpr">"Usage ("+data["unitshort"]+")";</expression>
+                                                <property name="contentType">html</property>
+                                            </text-data>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                            </extended-item>
+                        </property>
+                        <property name="rows">
+                            <extended-item extensionName="CrosstabView" id="1038">
+                                <property name="views">
+                                    <extended-item extensionName="DimensionView" id="1052">
+                                        <property name="dimension">Group</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View11" id="1053">
+                                                <property name="level">Group/Day Of Year</property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="1054">
+                                                        <property name="content">
+                                                            <data name="Day Of Year1" id="1058">
+                                                                <property name="fontSize">12px</property>
+                                                                <structure name="dateTimeFormat">
+                                                                    <property name="category">Custom</property>
+                                                                    <property name="pattern">MMMM dd, yyyy</property>
+                                                                </structure>
+                                                                <property name="textAlign">center</property>
+                                                                <property name="resultSetColumn">Day Of Year</property>
+                                                            </data>
+                                                        </property>
+                                                    </extended-item>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                    <extended-item extensionName="DimensionView" id="1039">
+                                        <property name="dimension">assetname</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View10" id="1040">
+                                                <property name="level">assetname/typ</property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="1041">
+                                                        <property name="content">
+                                                            <data name="typ2" id="1042">
+                                                                <property name="fontSize">12px</property>
+                                                                <property name="textAlign">center</property>
+                                                                <list-property name="highlightRules">
+                                                                    <structure>
+                                                                        <property name="operator">eq</property>
+                                                                        <property name="fontSize">16pt</property>
+                                                                        <property name="fontWeight">bold</property>
+                                                                        <expression name="testExpr" type="javascript">data["typ"]</expression>
+                                                                        <simple-property-list name="value1">
+                                                                            <value type="javascript">'TOTAL'</value>
+                                                                        </simple-property-list>
+                                                                    </structure>
+                                                                </list-property>
+                                                                <property name="resultSetColumn">typ</property>
+                                                            </data>
+                                                        </property>
+                                                    </extended-item>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                            </extended-item>
+                        </property>
+                        <property name="columns">
+                            <extended-item extensionName="CrosstabView" id="1025">
+                                <property name="views">
+                                    <extended-item extensionName="DimensionView" id="1032">
+                                        <property name="dimension">capunit</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View9" id="1033">
+                                                <property name="level">capunit/CAPUNIT</property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="1034"/>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                    <extended-item extensionName="DimensionView" id="1026">
+                                        <property name="dimension">UnitShrt</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View8" id="1027">
+                                                <property name="level">UnitShrt/unitshort</property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="1028"/>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                            </extended-item>
+                        </property>
+                        <property name="header">
+                            <extended-item extensionName="CrosstabCell" id="1057"/>
+                            <extended-item extensionName="CrosstabCell" id="1035"/>
+                            <extended-item extensionName="CrosstabCell" id="1056"/>
+                            <extended-item extensionName="CrosstabCell" id="1029"/>
+                            <extended-item extensionName="CrosstabCell" id="1055">
+                                <property name="content">
+                                    <label id="1059">
+                                        <property name="fontSize">12px</property>
+                                        <property name="textAlign">center</property>
+                                        <text-property name="text">Day Of Year</text-property>
+                                    </label>
+                                </property>
+                            </extended-item>
+                            <extended-item extensionName="CrosstabCell" id="1014">
+                                <property name="content">
+                                    <label id="1043">
+                                        <property name="fontSize">12px</property>
+                                        <property name="textAlign">center</property>
+                                        <text-property name="text">Asset</text-property>
+                                    </label>
+                                </property>
+                            </extended-item>
+                        </property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">n_capacity</property>
+                                <expression name="expression">measure["n_capacity"]</expression>
+                                <property name="dataType">decimal</property>
+                                <property name="aggregateFunction">SUM</property>
+                            </structure>
+                            <structure>
+                                <property name="name">n_usageqty</property>
+                                <expression name="expression">measure["n_usageqty"]</expression>
+                                <property name="dataType">decimal</property>
+                                <property name="aggregateFunction">SUM</property>
+                            </structure>
+                            <structure>
+                                <property name="name">unitshort</property>
+                                <expression name="expression">dimension["UnitShrt"]["unitshort"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">n_capacity_UnitShrt/unitshort</property>
+                                <expression name="expression">measure["n_capacity"]</expression>
+                                <property name="dataType">decimal</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>UnitShrt/unitshort</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                            </structure>
+                            <structure>
+                                <property name="name">n_usageqty_UnitShrt/unitshort</property>
+                                <expression name="expression">measure["n_usageqty"]</expression>
+                                <property name="dataType">decimal</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>UnitShrt/unitshort</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CAPUNIT</property>
+                                <expression name="expression">dimension["capunit"]["CAPUNIT"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">typ</property>
+                                <expression name="expression">dimension["assetname"]["typ"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">n_capacity_assetname/typ_UnitShrt/unitshort</property>
+                                <expression name="expression">measure["n_capacity"]</expression>
+                                <property name="dataType">decimal</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>assetname/typ</value>
+                                    <value>UnitShrt/unitshort</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                            </structure>
+                            <structure>
+                                <property name="name">n_usageqty_assetname/typ_UnitShrt/unitshort</property>
+                                <expression name="expression">measure["n_usageqty"]</expression>
+                                <property name="dataType">decimal</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>assetname/typ</value>
+                                    <value>UnitShrt/unitshort</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Day Of Year</property>
+                                <expression name="expression">dimension["Group"]["Day Of Year"]["DateTime"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                        </list-property>
+                    </extended-item>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>
