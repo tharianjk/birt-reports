@@ -98,7 +98,7 @@
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">30D</value>
+                <value type="constant">30M</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -865,10 +865,10 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                         <property name="rows">
                             <extended-item extensionName="CrosstabView" id="1161">
                                 <property name="views">
-                                    <extended-item extensionName="DimensionView" id="1285">
+                                    <extended-item extensionName="DimensionView" id="1355">
                                         <property name="dimension">Group2</property>
                                         <property name="levels">
-                                            <extended-item extensionName="LevelView" name="NewLevel View4" id="1286">
+                                            <extended-item extensionName="LevelView" name="NewLevel View4" id="1356">
                                                 <property name="level">Group2/Day Of Year</property>
                                                 <property name="sort">
                                                     <sort-element>
@@ -878,8 +878,16 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                                     </sort-element>
                                                 </property>
                                                 <property name="member">
-                                                    <extended-item extensionName="CrosstabCell" id="1287">
-                                                        <property name="width">0.1px</property>
+                                                    <extended-item extensionName="CrosstabCell" id="1357">
+                                                        <property name="content">
+                                                            <data name="Day Of Year" id="1361">
+                                                                <structure name="dateTimeFormat">
+                                                                    <property name="category">Custom</property>
+                                                                    <property name="pattern">MMMM dd, yy</property>
+                                                                </structure>
+                                                                <property name="resultSetColumn">Day Of Year</property>
+                                                            </data>
+                                                        </property>
                                                     </extended-item>
                                                 </property>
                                             </extended-item>
@@ -976,13 +984,19 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                             </extended-item>
                         </property>
                         <property name="header">
-                            <extended-item extensionName="CrosstabCell" id="1290"/>
+                            <extended-item extensionName="CrosstabCell" id="1360"/>
                             <extended-item extensionName="CrosstabCell" id="1244"/>
                             <extended-item extensionName="CrosstabCell" id="1152"/>
-                            <extended-item extensionName="CrosstabCell" id="1289"/>
+                            <extended-item extensionName="CrosstabCell" id="1359"/>
                             <extended-item extensionName="CrosstabCell" id="1243"/>
                             <extended-item extensionName="CrosstabCell" id="1158"/>
-                            <extended-item extensionName="CrosstabCell" id="1288"/>
+                            <extended-item extensionName="CrosstabCell" id="1358">
+                                <property name="content">
+                                    <label id="1362">
+                                        <text-property name="text">Day Of Year</text-property>
+                                    </label>
+                                </property>
+                            </extended-item>
                             <extended-item extensionName="CrosstabCell" id="1242">
                                 <property name="content">
                                     <label id="1246">
@@ -1234,14 +1248,22 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                             </extended-item>
                                         </property>
                                     </extended-item>
-                                    <extended-item extensionName="DimensionView" id="1344">
+                                    <extended-item extensionName="DimensionView" id="1363">
                                         <property name="dimension">Group2</property>
                                         <property name="levels">
-                                            <extended-item extensionName="LevelView" name="NewLevel View6" id="1345">
+                                            <extended-item extensionName="LevelView" name="NewLevel View6" id="1364">
                                                 <property name="level">Group2/Day Of Year</property>
                                                 <property name="member">
-                                                    <extended-item extensionName="CrosstabCell" id="1346">
-                                                        <property name="width">0.1px</property>
+                                                    <extended-item extensionName="CrosstabCell" id="1365">
+                                                        <property name="content">
+                                                            <data name="Day Of Year1" id="1369">
+                                                                <structure name="dateTimeFormat">
+                                                                    <property name="category">Custom</property>
+                                                                    <property name="pattern">MMMM dd, yy</property>
+                                                                </structure>
+                                                                <property name="resultSetColumn">Day Of Year</property>
+                                                            </data>
+                                                        </property>
                                                     </extended-item>
                                                 </property>
                                             </extended-item>
@@ -1310,10 +1332,10 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                         </property>
                         <property name="header">
                             <extended-item extensionName="CrosstabCell" id="1333"/>
-                            <extended-item extensionName="CrosstabCell" id="1349"/>
+                            <extended-item extensionName="CrosstabCell" id="1368"/>
                             <extended-item extensionName="CrosstabCell" id="1334"/>
                             <extended-item extensionName="CrosstabCell" id="1336"/>
-                            <extended-item extensionName="CrosstabCell" id="1348"/>
+                            <extended-item extensionName="CrosstabCell" id="1367"/>
                             <extended-item extensionName="CrosstabCell" id="1337"/>
                             <extended-item extensionName="CrosstabCell" id="1340">
                                 <property name="content">
@@ -1324,7 +1346,13 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                     </label>
                                 </property>
                             </extended-item>
-                            <extended-item extensionName="CrosstabCell" id="1347"/>
+                            <extended-item extensionName="CrosstabCell" id="1366">
+                                <property name="content">
+                                    <label id="1370">
+                                        <text-property name="text">Day Of Year</text-property>
+                                    </label>
+                                </property>
+                            </extended-item>
                             <extended-item extensionName="CrosstabCell" id="1342">
                                 <property name="content">
                                     <label id="1343">
