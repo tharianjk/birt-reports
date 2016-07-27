@@ -61,7 +61,7 @@
             <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
-            <property name="dataType">string</property>
+            <property name="dataType">date</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">2015-05-30 00:00:00</value>
@@ -78,7 +78,7 @@
             <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
-            <property name="dataType">string</property>
+            <property name="dataType">date</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">2016-05-31 23:59:00</value>
@@ -94,7 +94,7 @@
         <scalar-parameter name="coltype" id="749">
             <property name="hidden">true</property>
             <property name="valueType">static</property>
-            <property name="isRequired">true</property>
+            <property name="isRequired">false</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
@@ -183,19 +183,31 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
             </list-property>
             <list-property name="columnHints">
                 <structure>
-                    <property name="columnName">dt_date</property>
+                    <property name="columnName">CUSH</property>
+                    <property name="alias">CUSH</property>
                     <property name="analysis">dimension</property>
-                    <text-property name="displayName">DT_DATE</text-property>
                 </structure>
             </list-property>
             <list-property name="parameters">
+                <structure>
+                    <property name="name">rtype</property>
+                    <property name="paramName">coltype</property>
+                    <property name="nativeName">rtype</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">1</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
                 <structure>
                     <property name="name">assettreeid</property>
                     <property name="paramName">assettreeid</property>
                     <property name="nativeName">assettreeid</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
-                    <property name="position">1</property>
+                    <property name="position">2</property>
                     <property name="isOptional">true</property>
                     <property name="allowNull">true</property>
                     <property name="isInput">true</property>
@@ -207,7 +219,7 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                     <property name="nativeName">dtfrm</property>
                     <property name="dataType">date</property>
                     <property name="nativeDataType">91</property>
-                    <property name="position">2</property>
+                    <property name="position">3</property>
                     <property name="isOptional">true</property>
                     <property name="allowNull">true</property>
                     <property name="isInput">true</property>
@@ -219,7 +231,7 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                     <property name="nativeName">dtto</property>
                     <property name="dataType">date</property>
                     <property name="nativeDataType">91</property>
-                    <property name="position">3</property>
+                    <property name="position">4</property>
                     <property name="isOptional">true</property>
                     <property name="allowNull">true</property>
                     <property name="isInput">true</property>
@@ -231,7 +243,7 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                     <property name="nativeName">userid</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
-                    <property name="position">4</property>
+                    <property name="position">5</property>
                     <property name="isOptional">true</property>
                     <property name="allowNull">true</property>
                     <property name="isInput">true</property>
@@ -243,7 +255,7 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                     <property name="nativeName">nprecision</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
-                    <property name="position">5</property>
+                    <property name="position">6</property>
                     <property name="isOptional">true</property>
                     <property name="allowNull">true</property>
                     <property name="isInput">true</property>
@@ -275,7 +287,7 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                     <structure>
                         <property name="position">5</property>
                         <property name="name">DATEDISPLAY</property>
-                        <property name="dataType">string</property>
+                        <property name="dataType">date</property>
                     </structure>
                     <structure>
                         <property name="position">6</property>
@@ -324,7 +336,7 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                     <property name="position">5</property>
                     <property name="name">DATEDISPLAY</property>
                     <property name="nativeName">DATEDISPLAY</property>
-                    <property name="dataType">string</property>
+                    <property name="dataType">date</property>
                 </structure>
                 <structure>
                     <property name="position">6</property>
@@ -339,7 +351,7 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[{call spRpt_UTILIZATION ('30M',?,?,?,?,?)}]]></xml-property>
+            <xml-property name="queryText"><![CDATA[{call spRpt_UTILIZATION (?,?,?,?,?,?)}]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -349,7 +361,7 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
         <design:inOutMode>In</design:inOutMode>
         <design:attributes>
           <design:identifier>
-            <design:name>assettreeid</design:name>
+            <design:name>rtype</design:name>
             <design:position>1</design:position>
           </design:identifier>
           <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
@@ -369,10 +381,10 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
         <design:inOutMode>In</design:inOutMode>
         <design:attributes>
           <design:identifier>
-            <design:name>dtfrm</design:name>
+            <design:name>assettreeid</design:name>
             <design:position>2</design:position>
           </design:identifier>
-          <design:nativeDataTypeCode>91</design:nativeDataTypeCode>
+          <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
           <design:precision>10</design:precision>
           <design:scale>0</design:scale>
           <design:nullability>Nullable</design:nullability>
@@ -389,7 +401,7 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
         <design:inOutMode>In</design:inOutMode>
         <design:attributes>
           <design:identifier>
-            <design:name>dtto</design:name>
+            <design:name>dtfrm</design:name>
             <design:position>3</design:position>
           </design:identifier>
           <design:nativeDataTypeCode>91</design:nativeDataTypeCode>
@@ -409,8 +421,28 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
         <design:inOutMode>In</design:inOutMode>
         <design:attributes>
           <design:identifier>
-            <design:name>userid</design:name>
+            <design:name>dtto</design:name>
             <design:position>4</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>91</design:nativeDataTypeCode>
+          <design:precision>10</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name>userid</design:name>
+            <design:position>5</design:position>
           </design:identifier>
           <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
           <design:precision>10</design:precision>
@@ -430,7 +462,7 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
         <design:attributes>
           <design:identifier>
             <design:name>nprecision</design:name>
-            <design:position>5</design:position>
+            <design:position>6</design:position>
           </design:identifier>
           <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
           <design:precision>10</design:precision>
