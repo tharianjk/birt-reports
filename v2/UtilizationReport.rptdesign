@@ -61,7 +61,7 @@
             <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
-            <property name="dataType">date</property>
+            <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">2015-05-30 00:00:00</value>
@@ -78,7 +78,7 @@
             <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
-            <property name="dataType">date</property>
+            <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">2016-05-31 23:59:00</value>
