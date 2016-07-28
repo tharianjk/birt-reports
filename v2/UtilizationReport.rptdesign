@@ -92,7 +92,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="coltype" id="749">
-            <property name="hidden">true</property>
+            <property name="hidden">false</property>
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
             <property name="dataType">string</property>
@@ -557,6 +557,28 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                         </tabular-hierarchy>
                     </property>
                 </tabular-dimension>
+                <tabular-dimension name="Group" id="1447">
+                    <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy5</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy5" id="1448">
+                            <property name="levels">
+                                <tabular-level name="Month" id="1449">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">month</property>
+                                    <property name="dateTimeFormat">MMMM yyyy</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">DT_DATE</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
             </property>
             <property name="measureGroups">
                 <tabular-measure-group name="Summary Field" id="1132">
@@ -792,6 +814,7 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                         <property name="content">
                                             <data id="1140">
                                                 <property name="fontSize">12px</property>
+                                                <property name="fontWeight">normal</property>
                                                 <property name="textAlign">center</property>
                                                 <list-property name="highlightRules">
                                                     <structure>
@@ -801,6 +824,23 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                                         <expression name="testExpr" type="javascript">data["TYP"]</expression>
                                                         <simple-property-list name="value1">
                                                             <value type="javascript">'TOTAL'</value>
+                                                        </simple-property-list>
+                                                    </structure>
+                                                    <structure>
+                                                        <property name="operator">eq</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <expression name="testExpr" type="javascript">data["TYP"]</expression>
+                                                        <simple-property-list name="value1">
+                                                            <value type="javascript">''</value>
+                                                        </simple-property-list>
+                                                    </structure>
+                                                    <structure>
+                                                        <property name="operator">eq</property>
+                                                        <property name="color">#F0F3FD</property>
+                                                        <expression name="testExpr" type="javascript">data["DATEDISPLAY"]</expression>
+                                                        <simple-property-list name="value1">
+                                                            <value type="javascript">''</value>
                                                         </simple-property-list>
                                                     </structure>
                                                 </list-property>
@@ -813,7 +853,7 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                     <extended-item extensionName="CrosstabCell" id="1141">
                                         <property name="content">
                                             <text-data id="1175">
-                                                <property name="fontSize">12px</property>
+                                                <property name="fontSize">16px</property>
                                                 <property name="textAlign">center</property>
                                                 <expression name="valueExpr">"Capacity ("+data["CAPUNIT"]+")";</expression>
                                                 <property name="contentType">html</property>
@@ -842,6 +882,23 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                                             <value type="javascript">'TOTAL'</value>
                                                         </simple-property-list>
                                                     </structure>
+                                                    <structure>
+                                                        <property name="operator">eq</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <expression name="testExpr" type="javascript">data["TYP"]</expression>
+                                                        <simple-property-list name="value1">
+                                                            <value type="javascript">''</value>
+                                                        </simple-property-list>
+                                                    </structure>
+                                                    <structure>
+                                                        <property name="operator">eq</property>
+                                                        <property name="color">#F0F3FD</property>
+                                                        <expression name="testExpr" type="javascript">data["DATEDISPLAY"]</expression>
+                                                        <simple-property-list name="value1">
+                                                            <value type="javascript">''</value>
+                                                        </simple-property-list>
+                                                    </structure>
                                                 </list-property>
                                                 <property name="resultSetColumn">USAGEQTY_assetname/TYP_capunit/CAPUNIT</property>
                                             </data>
@@ -852,7 +909,7 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                     <extended-item extensionName="CrosstabCell" id="1146">
                                         <property name="content">
                                             <text-data id="1176">
-                                                <property name="fontSize">12px</property>
+                                                <property name="fontSize">16px</property>
                                                 <property name="textAlign">center</property>
                                                 <expression name="valueExpr">"Usage ("+data["UNITSHORT"]+")";</expression>
                                                 <property name="contentType">html</property>
@@ -865,30 +922,13 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                         <property name="rows">
                             <extended-item extensionName="CrosstabView" id="1161">
                                 <property name="views">
-                                    <extended-item extensionName="DimensionView" id="1355">
-                                        <property name="dimension">Group2</property>
+                                    <extended-item extensionName="DimensionView" id="1450">
+                                        <property name="dimension">Group</property>
                                         <property name="levels">
-                                            <extended-item extensionName="LevelView" name="NewLevel View4" id="1356">
-                                                <property name="level">Group2/Day Of Year</property>
-                                                <property name="sort">
-                                                    <sort-element>
-                                                        <expression name="key" type="javascript">data["Day Of Year"]</expression>
-                                                        <property name="direction">asc</property>
-                                                        <property name="strength">-1</property>
-                                                    </sort-element>
-                                                </property>
+                                            <extended-item extensionName="LevelView" name="NewLevel View4" id="1451">
+                                                <property name="level">Group/Month</property>
                                                 <property name="member">
-                                                    <extended-item extensionName="CrosstabCell" id="1357">
-                                                        <property name="content">
-                                                            <data name="Day Of Year" id="1361">
-                                                                <structure name="dateTimeFormat">
-                                                                    <property name="category">Custom</property>
-                                                                    <property name="pattern">MMMM dd, yy</property>
-                                                                </structure>
-                                                                <property name="resultSetColumn">Day Of Year</property>
-                                                            </data>
-                                                        </property>
-                                                    </extended-item>
+                                                    <extended-item extensionName="CrosstabCell" id="1452"/>
                                                 </property>
                                             </extended-item>
                                         </property>
@@ -913,6 +953,14 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                                                             <value type="javascript">'Total'</value>
                                                                         </simple-property-list>
                                                                     </structure>
+                                                                    <structure>
+                                                                        <property name="operator">eq</property>
+                                                                        <property name="color">#AEC0B1</property>
+                                                                        <expression name="testExpr" type="javascript">data["DATEDISPLAY"]</expression>
+                                                                        <simple-property-list name="value1">
+                                                                            <value type="javascript">'Dummy'</value>
+                                                                        </simple-property-list>
+                                                                    </structure>
                                                                 </list-property>
                                                                 <property name="resultSetColumn">DATEDISPLAY</property>
                                                             </data>
@@ -927,6 +975,13 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                         <property name="levels">
                                             <extended-item extensionName="LevelView" name="NewLevel View3" id="1168">
                                                 <property name="level">assetname/TYP</property>
+                                                <property name="sort">
+                                                    <sort-element>
+                                                        <expression name="key" type="javascript">data["TYP"]</expression>
+                                                        <property name="direction">desc</property>
+                                                        <property name="strength">-1</property>
+                                                    </sort-element>
+                                                </property>
                                                 <property name="member">
                                                     <extended-item extensionName="CrosstabCell" id="1169">
                                                         <property name="content">
@@ -984,23 +1039,17 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                             </extended-item>
                         </property>
                         <property name="header">
-                            <extended-item extensionName="CrosstabCell" id="1360"/>
+                            <extended-item extensionName="CrosstabCell" id="1455"/>
                             <extended-item extensionName="CrosstabCell" id="1244"/>
                             <extended-item extensionName="CrosstabCell" id="1152"/>
-                            <extended-item extensionName="CrosstabCell" id="1359"/>
+                            <extended-item extensionName="CrosstabCell" id="1454"/>
                             <extended-item extensionName="CrosstabCell" id="1243"/>
                             <extended-item extensionName="CrosstabCell" id="1158"/>
-                            <extended-item extensionName="CrosstabCell" id="1358">
-                                <property name="content">
-                                    <label id="1362">
-                                        <text-property name="text">Day Of Year</text-property>
-                                    </label>
-                                </property>
-                            </extended-item>
+                            <extended-item extensionName="CrosstabCell" id="1453"/>
                             <extended-item extensionName="CrosstabCell" id="1242">
                                 <property name="content">
                                     <label id="1246">
-                                        <property name="fontSize">12px</property>
+                                        <property name="fontSize">16px</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">Period</text-property>
                                     </label>
@@ -1009,7 +1058,7 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                             <extended-item extensionName="CrosstabCell" id="1170">
                                 <property name="content">
                                     <label id="1174">
-                                        <property name="fontSize">12px</property>
+                                        <property name="fontSize">16px</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">Asset</text-property>
                                     </label>
@@ -1106,8 +1155,8 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
-                                <property name="name">Day Of Year</property>
-                                <expression name="expression">dimension["Group2"]["Day Of Year"]["DateTime"]</expression>
+                                <property name="name">Month</property>
+                                <expression name="expression">dimension["Group"]["Month"]["DateTime"]</expression>
                                 <property name="dataType">date-time</property>
                             </structure>
                         </list-property>
@@ -1115,7 +1164,7 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                 </cell>
             </row>
         </grid>
-        <grid id="1297">
+        <grid id="1456">
             <property name="dataSet">UtilizationDataSet</property>
             <list-property name="visibility">
                 <structure>
@@ -1131,21 +1180,22 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <column id="1298"/>
-            <row id="1299">
-                <cell id="1300">
-                    <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="1301">
+            <column id="1457"/>
+            <row id="1458">
+                <cell id="1459">
+                    <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="1460">
                         <property name="cube">Data Cube</property>
                         <property name="measures">
-                            <extended-item extensionName="MeasureView" id="1302">
+                            <extended-item extensionName="MeasureView" id="1461">
                                 <property name="measure">CAPACITYQTY</property>
                                 <property name="detail">
-                                    <extended-item extensionName="AggregationCell" id="1303">
+                                    <extended-item extensionName="AggregationCell" id="1462">
                                         <property name="aggregationOnRow">assetname/TYP</property>
                                         <property name="aggregationOnColumn">capunit/CAPUNIT</property>
                                         <property name="content">
-                                            <data id="1304">
+                                            <data id="1463">
                                                 <property name="fontSize">12px</property>
+                                                <property name="fontWeight">normal</property>
                                                 <property name="textAlign">center</property>
                                                 <list-property name="highlightRules">
                                                     <structure>
@@ -1155,6 +1205,23 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                                         <expression name="testExpr" type="javascript">data["TYP"]</expression>
                                                         <simple-property-list name="value1">
                                                             <value type="javascript">'TOTAL'</value>
+                                                        </simple-property-list>
+                                                    </structure>
+                                                    <structure>
+                                                        <property name="operator">eq</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <expression name="testExpr" type="javascript">data["TYP"]</expression>
+                                                        <simple-property-list name="value1">
+                                                            <value type="javascript">''</value>
+                                                        </simple-property-list>
+                                                    </structure>
+                                                    <structure>
+                                                        <property name="operator">eq</property>
+                                                        <property name="color">#F0F3FD</property>
+                                                        <expression name="testExpr" type="javascript">data["DATEDISPLAY"]</expression>
+                                                        <simple-property-list name="value1">
+                                                            <value type="javascript">''</value>
                                                         </simple-property-list>
                                                     </structure>
                                                 </list-property>
@@ -1164,10 +1231,10 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                     </extended-item>
                                 </property>
                                 <property name="header">
-                                    <extended-item extensionName="CrosstabCell" id="1305">
+                                    <extended-item extensionName="CrosstabCell" id="1464">
                                         <property name="content">
-                                            <text-data id="1306">
-                                                <property name="fontSize">12px</property>
+                                            <text-data id="1465">
+                                                <property name="fontSize">16px</property>
                                                 <property name="textAlign">center</property>
                                                 <expression name="valueExpr">"Capacity ("+data["CAPUNIT"]+")";</expression>
                                                 <property name="contentType">html</property>
@@ -1176,14 +1243,14 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                     </extended-item>
                                 </property>
                             </extended-item>
-                            <extended-item extensionName="MeasureView" id="1307">
+                            <extended-item extensionName="MeasureView" id="1466">
                                 <property name="measure">USAGEQTY</property>
                                 <property name="detail">
-                                    <extended-item extensionName="AggregationCell" id="1308">
+                                    <extended-item extensionName="AggregationCell" id="1467">
                                         <property name="aggregationOnRow">assetname/TYP</property>
                                         <property name="aggregationOnColumn">capunit/CAPUNIT</property>
                                         <property name="content">
-                                            <data id="1309">
+                                            <data id="1468">
                                                 <property name="fontSize">12px</property>
                                                 <property name="textAlign">center</property>
                                                 <list-property name="highlightRules">
@@ -1196,6 +1263,23 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                                             <value type="javascript">'TOTAL'</value>
                                                         </simple-property-list>
                                                     </structure>
+                                                    <structure>
+                                                        <property name="operator">eq</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <expression name="testExpr" type="javascript">data["TYP"]</expression>
+                                                        <simple-property-list name="value1">
+                                                            <value type="javascript">''</value>
+                                                        </simple-property-list>
+                                                    </structure>
+                                                    <structure>
+                                                        <property name="operator">eq</property>
+                                                        <property name="color">#F0F3FD</property>
+                                                        <expression name="testExpr" type="javascript">data["DATEDISPLAY"]</expression>
+                                                        <simple-property-list name="value1">
+                                                            <value type="javascript">''</value>
+                                                        </simple-property-list>
+                                                    </structure>
                                                 </list-property>
                                                 <property name="resultSetColumn">USAGEQTY_assetname/TYP_capunit/CAPUNIT</property>
                                             </data>
@@ -1203,10 +1287,10 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                     </extended-item>
                                 </property>
                                 <property name="header">
-                                    <extended-item extensionName="CrosstabCell" id="1310">
+                                    <extended-item extensionName="CrosstabCell" id="1469">
                                         <property name="content">
-                                            <text-data id="1311">
-                                                <property name="fontSize">12px</property>
+                                            <text-data id="1470">
+                                                <property name="fontSize">16px</property>
                                                 <property name="textAlign">center</property>
                                                 <expression name="valueExpr">"Usage ("+data["UNITSHORT"]+")";</expression>
                                                 <property name="contentType">html</property>
@@ -1217,17 +1301,28 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                             </extended-item>
                         </property>
                         <property name="rows">
-                            <extended-item extensionName="CrosstabView" id="1312">
+                            <extended-item extensionName="CrosstabView" id="1471">
                                 <property name="views">
-                                    <extended-item extensionName="DimensionView" id="1317">
+                                    <extended-item extensionName="DimensionView" id="1501">
+                                        <property name="dimension">Group2</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View6" id="1502">
+                                                <property name="level">Group2/Day Of Year</property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="1503"/>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                    <extended-item extensionName="DimensionView" id="1475">
                                         <property name="dimension">Group1</property>
                                         <property name="levels">
-                                            <extended-item extensionName="LevelView" name="NewLevel View21" id="1318">
+                                            <extended-item extensionName="LevelView" name="NewLevel View21" id="1476">
                                                 <property name="level">Group1/DATEDISPLAY</property>
                                                 <property name="member">
-                                                    <extended-item extensionName="CrosstabCell" id="1319">
+                                                    <extended-item extensionName="CrosstabCell" id="1477">
                                                         <property name="content">
-                                                            <data name="DATEDISPLAY1" id="1320">
+                                                            <data name="DATEDISPLAY1" id="1478">
                                                                 <property name="fontSize">12px</property>
                                                                 <property name="textAlign">center</property>
                                                                 <list-property name="highlightRules">
@@ -1239,6 +1334,14 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                                                             <value type="javascript">'Total'</value>
                                                                         </simple-property-list>
                                                                     </structure>
+                                                                    <structure>
+                                                                        <property name="operator">eq</property>
+                                                                        <property name="color">#AEC0B1</property>
+                                                                        <expression name="testExpr" type="javascript">data["DATEDISPLAY"]</expression>
+                                                                        <simple-property-list name="value1">
+                                                                            <value type="javascript">'Dummy'</value>
+                                                                        </simple-property-list>
+                                                                    </structure>
                                                                 </list-property>
                                                                 <property name="resultSetColumn">DATEDISPLAY</property>
                                                             </data>
@@ -1248,36 +1351,22 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                             </extended-item>
                                         </property>
                                     </extended-item>
-                                    <extended-item extensionName="DimensionView" id="1363">
-                                        <property name="dimension">Group2</property>
-                                        <property name="levels">
-                                            <extended-item extensionName="LevelView" name="NewLevel View6" id="1364">
-                                                <property name="level">Group2/Day Of Year</property>
-                                                <property name="member">
-                                                    <extended-item extensionName="CrosstabCell" id="1365">
-                                                        <property name="content">
-                                                            <data name="Day Of Year1" id="1369">
-                                                                <structure name="dateTimeFormat">
-                                                                    <property name="category">Custom</property>
-                                                                    <property name="pattern">MMMM dd, yy</property>
-                                                                </structure>
-                                                                <property name="resultSetColumn">Day Of Year</property>
-                                                            </data>
-                                                        </property>
-                                                    </extended-item>
-                                                </property>
-                                            </extended-item>
-                                        </property>
-                                    </extended-item>
-                                    <extended-item extensionName="DimensionView" id="1321">
+                                    <extended-item extensionName="DimensionView" id="1479">
                                         <property name="dimension">assetname</property>
                                         <property name="levels">
-                                            <extended-item extensionName="LevelView" name="NewLevel View31" id="1322">
+                                            <extended-item extensionName="LevelView" name="NewLevel View31" id="1480">
                                                 <property name="level">assetname/TYP</property>
+                                                <property name="sort">
+                                                    <sort-element>
+                                                        <expression name="key" type="javascript">data["TYP"]</expression>
+                                                        <property name="direction">desc</property>
+                                                        <property name="strength">-1</property>
+                                                    </sort-element>
+                                                </property>
                                                 <property name="member">
-                                                    <extended-item extensionName="CrosstabCell" id="1323">
+                                                    <extended-item extensionName="CrosstabCell" id="1481">
                                                         <property name="content">
-                                                            <data name="TYP1" id="1324">
+                                                            <data name="TYP1" id="1482">
                                                                 <property name="fontSize">12px</property>
                                                                 <property name="textAlign">center</property>
                                                                 <list-property name="highlightRules">
@@ -1303,26 +1392,26 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                             </extended-item>
                         </property>
                         <property name="columns">
-                            <extended-item extensionName="CrosstabView" id="1325">
+                            <extended-item extensionName="CrosstabView" id="1483">
                                 <property name="views">
-                                    <extended-item extensionName="DimensionView" id="1326">
+                                    <extended-item extensionName="DimensionView" id="1484">
                                         <property name="dimension">usageunit</property>
                                         <property name="levels">
-                                            <extended-item extensionName="LevelView" name="NewLevel View5" id="1327">
+                                            <extended-item extensionName="LevelView" name="NewLevel View5" id="1485">
                                                 <property name="level">usageunit/UNITSHORT</property>
                                                 <property name="member">
-                                                    <extended-item extensionName="CrosstabCell" id="1328"/>
+                                                    <extended-item extensionName="CrosstabCell" id="1486"/>
                                                 </property>
                                             </extended-item>
                                         </property>
                                     </extended-item>
-                                    <extended-item extensionName="DimensionView" id="1329">
+                                    <extended-item extensionName="DimensionView" id="1487">
                                         <property name="dimension">capunit</property>
                                         <property name="levels">
-                                            <extended-item extensionName="LevelView" name="NewLevel View11" id="1330">
+                                            <extended-item extensionName="LevelView" name="NewLevel View11" id="1488">
                                                 <property name="level">capunit/CAPUNIT</property>
                                                 <property name="member">
-                                                    <extended-item extensionName="CrosstabCell" id="1331"/>
+                                                    <extended-item extensionName="CrosstabCell" id="1489"/>
                                                 </property>
                                             </extended-item>
                                         </property>
@@ -1331,32 +1420,26 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                             </extended-item>
                         </property>
                         <property name="header">
-                            <extended-item extensionName="CrosstabCell" id="1333"/>
-                            <extended-item extensionName="CrosstabCell" id="1368"/>
-                            <extended-item extensionName="CrosstabCell" id="1334"/>
-                            <extended-item extensionName="CrosstabCell" id="1336"/>
-                            <extended-item extensionName="CrosstabCell" id="1367"/>
-                            <extended-item extensionName="CrosstabCell" id="1337"/>
-                            <extended-item extensionName="CrosstabCell" id="1340">
+                            <extended-item extensionName="CrosstabCell" id="1506"/>
+                            <extended-item extensionName="CrosstabCell" id="1491"/>
+                            <extended-item extensionName="CrosstabCell" id="1492"/>
+                            <extended-item extensionName="CrosstabCell" id="1505"/>
+                            <extended-item extensionName="CrosstabCell" id="1494"/>
+                            <extended-item extensionName="CrosstabCell" id="1495"/>
+                            <extended-item extensionName="CrosstabCell" id="1504"/>
+                            <extended-item extensionName="CrosstabCell" id="1497">
                                 <property name="content">
-                                    <label id="1341">
-                                        <property name="fontSize">12px</property>
+                                    <label id="1498">
+                                        <property name="fontSize">16px</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">Period</text-property>
                                     </label>
                                 </property>
                             </extended-item>
-                            <extended-item extensionName="CrosstabCell" id="1366">
+                            <extended-item extensionName="CrosstabCell" id="1499">
                                 <property name="content">
-                                    <label id="1370">
-                                        <text-property name="text">Day Of Year</text-property>
-                                    </label>
-                                </property>
-                            </extended-item>
-                            <extended-item extensionName="CrosstabCell" id="1342">
-                                <property name="content">
-                                    <label id="1343">
-                                        <property name="fontSize">12px</property>
+                                    <label id="1500">
+                                        <property name="fontSize">16px</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">Asset</text-property>
                                     </label>
