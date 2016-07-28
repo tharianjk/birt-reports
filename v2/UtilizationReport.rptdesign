@@ -927,6 +927,13 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                         <property name="levels">
                                             <extended-item extensionName="LevelView" name="NewLevel View4" id="1451">
                                                 <property name="level">Group/Month</property>
+                                                <property name="sort">
+                                                    <sort-element>
+                                                        <expression name="key" type="javascript">data["Month"]</expression>
+                                                        <property name="direction">asc</property>
+                                                        <property name="strength">-1</property>
+                                                    </sort-element>
+                                                </property>
                                                 <property name="member">
                                                     <extended-item extensionName="CrosstabCell" id="1452"/>
                                                 </property>
@@ -1308,6 +1315,13 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                         <property name="levels">
                                             <extended-item extensionName="LevelView" name="NewLevel View6" id="1502">
                                                 <property name="level">Group2/Day Of Year</property>
+                                                <property name="sort">
+                                                    <sort-element>
+                                                        <expression name="key" type="javascript">data["Day Of Year"]</expression>
+                                                        <property name="direction">asc</property>
+                                                        <property name="strength">-1</property>
+                                                    </sort-element>
+                                                </property>
                                                 <property name="member">
                                                     <extended-item extensionName="CrosstabCell" id="1503"/>
                                                 </property>
