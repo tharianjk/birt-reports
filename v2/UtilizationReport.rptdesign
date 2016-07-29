@@ -821,6 +821,7 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                                         <property name="operator">eq</property>
                                                         <property name="fontSize">14pt</property>
                                                         <property name="fontWeight">bold</property>
+                                                        <property name="color">#F0F3FD</property>
                                                         <expression name="testExpr" type="javascript">data["TYP"]</expression>
                                                         <simple-property-list name="value1">
                                                             <value type="javascript">'TOTAL'</value>
@@ -935,7 +936,9 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                                     </sort-element>
                                                 </property>
                                                 <property name="member">
-                                                    <extended-item extensionName="CrosstabCell" id="1452"/>
+                                                    <extended-item extensionName="CrosstabCell" id="1452">
+                                                        <property name="width">0.1mm</property>
+                                                    </extended-item>
                                                 </property>
                                             </extended-item>
                                         </property>
@@ -1072,6 +1075,13 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                 </property>
                             </extended-item>
                         </property>
+                        <method name="onPrepare"><![CDATA[/*function onPrepareCell( cell, reportContext )
+{
+if(cell.getCellID()==1452 ) { //In place of 95 give the column element ID which 
+//you are going to hide.
+cell.getStyle().setDisplay("none");
+}
+}*/]]></method>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">CAPACITYQTY</property>
@@ -1209,6 +1219,7 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                                         <property name="operator">eq</property>
                                                         <property name="fontSize">14pt</property>
                                                         <property name="fontWeight">bold</property>
+                                                        <property name="color">#F0F3FD</property>
                                                         <expression name="testExpr" type="javascript">data["TYP"]</expression>
                                                         <simple-property-list name="value1">
                                                             <value type="javascript">'TOTAL'</value>
@@ -1323,7 +1334,9 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                                     </sort-element>
                                                 </property>
                                                 <property name="member">
-                                                    <extended-item extensionName="CrosstabCell" id="1503"/>
+                                                    <extended-item extensionName="CrosstabCell" id="1503">
+                                                        <property name="width">0.1mm</property>
+                                                    </extended-item>
                                                 </property>
                                             </extended-item>
                                         </property>
