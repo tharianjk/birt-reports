@@ -845,6 +845,16 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                                         </simple-property-list>
                                                     </structure>
                                                 </list-property>
+                                                <list-property name="mapRules">
+                                                    <structure>
+                                                        <expression name="testExpr" type="javascript">data["DATEDISPLAY"]</expression>
+                                                        <property name="operator">eq</property>
+                                                        <simple-property-list name="value1">
+                                                            <value type="javascript">''</value>
+                                                        </simple-property-list>
+                                                        <text-property name="display">0</text-property>
+                                                    </structure>
+                                                </list-property>
                                                 <property name="resultSetColumn">CAPACITYQTY_assetname/TYP_capunit/CAPUNIT</property>
                                             </data>
                                         </property>
@@ -899,6 +909,16 @@ if(lastChar=='H' || lastChar=='D' || lastChar=='M' )&#13;
                                                         <simple-property-list name="value1">
                                                             <value type="javascript">''</value>
                                                         </simple-property-list>
+                                                    </structure>
+                                                </list-property>
+                                                <list-property name="mapRules">
+                                                    <structure>
+                                                        <expression name="testExpr" type="javascript">data["DATEDISPLAY"]</expression>
+                                                        <property name="operator">eq</property>
+                                                        <simple-property-list name="value1">
+                                                            <value type="javascript">''</value>
+                                                        </simple-property-list>
+                                                        <text-property name="display">0</text-property>
                                                     </structure>
                                                 </list-property>
                                                 <property name="resultSetColumn">USAGEQTY_assetname/TYP_capunit/CAPUNIT</property>
@@ -1243,6 +1263,16 @@ cell.getStyle().setDisplay("none");
                                                         </simple-property-list>
                                                     </structure>
                                                 </list-property>
+                                                <list-property name="mapRules">
+                                                    <structure>
+                                                        <expression name="testExpr" type="javascript">data["DATEDISPLAY"]</expression>
+                                                        <property name="operator">eq</property>
+                                                        <simple-property-list name="value1">
+                                                            <value type="javascript">''</value>
+                                                        </simple-property-list>
+                                                        <text-property name="display">0</text-property>
+                                                    </structure>
+                                                </list-property>
                                                 <property name="resultSetColumn">CAPACITYQTY_assetname/TYP_capunit/CAPUNIT</property>
                                             </data>
                                         </property>
@@ -1297,6 +1327,16 @@ cell.getStyle().setDisplay("none");
                                                         <simple-property-list name="value1">
                                                             <value type="javascript">''</value>
                                                         </simple-property-list>
+                                                    </structure>
+                                                </list-property>
+                                                <list-property name="mapRules">
+                                                    <structure>
+                                                        <expression name="testExpr" type="javascript">data["DATEDISPLAY"]</expression>
+                                                        <property name="operator">eq</property>
+                                                        <simple-property-list name="value1">
+                                                            <value type="javascript">''</value>
+                                                        </simple-property-list>
+                                                        <text-property name="display">0</text-property>
                                                     </structure>
                                                 </list-property>
                                                 <property name="resultSetColumn">USAGEQTY_assetname/TYP_capunit/CAPUNIT</property>
