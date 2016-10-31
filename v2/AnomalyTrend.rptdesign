@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="author">iReveal Technologies Pvt Ltd 2016</property>
     <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
     <text-property name="title">Anomaly Trend Report</text-property>
+    <list-property name="propertyBindings">
+        <structure>
+            <property name="name">queryText</property>
+            <property name="id">9</property>
+        </structure>
+        <structure>
+            <property name="name">queryTimeOut</property>
+            <property name="id">9</property>
+        </structure>
+        <structure>
+            <property name="name">rowFetchSize</property>
+            <property name="id">9</property>
+        </structure>
+    </list-property>
     <property name="units">in</property>
     <method name="beforeFactory"><![CDATA[var mychart = this.getReportElement( "mychart" );
 var design_handle = reportContext.getReportRunnable().designHandle.getDesignHandle();
@@ -47,7 +62,7 @@ mychart.setHeight("5");
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">sno</value>
+                <value type="constant">syno</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -77,7 +92,7 @@ mychart.setHeight("5");
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">2015-05-26 00:00:0</value>
+                <value type="constant">2015-07-15 00:00:0</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -92,7 +107,7 @@ mychart.setHeight("5");
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">2016-05-26 00:00:0</value>
+                <value type="constant">2015-07-17 00:00:0</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -122,7 +137,7 @@ mychart.setHeight("5");
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">286</value>
+                <value type="constant">150</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -152,7 +167,7 @@ mychart.setHeight("5");
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">103</value>
+                <value type="constant">43</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -210,11 +225,11 @@ mychart.setHeight("5");
         <scalar-parameter name="logid" id="299">
             <property name="hidden">true</property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">integer</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">1</value>
+                <value type="constant">290</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -251,6 +266,7 @@ mychart.setHeight("5");
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="DataSetForTrendChart" id="9">
+            <property name="nullsOrdering">nulls lowest</property>
             <list-property name="computedColumns">
                 <structure>
                     <property name="name">Uni</property>
@@ -284,78 +300,91 @@ mychart.setHeight("5");
                     </structure>
                     <structure>
                         <property name="position">3</property>
+                        <property name="name">PERIODIC</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
                         <property name="name">tag_id</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">4</property>
+                        <property name="position">5</property>
                         <property name="name">C3</property>
                         <property name="dataType">date-time</property>
                     </structure>
                     <structure>
-                        <property name="position">5</property>
+                        <property name="position">6</property>
                         <property name="name">ATTRIBUTE</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">6</property>
+                        <property name="position">7</property>
                         <property name="name">C5</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">7</property>
+                        <property name="position">8</property>
                         <property name="name">C6</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">8</property>
+                        <property name="position">9</property>
                         <property name="name">DISPLAYNAME</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">9</property>
+                        <property name="position">10</property>
                         <property name="name">UNITSHORT</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">10</property>
+                        <property name="position">11</property>
                         <property name="name">Uni</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">11</property>
+                        <property name="position">12</property>
                         <property name="name">horizontal</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">12</property>
+                        <property name="position">13</property>
                         <property name="name">mkrline</property>
                         <property name="dataType">integer</property>
                     </structure>
                 </list-property>
             </structure>
+            <property name="rowFetchLimit">100000000</property>
             <method name="beforeOpen"><![CDATA[curT=params["todate"].value 
 LHour=params["fromdate"].value
 
 
 	
 	
-	this.queryText = this.queryText +"  ,'"+params["coltype"].value+"' as C5,'"+params["attrctype"].value+"' as C6"+
-" ,mt.displayname as DISPLAYNAME,unitshort as UNITSHORT from"+ 
-"  (select EML.N_reading ACTUAL,'' ANOMALY, EML.assettree_id,EML.tag_id,EML.dt_logdate"+ 
- " from ems_meterlog EML "+
+	this.queryText = this.queryText +
+
+ 
+ " ,'"+params["coltype"].value+"' as C5,'"+params["attrctype"].value+"' as C6"+
+" ,mt.displayname as DISPLAYNAME,unitshort as UNITSHORT from "+
+ " (select EML.N_reading ACTUAL,'' ANOMALY,'' PERIODIC  , EML.assettree_id,EML.tag_id,EML.dt_logdate "+
+"  from ems_meterlog EML "+
 " where EML.assettree_id in ("+params["seclst"].value+") and EML.dt_logdate>'"+LHour+"' and EML.dt_logdate<'"+curT+"'"+
 "  and EML.tag_id in ("+params["atrlst"].value+")"+
-" union select '' ACTUAL,EML.N_reading ANOMALY, EML.assettree_id,EML.tag_id,EML.dt_logdate "+
+" union select '' ACTUAL,EML.N_reading ANOMALY, '' PERIODIC, EML.assettree_id,EML.tag_id,EML.dt_logdate "+
 "  from FWK_ANOMALY_LOG EML "+
 " where EML.assettree_id in ("+params["seclst"].value+") and EML.dt_logdate>'"+LHour+"' and EML.dt_logdate<'"+curT+"'"+
-"  and EML.tag_id in ("+params["atrlst"].value+")) tab1"+
+"  and EML.tag_id in ("+params["atrlst"].value+") and anomalytype='np'"+
+" union select '' ACTUAL,'' ANOMALY,EML.N_reading PERIODIC  , EML.assettree_id,EML.tag_id,EML.dt_logdate "+
+"  from ems_meterlog EML inner join FWK_ANOMALY_LOG A on EML.assettree_id=A.assettree_id and eml.tag_id=A.tag_id "+
+" where EML.assettree_id in ("+params["seclst"].value+") and EML.dt_logdate> date_add( A.dt_logdate,interval -6 hour) and EML.dt_logdate<=A.dt_logdate"+
+"  and EML.tag_id in ("+params["atrlst"].value+") and a.log_id='"+params["logid"].value+"'"+
+" ) tab1"+
 "  inner join ems_tag ETG on ETG.Tag_id=tab1.Tag_id "+
 "  inner join fwk_assettree mt on mt.assettree_id=tab1.assettree_id "+
 "  inner join EMS_ATTRIBUTE EAT on EAT.Attribute_id=ETG.Attribute_id "+
-"  left join ems_unit un on eat.unit_id=un.unit_id "+
+ " left join ems_unit un on eat.unit_id=un.unit_id "+
 "  order by cast(tab1.dt_logdate as datetime) Asc";
- 
  
  
  
@@ -430,48 +459,54 @@ else
                 </structure>
                 <structure>
                     <property name="position">3</property>
+                    <property name="name">PERIODIC</property>
+                    <property name="nativeName">PERIODIC</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
                     <property name="name">tag_id</property>
                     <property name="nativeName">tag_id</property>
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
-                    <property name="position">4</property>
+                    <property name="position">5</property>
                     <property name="name">C3</property>
                     <property name="nativeName">C3</property>
                     <property name="dataType">date-time</property>
                 </structure>
                 <structure>
-                    <property name="position">5</property>
+                    <property name="position">6</property>
                     <property name="name">ATTRIBUTE</property>
                     <property name="nativeName">ATTRIBUTE</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">6</property>
+                    <property name="position">7</property>
                     <property name="name">C5</property>
                     <property name="nativeName">C5</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">7</property>
+                    <property name="position">8</property>
                     <property name="name">C6</property>
                     <property name="nativeName">C6</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">8</property>
+                    <property name="position">9</property>
                     <property name="name">DISPLAYNAME</property>
                     <property name="nativeName">DISPLAYNAME</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
+                    <property name="position">10</property>
                     <property name="name">UNITSHORT</property>
                     <property name="nativeName">UNITSHORT</property>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select ACTUAL,ANOMALY,  tab1.tag_id as TAG_ID,cast(tab1.dt_logdate as datetime) as C3,
+            <xml-property name="queryText"><![CDATA[select ACTUAL,ANOMALY,PERIODIC,  tab1.tag_id as TAG_ID,cast(tab1.dt_logdate as datetime) as C3,
 EAT.Attribute as ATTRIBUTE
 ]]></xml-property>
         </oda-data-set>
@@ -1554,6 +1589,8 @@ EAT.Attribute as ATTRIBUTE
         <Width>0.0</Width>
         <Height>0.0</Height>
       </Bounds>
+      <Anchor>West</Anchor>
+      <Stretch>Vertical</Stretch>
       <Insets>
         <Top>3.0</Top>
         <Left>3.0</Left>
@@ -1575,7 +1612,7 @@ EAT.Attribute as ATTRIBUTE
         </Color>
         <Visible>false</Visible>
       </Outline>
-      <Visible>false</Visible>
+      <Visible>true</Visible>
       <ClientArea>
         <Outline>
           <Style>Solid</Style>
@@ -1602,7 +1639,7 @@ EAT.Attribute as ATTRIBUTE
         </Font>
       </Text>
       <Orientation>Vertical</Orientation>
-      <Direction>Top_Bottom</Direction>
+      <Direction>Left_Right</Direction>
       <Separator>
         <Style>Solid</Style>
         <Thickness>1</Thickness>
@@ -1614,7 +1651,7 @@ EAT.Attribute as ATTRIBUTE
         </Color>
         <Visible>true</Visible>
       </Separator>
-      <Position>Right</Position>
+      <Position>Above</Position>
       <ItemType>Series</ItemType>
       <Title>
         <Caption>
@@ -1723,8 +1760,8 @@ function beforeDrawAxisTitle( axis, label, icsc )&#xD;
 	&#xD;
 function afterDataSetFilled( series, dataSet, icsc )&#xD;
 {&#xD;
-	if( series.getSeriesIdentifier() == &quot;Series 1&quot; )&#xD;
-	{&#xD;
+	//if( series.getSeriesIdentifier() == &quot;actualreading&quot; )&#xD;
+	//{&#xD;
 		var scrollcheck;&#xD;
 		scrollcheck=icsc.getExternalContext().getScriptable().getPersistentGlobalVariable(&quot;hori&quot;);&#xD;
 		if(scrollcheck==&quot;syes&quot;)&#xD;
@@ -1742,17 +1779,22 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
 			}&#xD;
 			else&#xD;
 			{&#xD;
-				icsc.getChartInstance().getBlock().getBounds().setWidth(900);&#xD;
+				icsc.getChartInstance().getBlock().getBounds().setWidth(700);&#xD;
  				icsc.getChartInstance().getBlock().getBounds().setHeight(330);&#xD;
 			}&#xD;
 		}&#xD;
-	}&#xD;
-	else&#xD;
+		else&#xD;
+			{&#xD;
+				icsc.getChartInstance().getBlock().getBounds().setWidth(700);&#xD;
+ 				icsc.getChartInstance().getBlock().getBounds().setHeight(330);&#xD;
+			}&#xD;
+	//}&#xD;
+	/*else&#xD;
 	{&#xD;
 		icsc.getChartInstance().getBlock().getBounds().setWidth(700);&#xD;
  		icsc.getChartInstance().getBlock().getBounds().setHeight(330);&#xD;
 	&#xD;
-	}&#xD;
+	}*/&#xD;
 	&#xD;
 	&#xD;
     &#xD;
@@ -1774,6 +1816,10 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
     <OrthogonalSampleData>
       <DataSetRepresentation>12.0,8.0,24.0,16.0,20.0</DataSetRepresentation>
       <SeriesDefinitionIndex>1</SeriesDefinitionIndex>
+    </OrthogonalSampleData>
+    <OrthogonalSampleData>
+      <DataSetRepresentation>18.0,12.0,36.0,24.0,30.0</DataSetRepresentation>
+      <SeriesDefinitionIndex>2</SeriesDefinitionIndex>
     </OrthogonalSampleData>
     <AncillarySampleData>
       <DataSetRepresentation>Series 1</DataSetRepresentation>
@@ -1893,7 +1939,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
         <Visible>true</Visible>
       </Title>
       <TitlePosition>Left</TitlePosition>
-      <SeriesDefinitions ZOrder="10">
+      <SeriesDefinitions ZOrder="1">
         <Query>
           <Definition></Definition>
           <Grouping>
@@ -1903,9 +1949,9 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
         <SeriesPalette>
           <Entries xsi:type="attribute:ColorDefinition">
             <Transparency>255</Transparency>
-            <Red>80</Red>
-            <Green>166</Green>
-            <Blue>218</Blue>
+            <Red>0</Red>
+            <Green>204</Green>
+            <Blue>255</Blue>
           </Entries>
           <Entries xsi:type="attribute:ColorDefinition">
             <Transparency>255</Transparency>
@@ -1915,7 +1961,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
           </Entries>
           <Entries xsi:type="attribute:ColorDefinition">
             <Transparency>255</Transparency>
-            <Red>255</Red>
+            <Red>0</Red>
             <Green>0</Green>
             <Blue>0</Blue>
           </Entries>
@@ -2135,7 +2181,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
               <AggregateExpression>Sum</AggregateExpression>
             </Grouping>
           </DataDefinition>
-          <SeriesIdentifier>Actual Reading</SeriesIdentifier>
+          <SeriesIdentifier>Readings</SeriesIdentifier>
           <DataPoint>
             <Components>
               <Type>Orthogonal_Value</Type>
@@ -2160,10 +2206,10 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
           </Cursor>
           <Markers>
             <Type>Crosshair</Type>
-            <Size>1</Size>
-            <Visible>true</Visible>
+            <Size>0</Size>
+            <Visible>false</Visible>
             <Outline>
-              <Visible>true</Visible>
+              <Visible>false</Visible>
             </Outline>
           </Markers>
           <LineAttributes>
@@ -2181,12 +2227,8 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
           <Curve>true</Curve>
           <ConnectMissingValue>true</ConnectMissingValue>
         </Series>
-        <Grouping>
-          <GroupType>Text</GroupType>
-          <AggregateExpression>Sum</AggregateExpression>
-        </Grouping>
       </SeriesDefinitions>
-      <SeriesDefinitions>
+      <SeriesDefinitions ZOrder="10">
         <Query>
           <Definition></Definition>
           <Grouping>
@@ -2202,7 +2244,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
           </Entries>
           <Entries xsi:type="attribute:ColorDefinition">
             <Transparency>255</Transparency>
-            <Red>255</Red>
+            <Red>0</Red>
             <Green>0</Green>
             <Blue>0</Blue>
           </Entries>
@@ -2382,9 +2424,9 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
           </Entries>
           <Entries xsi:type="attribute:ColorDefinition">
             <Transparency>255</Transparency>
-            <Red>80</Red>
-            <Green>166</Green>
-            <Blue>218</Blue>
+            <Red>0</Red>
+            <Green>204</Green>
+            <Blue>255</Blue>
           </Entries>
         </SeriesPalette>
         <Series xsi:type="type:LineSeries">
@@ -2429,7 +2471,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
               <AggregateExpression>Sum</AggregateExpression>
             </Grouping>
           </DataDefinition>
-          <SeriesIdentifier>Anomalies</SeriesIdentifier>
+          <SeriesIdentifier>Outliers</SeriesIdentifier>
           <DataPoint>
             <Components>
               <Type>Orthogonal_Value</Type>
@@ -2467,6 +2509,300 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
               <Blue>0</Blue>
             </Color>
             <Visible>false</Visible>
+          </LineAttributes>
+          <PaletteLineColor>true</PaletteLineColor>
+          <Curve>true</Curve>
+          <ConnectMissingValue>true</ConnectMissingValue>
+        </Series>
+        <Grouping>
+          <GroupType>Text</GroupType>
+          <AggregateExpression>Sum</AggregateExpression>
+        </Grouping>
+      </SeriesDefinitions>
+      <SeriesDefinitions ZOrder="6">
+        <Query>
+          <Definition></Definition>
+          <Grouping>
+            <GroupType>Text</GroupType>
+          </Grouping>
+        </Query>
+        <SeriesPalette>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>255</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>64</Red>
+            <Green>128</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>170</Red>
+            <Green>85</Green>
+            <Blue>85</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>192</Red>
+            <Green>192</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>192</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>7</Red>
+            <Green>146</Green>
+            <Blue>94</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>128</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>0</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>64</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>80</Red>
+            <Green>240</Green>
+            <Blue>120</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>64</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>0</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>0</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>64</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>204</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Entries>
+        </SeriesPalette>
+        <Series xsi:type="type:LineSeries">
+          <Visible>true</Visible>
+          <Label>
+            <Caption>
+              <Value></Value>
+              <Font>
+                <Alignment/>
+              </Font>
+            </Caption>
+            <Background xsi:type="attribute:ColorDefinition">
+              <Transparency>0</Transparency>
+              <Red>255</Red>
+              <Green>255</Green>
+              <Blue>255</Blue>
+            </Background>
+            <Outline>
+              <Style>Solid</Style>
+              <Thickness>1</Thickness>
+              <Color>
+                <Transparency>255</Transparency>
+                <Red>0</Red>
+                <Green>0</Green>
+                <Blue>0</Blue>
+              </Color>
+              <Visible>false</Visible>
+            </Outline>
+            <Insets>
+              <Top>0.0</Top>
+              <Left>2.0</Left>
+              <Bottom>0.0</Bottom>
+              <Right>3.0</Right>
+            </Insets>
+            <Visible>false</Visible>
+          </Label>
+          <DataDefinition>
+            <Definition>row[&quot;PERIODIC&quot;]</Definition>
+            <Grouping>
+              <Enabled>false</Enabled>
+              <GroupType>Text</GroupType>
+              <AggregateExpression>Sum</AggregateExpression>
+            </Grouping>
+          </DataDefinition>
+          <SeriesIdentifier>Anomalies</SeriesIdentifier>
+          <DataPoint>
+            <Components>
+              <Type>Orthogonal_Value</Type>
+            </Components>
+            <Separator>, </Separator>
+          </DataPoint>
+          <LabelPosition>Above</LabelPosition>
+          <Stacked>false</Stacked>
+          <Triggers>
+            <Condition>onmouseover</Condition>
+            <Action>
+              <Type>Show_Tooltip</Type>
+              <Value xsi:type="attribute:TooltipValue">
+                <Text></Text>
+                <Delay>200</Delay>
+              </Value>
+            </Action>
+          </Triggers>
+          <Translucent>false</Translucent>
+          <Cursor>
+            <Type>Auto</Type>
+          </Cursor>
+          <Markers>
+            <Type>Circle</Type>
+            <Size>1</Size>
+            <Visible>true</Visible>
+            <Outline>
+              <Visible>false</Visible>
+            </Outline>
+          </Markers>
+          <LineAttributes>
+            <Style>Solid</Style>
+            <Thickness>2</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>true</Visible>
           </LineAttributes>
           <PaletteLineColor>true</PaletteLineColor>
           <Curve>true</Curve>
@@ -2986,9 +3322,9 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
       <SeriesPalette>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
-          <Red>80</Red>
-          <Green>166</Green>
-          <Blue>218</Blue>
+          <Red>0</Red>
+          <Green>204</Green>
+          <Blue>255</Blue>
         </Entries>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
@@ -2998,7 +3334,7 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
         </Entries>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
-          <Red>255</Red>
+          <Red>0</Red>
           <Green>0</Green>
           <Blue>0</Blue>
         </Entries>
@@ -3380,11 +3716,19 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
                     <property name="name">ACTUAL</property>
                     <expression name="expression" type="javascript">dataSetRow["ACTUAL"]</expression>
                     <property name="dataType">decimal</property>
+                    <property name="allowExport">true</property>
                 </structure>
                 <structure>
                     <property name="name">ANOMALY</property>
                     <expression name="expression" type="javascript">dataSetRow["ANOMALY"]</expression>
                     <property name="dataType">decimal</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PERIODIC</property>
+                    <expression name="expression" type="javascript">dataSetRow["PERIODIC"]</expression>
+                    <property name="dataType">decimal</property>
+                    <property name="allowExport">true</property>
                 </structure>
                 <structure>
                     <property name="name">tag_id</property>
