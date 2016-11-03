@@ -226,7 +226,7 @@ LHour=params["fromdate"].value
 	
 ]]></method>
             <method name="onFetch"><![CDATA[//reportContext.setPersistentGlobalVariable("units", dataSetRow["UNITSHORT"]);
-reportContext.setPersistentGlobalVariable("scount",dataSetRow["C6"]);
+//reportContext.setPersistentGlobalVariable("scount",dataSetRow["C6"]);
 reportContext.setPersistentGlobalVariable("hori",dataSetRow["horizontal"]);
 
 
