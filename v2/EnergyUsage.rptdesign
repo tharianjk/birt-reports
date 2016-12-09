@@ -276,6 +276,22 @@ if(lastChar=='M')&#13;
 }</expression>
                     <property name="dataType">string</property>
                 </structure>
+                <structure>
+                    <property name="name">UTotal</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value">row["C2"]</expression>
+                        </structure>
+                    </list-property>
+                </structure>
+                <structure>
+                    <property name="name">Utotal Display</property>
+                    <expression name="expression">"Total Usage :"+row["UTotal"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
             </list-property>
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
@@ -334,6 +350,16 @@ if(lastChar=='M')&#13;
                     <structure>
                         <property name="position">11</property>
                         <property name="name">CUSM</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">UTotal</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">Utotal Display</property>
                         <property name="dataType">string</property>
                     </structure>
                 </list-property>
@@ -888,6 +914,21 @@ else&#13;
                 </cell>
             </row>
         </grid>
+        <data id="825">
+            <property name="backgroundColor">#C0C0C0</property>
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="dataSet">EDISData Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Utotal Display</property>
+                    <text-property name="displayName">Utotal Display</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Utotal Display"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">Utotal Display</property>
+        </data>
         <extended-item extensionName="Chart" name="mychart" id="7">
             <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
