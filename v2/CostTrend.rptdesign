@@ -2380,7 +2380,9 @@ function afterDataSetFilled( series, dataSet, icsc )&#xD;
             <Caption>
               <Value></Value>
               <Font>
+                <Bold>false</Bold>
                 <Alignment/>
+                <Rotation>90.0</Rotation>
               </Font>
             </Caption>
             <Background xsi:type="attribute:ColorDefinition">
@@ -3290,9 +3292,9 @@ else &#xD;
         <Thickness>1</Thickness>
         <Color>
           <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>0</Green>
-          <Blue>0</Blue>
+          <Red>145</Red>
+          <Green>145</Green>
+          <Blue>145</Blue>
         </Color>
         <Visible>true</Visible>
       </LineAttributes>
