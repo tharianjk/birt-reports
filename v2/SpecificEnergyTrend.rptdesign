@@ -9,7 +9,7 @@
     <property name="imageDPI">96</property>
     <parameters>
         <scalar-parameter name="PrdID" id="156">
-            <property name="hidden">false</property>
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">integer</property>
             <property name="distinct">true</property>
@@ -24,7 +24,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="fromdate" id="157">
-            <property name="hidden">false</property>
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -39,7 +39,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="todate" id="158">
-            <property name="hidden">false</property>
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
@@ -54,7 +54,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="coltype" id="159">
-            <property name="hidden">false</property>
+            <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
