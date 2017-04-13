@@ -23,7 +23,7 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="newRPT" id="54">
+        <scalar-parameter name="sname" id="54">
             <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
@@ -31,6 +31,81 @@
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
                 <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="assettreeid" id="156">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">integer</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">1</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="fromdate" id="157">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2014-01-01 00:00:00.0</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="todate" id="158">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2016-01-01 00:00:00.0</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="coltype" id="159">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">30D</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="vb" id="161">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">C</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -69,7 +144,30 @@
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="DGEF" id="8">
             <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">DT_DATE</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">ASSETNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">EFF</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">CH</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
             <method name="beforeOpen"><![CDATA[/*var currentTime = new Date()
 
 var month = currentTime.getMonth() + 1
@@ -251,35 +349,31 @@ hoursL24  = "0" + hoursL24
 curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
 LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;*/
 
-if(params["newRPT"].value=="")
-{
+curT=params["todate"].value
+LHour=params["fromdate"].value
+
+
 	this.queryText = this.queryText+
-	",'7D' as CH from (select dt_date,ASSETNAME,sum(outqty) outqty,sum(inqty) inqty from ("+
+	",'"+params["coltype"].value+"' as CH from (select dt_date,ASSETNAME,sum(outqty) outqty,sum(inqty) inqty from ("+
 		" select V.asset_id,t.dt_date,assetname,attributeshort,utility,sum(utility_qty) outqty,0 inqty,V.company_id from ems_section_summary s"+
 		" inner join vw_productionassets v"+
 		" on s.assettree_id=v.asset_id and S.c_coretype=V.coretype and S.utility_id=V.utility_id"+
 		" inner join ems_time_dim t on s.time_id=t.time_id"+
 		" where s.c_coretype='P'"+ 
-		/*" and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"'"+*/
+		" and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"'"+
 		" group by V.asset_id,t.dt_date,assetname,attributeshort,utility,company_id union"+
 		" select V.asset_id,t.dt_date,assetname,attributeshort,utility,0 outqty,sum(utility_qty) inqty,V.company_id from ems_section_summary s "+
 		" inner join vw_productionassets v"+
 		" on s.assettree_id=v.asset_id and S.c_coretype=V.coretype and S.utility_id=V.utility_id"+
 		" inner join ems_time_dim t on s.time_id=t.time_id"+
 		" where s.c_coretype='C'"+ 
-		/*" and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"'"+*/
+		" and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"'"+
 		" group by V.asset_id,t.dt_date,assetname,attributeshort,utility,company_id) tab where company_id='"+params["UsrCompId"].value+"'"+
-		" and asset_id=100001"+
+		" and asset_id='"+params["assettreeid"].value+"'"+
 		" group by dt_date,ASSETNAME) as tab1 where outqty>0 and inqty>0";	
 		
-}
-else
-{
-	
-	this.queryText = this.queryText+params["newRPT"]+"group by dt_date,ASSETNAME) as tab1 where outqty>0 and inqty>0";
 
-}		
-			
+	
 			
 			
 			
@@ -288,7 +382,32 @@ else
 			
 			]]></method>
             <property name="dataSource">IrevealDS</property>
-            <list-property name="resultSet"/>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">dt_date</property>
+                    <property name="nativeName">dt_date</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">ASSETNAME</property>
+                    <property name="nativeName">ASSETNAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">EFF</property>
+                    <property name="nativeName">EFF</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">CH</property>
+                    <property name="nativeName">CH</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
             <xml-property name="queryText"><![CDATA[select DT_DATE,ASSETNAME,outqty/inqty as EFF]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -677,592 +796,6 @@ else
         <simple-master-page name="Simple MasterPage" id="2"/>
     </page-setup>
     <body>
-        <text id="51">
-            <list-property name="visibility">
-                <structure>
-                    <property name="format">doc</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">docx</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">pdf</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">xls</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">xlsx</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-                <structure>
-                    <property name="format">xls_spudsoft</property>
-                    <expression name="valueExpr" type="javascript">true</expression>
-                </structure>
-            </list-property>
-            <property name="contentType">html</property>
-            <text-property name="content"><![CDATA[<script>
-var currentTime = new Date()
-
-var month = currentTime.getMonth() + 1
-var day = currentTime.getDate()
-var year = currentTime.getFullYear()
-var currentTime = new Date()
-var hours = currentTime.getHours()
-var minutes = currentTime.getMinutes()
-var seconds=currentTime.getSeconds()
-//Last 7 days
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var month7 = Lastweek.getMonth() + 1
-var day7 = Lastweek.getDate()
-var year7 = Lastweek.getFullYear()
-var Lastweek = new Date(new Date().setDate(new Date().getDate()-7));
-var hours7 = Lastweek.getHours()
-var minutes7 = Lastweek.getMinutes()
-var seconds7=Lastweek.getSeconds()
-//Last 30days
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-
-var month30 = LastMonth.getMonth() + 1
-var day30= LastMonth.getDate()
-var year30= LastMonth.getFullYear()
-
-var LastMonth = new Date(new Date().setDate(new Date().getDate()-30));
-var hours30 = LastMonth.getHours()
-var minutes30 = LastMonth.getMinutes()
-var seconds30=LastMonth.getSeconds()
-//last 365 days
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-
-var month365 = LastYear.getMonth() + 1
-var day365= LastYear.getDate()
-var year365= LastYear.getFullYear()
-
-var LastYear = new Date(new Date().setDate(new Date().getDate()-365));
-var hours365 = LastYear.getHours()
-var minutes365 = LastYear.getMinutes()
-var seconds365=LastYear.getSeconds()
-
-
-//last hour
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var monthL = hourago.getMonth() + 1
-var dayL= hourago.getDate()
-var yearL= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60));
-var hoursL = hourago.getHours()
-var minutesL = hourago.getMinutes()
-var secondsL=hourago.getSeconds()
-//last 24 hour
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var monthL24 = hourago.getMonth() + 1
-var dayL24= hourago.getDate()
-var yearL24= hourago.getFullYear()
-
-
-var today = new Date()
-var hourago = new Date(today.getTime() - (1000*60*60*24));
-var hoursL24 = hourago.getHours()
-var minutesL24 = hourago.getMinutes()
-var secondsL24=hourago.getSeconds()
-
-/////////Today
-if (minutes < 10){
-minutes = "0" + minutes
-}
-if (seconds < 10){
-seconds= "0" + seconds
-}
-
-if (month  < 10){
-month  = "0" + month 
-}
-if (day  < 10){
-day  = "0" + day 
-}
-if (hours  < 10){
-hours  = "0" + hours 
-}
-
-///Last 365
-if (minutes365 < 10){
-minutes365 = "0" + minutes365
-}
-if (seconds365 < 10){
-seconds365= "0" + seconds365
-}
-
-if (month365  < 10){
-month365  = "0" + month365 
-}
-if (day365  < 10){
-day365  = "0" + day365 
-}
-if (hours365  < 10){
-hours365  = "0" + hours365 
-}
-
-
-///Last 7 days
-if (minutes7 < 10){
-minutes7 = "0" + minutes7
-}
-if (seconds7 < 10){
-seconds7= "0" + seconds7
-}
-
-if (month7  < 10){
-month7  = "0" + month7 
-}
-if (day7  < 10){
-day7  = "0" + day7 
-}
-if (hours7  < 10){
-hours7  = "0" + hours7 
-}
-//last 30days
-if (minutes30 < 10){
-minutes30 = "0" + minutes30
-}
-if (seconds30 < 10){
-seconds30= "0" + seconds30
-}
-
-if (month30  < 10){
-month30  = "0" + month30 
-}
-if (day30  < 10){
-day30  = "0" + day30 
-}
-if (hours30  < 10){
-hours30  = "0" + hours30 
-}
-
-//last hour
-if (minutesL < 10){
-minutesL = "0" + minutesL
-}
-if (secondsL < 10){
-secondsL= "0" + secondsL
-}
-
-if (monthL  < 10){
-monthL  = "0" + monthL 
-}
-if (dayL  < 10){
-dayL  = "0" + dayL
-}
-if (hoursL  < 10){
-hoursL  = "0" + hoursL
-}
-//last 24 hour
-
-if (minutesL24 < 10){
-minutesL24 = "0" + minutesL24
-}
-if (secondsL24 < 10){
-secondsL24= "0" + secondsL24
-}
-
-if (monthL24  < 10){
-monthL24  = "0" + monthL24 
-}
-if (dayL24  < 10){
-dayL24  = "0" + dayL24
-}
-if (hoursL24  < 10){
-hoursL24  = "0" + hoursL24
-}
-
-
-if (parent.assettree_selectedsection === undefined)
-	{
-		parent.assettree_selectedsection = 0;
-	}
-if(parent.assettree_selectedtype === undefined)
-	{
-		parent.assettree_selectedtype = 0;
-	}
-	
-	if(parent.compid === undefined)
-	{
-		parent.compid = 1;
-	}
-	
-	
-	
-document.onload=populate();
-
-function populate()
-{	//Function which sets the previously selected parameters for the report.
-	if(parent.selected_period_ndx==null || parent.selected_period_ndx==0)
-	{
-		parent.selected_period_ndx=0;
-	}
-	for(i=0;i<parent.prodassetname_arr .length;i++)
-	{
-                    var select = document.getElementById("Asset");
-                    select.options[select.options.length] = new Option(parent.prodassetname_arr[i]);
-    }
-	
-	document.getElementById("s1").selectedIndex=parent.selected_period_ndx;	
-	document.getElementById("Asset").selectedIndex=parent.selected_prod_ndx;	
-	if(document.getElementById("s1").selectedIndex==6)
-	{
-		if (document.getElementById("s1").selectedIndex==6)
-		{
-	
-			document.getElementById("fromdate").disabled=false;
-			document.getElementById("todate").disabled=false;
-				
-			document.getElementById("fromdate").value=parent.selected_fdate;
-			document.getElementById("todate").value=parent.selected_tdate;
-				
-				
-		}
-		else
-		{
-			document.getElementById("fromdate").value='';
-			document.getElementById("todate").value='';
-			document.getElementById("fromdate").disabled=true;
-			document.getElementById("todate").disabled=true;
-				
-		}
-			
-	}
-	
-}		
-	
-	
-	
-	
-function CheckDate()
-{
-	if (document.getElementById("s1").selectedIndex==6)
-	{
-	
-				document.getElementById("fromdate").disabled=false;
-				document.getElementById("todate").disabled=false;
-				
-				
-	}
-	else
-	{
-				document.getElementById("fromdate").value='';
-				document.getElementById("todate").value='';
-				document.getElementById("fromdate").disabled=true;
-				document.getElementById("todate").disabled=true;
-				
-	}
-	
-
-}
-
-
-function DGEF()
-{
-	parent.selected_period_ndx=document.getElementById("s1").selectedIndex;
-	parent.selected_fdate=document.getElementById("fromdate").value;
-	parent.selected_tdate=document.getElementById("todate").value;
-	parent.selected_prod_ndx=document.getElementById("Asset").selectedIndex;
-	var productId=parent.prodassetid_arr[document.getElementById("Asset").selectedIndex-1];
-	/*if(parent.assettree_selectedtype < 5)
-	{
-		alert ("Select Attribute from the Asset-Tree!");
-			return;
-	}*/
-	if(document.getElementById("Asset").selectedIndex==0)
-	{
-		alert ("Select Asset!");
-			return;
-	}
-	if ((document.getElementById("s1").selectedIndex==6) &amp;&amp; (document.getElementById("fromdate").value==''))
-		{
-			alert ("Enter a valid time period!");
-			return;
-		}
-		else if ((document.getElementById("s1").selectedIndex==6)&amp;&amp; (document.getElementById("todate").value==''))
-		{
-			alert ("Enter a valid time period!");
-			return;
-		}
-		else
-		{
-			
-			var d1 = Date.parse(document.getElementById("todate").value);
-			var d2 = Date.parse(document.getElementById("fromdate").value);
-			if (d1 < d2) 
-			{
-				alert ("To Date cannot be Greater than From Date!");
-				return;
-			}
-			else
-			{
-		
-				if((document.getElementById("s1").selectedIndex==6))
-				{	
-					curT=document.getElementById("todate").value+" 00:00:00";
-					LHour=document.getElementById("fromdate").value+" 00:00:00";
-					var Cfrom=document.getElementById("fromdate").value;
-					var Cto=document.getElementById("todate").value;
-					newa=",' Equipment Efficiency from "+Cfrom+" to " +Cto+"'  as CH from (select dt_date,ASSETNAME,sum(outqty) outqty,sum(inqty) inqty from ("+
-		" select V.asset_id,t.dt_date,assetname,attributeshort,utility,sum(utility_qty) outqty,0 inqty,V.company_id from ems_section_summary s"+
-		" inner join vw_productionassets v"+
-		" on s.assettree_id=v.asset_id and S.c_coretype=V.coretype and S.utility_id=V.utility_id"+
-		" inner join ems_time_dim t on s.time_id=t.time_id"+
-		" where s.c_coretype='P'"+ 
-		" and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"'"+
-		" group by V.asset_id,t.dt_date,assetname,attributeshort,utility,company_id union"+
-		" select V.asset_id,t.dt_date,assetname,attributeshort,utility,0 outqty,sum(utility_qty) inqty,V.company_id from ems_section_summary s "+
-		" inner join vw_productionassets v"+
-		" on s.assettree_id=v.asset_id and S.c_coretype=V.coretype and S.utility_id=V.utility_id"+
-		" inner join ems_time_dim t on s.time_id=t.time_id"+
-		" where s.c_coretype='C'"+ 
-		" and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"'"+
-		" group by V.asset_id,t.dt_date,assetname,attributeshort,utility,company_id) tab where company_id='"+parent.compid+"' and asset_id='"+productId+"'";
-					 
-				}
-				
-			
-			}	
-		
-		}
-
-
-	if(document.getElementById("s1").selectedIndex==1)
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=yearL+ "-" + monthL + "-" + dayL+" "+hoursL+":"+minutesL+":"+secondsL;
-		
-		newa=",'LH' as CH from (select dt_date,ASSETNAME,sum(outqty) outqty,sum(inqty) inqty from ("+
-		" select V.asset_id,t.dt_date,assetname,attributeshort,utility,sum(utility_qty) outqty,0 inqty,V.company_id from ems_section_summary s"+
-		" inner join vw_productionassets v"+
-		" on s.assettree_id=v.asset_id and S.c_coretype=V.coretype and S.utility_id=V.utility_id"+
-		" inner join ems_time_dim t on s.time_id=t.time_id"+
-		" where s.c_coretype='P'"+ 
-		" and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"'"+
-		" group by V.asset_id,t.dt_date,assetname,attributeshort,utility,company_id union"+
-		" select V.asset_id,t.dt_date,assetname,attributeshort,utility,0 outqty,sum(utility_qty) inqty,V.company_id from ems_section_summary s "+
-		" inner join vw_productionassets v"+
-		" on s.assettree_id=v.asset_id and S.c_coretype=V.coretype and S.utility_id=V.utility_id"+
-		" inner join ems_time_dim t on s.time_id=t.time_id"+
-		" where s.c_coretype='C'"+ 
-		" and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"'"+
-		" group by V.asset_id,t.dt_date,assetname,attributeshort,utility,company_id) tab where company_id='"+parent.compid+"' and asset_id='"+productId+"'";
-		
-		
-	}
-	if(document.getElementById("s1").selectedIndex==2)
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=yearL24+ "-" + monthL24 + "-" + dayL24+" "+hoursL24+":"+minutesL24+":"+secondsL24;
-		newa=",'24H' as CH from (select dt_date,ASSETNAME,sum(outqty) outqty,sum(inqty) inqty from ("+
-		" select V.asset_id,t.dt_date,assetname,attributeshort,utility,sum(utility_qty) outqty,0 inqty,V.company_id from ems_section_summary s"+
-		" inner join vw_productionassets v"+
-		" on s.assettree_id=v.asset_id and S.c_coretype=V.coretype and S.utility_id=V.utility_id"+
-		" inner join ems_time_dim t on s.time_id=t.time_id"+
-		" where s.c_coretype='P'"+ 
-		" and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"'"+
-		" group by V.asset_id,t.dt_date,assetname,attributeshort,utility,company_id union"+
-		" select V.asset_id,t.dt_date,assetname,attributeshort,utility,0 outqty,sum(utility_qty) inqty,V.company_id from ems_section_summary s "+
-		" inner join vw_productionassets v"+
-		" on s.assettree_id=v.asset_id and S.c_coretype=V.coretype and S.utility_id=V.utility_id"+
-		" inner join ems_time_dim t on s.time_id=t.time_id"+
-		" where s.c_coretype='C'"+ 
-		" and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"'"+
-		" group by V.asset_id,t.dt_date,assetname,attributeshort,utility,company_id) tab where company_id='"+parent.compid+"' and asset_id='"+productId+"'";
-	}
-	if(document.getElementById("s1").selectedIndex==3)
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year7+ "-" + month7 + "-" + day7+" "+hours7+":"+minutes7+":"+seconds7;
-		newa=",'7D' as CH from (select dt_date,ASSETNAME,sum(outqty) outqty,sum(inqty) inqty from ("+
-		" select V.asset_id,t.dt_date,assetname,attributeshort,utility,sum(utility_qty) outqty,0 inqty,V.company_id from ems_section_summary s"+
-		" inner join vw_productionassets v"+
-		" on s.assettree_id=v.asset_id and S.c_coretype=V.coretype and S.utility_id=V.utility_id"+
-		" inner join ems_time_dim t on s.time_id=t.time_id"+
-		" where s.c_coretype='P'"+ 
-		" and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"'"+
-		" group by V.asset_id,t.dt_date,assetname,attributeshort,utility,company_id union"+
-		" select V.asset_id,t.dt_date,assetname,attributeshort,utility,0 outqty,sum(utility_qty) inqty,V.company_id from ems_section_summary s "+
-		" inner join vw_productionassets v"+
-		" on s.assettree_id=v.asset_id and S.c_coretype=V.coretype and S.utility_id=V.utility_id"+
-		" inner join ems_time_dim t on s.time_id=t.time_id"+
-		" where s.c_coretype='C'"+ 
-		" and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"'"+
-		" group by V.asset_id,t.dt_date,assetname,attributeshort,utility,company_id) tab where company_id='"+parent.compid+"' and asset_id='"+productId+"'";
-	}
-	if(document.getElementById("s1").selectedIndex==4)
-	{
-	
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year30+ "-" + month30 + "-" + day30+" "+hours30+":"+minutes30+":"+seconds30;
-		newa=",'30D' as CH from (select dt_date,ASSETNAME,sum(outqty) outqty,sum(inqty) inqty from ("+
-		" select V.asset_id,t.dt_date,assetname,attributeshort,utility,sum(utility_qty) outqty,0 inqty,V.company_id from ems_section_summary s"+
-		" inner join vw_productionassets v"+
-		" on s.assettree_id=v.asset_id and S.c_coretype=V.coretype and S.utility_id=V.utility_id"+
-		" inner join ems_time_dim t on s.time_id=t.time_id"+
-		" where s.c_coretype='P'"+ 
-		" and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"'"+
-		" group by V.asset_id,t.dt_date,assetname,attributeshort,utility,company_id union"+
-		" select V.asset_id,t.dt_date,assetname,attributeshort,utility,0 outqty,sum(utility_qty) inqty,V.company_id from ems_section_summary s "+
-		" inner join vw_productionassets v"+
-		" on s.assettree_id=v.asset_id and S.c_coretype=V.coretype and S.utility_id=V.utility_id"+
-		" inner join ems_time_dim t on s.time_id=t.time_id"+
-		" where s.c_coretype='C'"+ 
-		" and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"'"+
-		" group by V.asset_id,t.dt_date,assetname,attributeshort,utility,company_id) tab where company_id='"+parent.compid+"' and asset_id='"+productId+"'";
-	}
-	if(document.getElementById("s1").selectedIndex==5)
-	{
-		curT=year+ "-" + month + "-" + day+" "+hours+":"+minutes+":"+seconds;
-		LHour=year365+ "-" + month365 + "-" + day365+" "+hours365+":"+minutes365+":"+seconds365;
-		
-		newa=",'365D' as CH from (select dt_date,ASSETNAME,sum(outqty) outqty,sum(inqty) inqty from ("+
-		" select V.asset_id,t.dt_date,assetname,attributeshort,utility,sum(utility_qty) outqty,0 inqty,V.company_id from ems_section_summary s"+
-		" inner join vw_productionassets v"+
-		" on s.assettree_id=v.asset_id and S.c_coretype=V.coretype and S.utility_id=V.utility_id"+
-		" inner join ems_time_dim t on s.time_id=t.time_id"+
-		" where s.c_coretype='P'"+ 
-		" and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"'"+
-		" group by V.asset_id,t.dt_date,assetname,attributeshort,utility,company_id union"+
-		" select V.asset_id,t.dt_date,assetname,attributeshort,utility,0 outqty,sum(utility_qty) inqty,V.company_id from ems_section_summary s "+
-		" inner join vw_productionassets v"+
-		" on s.assettree_id=v.asset_id and S.c_coretype=V.coretype and S.utility_id=V.utility_id"+
-		" inner join ems_time_dim t on s.time_id=t.time_id"+
-		" where s.c_coretype='C'"+ 
-		" and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"'"+
-		" group by V.asset_id,t.dt_date,assetname,attributeshort,utility,company_id) tab where company_id='"+parent.compid+"' and asset_id='"+productId+"'";
-		
-	}
-	var cl1 = new String(location.href);
-	var targetURL1 = new String();
-	var tst1 = cl1.indexOf("&amp;newRPT");
-	if(  tst1 == -1 )
-	{
-		cl1 = cl1 + "&amp;newRPT=" + newa;
-	}
-	else
-	{
-		var ch1 = cl1.indexOf("&amp;newRPT=");
-		cl1 = cl1.substring(0, ch1) + "&amp;newRPT=" + newa;
-    }
-	window.location = cl1;
-
-}
-
-document.getElementById('mytable').style.display = "none";
-function showhidetab()
-{
-    
-    if(document.getElementById("s2").selectedIndex==0)
-	{
-	
-            document.getElementById('mytable').style.display = "none";
-			document.getElementById('mychart').style.display = "block";
-	}
-	if(document.getElementById("s2").selectedIndex==1)
-	{
-	document.getElementById('mytable').style.display = "block";
-            document.getElementById('mychart').style.display = "none";
-	}		
-
-   
-}
-
-
-
-</script>
-
-
-
-
-<body>
-<head>
-
-</head>
-
-
-<table  border=1 style="width:300px" bgcolor="black">
-
-<tr>
-  
-  
-  
-  <td>
-  <select id=s2 width=10 size=1 title="Select Report Type" name=Characters2 onChange="showhidetab()";>
-	
-	<option value=K>Chart</option> 
-	<option value=L>Table</option> 
-	</select>
-</td>
-<td>
-  <select id=Asset size=1 title="Select Asset" name=Characters ">
-  <option value=F>--Select Asset--</option>
-</select>
-  </td>	
-  
-  <td>
-  <select id=s1 size=1 title="Select Period" name=Characters onChange="CheckDate()";>
-<option value=F>--Select Period--</option>
-<option value=F>Last Hour</option> 
-<option value=D>Last 24 Hour</option> 
-<option value=E>Last 7 Days</option>
-<option value=F>Last 30 Days</option>
-<option value=F>Last 365 Days</option>
-<option value=G>Specific Period</option>
-</select>
-  </td>	
-  <td>
-   <b><font color="white">From:</font></b>
-  </td>
-  <td>
-  <input type="date" title="Select From Date" id="fromdate" disabled>
-  </input>
-  </td>
-  <td>
-    <b><font color="white">To:</font></b>
-  </td>
-  <td>
-  <input type="date" title="Select To Date" id="todate" disabled>
-  </td>
-  <td>
-  <button type="button" title="Generate Report" onClick="DGEF()">Go</button>
-  </button>
-  </td>
-  
-  
-  
-  
-  
-
-</tr>
-
-</table>
-
-</body>
-
-
-
-
-
- 
-
-
-
-]]></text-property>
-        </text>
         <text-data id="52">
             <property name="fontWeight">bold</property>
             <property name="dataSet">DGEF</property>
@@ -1274,25 +807,25 @@ function showhidetab()
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <expression name="valueExpr">if(row["CH"]=='LH')&#13;
+            <expression name="valueExpr">if(params["coltype"].value=='LH')&#13;
 {&#13;
-	row["CH"]='Equipment  Efficiency for the last 1 Hour';&#13;
+	row["CH"]='Equipment  efficiency of '+ params["sname"].value+' for the last 1 Hour';&#13;
 }&#13;
-else if(row["CH"]=='24H')&#13;
+else if(params["coltype"].value=='24H')&#13;
 {&#13;
-	row["CH"]='Equipment Efficiency  for the last 24 Hour';&#13;
+	row["CH"]='Equipment  efficiency of '+ params["sname"].value+'  for the last 24 Hour';&#13;
 }&#13;
-else if(row["CH"]=='7D')&#13;
+else if(params["coltype"].value=='7D')&#13;
 {&#13;
-	row["CH"]='Equipment Efficiency  for the last 7 days';&#13;
+row["CH"]='Equipment  efficiency of '+ params["sname"].value+'  for the last 7 days';&#13;
 }&#13;
-else if(row["CH"]=='30D')&#13;
+else if(params["coltype"].value=='30D')&#13;
 {&#13;
-	row["CH"]='Equipment Efficiency  for the last 30 days ';&#13;
+	row["CH"]='Equipment  efficiency of '+ params["sname"].value+'  for the last 30 days ';&#13;
 }&#13;
-else if(row["CH"]=='365D')&#13;
+else if(params["coltype"].value=='365D')&#13;
 {&#13;
-	row["CH"]='Equipment Efficiency  for the last 365 days';&#13;
+	row["CH"]='Equipment  efficiency of '+ params["sname"].value+'  for the last 365 days';&#13;
 }&#13;
 else&#13;
 {&#13;
@@ -2491,6 +2024,12 @@ Formatter.format(row[&quot;DT_DATE&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
             <property name="width">7.791666666666667in</property>
             <expression name="bookmark" type="javascript">"mychart"</expression>
             <property name="dataSet">DGEF</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">params["vb"].value=='T'</expression>
+                </structure>
+            </list-property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">DT_DATE</property>
@@ -2613,6 +2152,12 @@ Formatter.format(row[&quot;DT_DATE&quot;],'dd/MMM/yy HH:mm:ss ')&#xD;
             </property>
             <property name="canShrink">true</property>
             <expression name="bookmark" type="javascript">"mytable"</expression>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr" type="javascript">params["vb"].value=='C'</expression>
+                </structure>
+            </list-property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">DT_DATE</property>
