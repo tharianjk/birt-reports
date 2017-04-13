@@ -10,11 +10,11 @@
         <scalar-parameter name="UsrCompId" id="53">
             <property name="hidden">true</property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant"></value>
+                <value type="constant">1</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -26,11 +26,11 @@
         <scalar-parameter name="sname" id="54">
             <property name="hidden">true</property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant"></value>
+                <value type="constant">aa</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -39,7 +39,7 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="assettreeid" id="156">
+        <scalar-parameter name="assetreeid" id="156">
             <property name="hidden">true</property>
             <property name="valueType">static</property>
             <property name="dataType">integer</property>
@@ -354,8 +354,8 @@ LHour=params["fromdate"].value
 
 
 	this.queryText = this.queryText+
-	",'"+params["coltype"].value+"' as CH from (select dt_date,ASSETNAME,sum(outqty) outqty,sum(inqty) inqty from ("+
-		" select V.asset_id,t.dt_date,assetname,attributeshort,utility,sum(utility_qty) outqty,0 inqty,V.company_id from ems_section_summary s"+
+	",'"+params["coltype"].value+"' as CH from (select dt_date as DT_DATE,ASSETNAME,sum(outqty) outqty,sum(inqty) inqty from ("+
+		" select V.asset_id,t.dt_date as DT_DATE,assetname,attributeshort,utility,sum(utility_qty) outqty,0 inqty,V.company_id from ems_section_summary s"+
 		" inner join vw_productionassets v"+
 		" on s.assettree_id=v.asset_id and S.c_coretype=V.coretype and S.utility_id=V.utility_id"+
 		" inner join ems_time_dim t on s.time_id=t.time_id"+
@@ -369,7 +369,7 @@ LHour=params["fromdate"].value
 		" where s.c_coretype='C'"+ 
 		" and t.dt_date>='"+LHour+"' and t.dt_date<='"+curT+"'"+
 		" group by V.asset_id,t.dt_date,assetname,attributeshort,utility,company_id) tab where company_id='"+params["UsrCompId"].value+"'"+
-		" and asset_id='"+params["assettreeid"].value+"'"+
+		" and asset_id='"+params["assetreeid"].value+"'"+
 		" group by dt_date,ASSETNAME) as tab1 where outqty>0 and inqty>0";	
 		
 
@@ -385,8 +385,8 @@ LHour=params["fromdate"].value
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">dt_date</property>
-                    <property name="nativeName">dt_date</property>
+                    <property name="name">DT_DATE</property>
+                    <property name="nativeName">DT_DATE</property>
                     <property name="dataType">date-time</property>
                 </structure>
                 <structure>
@@ -1166,7 +1166,7 @@ else&#13;
       <Bottom>10.0</Bottom>
       <Right>10.0</Right>
     </Insets>
-    <Visible>false</Visible>
+    <Visible>true</Visible>
   </EmptyMessage>
   <Axes>
     <Type>Text</Type>
