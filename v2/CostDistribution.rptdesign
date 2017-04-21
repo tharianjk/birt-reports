@@ -1212,7 +1212,7 @@ else&#13;
           <Bottom>0.0</Bottom>
           <Right>3.0</Right>
         </Insets>
-        <Visible>true</Visible>
+        <Visible>false</Visible>
       </Title>
       <TitlePosition>Below</TitlePosition>
     </Children>
@@ -2398,7 +2398,7 @@ else&#13;
           <Bottom>0.0</Bottom>
           <Right>3.0</Right>
         </Insets>
-        <Visible>true</Visible>
+        <Visible>false</Visible>
       </Title>
       <TitlePosition>Below</TitlePosition>
     </Children>
